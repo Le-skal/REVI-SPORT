@@ -1,0 +1,62 @@
+/* ===== STYLE PAGE MODE ===== */
+
+.mode-title {
+  width: 40%;
+  height: 10%;
+  object-fit: contain;
+  margin: 20% auto 0;
+  flex-shrink: 0;
+  display: block;
+}
+
+.mode-intro {
+  width: auto;
+  height: auto;
+  max-width: 90%;
+  max-height: 160px;
+  object-fit: contain;
+  margin: 0 auto;
+  flex-shrink: 0;
+  display: block;
+}
+
+.mode-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.mode-card {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 410px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.mode-card:hover {
+  transform: scale(1.05);
+}
+
+.mode-card-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mode-card-link:hover .mode-card {
+  transform: scale(1.05);
+}
+
+.screen-container {
+  gap: 15px;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mode.css') }}">
+    <title>Choix du mode</title>
+</head>
+
+<body>
+    <div class="screen-container mode-screen">
+        <img class="mode-title" src="{{ url_for('static', filename='img/mode/title.png') }}" alt="Choix du mode">
+
+        <img class="mode-intro" src="{{ url_for('static', filename='img/mode/intro.png') }}"
+            alt="Veuillez sélectionner un mode">
+
+        <div class="mode-container">
+            <a href="/sport" class="mode-card-link">
+                <img class="mode-card" src="{{ url_for('static', filename='img/mode/mode1.png') }}"
+                    alt="Mode 1 - Sport collectif">
+            </a>
+            <a href="#" class="mode-card-link">
+                <img class="mode-card" src="{{ url_for('static', filename='img/mode/mode2.png') }}"
+                    alt="Mode 2 - Relais, biathlon">
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

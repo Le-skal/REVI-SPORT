@@ -1,0 +1,52 @@
+/* ===== STYLE PAGE SPORT ===== */
+
+.sport-title {
+  width: 40%;
+  height: 10%;
+  object-fit: contain;
+  margin: 20% auto 0;
+  flex-shrink: 0;
+  display: block;
+}
+
+.sport-intro {
+  width: auto;
+  height: auto;
+  max-width: 90%;
+  max-height: 160px;
+  object-fit: contain;
+  margin: 0 auto;
+  flex-shrink: 0;
+  display: block;
+}
+
+.sports-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  width:100%;
+  margin: 0 auto;
+  align-content: center;
+  overflow-y: visible;
+}
+
+.sport-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sport-card:hover {
+  transform: scale(1.05);
+}
+
+.sport-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: 244px;
+}

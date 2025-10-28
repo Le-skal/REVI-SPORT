@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/basketball.css') }}">
+    <title>Composition des équipes - Basket</title>
+    <meta name="description" content="Composition des équipes pour le mode Basket.">
+</head>
+
+<body>
+    <div class="screen-container basketball-screen">
+        <a href="/sport" class="back-link" aria-label="Retour">
+            <img class="icon-back" src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
+        </a>
+
+        <img class="basketball-title" src="{{ url_for('static', filename='img/basketball/title.png') }}"
+            alt="Composition des équipes">
+
+        <div class="card brand-card">
+            <img src="{{ url_for('static', filename='img/basketball/header.png') }}" alt="Révi'Sport">
+        </div>
+
+        <div class="card court-card">
+            <img src="{{ url_for('static', filename='img/basketball/court.png') }}"
+                alt="Terrain de basket avec équipes">
+            {% if red_avatar_id %}
+            <img class="court-avatar red-avatar"
+                src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar_id ~ '.png') }}"
+                alt="Avatar équipe rouge">
+            {% endif %}
+            {% if blue_avatar_id %}
+            <img class="court-avatar blue-avatar"
+                src="{{ url_for('static', filename='img/avatars/avatar' ~ blue_avatar_id ~ '.png') }}"
+                alt="Avatar équipe bleue">
+            {% endif %}
+        </div>
+
+        <div class="actions">
+            {% if red_team_completed %}
+            <div class="action-btn red-completed" aria-label="Équipe rouge complétée">
+                <img src="{{ url_for('static', filename='img/basketball/btn_red_after.png') }}"
+                    alt="Équipe rouge complétée">
+                <div class="team-names-overlay">
+                    <p>{{ red_team_names.joueur_1 }}</p>
+                    <p>{{ red_team_names.joueur_2 }}</p>
+                    <p>{{ red_team_names.joueur_3 }}</p>
+                    <p>{{ red_team_names.joueur_4 }}</p>
+                    <p>{{ red_team_names.joueur_5 }}</p>
+                </div>
+            </div>
+            {% else %}
+            <a href="/nom_red_basketball" class="action-btn" aria-label="Nommer l'équipe rouge">
+                <img src="{{ url_for('static', filename='img/basketball/btn_red.png') }}" alt="Nommer l'équipe rouge">
+            </a>
+            {% endif %}
+            {% if blue_team_completed %}
+            <div class="action-btn blue-completed" aria-label="Équipe bleue complétée">
+                <img src="{{ url_for('static', filename='img/basketball/btn_blue_after.png') }}"
+                    alt="Équipe bleue complétée">
+                <div class="team-names-overlay blue-overlay">
+                    <p>{{ blue_team_names.joueur_1 }}</p>
+                    <p>{{ blue_team_names.joueur_2 }}</p>
+                    <p>{{ blue_team_names.joueur_3 }}</p>
+                    <p>{{ blue_team_names.joueur_4 }}</p>
+                    <p>{{ blue_team_names.joueur_5 }}</p>
+                </div>
+            </div>
+            {% else %}
+            <a href="/nom_blue_basketball" class="action-btn" aria-label="Nommer l'équipe bleue">
+                <img src="{{ url_for('static', filename='img/basketball/btn_blue.png') }}" alt="Nommer l'équipe bleue">
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+/* ===== STYLE PAGE LOADING ===== */
+
+.basketball {
+  width: 100px;
+  height: 100px;
+  background: url('../img/loading/basketball.png') no-repeat center/contain;
+  animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50px); }
+}

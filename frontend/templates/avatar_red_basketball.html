@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/avatar_red_basketball.css') }}">
+    <title>Choix de l'avatar - Équipe Rouge</title>
+</head>
+
+<body>
+    <div class="screen-container avatar-red-screen">
+        <a href="/nom_red_basketball" class="back-link" aria-label="Retour">
+            <img class="icon-back" src="{{ url_for('static', filename='img/back/back.png') }}" alt="Retour">
+        </a>
+
+        <img class="avatar-title" src="{{ url_for('static', filename='img/avatars/title.png') }}"
+            alt="Choix de l'avatar">
+
+        <div class="team-header">
+            <img class="team-court" src="{{ url_for('static', filename='img/nom_red_basketball/intro.png') }}"
+                alt="Équipe Rouge">
+        </div>
+
+        <div class="avatars-grid">
+            {% for i in range(1, 17) %}
+            <div class="avatar-card" data-avatar="{{ i }}">
+                <img src="{{ url_for('static', filename='img/avatars/btn_avatar' ~ i ~ '.png') }}" alt="Avatar {{ i }}">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        const avatarCards = document.querySelectorAll('.avatar-card');
+
+        avatarCards.forEach(card => {
+            card.addEventListener('click', async function () {
+                const avatarId = this.dataset.avatar;
+
+                try {
+                    const response = await fetch('/save-red-avatar', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ avatar: avatarId })
+                    });
+
+                    if (response.ok) {
+                        // Redirection vers la page suivante après sauvegarde
+                        window.location.href = '/basketball';
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la sauvegarde:', error);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sport.css') }}">
+    <title>Choix du sport</title>
+</head>
+
+<body>
+    <div class="screen-container sport-screen">
+        <img class="sport-title" src="{{ url_for('static', filename='img/sport/title.png') }}" alt="Choix du sport">
+
+        <img class="sport-intro" src="{{ url_for('static', filename='img/sport/intro.png') }}"
+            alt="Veuillez sélectionner un sport">
+
+        <div class="sports-grid">
+            <a href="#" class="sport-card">
+                <img src="{{ url_for('static', filename='img/sport/sport_football.png') }}" alt="Football">
+            </a>
+            <a href="#" class="sport-card">
+                <img src="{{ url_for('static', filename='img/sport/sport_handball.png') }}" alt="Handball">
+            </a>
+            <a href="#" class="sport-card">
+                <img src="{{ url_for('static', filename='img/sport/sport_rugby.png') }}" alt="Rugby">
+            </a>
+            <a href="/basketball" class="sport-card">
+                <img src="{{ url_for('static', filename='img/sport/sport_basketball.png') }}" alt="Basketball">
+            </a>
+            <a href="#" class="sport-card">
+                <img src="{{ url_for('static', filename='img/sport/sport_ultimate.png') }}" alt="Ultimate">
+            </a>
+            <a href="#" class="sport-card">
+                <img src="{{ url_for('static', filename='img/sport/sport_autre.png') }}" alt="Autre sport">
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

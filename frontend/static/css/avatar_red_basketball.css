@@ -1,0 +1,98 @@
+/* ===== STYLE PAGE AVATAR RED BASKETBALL ===== */
+
+.avatar-title {
+  width: 40%;
+  height: auto;
+  object-fit: contain;
+  margin: 8% auto 0;
+  flex-shrink: 0;
+  display: block;
+}
+
+.team-header {
+  width: 90%;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.team-court {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.icon-back {
+  width: auto;
+  height: auto;
+  max-width: 40px;
+  max-height: 40px;
+  object-fit: contain;
+  margin: 10px 20px 0 0;
+  cursor: pointer;
+}
+
+.back-link {
+  display: flex;
+  text-decoration: none;
+}
+
+.avatars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  width: 90%;
+  margin: 0 auto 20px;
+  padding: 10px 0;
+  flex-grow: 1;
+  overflow: visible;
+  align-content: start;
+}
+
+.avatar-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.avatar-card:hover {
+  transform: scale(1.05);
+  background: rgba(186, 74, 74, 0.1);
+  border-color: rgba(186, 74, 74, 0.5);
+}
+
+.avatar-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+/* Scrollbar styling */
+.avatars-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.avatars-grid::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.avatars-grid::-webkit-scrollbar-thumb {
+  background: rgba(240, 196, 0, 0.5);
+  border-radius: 10px;
+}
+
+.avatars-grid::-webkit-scrollbar-thumb:hover {
+  background: rgba(240, 196, 0, 0.7);
+}

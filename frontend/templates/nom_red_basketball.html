@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nom_red_basketball.css') }}">
+    <title>Nommer l'équipe rouge - Basket</title>
+</head>
+
+<body>
+    <div class="screen-container nom-red-screen">
+        <a href="/basketball" class="back-link" aria-label="Retour">
+            <img class="icon-back" src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
+        </a>
+
+        <img class="nom-red-title" src="{{ url_for('static', filename='img/nom_red_basketball/title.png') }}"
+            alt="Nommer l'équipe rouge">
+
+        <img class="nom-red-intro" src="{{ url_for('static', filename='img/nom_red_basketball/intro.png') }}"
+            alt="Introduction">
+
+        <div class="players-list">
+            <div class="player-card">
+                <img class="field-bg" src="{{ url_for('static', filename='img/nom_red_basketball/field.png') }}"
+                    alt="Field">
+                <input type="text" class="player-input" placeholder="Nom joueur 1" data-player="1">
+            </div>
+            <div class="player-card">
+                <img class="field-bg" src="{{ url_for('static', filename='img/nom_red_basketball/field.png') }}"
+                    alt="Field">
+                <input type="text" class="player-input" placeholder="Nom joueur 2" data-player="2">
+            </div>
+            <div class="player-card">
+                <img class="field-bg" src="{{ url_for('static', filename='img/nom_red_basketball/field.png') }}"
+                    alt="Field">
+                <input type="text" class="player-input" placeholder="Nom joueur 3" data-player="3">
+            </div>
+            <div class="player-card">
+                <img class="field-bg" src="{{ url_for('static', filename='img/nom_red_basketball/field.png') }}"
+                    alt="Field">
+                <input type="text" class="player-input" placeholder="Nom joueur 4" data-player="4">
+            </div>
+            <div class="player-card">
+                <img class="field-bg" src="{{ url_for('static', filename='img/nom_red_basketball/field.png') }}"
+                    alt="Field">
+                <input type="text" class="player-input" placeholder="Nom joueur 5" data-player="5">
+            </div>
+        </div>
+
+        <button class="next-btn" id="nextBtn" style="display: none;">
+            <img src="{{ url_for('static', filename='img/nom_red_basketball/suivant.png') }}" alt="Suivant">
+        </button>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.player-input');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function checkAllFilled() {
+            const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
+            nextBtn.style.display = allFilled ? 'flex' : 'none';
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', checkAllFilled);
+            input.addEventListener('focus', function () {
+                this.select();
+            });
+        });
+
+        checkAllFilled();
+
+        // Sauvegarde des noms d'équipe rouge au clic
+        nextBtn.addEventListener('click', async function (e) {
+            e.preventDefault();
+
+            const redTeamNames = {
+                joueur_1: inputs[0].value.trim(),
+                joueur_2: inputs[1].value.trim(),
+                joueur_3: inputs[2].value.trim(),
+                joueur_4: inputs[3].value.trim(),
+                joueur_5: inputs[4].value.trim()
+            };
+
+            try {
+                const response = await fetch('/save-red-team', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(redTeamNames)
+                });
+
+                if (response.ok) {
+                    // Redirection vers la page de choix d'avatar
+                    window.location.href = '/avatar_red_basketball';
+                }
+            } catch (error) {
+                console.error('Erreur lors de la sauvegarde:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

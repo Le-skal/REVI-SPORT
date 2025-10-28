@@ -1,0 +1,48 @@
+/* ===== STYLE PAGE HOME ===== */
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo img {
+  width: 250px;
+  max-width: 90%;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.progress-bar {
+  width: 70%;
+  max-width: 400px;
+  height: 10px;
+  margin: 0 auto;
+  background-color: #333;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(240, 196, 0, 0.3);
+}
+
+.progress-bar::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #f0c400, #ffea00);
+  animation: load 2s linear forwards;
+}
+
+@keyframes load {
+  to { width: 100%; }
+}

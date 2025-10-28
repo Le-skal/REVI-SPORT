@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loading.css') }}">
+    <title>Révi'Sport - Chargement</title>
+</head>
+
+<body>
+    <div class="screen-container loading-screen">
+        <div class="basketball"></div>
+    </div>
+
+    <script>
+        // Simulation du chargement avant d'aller à la page suivante
+        setTimeout(() => {
+            window.location.href = "/home";
+        }, 2500);
+    </script>
+</body>
+
+</html>
