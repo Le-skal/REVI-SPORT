@@ -1,0 +1,501 @@
+/* ===== STYLE PAGE GAME ORDER ===== */
+
+.game-order-screen {
+    align-items: flex-start;
+    gap: 8px;
+    padding: 16px;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Team Headers */
+.team-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: absolute;
+    top: 16px;
+    z-index: 10;
+}
+
+.team-header.red-team {
+    padding-top: 25px;
+    left: 16px;
+    flex-direction: row;
+}
+
+.team-header.blue-team {
+    padding-top: 25px;
+    right: 16px;
+    flex-direction: row;
+}
+
+.avatar-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.team-header.red-team .avatar-circle {
+    border-color: rgb(186, 74, 74);
+}
+
+.team-header.blue-team .avatar-circle {
+    border-color: rgb(74, 128, 186);
+}
+
+.avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-score {
+    font-size: 32px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    min-width: 40px;
+    text-align: center;
+}
+
+.team-header.red-team .team-score {
+    color: rgb(186, 74, 74);
+}
+
+.team-header.blue-team .team-score {
+    color: rgb(74, 128, 186);
+}
+
+/* VS Image */
+.vs-image {
+    padding-top: 40px;
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vs-image img {
+    width: 50px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Timer Counter */
+.timer-counter {
+    position: absolute;
+    width: 63px;
+    height: 62px;
+    left: 50%;
+    top: 110px;
+    transform: translateX(-50%);
+    z-index: 105;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+    margin-top: 75px;
+}
+
+.circle-outer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: #2C2C3A;
+    border-radius: 50%;
+}
+
+.progress-ring {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(90deg) scaleX(-1);
+}
+
+.progress-ring-circle {
+    transition: stroke-dashoffset 1s linear;
+    transform-origin: center;
+}
+
+.countdown-number {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+    z-index: 10;
+}
+
+/* Question Card */
+.question-card {
+    width: 90%;
+    margin: 200px auto 20px;
+    padding: 20px 16px;
+    background: #2C2C3A;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    position: relative;
+    overflow: visible;
+}
+
+.question-number {
+    font-size: 20px;
+    font-weight: 700;
+    color: #C99F17;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-top: 40px;
+}
+
+.question-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding-top: 25px;
+}
+
+/* Question Card Overlay - Only for timeout */
+.question-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(3px);
+}
+
+.question-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.question-overlay img {
+    width: 80%;
+    height: auto;
+    max-height: 120px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+    transition: all 0.3s ease;
+}
+
+.question-overlay.timeout img {
+    padding-top: 200px;
+    width: 150%;
+    height: auto;
+    max-height: 550px;
+}
+
+/* Order Container */
+.order-container {
+    width: 90%;
+    margin: 12px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Phrase Section */
+.phrase-section {
+    text-align: center;
+}
+
+.phrase-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #C99F17;
+    font-family: 'Poppins', sans-serif;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    padding-top: 50px;
+}
+
+.phrase-text {
+    font-size: 14px;
+    font-weight: 400;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
+/* Available Items */
+.available-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px;
+    background: transparent;
+    border-radius: 12px;
+    min-height: 60px;
+    align-content: center;
+    justify-content: center;
+}
+
+.order-item.used {
+    background: #4D4D4D !important;
+    color: transparent !important;
+    cursor: default !important;
+    pointer-events: none !important;
+}
+
+/* Order Item */
+.order-item {
+    padding: 12px 24px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: move;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.order-item:hover {
+    background: #F0F0F0;
+    transform: scale(1.02);
+}
+
+.order-item.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.order-item.disabled {
+    cursor: default !important;
+    pointer-events: none !important;
+}
+
+/* Selected Item (in slot) */
+.selected-item {
+    cursor: pointer;
+    background: #FFFFFF !important;
+    color: #000000 !important;
+}
+
+.selected-item:hover {
+    background: #F0F0F0 !important;
+}
+
+.selected-item.placed {
+    background: #4D4D4D !important;
+    color: #ffffff !important;
+}
+
+.selected-item.correct {
+    background: #5DBA68 !important;
+    border-color: #5DBA68 !important;
+    color: #ffffff !important;
+    cursor: default;
+}
+
+.selected-item.incorrect {
+    background: #C04E43 !important;
+    border-color: #C04E43 !important;
+    color: #ffffff !important;
+    cursor: default;
+}
+
+.selected-item.revealed {
+    background: #5DBA68 !important;
+    border-color: #5DBA68 !important;
+    color: #ffffff !important;
+    cursor: default;
+}
+
+/* Selected Order */
+.selected-order {
+    display: flex;
+    gap: 12px;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    min-height: 60px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Order Slot */
+.order-slot {
+    flex: 1;
+    min-width: 80px;
+    height: 44px;
+    background: #4D4D4D;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.order-slot.drag-over {
+    background: #5A5A5A;
+    box-shadow: 0 0 8px rgba(201, 159, 23, 0.5);
+}
+
+.order-slot.disabled {
+    pointer-events: none;
+}
+
+.order-slot>div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Action Buttons */
+.action-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 12px 16px 16px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    z-index: 20;
+    max-width: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    background: linear-gradient(to top, rgba(17, 17, 23, 0.95), transparent);
+}
+
+.action-btn {
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    background: transparent;
+    width: 100%;
+    height: 90px;
+    min-height: 90px;
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.action-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+/* Confirmation Button */
+.confirm-btn {
+    position: absolute;
+    bottom: 125px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.confirm-btn img {
+    max-width: 100px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+    transition: transform 0.2s ease;
+}
+
+.confirm-btn:hover img {
+    transform: scale(1.05);
+}
+
+.confirm-btn.show-animation {
+    animation: slideUp 0.3s ease forwards;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(30px);
+    }
+}
+
+.confirm-btn.hide-animation {
+    animation: slideDown 0.3s ease forwards;
+}

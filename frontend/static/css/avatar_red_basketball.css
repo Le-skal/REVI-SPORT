@@ -16,6 +16,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  position: relative;
 }
 
 .team-court {
@@ -24,11 +25,27 @@
   object-fit: contain;
 }
 
+.team-name-display {
+  position: absolute;
+  right: 0;
+  width: 50%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 20px;
+  text-align: right;
+  color: #BA4A4A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: 0;
+}
+
 .icon-back {
-  width: auto;
-  height: auto;
-  max-width: 40px;
-  max-height: 40px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
   margin: 10px 20px 0 0;
   cursor: pointer;

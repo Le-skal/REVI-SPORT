@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recapitulatif.css') }}">
+    <title>Récapitulatif</title>
+</head>
+
+<body>
+    <div class="screen-container recapitulatif-screen">
+        <!-- Header -->
+        <div class="header">
+            <!-- Back Button -->
+            <button class="back-btn" onclick="goBack()">
+                <img src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
+            </button>
+
+            <!-- Title Image -->
+            <div class="title-container">
+                <img src="{{ url_for('static', filename='img/recapitulatif/title.png') }}" alt="Récapitulatif"
+                    class="title-img">
+            </div>
+
+        </div>
+
+        <!-- Content Container -->
+        <div class="content-container">
+            <!-- Rappel des choix Header -->
+            <div class="recap-header">
+                <img src="{{ url_for('static', filename='img/recapitulatif/intro.png') }}" alt="Rappel des choix"
+                    class="intro-img">
+            </div>
+
+            <!-- Items List -->
+            <div class="recap-items">
+                <!-- Mode choisi -->
+                <div class="recap-item">
+                    <div class="item-icon">
+                        <img src="{{ url_for('static', filename='img/recapitulatif/mode.png') }}" alt="Mode">
+                    </div>
+                    <div class="item-content">
+                        <span class="item-label">Mode choisi</span>
+                        <span class="item-value" id="modeValue">MODE 1 : SPORT COLLECTIF</span>
+                    </div>
+                </div>
+
+                <!-- Sport choisi -->
+                <div class="recap-item">
+                    <div class="item-icon">
+                        <img src="{{ url_for('static', filename='img/recapitulatif/sport.png') }}" alt="Sport">
+                    </div>
+                    <div class="item-content">
+                        <span class="item-label">Sport choisi</span>
+                        <span class="item-value" id="sportValue">BASKETBALL : 5 JOUEURS - 3 POINTS</span>
+                    </div>
+                </div>
+
+                <!-- Équipe A choisie -->
+                <div class="recap-item">
+                    <div class="item-icon">
+                        <img src="{{ url_for('static', filename='img/recapitulatif/team-a.png') }}" alt="Équipe A">
+                    </div>
+                    <div class="item-content">
+                        <span class="item-label">Équipe A choisie</span>
+                        <span class="item-value" id="teamAValue">ÉQUIPE ROUGE - JOUEUR PEPS</span>
+                    </div>
+                </div>
+
+                <!-- Équipe B choisie -->
+                <div class="recap-item">
+                    <div class="item-icon">
+                        <img src="{{ url_for('static', filename='img/recapitulatif/team-b.png') }}" alt="Équipe B">
+                    </div>
+                    <div class="item-content">
+                        <span class="item-label">Équipe B choisie</span>
+                        <span class="item-value" id="teamBValue">ÉQUIPE BLEUE - REINE DE GLACE</span>
+                    </div>
+                </div>
+
+                <!-- Niveau choisi -->
+                <div class="recap-item">
+                    <div class="item-icon">
+                        <img src="{{ url_for('static', filename='img/recapitulatif/level.png') }}" alt="Niveau">
+                    </div>
+                    <div class="item-content">
+                        <span class="item-label">Niveau choisi</span>
+                        <span class="item-value" id="levelValue">CYCLE 4 NIVEAU 2 : 4ÈME</span>
+                    </div>
+                </div>
+
+                <!-- Nombre de passages -->
+                <div class="recap-item">
+                    <div class="item-icon">
+                        <img src="{{ url_for('static', filename='img/recapitulatif/passages.png') }}" alt="Passages">
+                    </div>
+                    <div class="item-content">
+                        <span class="item-label">Nombre de passages</span>
+                        <span class="item-value" id="passagesValue">MIN : 1 - MAX : 4 - PÉNALITÉ DE 5 POINTS</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Launch Button -->
+            <button class="launch-btn" onclick="handleLaunchGame()">
+                <img src="{{ url_for('static', filename='img/recapitulatif/lancer-partie.png') }}"
+                    alt="Lancer la partie">
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let gameSetup = {};
+        let redTeamData = {};
+        let blueTeamData = {};
+
+        const avatarNames = {
+            '1': 'Le Boxeur',
+            '2': 'La Bombe',
+            '3': 'Le Peps Joueur',
+            '4': 'Le Traître',
+            '5': 'La Sorcière Immorale',
+            '6': 'La Sorcière',
+            '7': "L'Apprentie Sorcière",
+            '8': 'Les Jumeaux',
+            '9': 'Le Tigre',
+            '10': 'Le Boomerang',
+            '11': "L'Invincible",
+            '12': 'La Reine de la Glace',
+            '13': 'Le Corbeau',
+            '14': 'Le Lion',
+            '15': 'Le Voleur',
+            '16': 'La Footballeuse'
+        };
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function goToEdit() {
+            // Navigate to the edit page (to be determined based on your flow)
+            window.location.href = '/';
+        }
+
+        function loadGameSetup() {
+            // Load game_setup.json data
+            fetch('/get-game-setup')
+                .then(response => response.json())
+                .then(data => {
+                    gameSetup = data;
+                    return Promise.all([
+                        fetch('/get-red-team').then(r => r.json()),
+                        fetch('/get-blue-team').then(r => r.json())
+                    ]);
+                })
+                .then(([redData, blueData]) => {
+                    redTeamData = redData;
+                    blueTeamData = blueData;
+                    updateRecapitulatif();
+                })
+                .catch(error => {
+                    console.error('Error loading game setup:', error);
+                });
+        }
+
+        function updateRecapitulatif() {
+            // Update Mode
+            const modeText = gameSetup.mode === 'sport-collectif'
+                ? 'MODE 1 : SPORT COLLECTIF'
+                : 'MODE 2 : DUEL';
+            document.getElementById('modeValue').textContent = modeText;
+
+            // Update Sport
+            const sportPoints = gameSetup.sportPoints || 3;
+            const sportText = `${gameSetup.sport?.toUpperCase() || 'SPORT'} : 5 JOUEURS - ${sportPoints} POINTS`;
+            document.getElementById('sportValue').textContent = sportText;
+
+            // Update Level
+            const levelText = `${gameSetup.level?.toUpperCase() || 'NIVEAU'}`;
+            document.getElementById('levelValue').textContent = levelText;
+
+            // Update Passages
+            const passagesText = `MIN : ${gameSetup.minPassages} - MAX : ${gameSetup.maxPassages} - PÉNALITÉ DE ${gameSetup.penalty} POINTS`;
+            document.getElementById('passagesValue').textContent = passagesText;
+
+            // Update Team A (Red Team)
+            if (redTeamData.team_name && redTeamData.avatar) {
+                const avatarName = avatarNames[redTeamData.avatar] || 'Avatar inconnu';
+                const teamAText = `ÉQUIPE ROUGE - ${avatarName.toUpperCase()}`;
+                document.getElementById('teamAValue').textContent = teamAText;
+            }
+
+            // Update Team B (Blue Team)
+            if (blueTeamData.team_name && blueTeamData.avatar) {
+                const avatarName = avatarNames[blueTeamData.avatar] || 'Avatar inconnu';
+                const teamBText = `ÉQUIPE BLEUE - ${avatarName.toUpperCase()}`;
+                document.getElementById('teamBValue').textContent = teamBText;
+            }
+        }
+
+        function handleLaunchGame() {
+            console.log('Launching game with setup:', gameSetup);
+            // Redirect to basketball page
+            window.location.href = '/basketball';
+        }
+
+        // Load game setup on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            loadGameSetup();
+        });
+    </script>
+</body>
+
+</html>

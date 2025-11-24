@@ -1,0 +1,225 @@
+/* ===== STYLE PAGE RECAPITULATIF ===== */
+
+.recapitulatif-screen {
+    align-items: flex-start;
+    gap: 0;
+    padding: 16px;
+    overflow-y: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.edit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-btn img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.edit-btn:hover img {
+    transform: scale(1.1);
+}
+
+/* Title Container */
+.title-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.title-img {
+    max-width: 500px;
+    width: 60%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Content Container */
+.content-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 30px;
+}
+
+/* Recap Header */
+.recap-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.intro-img {
+    width: 95%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Recap Items */
+.recap-items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 0 16px;
+}
+
+.recap-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #2C2C3A;
+    border-radius: 12px;
+    padding: 10px 16px;
+    transition: all 0.3s ease;
+}
+
+.recap-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Item Icon */
+.item-icon {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.item-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Item Content */
+.item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.item-label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+
+.item-value {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+    color: #FFFFFF;
+    text-align: right;
+}
+
+/* Launch Button */
+.launch-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-top: 40px;
+}
+
+.launch-btn img {
+    max-width: 140px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+    transition: transform 0.2s ease;
+}
+
+.launch-btn:hover img {
+    transform: scale(1.08);
+}
+
+/* Custom Scrollbar */
+.recapitulatif-screen::-webkit-scrollbar {
+    width: 8px;
+}
+
+.recapitulatif-screen::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.recapitulatif-screen::-webkit-scrollbar-thumb {
+    background: #9B8B4F;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+.recapitulatif-screen::-webkit-scrollbar-thumb:hover {
+    background: #B5A65F;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .recap-item {
+        gap: 12px;
+        padding: 12px 16px;
+    }
+
+    .item-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .item-label {
+        font-size: 15px;
+    }
+
+    .item-value {
+        font-size: 12px;
+    }
+
+    .intro-img {
+        width: 90%;
+    }
+}

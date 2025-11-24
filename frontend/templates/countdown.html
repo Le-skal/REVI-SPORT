@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/countdown.css') }}">
+    <title>Countdown</title>
+</head>
+
+<body>
+    <div class="screen-container countdown-screen">
+        <div class="countdown-container">
+            <img class="countdown-image" id="countdownImage1"
+                src="{{ url_for('static', filename='img/start-count/three.png') }}" alt="three" style="opacity: 0;">
+            <img class="countdown-image" id="countdownImage2"
+                src="{{ url_for('static', filename='img/start-count/two.png') }}" alt="two" style="opacity: 0;">
+            <img class="countdown-image" id="countdownImage3"
+                src="{{ url_for('static', filename='img/start-count/one.png') }}" alt="one" style="opacity: 0;">
+            <img class="countdown-image" id="countdownImage4"
+                src="{{ url_for('static', filename='img/start-count/go.png') }}" alt="go" style="opacity: 0;">
+        </div>
+    </div>
+
+    <script>
+        const images = [
+            document.getElementById('countdownImage1'),
+            document.getElementById('countdownImage2'),
+            document.getElementById('countdownImage3'),
+            document.getElementById('countdownImage4')
+        ];
+        let count = 0;
+
+        const interval = setInterval(() => {
+            if (count > 0) {
+                images[count - 1].style.opacity = '0';
+                images[count - 1].style.pointerEvents = 'none';
+            }
+
+            if (count < images.length) {
+                images[count].style.opacity = '1';
+                images[count].style.pointerEvents = 'auto';
+                images[count].style.animation = 'none';
+
+                // Trigger reflow to restart animation
+                void images[count].offsetWidth;
+
+                images[count].style.animation = 'fadeInOut 1s ease-in-out forwards';
+                count++;
+            } else {
+                clearInterval(interval);
+                // Redirect to game intro page after countdown
+                setTimeout(() => {
+                    window.location.href = '/game-intro';
+                }, 1000);
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>

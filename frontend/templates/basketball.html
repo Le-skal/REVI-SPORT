@@ -23,6 +23,10 @@
             <img src="{{ url_for('static', filename='img/basketball/header.png') }}" alt="Révi'Sport">
         </div>
 
+        {% if level %}
+        <p class="level-text">{{ level }}</p>
+        {% endif %}
+
         <div class="card court-card">
             <img src="{{ url_for('static', filename='img/basketball/court.png') }}"
                 alt="Terrain de basket avec équipes">
@@ -44,11 +48,7 @@
                 <img src="{{ url_for('static', filename='img/basketball/btn_red_after.png') }}"
                     alt="Équipe rouge complétée">
                 <div class="team-names-overlay">
-                    <p>{{ red_team_names.joueur_1 }}</p>
-                    <p>{{ red_team_names.joueur_2 }}</p>
-                    <p>{{ red_team_names.joueur_3 }}</p>
-                    <p>{{ red_team_names.joueur_4 }}</p>
-                    <p>{{ red_team_names.joueur_5 }}</p>
+                    <p>{{ red_team_names.team_name }}</p>
                 </div>
             </div>
             {% else %}
@@ -61,11 +61,7 @@
                 <img src="{{ url_for('static', filename='img/basketball/btn_blue_after.png') }}"
                     alt="Équipe bleue complétée">
                 <div class="team-names-overlay blue-overlay">
-                    <p>{{ blue_team_names.joueur_1 }}</p>
-                    <p>{{ blue_team_names.joueur_2 }}</p>
-                    <p>{{ blue_team_names.joueur_3 }}</p>
-                    <p>{{ blue_team_names.joueur_4 }}</p>
-                    <p>{{ blue_team_names.joueur_5 }}</p>
+                    <p>{{ blue_team_names.team_name }}</p>
                 </div>
             </div>
             {% else %}
@@ -74,7 +70,17 @@
             </a>
             {% endif %}
         </div>
+
+        {% if red_team_completed and blue_team_completed %}
+        <a href="/countdown" class="validate-btn" aria-label="Valider">
+            <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
+        </a>
+        {% endif %}
     </div>
+
+    <script>
+        // Script removed - button is now used instead of auto-redirect
+    </script>
 </body>
 
 </html>

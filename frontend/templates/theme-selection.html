@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme-selection.css') }}">
+    <title>Choix du Thème</title>
+</head>
+
+<body>
+    <div class="screen-container theme-selection-screen">
+        <!-- Header -->
+        <div class="header">
+            <!-- Back Button -->
+            <button class="back-btn" onclick="goBack()">
+                <img src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
+            </button>
+
+            <!-- Title Image -->
+            <div class="title-container">
+                <img src="{{ url_for('static', filename='img/choix-theme/title.png') }}" alt="Choix du Thème"
+                    class="title-img">
+            </div>
+        </div>
+
+        <!-- Intro Section -->
+        <div class="intro-section">
+            <img src="{{ url_for('static', filename='img/choix-theme/intro.png') }}" alt="Choisir toutes les matières"
+                class="intro-img">
+        </div>
+
+        <!-- Theme Cards Container -->
+        <div class="themes-grid">
+            <!-- Mathématiques Card -->
+            <div class="theme-card" data-theme="math" onclick="selectTheme(this)">
+                <div class="card-content">
+                    <img src="{{ url_for('static', filename='img/choix-theme/math.png') }}" alt="Mathématiques"
+                        class="theme-icon">
+                    <div class="card-text">
+                        <h3 class="theme-name">MATHÉMATIQUES</h3>
+                        <p class="theme-count">50 Questions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Français Card -->
+            <div class="theme-card" data-theme="francais" onclick="selectTheme(this)">
+                <div class="card-content">
+                    <img src="{{ url_for('static', filename='img/choix-theme/francais.png') }}" alt="Français"
+                        class="theme-icon">
+                    <div class="card-text">
+                        <h3 class="theme-name">FRANÇAIS</h3>
+                        <p class="theme-count">40 Questions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Histoire Card -->
+            <div class="theme-card" data-theme="histoire" onclick="selectTheme(this)">
+                <div class="card-content">
+                    <img src="{{ url_for('static', filename='img/choix-theme/histoire.png') }}" alt="Histoire"
+                        class="theme-icon">
+                    <div class="card-text">
+                        <h3 class="theme-name">HISTOIRE</h3>
+                        <p class="theme-count">60 Questions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Géographie Card -->
+            <div class="theme-card" data-theme="geographie" onclick="selectTheme(this)">
+                <div class="card-content">
+                    <img src="{{ url_for('static', filename='img/choix-theme/geographie.png') }}" alt="Géographie"
+                        class="theme-icon">
+                    <div class="card-text">
+                        <h3 class="theme-name">GÉOGRAPHIE</h3>
+                        <p class="theme-count">50 Questions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SVT Card -->
+            <div class="theme-card" data-theme="svt" onclick="selectTheme(this)">
+                <div class="card-content">
+                    <img src="{{ url_for('static', filename='img/choix-theme/svt.png') }}" alt="SVT" class="theme-icon">
+                    <div class="card-text">
+                        <h3 class="theme-name">SVT</h3>
+                        <p class="theme-count">40 Questions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chimie Card -->
+            <div class="theme-card" data-theme="chimie" onclick="selectTheme(this)">
+                <div class="card-content">
+                    <img src="{{ url_for('static', filename='img/choix-theme/chimie.png') }}" alt="Chimie"
+                        class="theme-icon">
+                    <div class="card-text">
+                        <h3 class="theme-name">CHIMIE</h3>
+                        <p class="theme-count">20 Questions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Valider Button -->
+        <button class="valider-btn" id="validerBtn" style="display: none;">
+            <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
+        </button>
+    </div>
+
+    <script>
+        let selectedTheme = null;
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function selectTheme(element) {
+            // Remove selected class from previously selected card
+            const previousSelected = document.querySelector('.theme-card.selected');
+            if (previousSelected && previousSelected !== element) {
+                previousSelected.classList.remove('selected');
+            }
+
+            // Toggle selected class on clicked card
+            element.classList.toggle('selected');
+
+            // Update selectedTheme
+            if (element.classList.contains('selected')) {
+                selectedTheme = element.dataset.theme;
+                // Show valider button
+                document.getElementById('validerBtn').style.display = 'flex';
+                document.getElementById('validerBtn').classList.add('show-animation');
+            } else {
+                selectedTheme = null;
+                // Hide valider button
+                document.getElementById('validerBtn').classList.add('hide-animation');
+                setTimeout(() => {
+                    document.getElementById('validerBtn').style.display = 'none';
+                    document.getElementById('validerBtn').classList.remove('hide-animation');
+                }, 300);
+            }
+
+            console.log('Selected theme:', selectedTheme);
+        }
+
+        function handleValider() {
+            if (selectedTheme) {
+                console.log('Validating theme:', selectedTheme);
+
+                // Save the selected theme to game_setup.json
+                fetch('/save-game-setup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ theme: selectedTheme })
+                }).then(response => response.json())
+                    .then(data => {
+                        console.log('Theme saved:', data);
+                        window.location.href = '/joker-selection';
+                    })
+                    .catch(error => {
+                        console.error('Error saving theme:', error);
+                        window.location.href = '/joker-selection';
+                    });
+            }
+        }
+
+        // Add click handler to valider button
+        document.addEventListener('DOMContentLoaded', function () {
+            const validerBtn = document.getElementById('validerBtn');
+            if (validerBtn) {
+                validerBtn.addEventListener('click', handleValider);
+            }
+        });
+    </script>
+</body>
+
+</html>

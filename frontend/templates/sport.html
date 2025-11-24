@@ -17,26 +17,52 @@
             alt="Veuillez sélectionner un sport">
 
         <div class="sports-grid">
-            <a href="#" class="sport-card">
+            <div class="sport-card" onclick="selectSport('football')">
                 <img src="{{ url_for('static', filename='img/sport/sport_football.png') }}" alt="Football">
-            </a>
-            <a href="#" class="sport-card">
+            </div>
+            <div class="sport-card" onclick="selectSport('handball')">
                 <img src="{{ url_for('static', filename='img/sport/sport_handball.png') }}" alt="Handball">
-            </a>
-            <a href="#" class="sport-card">
+            </div>
+            <div class="sport-card" onclick="selectSport('rugby')">
                 <img src="{{ url_for('static', filename='img/sport/sport_rugby.png') }}" alt="Rugby">
-            </a>
-            <a href="/basketball" class="sport-card">
+            </div>
+            <div class="sport-card" onclick="selectSport('basketball')">
                 <img src="{{ url_for('static', filename='img/sport/sport_basketball.png') }}" alt="Basketball">
-            </a>
-            <a href="#" class="sport-card">
+            </div>
+            <div class="sport-card" onclick="selectSport('ultimate')">
                 <img src="{{ url_for('static', filename='img/sport/sport_ultimate.png') }}" alt="Ultimate">
-            </a>
-            <a href="#" class="sport-card">
+            </div>
+            <div class="sport-card" onclick="selectSport('autre')">
                 <img src="{{ url_for('static', filename='img/sport/sport_autre.png') }}" alt="Autre sport">
-            </a>
+            </div>
         </div>
     </div>
+
+    <script>
+        function selectSport(sport) {
+            // Save sport to game_setup.json
+            fetch('/save-game-setup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ sport: sport })
+            }).then(response => response.json())
+                .then(data => {
+                    console.log('Sport saved:', data);
+                    // Redirect based on sport (for now, basketball goes to /basketball, others can be implemented later)
+                    if (sport === 'basketball') {
+                        window.location.href = '/basketball';
+                    } else {
+                        // For other sports, redirect to a general page or show message
+                        window.location.href = '/basketball'; // temporary, change as needed
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving sport:', error);
+                });
+        }
+    </script>
 </body>
 
 </html>

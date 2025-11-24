@@ -18,8 +18,12 @@
         <img class="nom-red-title" src="{{ url_for('static', filename='img/nom_red_basketball/title.png') }}"
             alt="Nommer l'équipe rouge">
 
-        <img class="nom-red-intro" src="{{ url_for('static', filename='img/nom_red_basketball/intro.png') }}"
-            alt="Introduction">
+        <div class="team-name-container">
+            <img class="nom-red-intro" src="{{ url_for('static', filename='img/nom_red_basketball/intro.png') }}"
+                alt="Introduction">
+            <input type="text" class="team-name-input" id="teamNameInput" placeholder="Nom de l'équipe" maxlength="20"
+                autocomplete="off">
+        </div>
 
         <div class="players-list">
             <div class="player-card">
@@ -56,6 +60,7 @@
 
     <script>
         const inputs = document.querySelectorAll('.player-input');
+        const teamNameInput = document.getElementById('teamNameInput');
         const nextBtn = document.getElementById('nextBtn');
 
         function checkAllFilled() {
@@ -76,7 +81,10 @@
         nextBtn.addEventListener('click', async function (e) {
             e.preventDefault();
 
+            const teamName = teamNameInput.value.trim() || 'Équipe Rouge';
+
             const redTeamNames = {
+                team_name: teamName,
                 joueur_1: inputs[0].value.trim(),
                 joueur_2: inputs[1].value.trim(),
                 joueur_3: inputs[2].value.trim(),

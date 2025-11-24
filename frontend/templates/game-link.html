@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game-link.css') }}">
+    <title>Game Link</title>
+</head>
+
+<body>
+    <div class="screen-container game-link-screen">
+        <!-- Red Team Avatar -->
+        <div class="team-header red-team">
+            <div class="avatar-circle">
+                <img src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar ~ '.png') }}"
+                    alt="Red Avatar">
+            </div>
+            <span class="team-score">{{ red_score }}</span>
+        </div>
+
+        <!-- VS -->
+        <div class="vs-image">
+            <img src="{{ url_for('static', filename='img/common/vs.png') }}" alt="VS">
+        </div>
+
+        <!-- Blue Team Avatar -->
+        <div class="team-header blue-team">
+            <span class="team-score">{{ blue_score }}</span>
+            <div class="avatar-circle">
+                <img src="{{ url_for('static', filename='img/avatars/avatar' ~ blue_avatar ~ '.png') }}"
+                    alt="Blue Avatar">
+            </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-counter">
+            <div class="circle-outer"></div>
+            <svg class="progress-ring" width="63" height="62">
+                <circle class="progress-ring-background" stroke="#FFFFFF" stroke-width="5" fill="transparent" r="26.5"
+                    cx="31.5" cy="31" />
+                <circle class="progress-ring-circle" stroke="#C99F17" stroke-width="5" fill="transparent" r="26.5"
+                    cx="31.5" cy="31" />
+            </svg>
+            <div class="countdown-number">30</div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="question-card">
+            <p class="question-text">{{ question_text }}</p>
+        </div>
+
+        <!-- Link Game Container -->
+        <div class="link-container">
+            <!-- SVG Canvas for drawing lines -->
+            <svg class="link-canvas" id="linkCanvas"></svg>
+
+            <!-- Left Items -->
+            <div class="items-column left-column">
+                {% for item in left_items %}
+                <div class="link-item left-item" data-item-id="{{ item.id }}" data-item-side="left">
+                    <img src="{{ url_for('static', filename='img/questions/' ~ item.image) }}" alt="{{ item.label }}"
+                        class="item-image">
+                    <div class="item-dot left-dot"></div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Right Items -->
+            <div class="items-column right-column">
+                {% for item in right_items %}
+                <div class="link-item right-item" data-item-id="{{ item.id }}" data-item-side="right">
+                    <div class="item-dot right-dot"></div>
+                    <img src="{{ url_for('static', filename='img/questions/' ~ item.image) }}" alt="{{ item.label }}"
+                        class="item-image">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Question Card Overlay -->
+        <div class="question-overlay">
+            <img src="" alt="Result" class="overlay-img">
+        </div>
+
+        <!-- Confirmation Button -->
+        <button class="confirm-btn" id="confirmBtn" style="display: none;">
+            <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
+        </button>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn theme-btn" onclick="handleAction('theme')">
+                <img src="{{ url_for('static', filename='img/action-buttons/theme.png') }}" alt="Choix du thème">
+            </button>
+            <button class="action-btn team-btn" onclick="handleAction('team')">
+                <img src="{{ url_for('static', filename='img/action-buttons/team.png') }}" alt="Esprit d'équipe">
+            </button>
+            <button class="action-btn double-point-btn" onclick="handleAction('double-point')">
+                <img src="{{ url_for('static', filename='img/action-buttons/double-point.png') }}" alt="Double point">
+            </button>
+            <button class="action-btn prison-btn" onclick="handleAction('prison')">
+                <img src="{{ url_for('static', filename='img/action-buttons/prison.png') }}" alt="Double prison">
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Data from template
+        const correctPairsData = '{{ correct_pairs | tojson | safe }}';
+        const correctPairs = JSON.parse(correctPairsData);
+        let selectedAnswers = [];
+        let answered = false;
+        const leftItems = document.querySelectorAll('.left-item');
+        const rightItems = document.querySelectorAll('.right-item');
+        const linkCanvas = document.getElementById('linkCanvas');
+        const questionOverlay = document.querySelector('.question-overlay');
+        const overlayImg = document.querySelector('.overlay-img');
+        const confirmBtn = document.getElementById('confirmBtn');
+        let selectedLeftItem = null;
+        let selectedRightItem = null;
+        let drawnLines = {};
+        let draggedLeftItem = null;
+        let tempLine = null;
+
+        // Prevent image copy-paste
+        document.querySelectorAll('.item-image').forEach(img => {
+            img.addEventListener('dragstart', (e) => e.preventDefault());
+            img.addEventListener('contextmenu', (e) => e.preventDefault());
+        });
+
+        // Setup SVG canvas
+        const gameContainer = document.querySelector('.screen-container');
+        const linkContainer = document.querySelector('.link-container');
+
+        function resizeCanvas() {
+            const rect = linkContainer.getBoundingClientRect();
+            linkCanvas.setAttribute('width', rect.width);
+            linkCanvas.setAttribute('height', rect.height);
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Draw line between two items
+        function drawLine(leftId, rightId, color = '#C99F17') {
+            const leftItem = document.querySelector(`[data-item-id="${leftId}"].left-item`);
+            const rightItem = document.querySelector(`[data-item-id="${rightId}"].right-item`);
+
+            if (!leftItem || !rightItem) return;
+
+            const leftDot = leftItem.querySelector('.left-dot');
+            const rightDot = rightItem.querySelector('.right-dot');
+
+            const leftRect = leftDot.getBoundingClientRect();
+            const rightRect = rightDot.getBoundingClientRect();
+            const canvasRect = linkCanvas.getBoundingClientRect();
+
+            const x1 = leftRect.left - canvasRect.left + leftRect.width / 2;
+            const y1 = leftRect.top - canvasRect.top + leftRect.height / 2;
+            const x2 = rightRect.left - canvasRect.left + rightRect.width / 2;
+            const y2 = rightRect.top - canvasRect.top + rightRect.height / 2;
+
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', x1);
+            line.setAttribute('y1', y1);
+            line.setAttribute('x2', x2);
+            line.setAttribute('y2', y2);
+            line.setAttribute('stroke', color);
+            line.setAttribute('stroke-width', '3');
+            line.setAttribute('class', 'connection-line');
+            line.setAttribute('data-left-id', leftId);
+            line.setAttribute('data-right-id', rightId);
+            line.style.pointerEvents = 'auto';
+            line.style.cursor = 'pointer';
+
+            linkCanvas.appendChild(line);
+
+            drawnLines[`${leftId}-${rightId}`] = line;
+
+            // Click to delete line
+            line.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!answered) {
+                    removeLine(leftId, rightId);
+                }
+            });
+        }
+
+        function removeLine(leftId, rightId) {
+            const lineKey = `${leftId}-${rightId}`;
+            if (drawnLines[lineKey]) {
+                drawnLines[lineKey].remove();
+                delete drawnLines[lineKey];
+                selectedAnswers = selectedAnswers.filter(pair => !(pair.left === leftId && pair.right === rightId));
+            }
+        }
+
+        function getLeftItemConnections(leftId) {
+            return selectedAnswers.filter(pair => pair.left === leftId);
+        }
+
+        function getRightItemConnections(rightId) {
+            return selectedAnswers.filter(pair => pair.right === rightId);
+        }
+
+        // Left Item Click - Select for connection
+        leftItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (answered) return;
+                if (selectedLeftItem === item) {
+                    item.classList.remove('selected');
+                    selectedLeftItem = null;
+                } else {
+                    leftItems.forEach(i => i.classList.remove('selected'));
+                    item.classList.add('selected');
+                    selectedLeftItem = item;
+                }
+            });
+        });
+
+        // Right Item Click - Create connection (only if left item selected)
+        rightItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (answered || !selectedLeftItem) return;
+
+                const leftId = selectedLeftItem.dataset.itemId;
+                const rightId = item.dataset.itemId;
+                const lineKey = `${leftId}-${rightId}`;
+
+                // Check if already connected
+                if (drawnLines[lineKey]) {
+                    removeLine(leftId, rightId);
+                } else {
+                    // Left items can only connect to 1 right item
+                    const leftConnections = getLeftItemConnections(leftId);
+                    if (leftConnections.length > 0) {
+                        // Remove existing connection for this left item
+                        leftConnections.forEach(conn => {
+                            removeLine(conn.left, conn.right);
+                        });
+                    }
+
+                    drawLine(leftId, rightId);
+                    selectedAnswers.push({ left: leftId, right: rightId });
+                }
+
+                checkCompletion();
+
+                leftItems.forEach(i => i.classList.remove('selected'));
+                rightItems.forEach(i => i.classList.remove('selected'));
+                selectedLeftItem = null;
+                selectedRightItem = null;
+            });
+        });
+
+        // Drag and drop for creating links
+        leftItems.forEach(item => {
+            item.addEventListener('mousedown', (e) => {
+                if (answered) return;
+                draggedLeftItem = item;
+                const leftDot = item.querySelector('.left-dot');
+                const leftRect = leftDot.getBoundingClientRect();
+                const canvasRect = linkCanvas.getBoundingClientRect();
+
+                const x1 = leftRect.left - canvasRect.left + leftRect.width / 2;
+                const y1 = leftRect.top - canvasRect.top + leftRect.height / 2;
+
+                tempLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                tempLine.setAttribute('x1', x1);
+                tempLine.setAttribute('y1', y1);
+                tempLine.setAttribute('x2', x1);
+                tempLine.setAttribute('y2', y1);
+                tempLine.setAttribute('stroke', '#C99F17');
+                tempLine.setAttribute('stroke-width', '2');
+                tempLine.setAttribute('class', 'temp-line');
+                tempLine.style.opacity = '0.5';
+                linkCanvas.appendChild(tempLine);
+            });
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!draggedLeftItem || !tempLine) return;
+
+            const canvasRect = linkCanvas.getBoundingClientRect();
+            const x2 = e.clientX - canvasRect.left;
+            const y2 = e.clientY - canvasRect.top;
+
+            tempLine.setAttribute('x2', x2);
+            tempLine.setAttribute('y2', y2);
+        });
+
+        document.addEventListener('mouseup', (e) => {
+            if (!draggedLeftItem || !tempLine) return;
+
+            tempLine.remove();
+            tempLine = null;
+
+            // Check if released over a right item
+            const rightItem = e.target.closest('.right-item');
+            if (rightItem && !answered) {
+                const leftId = draggedLeftItem.dataset.itemId;
+                const rightId = rightItem.dataset.itemId;
+                const lineKey = `${leftId}-${rightId}`;
+
+                // Check if already connected
+                if (!drawnLines[lineKey]) {
+                    // Remove existing connection for this left item (max 1 per left item)
+                    const leftConnections = getLeftItemConnections(leftId);
+                    if (leftConnections.length > 0) {
+                        leftConnections.forEach(conn => {
+                            removeLine(conn.left, conn.right);
+                        });
+                    }
+
+                    drawLine(leftId, rightId);
+                    selectedAnswers.push({ left: leftId, right: rightId });
+                    checkCompletion();
+                }
+            }
+
+            draggedLeftItem = null;
+        });
+
+        function checkCompletion() {
+            const totalLeftItems = leftItems.length;
+            const connectedLeftItems = new Set(selectedAnswers.map(pair => pair.left)).size;
+
+            if (connectedLeftItems === totalLeftItems) {
+                confirmBtn.style.display = 'flex';
+                confirmBtn.classList.add('show-animation');
+            }
+        }
+
+        function handleAnswer() {
+            answered = true;
+            confirmBtn.classList.remove('show-animation');
+            confirmBtn.style.display = 'none';
+            const allCorrect = isAnswerCorrect();
+
+            if (allCorrect) {
+                showCorrect();
+            } else {
+                showIncorrect();
+            }
+
+            // Disable all items
+            leftItems.forEach(item => item.classList.add('disabled'));
+            rightItems.forEach(item => item.classList.add('disabled'));
+
+            clearInterval(timerInterval);
+        }
+
+        function isAnswerCorrect() {
+            return selectedAnswers.length === correctPairs.length &&
+                selectedAnswers.every(pair =>
+                    correctPairs.some(correct =>
+                        correct.left === pair.left && correct.right === pair.right
+                    )
+                );
+        }
+
+        function showCorrect() {
+            // Highlight correct connections in green
+            selectedAnswers.forEach(pair => {
+                const leftItem = document.querySelector(`[data-item-id="${pair.left}"].left-item`);
+                const rightItem = document.querySelector(`[data-item-id="${pair.right}"].right-item`);
+
+                if (leftItem) leftItem.classList.add('correct');
+                if (rightItem) rightItem.classList.add('correct');
+
+                const line = drawnLines[`${pair.left}-${pair.right}`];
+                if (line) {
+                    line.setAttribute('stroke', '#5DBA68');
+                    line.setAttribute('stroke-width', '4');
+                }
+            });
+
+            questionOverlay.classList.add('correct');
+            overlayImg.src = "{{ url_for('static', filename='img/common/correct.png') }}";
+            questionOverlay.classList.add('show');
+        }
+
+        function showIncorrect() {
+            // Highlight incorrect connections in red/green
+            selectedAnswers.forEach(pair => {
+                const isCorrect = correctPairs.some(correct =>
+                    correct.left === pair.left && correct.right === pair.right
+                );
+
+                const leftItem = document.querySelector(`[data-item-id="${pair.left}"].left-item`);
+                const rightItem = document.querySelector(`[data-item-id="${pair.right}"].right-item`);
+
+                if (leftItem) leftItem.classList.add(isCorrect ? 'correct' : 'incorrect');
+                if (rightItem) rightItem.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+                const line = drawnLines[`${pair.left}-${pair.right}`];
+                if (line) {
+                    line.setAttribute('stroke', isCorrect ? '#5DBA68' : '#C04E43');
+                    line.setAttribute('stroke-width', '4');
+                }
+            });
+
+            // Show correct connections that user missed
+            correctPairs.forEach(correctPair => {
+                const userConnected = selectedAnswers.some(pair =>
+                    pair.left === correctPair.left && pair.right === correctPair.right
+                );
+                if (!userConnected) {
+                    const leftItem = document.querySelector(`[data-item-id="${correctPair.left}"].left-item`);
+                    const rightItem = document.querySelector(`[data-item-id="${correctPair.right}"].right-item`);
+
+                    if (leftItem) leftItem.classList.add('correct');
+                    if (rightItem) rightItem.classList.add('correct');
+
+                    drawLine(correctPair.left, correctPair.right, '#5DBA68');
+                }
+            });
+
+            questionOverlay.classList.add('incorrect');
+            overlayImg.src = "{{ url_for('static', filename='img/common/incorrect.png') }}";
+            questionOverlay.classList.add('show');
+        }
+
+        function showTimeout() {
+            // Show correct connections on timeout
+            correctPairs.forEach(correctPair => {
+                const leftItem = document.querySelector(`[data-item-id="${correctPair.left}"].left-item`);
+                const rightItem = document.querySelector(`[data-item-id="${correctPair.right}"].right-item`);
+
+                if (leftItem) leftItem.classList.add('correct');
+                if (rightItem) rightItem.classList.add('correct');
+
+                if (!drawnLines[`${correctPair.left}-${correctPair.right}`]) {
+                    drawLine(correctPair.left, correctPair.right, '#5DBA68');
+                }
+            });
+
+            questionOverlay.classList.add('timeout');
+            overlayImg.src = "{{ url_for('static', filename='img/common/timeout.png') }}";
+            questionOverlay.classList.add('show');
+
+            answered = true;
+        }
+
+        // Timer countdown with SVG circle animation
+        let timeLeft = 30;
+        const totalTime = 30;
+        const numberElement = document.querySelector('.countdown-number');
+        const circleElement = document.querySelector('.progress-ring-circle');
+
+        const radius = circleElement.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+
+        circleElement.style.strokeDasharray = `${circumference} ${circumference}`;
+        circleElement.style.strokeDashoffset = '0';
+
+        numberElement.textContent = timeLeft;
+
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+                showTimeout();
+                return;
+            }
+
+            numberElement.textContent = timeLeft;
+
+            const progress = timeLeft / totalTime;
+            const offset = circumference - (progress * circumference);
+
+            circleElement.style.strokeDashoffset = offset;
+        }, 1000);
+
+        // Confirmation button click handler
+        confirmBtn.addEventListener('click', function () {
+            handleAnswer();
+        });
+
+        function handleAction(action) {
+            console.log('Action:', action);
+        }
+    </script>
+</body>
+
+</html>

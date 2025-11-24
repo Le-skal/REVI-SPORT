@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game-orderSyllabes.css') }}">
+    <title>Game Order Syllabes</title>
+</head>
+
+<body>
+    <div class="screen-container game-order-screen">
+        <!-- Red Team Avatar -->
+        <div class="team-header red-team">
+            <div class="avatar-circle">
+                <img src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar ~ '.png') }}"
+                    alt="Red Avatar">
+            </div>
+            <span class="team-score">{{ red_score }}</span>
+        </div>
+
+        <!-- VS -->
+        <div class="vs-image">
+            <img src="{{ url_for('static', filename='img/common/vs.png') }}" alt="VS">
+        </div>
+
+        <!-- Blue Team Avatar -->
+        <div class="team-header blue-team">
+            <span class="team-score">{{ blue_score }}</span>
+            <div class="avatar-circle">
+                <img src="{{ url_for('static', filename='img/avatars/avatar' ~ blue_avatar ~ '.png') }}"
+                    alt="Blue Avatar">
+            </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-counter">
+            <div class="circle-outer"></div>
+            <svg class="progress-ring" width="63" height="62">
+                <circle class="progress-ring-background" stroke="#FFFFFF" stroke-width="5" fill="transparent" r="26.5"
+                    cx="31.5" cy="31" />
+                <circle class="progress-ring-circle" stroke="#C99F17" stroke-width="5" fill="transparent" r="26.5"
+                    cx="31.5" cy="31" />
+            </svg>
+            <div class="countdown-number">30</div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="question-card">
+            <img class="question-image" src="{{ url_for('static', filename='img/' ~ question_image) }}"
+                alt="Question Image">
+            <p class="question-text">{{ question_text }}</p>
+
+            <!-- Question Overlay (for timeout) -->
+            <div class="question-overlay">
+                <img class="overlay-img" src="" alt="Overlay">
+            </div>
+        </div>
+
+        <!-- Order Game Container -->
+        <div class="order-container">
+            <!-- Selected Order Area (syllables slots) -->
+            <div class="selected-order" id="selectedOrder">
+                {% for i in range(correct_order|length) %}
+                <div class="order-slot" data-slot-index="{{ i }}"></div>
+                {% endfor %}
+            </div>
+
+            <!-- Available Items (shuffled syllables) -->
+            <div class="available-items" id="availableItems">
+                {% for item in shuffled_items %}
+                <div class="order-item available-item" draggable="true" data-item-id="{{ loop.index0 }}"
+                    data-item-text="{{ item }}">
+                    {{ item }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Confirmation Button -->
+        <button class="confirm-btn" id="confirmBtn" style="display: none;">
+            <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
+        </button>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn theme-btn" onclick="handleAction('theme')">
+                <img src="{{ url_for('static', filename='img/action-buttons/theme.png') }}" alt="Choix du thème">
+            </button>
+            <button class="action-btn team-btn" onclick="handleAction('team')">
+                <img src="{{ url_for('static', filename='img/action-buttons/team.png') }}" alt="Esprit d'équipe">
+            </button>
+            <button class="action-btn double-point-btn" onclick="handleAction('double-point')">
+                <img src="{{ url_for('static', filename='img/action-buttons/double-point.png') }}" alt="Double point">
+            </button>
+            <button class="action-btn prison-btn" onclick="handleAction('prison')">
+                <img src="{{ url_for('static', filename='img/action-buttons/prison.png') }}" alt="Double prison">
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Data from template
+        const correctOrderData = '{{ correct_order | tojson | safe }}';
+        const correctOrder = JSON.parse(correctOrderData);
+        const totalSlots = correctOrder.length;
+        let selectedItems = [];
+        let answered = false;
+        const availableItemsContainer = document.getElementById('availableItems');
+        const selectedOrderContainer = document.getElementById('selectedOrder');
+        const questionOverlay = document.querySelector('.question-overlay');
+        const overlayImg = document.querySelector('.overlay-img');
+        const confirmBtn = document.getElementById('confirmBtn');
+        let draggedItem = null;
+
+        // Setup drag and drop
+        const availableItems = document.querySelectorAll('.available-item');
+        const orderSlots = document.querySelectorAll('.order-slot');
+
+        // Drag start on available items
+        availableItems.forEach(item => {
+            attachDragListeners(item);
+        });
+
+        function attachDragListeners(item) {
+            // Create wrapper function to avoid duplicate listeners
+            const dragStart = (e) => {
+                if (answered) return;
+                draggedItem = item;
+                item.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            };
+
+            const dragEnd = (e) => {
+                item.classList.remove('dragging');
+            };
+
+            const clickHandler = () => {
+                if (answered) return;
+                const firstEmptySlot = Array.from(orderSlots).find(slot => !slot.firstChild);
+                if (firstEmptySlot) {
+                    addItemToSlot(item, firstEmptySlot);
+                }
+            };
+
+            // Remove old listeners if they exist
+            item.removeEventListener('dragstart', item.dragStartListener);
+            item.removeEventListener('dragend', item.dragEndListener);
+            item.removeEventListener('click', item.clickListener);
+
+            // Store references and add new ones
+            item.dragStartListener = dragStart;
+            item.dragEndListener = dragEnd;
+            item.clickListener = clickHandler;
+
+            item.addEventListener('dragstart', dragStart);
+            item.addEventListener('dragend', dragEnd);
+            item.addEventListener('click', clickHandler);
+        }
+
+        // Drag over slots
+        orderSlots.forEach(slot => {
+            slot.addEventListener('dragover', (e) => {
+                if (answered) return;
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                slot.classList.add('drag-over');
+            });
+
+            slot.addEventListener('dragleave', (e) => {
+                slot.classList.remove('drag-over');
+            });
+
+            slot.addEventListener('drop', (e) => {
+                if (answered) return;
+                e.preventDefault();
+                slot.classList.remove('drag-over');
+                if (draggedItem) {
+                    addItemToSlot(draggedItem, slot);
+                }
+            });
+
+            // Click to add item to slot
+            slot.addEventListener('click', () => {
+                if (answered || !draggedItem) return;
+                addItemToSlot(draggedItem, slot);
+            });
+        });
+
+        function addItemToSlot(item, slot) {
+            // If slot already has an item, swap or return it
+            if (slot.firstChild) {
+                const existingItem = slot.firstChild;
+                const existingOriginal = availableItems[Array.from(availableItems).findIndex(i => i.dataset.itemText === existingItem.textContent)];
+                if (existingOriginal) {
+                    existingOriginal.classList.remove('used');
+                    attachDragListeners(existingOriginal);
+                }
+                existingItem.remove();
+            }
+
+            // Mark the original item as used (hide it)
+            item.classList.add('used');
+
+            // Create a copy of the item for the slot
+            const itemCopy = document.createElement('div');
+            itemCopy.className = 'order-item selected-item';
+            itemCopy.textContent = item.dataset.itemText;
+            itemCopy.draggable = true;
+            itemCopy.dataset.originalItem = item;
+
+            // Make the copy draggable
+            const dragStart = (e) => {
+                if (answered) return;
+                draggedItem = itemCopy;
+                itemCopy.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            };
+
+            const dragEnd = (e) => {
+                itemCopy.classList.remove('dragging');
+                draggedItem = null;
+            };
+
+            itemCopy.dragStartListener = dragStart;
+            itemCopy.dragEndListener = dragEnd;
+
+            itemCopy.addEventListener('dragstart', dragStart);
+            itemCopy.addEventListener('dragend', dragEnd);
+
+            // Click to move back to available
+            const clickReturn = (e) => {
+                if (answered) return;
+                e.stopPropagation();
+                // Show the original item again and re-enable it
+                item.classList.remove('used');
+                itemCopy.classList.remove('placed');
+                // Re-attach drag listeners to the original item
+                attachDragListeners(item);
+                // Remove the copy from slot
+                itemCopy.remove();
+                checkCompletion();
+            };
+
+            itemCopy.clickListener = clickReturn;
+            itemCopy.addEventListener('click', clickReturn);
+
+            // Add styling for placed item
+            itemCopy.classList.add('placed');
+            slot.appendChild(itemCopy);
+            checkCompletion();
+        }
+
+        // Allow dropping on available items area to return items
+        availableItemsContainer.addEventListener('dragover', (e) => {
+            if (answered) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            availableItemsContainer.style.opacity = '0.7';
+        });
+
+        availableItemsContainer.addEventListener('dragleave', (e) => {
+            availableItemsContainer.style.opacity = '1';
+        });
+
+        availableItemsContainer.addEventListener('drop', (e) => {
+            if (answered) return;
+            e.preventDefault();
+            availableItemsContainer.style.opacity = '1';
+            if (draggedItem && draggedItem.classList.contains('selected-item')) {
+                // Return item to available
+                const originalItem = draggedItem.dataset.originalItem ?
+                    Array.from(availableItems).find(i => i.dataset.itemText === draggedItem.textContent) :
+                    draggedItem;
+
+                if (originalItem) {
+                    originalItem.classList.remove('used');
+                    attachDragListeners(originalItem);
+                }
+                draggedItem.remove();
+                checkCompletion();
+            }
+        });
+
+        function checkCompletion() {
+            const allFilled = Array.from(orderSlots).every(slot => slot.firstChild);
+            if (allFilled) {
+                confirmBtn.style.display = 'flex';
+                confirmBtn.classList.add('show-animation');
+                confirmBtn.classList.remove('hide-animation');
+            } else {
+                confirmBtn.classList.add('hide-animation');
+                confirmBtn.classList.remove('show-animation');
+                setTimeout(() => {
+                    confirmBtn.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        function handleAnswer() {
+            answered = true;
+            confirmBtn.classList.remove('show-animation');
+            confirmBtn.style.display = 'none';
+            const userOrder = Array.from(orderSlots).map(slot => {
+                return Array.from(availableItems).findIndex(item => item.dataset.itemText === slot.firstChild.textContent);
+            });
+
+            const isCorrect = JSON.stringify(userOrder) === JSON.stringify(correctOrder);
+
+            if (isCorrect) {
+                showCorrect();
+            } else {
+                showIncorrect();
+            }
+
+            // Disable all interactions
+            availableItems.forEach(item => item.classList.add('disabled'));
+            orderSlots.forEach(slot => slot.classList.add('disabled'));
+            clearInterval(timerInterval);
+        }
+
+        function showCorrect() {
+            // Highlight all items in green with white text
+            Array.from(orderSlots).forEach(slot => {
+                if (slot.firstChild) {
+                    slot.firstChild.classList.add('correct');
+                }
+            });
+        }
+
+        function showIncorrect() {
+            // Show correct items in green, incorrect in red
+            Array.from(orderSlots).forEach((slot, index) => {
+                if (slot.firstChild) {
+                    const userItemIndex = Array.from(availableItems).findIndex(item => item.dataset.itemText === slot.firstChild.textContent);
+                    if (userItemIndex === correctOrder[index]) {
+                        slot.firstChild.classList.add('correct');
+                    } else {
+                        slot.firstChild.classList.add('incorrect');
+                    }
+                }
+            });
+
+            // Show correct order in remaining slots
+            Array.from(orderSlots).forEach((slot, index) => {
+                if (!slot.firstChild) {
+                    const correctItem = document.createElement('div');
+                    correctItem.className = 'order-item correct revealed';
+                    correctItem.textContent = availableItems[correctOrder[index]].dataset.itemText;
+                    slot.appendChild(correctItem);
+                }
+            });
+        }
+
+        function showTimeout() {
+            // First, return any items that are in the slots back to available
+            Array.from(orderSlots).forEach((slot) => {
+                if (slot.firstChild) {
+                    slot.firstChild.remove();
+                }
+            });
+
+            // Reorder items: correct ones first in right order, then others
+            const availableItemsArray = Array.from(availableItems);
+            const correctItems = [];
+            const incorrectItems = [];
+
+            // Separate items into correct (in order) and incorrect
+            correctOrder.forEach(correctIndex => {
+                correctItems.push(availableItemsArray[correctIndex].cloneNode(true));
+            });
+
+            availableItemsArray.forEach((item, index) => {
+                if (!correctOrder.includes(index)) {
+                    incorrectItems.push(item.cloneNode(true));
+                }
+            });
+
+            // Reorder: correct items first in right order, then incorrect items
+            const reorderedItems = [...correctItems, ...incorrectItems];
+
+            // Clear and rebuild the available items container
+            const container = document.getElementById('availableItems');
+            container.innerHTML = '';
+            reorderedItems.forEach((item) => {
+                container.appendChild(item);
+            });
+
+            // Highlight correct items in red with white text
+            Array.from(container.querySelectorAll('.order-item')).slice(0, correctOrder.length).forEach((item) => {
+                item.style.background = '#C04E43';
+                item.style.color = '#ffffff';
+            });
+
+            // Show timeout overlay
+            console.log('Showing timeout overlay');
+            console.log('questionOverlay:', questionOverlay);
+            console.log('overlayImg:', overlayImg);
+            questionOverlay.classList.add('timeout');
+            overlayImg.src = "{{ url_for('static', filename='img/common/timeout.png') }}";
+            questionOverlay.classList.add('show');
+
+            answered = true;
+        }
+
+        // Timer countdown with SVG circle animation
+        let timeLeft = 30;
+        const totalTime = 30;
+        const numberElement = document.querySelector('.countdown-number');
+        const circleElement = document.querySelector('.progress-ring-circle');
+
+        const radius = circleElement.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+
+        circleElement.style.strokeDasharray = `${circumference} ${circumference}`;
+        circleElement.style.strokeDashoffset = '0';
+
+        numberElement.textContent = timeLeft;
+
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+                showTimeout();
+                return;
+            }
+
+            numberElement.textContent = timeLeft;
+
+            const progress = timeLeft / totalTime;
+            const offset = circumference - (progress * circumference);
+
+            circleElement.style.strokeDashoffset = offset;
+        }, 1000);
+
+        // Confirmation button click handler
+        confirmBtn.addEventListener('click', function () {
+            handleAnswer();
+        });
+
+        function handleAction(action) {
+            console.log('Action:', action);
+        }
+    </script>
+</body>
+
+</html>

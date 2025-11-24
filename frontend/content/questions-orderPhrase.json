@@ -1,0 +1,84 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "question": "Reconstituer la phrase en anglais",
+            "subtitle": "Le chat est noir",
+            "phraseLabel": "Phrase à traduire en anglais",
+            "items": [
+                "is",
+                "runs",
+                "The",
+                "are",
+                "snow",
+                "orange",
+                "beautiful",
+                "there",
+                "cat",
+                "black",
+                "car"
+            ],
+            "correctOrder": [
+                2,
+                8,
+                0,
+                9
+            ],
+            "difficulty": "easy"
+        },
+        {
+            "id": 2,
+            "question": "Reconstituer la phrase en anglais",
+            "subtitle": "La fille court vite",
+            "phraseLabel": "Phrase à traduire en anglais",
+            "items": [
+                "fast",
+                "girl",
+                "runs",
+                "The",
+                "boy",
+                "walks",
+                "slowly",
+                "cat",
+                "jumps",
+                "dog",
+                "quickly"
+            ],
+            "correctOrder": [
+                3,
+                1,
+                2,
+                0
+            ],
+            "difficulty": "medium"
+        },
+        {
+            "id": 3,
+            "question": "Reconstituer la phrase en anglais",
+            "subtitle": "Il aime jouer au football",
+            "phraseLabel": "Phrase à traduire en anglais",
+            "items": [
+                "He",
+                "likes",
+                "to",
+                "play",
+                "football",
+                "basketball",
+                "tennis",
+                "she",
+                "loves",
+                "hates",
+                "runs",
+                "walks"
+            ],
+            "correctOrder": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ],
+            "difficulty": "hard"
+        }
+    ]
+}

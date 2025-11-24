@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/configuration-timings.css') }}">
+    <title>Configuration de la Temporalité</title>
+</head>
+
+<body>
+    <div class="screen-container configuration-timings-screen">
+        <!-- Header -->
+        <div class="header">
+            <!-- Back Button -->
+            <button class="back-btn" onclick="goBack()">
+                <img src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
+            </button>
+
+            <!-- Title Image -->
+            <div class="title-container">
+                <img src="{{ url_for('static', filename='img/configuration-timings/title.png') }}"
+                    alt="Configuration de la Temporalité" class="title-img">
+            </div>
+        </div>
+
+        <!-- Cards Container -->
+        <div class="timings-container">
+            <!-- Temps du jeu effectif Card -->
+            <div class="timing-card" data-timing="game-time">
+                <div class="card-content" onclick="toggleCard(this.parentElement)">
+                    <img src="{{ url_for('static', filename='img/configuration-timings/temps-jeux.png') }}"
+                        alt="Temps du jeu effectif" class="card-icon">
+                    <h3 class="card-label">Temps du jeu effectif</h3>
+                </div>
+                <div class="card-input-wrapper dual-inputs" style="display: none;" onclick="event.stopPropagation()">
+                    <div class="input-field">
+                        <label>Temps du jeu :</label>
+                        <input type="number" class="timing-input" id="gameTime" min="1" value="32">
+                        <span class="unit">min</span>
+                    </div>
+                    <div class="input-field">
+                        <label>Nombre de temps-mort :</label>
+                        <input type="number" class="timing-input" id="timeoutCount" min="0" value="5">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Temps en prison Card -->
+            <div class="timing-card" data-timing="prison-time">
+                <div class="card-content" onclick="toggleCard(this.parentElement)">
+                    <img src="{{ url_for('static', filename='img/configuration-timings/temps-prison.png') }}"
+                        alt="Temps en prison" class="card-icon">
+                    <h3 class="card-label">Temps en prison</h3>
+                </div>
+                <div class="prison-buttons card-input-wrapper" style="display: none;" onclick="event.stopPropagation()">
+                    <button class="prison-btn" data-prison="15" onclick="selectPrison(event)">15 s</button>
+                    <button class="prison-btn" data-prison="30" onclick="selectPrison(event)">30 s</button>
+                    <button class="prison-btn" data-prison="45" onclick="selectPrison(event)">45 s</button>
+                    <button class="prison-btn" data-prison="60" onclick="selectPrison(event)">60 s</button>
+                </div>
+            </div>
+
+            <!-- Temps maximal pour répondre Card -->
+            <div class="timing-card" data-timing="answer-time">
+                <div class="card-content" onclick="toggleCard(this.parentElement)">
+                    <img src="{{ url_for('static', filename='img/configuration-timings/temps-max.png') }}"
+                        alt="Temps maximal pour répondre" class="card-icon">
+                    <h3 class="card-label">Temps maximal pour répondre</h3>
+                </div>
+                <div class="answer-buttons card-input-wrapper" style="display: none;" onclick="event.stopPropagation()">
+                    <button class="answer-btn" data-answer="15" onclick="selectAnswer(event)">15 s</button>
+                    <button class="answer-btn" data-answer="30" onclick="selectAnswer(event)">30 s</button>
+                    <button class="answer-btn" data-answer="45" onclick="selectAnswer(event)">45 s</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Points Section -->
+        <div class="points-section">
+            <!-- Title -->
+            <div class="points-header">
+                <img src="{{ url_for('static', filename='img/configuration-timings/title2.png') }}"
+                    alt="Configuration des points" class="points-title">
+            </div>
+
+            <!-- Points Cards Container -->
+            <div class="points-container">
+                <!-- Points sportifs Card -->
+                <div class="timing-card" data-timing="points-sportifs">
+                    <div class="card-content" onclick="toggleCard(this.parentElement)">
+                        <img src="{{ url_for('static', filename='img/configuration-timings/points-sportifs.png') }}"
+                            alt="Points sportifs" class="card-icon">
+                        <h3 class="card-label">Points sportifs</h3>
+                    </div>
+                    <div class="sport-points-wrapper card-input-wrapper" style="display: none;"
+                        onclick="event.stopPropagation()">
+                        <div class="sport-info">
+                            <img src="{{ url_for('static', filename='img/configuration-timings/' + sport + '.png') }}"
+                                alt="{{ sport }}" class="sport-icon">
+                            <span class="sport-name">Sport choisi : {{ sport|capitalize }}</span>
+                        </div>
+                        <div class="points-input-group">
+                            <input type="number" class="timing-input sport-points-input" id="sportPoints" min="1"
+                                max="99" value="3">
+                            <span class="points-label">POINTS / PANIER</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Points de duel Card -->
+                <div class="timing-card" data-timing="points-duel">
+                    <div class="card-content" onclick="toggleCard(this.parentElement)">
+                        <img src="{{ url_for('static', filename='img/configuration-timings/points-duel.png') }}"
+                            alt="Points de duel" class="card-icon">
+                        <h3 class="card-label">Points de duel</h3>
+                    </div>
+                    <div class="duel-buttons card-input-wrapper" style="display: none;"
+                        onclick="event.stopPropagation()">
+                        <button class="duel-btn" data-duel="2" onclick="selectDuel(event)">2 points</button>
+                        <button class="duel-btn" data-duel="3" onclick="selectDuel(event)">3 points</button>
+                        <button class="duel-btn" data-duel="4" onclick="selectDuel(event)">4 points</button>
+                        <button class="duel-btn" data-duel="5" onclick="selectDuel(event)">5 points</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Valider Button -->
+            <button class="valider-btn" id="timingsValiderBtn" onclick="handleTimingsValider()">
+                <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function toggleCard(element) {
+            const inputWrapper = element.querySelector('.card-input-wrapper');
+            const cardContent = element.querySelector('.card-content');
+
+            if (inputWrapper.style.display === 'none') {
+                inputWrapper.style.display = 'flex';
+                cardContent.classList.add('compressed');
+                inputWrapper.classList.remove('hidden');
+            } else {
+                inputWrapper.classList.add('hidden');
+                setTimeout(() => {
+                    inputWrapper.style.display = 'none';
+                    cardContent.classList.remove('compressed');
+                    inputWrapper.classList.remove('hidden');
+
+                    // Clear selection when uncompressing
+                    const buttons = inputWrapper.querySelectorAll('.prison-btn, .answer-btn, .duel-btn');
+                    buttons.forEach(btn => btn.classList.remove('selected'));
+
+                    // Clear input values for number inputs
+                    const numberInputs = inputWrapper.querySelectorAll('input[type="number"]');
+                    numberInputs.forEach(input => {
+                        if (input.id === 'gameTime') input.value = '32';
+                        else if (input.id === 'timeoutCount') input.value = '5';
+                        else if (input.id === 'sportPoints') input.value = '3';
+                    });
+
+                    // Check valider button after clearing
+                    checkValiderButton();
+                }, 300);
+            }
+        }
+
+        function selectPrison(event) {
+            event.stopPropagation();
+            const clickedButton = event.target;
+
+            // If already selected, unselect it
+            if (clickedButton.classList.contains('selected')) {
+                clickedButton.classList.remove('selected');
+            } else {
+                // Otherwise, unselect all and select this one
+                const prisonButtons = document.querySelectorAll('.prison-btn');
+                prisonButtons.forEach(btn => btn.classList.remove('selected'));
+                clickedButton.classList.add('selected');
+            }
+            checkValiderButton();
+        }
+
+        function selectAnswer(event) {
+            event.stopPropagation();
+            const clickedButton = event.target;
+
+            // If already selected, unselect it
+            if (clickedButton.classList.contains('selected')) {
+                clickedButton.classList.remove('selected');
+            } else {
+                // Otherwise, unselect all and select this one
+                const answerButtons = document.querySelectorAll('.answer-btn');
+                answerButtons.forEach(btn => btn.classList.remove('selected'));
+                clickedButton.classList.add('selected');
+            }
+            checkValiderButton();
+        }
+
+        function selectDuel(event) {
+            event.stopPropagation();
+            const clickedButton = event.target;
+
+            // If already selected, unselect it
+            if (clickedButton.classList.contains('selected')) {
+                clickedButton.classList.remove('selected');
+            } else {
+                // Otherwise, unselect all and select this one
+                const duelButtons = document.querySelectorAll('.duel-btn');
+                duelButtons.forEach(btn => btn.classList.remove('selected'));
+                clickedButton.classList.add('selected');
+            }
+            checkValiderButton();
+        }
+
+        function checkValiderButton() {
+            const gameTime = document.getElementById('gameTime').value;
+            const timeoutCount = document.getElementById('timeoutCount').value;
+            const prisonSelected = document.querySelector('.prison-btn.selected');
+            const answerSelected = document.querySelector('.answer-btn.selected');
+            const sportPoints = document.getElementById('sportPoints').value;
+            const duelSelected = document.querySelector('.duel-btn.selected');
+            const validerBtn = document.getElementById('timingsValiderBtn');
+            const pointsSection = document.querySelector('.points-section');
+
+            // Check if all fields are filled
+            if (gameTime && timeoutCount && prisonSelected && answerSelected && sportPoints && duelSelected) {
+                validerBtn.style.display = 'flex';
+                pointsSection.style.marginBottom = '34px';
+            } else {
+                validerBtn.style.display = 'none';
+                pointsSection.style.marginBottom = '100px';
+            }
+        }
+
+        function handleTimingsValider() {
+            const gameTime = parseInt(document.getElementById('gameTime').value);
+            const timeoutCount = parseInt(document.getElementById('timeoutCount').value);
+            const prisonTime = parseInt(document.querySelector('.prison-btn.selected').dataset.prison);
+            const answerTime = parseInt(document.querySelector('.answer-btn.selected').dataset.answer);
+            const sportPoints = parseInt(document.getElementById('sportPoints').value);
+            const duelPoints = parseInt(document.querySelector('.duel-btn.selected').dataset.duel);
+
+            const timingsData = {
+                gameTime: gameTime,
+                timeoutCount: timeoutCount,
+                prisonTime: prisonTime,
+                answerTime: answerTime,
+                sportPoints: sportPoints,
+                duelPoints: duelPoints
+            };
+
+            console.log('Timings data:', timingsData);
+
+            // Save to game_setup.json
+            fetch('/save-game-setup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(timingsData)
+            }).then(response => response.json())
+                .then(data => {
+                    console.log('Timings saved:', data);
+                    // Redirect to basketball page
+                    window.location.href = '/basketball';
+                })
+                .catch(error => {
+                    console.error('Error saving timings:', error);
+                });
+        }
+
+        // Add event listeners to inputs
+        document.addEventListener('DOMContentLoaded', function () {
+            checkValiderButton();
+            document.getElementById('gameTime').addEventListener('input', checkValiderButton);
+            document.getElementById('timeoutCount').addEventListener('input', checkValiderButton);
+            document.getElementById('sportPoints').addEventListener('input', checkValiderButton);
+        });
+
+    </script>
+</body>
+
+</html>

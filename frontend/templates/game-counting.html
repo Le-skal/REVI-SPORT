@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game-counting.css') }}">
+    <title>Game Counting</title>
+</head>
+
+<body>
+    <div class="screen-container game-counting-screen" data-level="{{ level }}">
+        <!-- Red Team Avatar -->
+        <div class="team-header red-team">
+            <div class="avatar-circle">
+                <img src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar ~ '.png') }}"
+                    alt="Red Avatar">
+            </div>
+            <span class="team-score">{{ red_score }}</span>
+        </div>
+
+        <!-- VS -->
+        <div class="vs-image">
+            <img src="{{ url_for('static', filename='img/common/vs.png') }}" alt="VS">
+        </div>
+
+        <!-- Blue Team Avatar -->
+        <div class="team-header blue-team">
+            <span class="team-score">{{ blue_score }}</span>
+            <div class="avatar-circle">
+                <img src="{{ url_for('static', filename='img/avatars/avatar' ~ blue_avatar ~ '.png') }}"
+                    alt="Blue Avatar">
+            </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-counter">
+            <div class="circle-outer"></div>
+            <svg class="progress-ring" width="63" height="62">
+                <!-- Cercle blanc en arrière-plan -->
+                <circle class="progress-ring-background" stroke="#FFFFFF" stroke-width="5" fill="transparent" r="26.5"
+                    cx="31.5" cy="31" />
+                <!-- Cercle jaune qui se vide -->
+                <circle class="progress-ring-circle" stroke="#C99F17" stroke-width="5" fill="transparent" r="26.5"
+                    cx="31.5" cy="31" />
+            </svg>
+            <div class="countdown-number">30</div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="question-card">
+            <img class="question-image" src="{{ url_for('static', filename='img/questions/' ~ question_image) }}"
+                alt="Question">
+            <div class="question-overlay">
+                <img src="" alt="Result" class="overlay-img">
+            </div>
+            <p class="question-text">{{ question_text }}</p>
+        </div>
+
+        <!-- Answer Input Container -->
+        <div class="answer-container">
+            {% for option in options %}
+            <div class="option-btn" data-option="{{ loop.index }}" data-correct="{{ correctAnswer + 1 }}">
+                <span class="option-text">{{ option }}</span>
+                <div class="option-radio"></div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn theme-btn" onclick="handleAction('theme')">
+                <img src="{{ url_for('static', filename='img/action-buttons/theme.png') }}" alt="Choix du thème">
+            </button>
+            <button class="action-btn team-btn" onclick="handleAction('team')">
+                <img src="{{ url_for('static', filename='img/action-buttons/team.png') }}" alt="Esprit d'équipe">
+            </button>
+            <button class="action-btn double-point-btn" onclick="handleAction('double-point')">
+                <img src="{{ url_for('static', filename='img/action-buttons/double-point.png') }}" alt="Double point">
+            </button>
+            <button class="action-btn prison-btn" onclick="handleAction('prison')">
+                <img src="{{ url_for('static', filename='img/action-buttons/prison.png') }}" alt="Double prison">
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let selectedAnswer = null;
+        let answered = false;
+        /** @type {number} */
+        const correctAnswer = {{ correctAnswer }};
+        /** @type {number} */
+        const level = {{ level }};
+
+        // Get all option buttons
+        const optionButtons = document.querySelectorAll('.option-btn');
+        const questionOverlay = document.querySelector('.question-overlay');
+        const overlayImg = document.querySelector('.overlay-img');
+
+        // Add click handlers to options
+        optionButtons.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                if (!answered) {
+                    handleAnswer(index);
+                }
+            });
+        });
+
+        function handleAnswer(selectedIndex) {
+            answered = true;
+            const isCorrect = selectedIndex === correctAnswer;
+
+            if (isCorrect) {
+                // Correct answer: correct=green, others=red, show correct.png
+                showCorrect();
+            } else {
+                // Wrong answer: wrong-selected=dark red, correct=green, others=red, show incorrect.png
+                showIncorrect(selectedIndex);
+            }
+
+            // Disable all buttons
+            optionButtons.forEach(btn => btn.classList.add('disabled'));
+
+            // Clear timer
+            clearInterval(timerInterval);
+        }
+
+        function showCorrect() {
+            optionButtons.forEach((btn, index) => {
+                if (index === correctAnswer) {
+                    btn.classList.add('correct');
+                } else {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            // Show correct image overlay
+            questionOverlay.classList.add('correct');
+            overlayImg.src = "{{ url_for('static', filename='img/common/correct.png') }}";
+            questionOverlay.classList.add('show');
+        }
+
+        function showIncorrect(selectedIndex) {
+            optionButtons.forEach((btn, index) => {
+                if (index === selectedIndex) {
+                    // Wrong selected answer
+                    btn.classList.add('wrong-selected');
+                } else if (index === correctAnswer) {
+                    // Correct answer
+                    btn.classList.add('correct');
+                } else {
+                    // Other wrong answers
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            // Show incorrect image overlay
+            questionOverlay.classList.add('incorrect');
+            overlayImg.src = "{{ url_for('static', filename='img/common/incorrect.png') }}";
+            questionOverlay.classList.add('show');
+        }
+
+        function showTimeout() {
+            // Timeout: correct=green, others=red, show timeout.png
+            optionButtons.forEach((btn, index) => {
+                if (index === correctAnswer) {
+                    btn.classList.add('correct');
+                } else {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            // Show timeout image overlay - bigger
+            questionOverlay.classList.add('timeout');
+            overlayImg.src = "{{ url_for('static', filename='img/common/timeout.png') }}";
+            questionOverlay.classList.add('show');
+
+            answered = true;
+        }
+
+        // Timer countdown with SVG circle animation
+        let timeLeft = 30;
+        const totalTime = 30;
+        const numberElement = document.querySelector('.countdown-number');
+        const circleElement = document.querySelector('.progress-ring-circle');
+
+        // Calculer la circonférence du cercle
+        const radius = circleElement.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+
+        // Configurer le cercle
+        circleElement.style.strokeDasharray = `${circumference} ${circumference}`;
+        circleElement.style.strokeDashoffset = '0';
+
+        numberElement.textContent = timeLeft;
+
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+                showTimeout();
+                return;
+            }
+
+            numberElement.textContent = timeLeft;
+
+            // Calculer le pourcentage restant
+            const progress = timeLeft / totalTime;
+            // Inverser pour que le cercle se vide (0 = plein, circumference = vide)
+            const offset = circumference - (progress * circumference);
+
+            circleElement.style.strokeDashoffset = offset;
+        }, 1000);
+
+        function handleAction(action) {
+            console.log('Action:', action, 'Selected answer:', selectedAnswer, 'Level:', level);
+            // Will be implemented later
+        }
+    </script>
+</body>
+
+</html>

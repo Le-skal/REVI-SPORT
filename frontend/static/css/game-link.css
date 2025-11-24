@@ -1,0 +1,441 @@
+/* ===== STYLE PAGE GAME LINK ===== */
+
+.game-link-screen {
+    align-items: flex-start;
+    gap: 8px;
+    padding: 16px;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Team Headers */
+.team-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: absolute;
+    top: 16px;
+    z-index: 10;
+}
+
+.team-header.red-team {
+    padding-top: 25px;
+    left: 16px;
+    flex-direction: row;
+}
+
+.team-header.blue-team {
+    padding-top: 25px;
+    right: 16px;
+    flex-direction: row;
+}
+
+.avatar-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.team-header.red-team .avatar-circle {
+    border-color: rgb(186, 74, 74);
+}
+
+.team-header.blue-team .avatar-circle {
+    border-color: rgb(74, 128, 186);
+}
+
+.avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-score {
+    font-size: 32px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    min-width: 40px;
+    text-align: center;
+}
+
+.team-header.red-team .team-score {
+    color: rgb(186, 74, 74);
+}
+
+.team-header.blue-team .team-score {
+    color: rgb(74, 128, 186);
+}
+
+/* VS Image */
+.vs-image {
+    padding-top: 40px;
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vs-image img {
+    width: 50px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Timer Counter */
+.timer-counter {
+    position: absolute;
+    width: 63px;
+    height: 62px;
+    left: 50%;
+    top: 110px;
+    transform: translateX(-50%);
+    z-index: 105;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+}
+
+.circle-outer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: #2C2C3A;
+    border-radius: 50%;
+}
+
+.progress-ring {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(90deg) scaleX(-1);
+}
+
+.progress-ring-circle {
+    transition: stroke-dashoffset 1s linear;
+    transform-origin: center;
+}
+
+.countdown-number {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+    z-index: 10;
+}
+
+/* Question Card */
+.question-card {
+    width: 90%;
+    margin: 120px auto 8px;
+    padding: 8px 16px;
+    background: #2C2C3A;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    position: relative;
+}
+
+.question-text {
+    font-size: 25px;
+    font-weight: 500;
+    color: #ffffff;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+
+/* Question Card Overlay */
+.question-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(3px);
+}
+
+.question-overlay.show {
+    opacity: 1;
+}
+
+.question-overlay img {
+    width: 80%;
+    height: auto;
+    max-height: 120px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+    transition: all 0.3s ease;
+}
+
+.question-overlay.timeout img {
+    padding-top: 200px;
+    width: 150%;
+    height: auto;
+    max-height: 550px;
+}
+
+.question-overlay.correct img,
+.question-overlay.incorrect img {
+    width: 80%;
+    max-height: 120px;
+}
+
+/* Link Container */
+.link-container {
+    width: 95%;
+    margin: 8px auto 15px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 90px;
+    min-height: 700px;
+    background: transparent;
+    padding: 15px 20px;
+    border-radius: 16px;
+    user-select: none;
+}
+
+/* SVG Canvas */
+.link-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.link-canvas .connection-line {
+    pointer-events: auto !important;
+}
+
+.link-canvas .temp-line {
+    pointer-events: none;
+}
+
+/* Items Columns */
+.items-column {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    z-index: 10;
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.left-column {
+    flex: 0 0 auto;
+}
+
+.right-column {
+    flex: 0 0 auto;
+}
+
+/* Link Items */
+.link-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    padding: 8px;
+    border-radius: 8px;
+    user-select: none;
+}
+
+.left-item {
+    cursor: grab;
+}
+
+.left-item:active {
+    cursor: grabbing;
+}
+
+.link-item.disabled {
+    cursor: default;
+    opacity: 0.8;
+}
+
+/* Item Images */
+.item-image {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: transparent;
+    padding: 4px;
+    user-select: none;
+    pointer-events: none;
+}
+
+.right-item .item-image {
+    order: 2;
+}
+
+/* Item Dots (connection points) */
+.item-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    z-index: 20;
+}
+
+.left-dot {
+    order: 2;
+}
+
+.right-dot {
+    order: 1;
+}
+
+.link-item.selected .item-dot {
+    width: 20px;
+    height: 20px;
+    background: #c99f17;
+    border: 2px solid #c99f17;
+}
+
+/* Correct/Incorrect states */
+.link-item.correct .item-dot {
+    background: #5DBA68 !important;
+    border-color: #5DBA68 !important;
+}
+
+.link-item.incorrect .item-dot {
+    background: #C04E43 !important;
+    border-color: #C04E43 !important;
+}
+
+/* Action Buttons */
+.action-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 12px 16px 16px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    z-index: 20;
+    max-width: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    background: linear-gradient(to top, rgba(17, 17, 23, 0.95), transparent);
+}
+
+.action-btn {
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    background: transparent;
+    width: 100%;
+    height: 90px;
+    min-height: 90px;
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.action-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+/* Confirmation Button */
+.confirm-btn {
+    position: absolute;
+    bottom: 125px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.confirm-btn img {
+    max-width: 100px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+    transition: transform 0.2s ease;
+}
+
+.confirm-btn:hover img {
+    transform: scale(1.05);
+}
+
+.confirm-btn.show-animation {
+    animation: slideUp 0.3s ease forwards;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}

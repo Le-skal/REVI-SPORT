@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game-intro.css') }}">
+    <title>Game Intro</title>
+</head>
+
+<body>
+    <div class="screen-container game-intro-screen">
+        <div class="intro-container">
+            <div class="circle-bg" id="circleBg"></div>
+            <img class="intro-image" id="introImage" src="{{ url_for('static', filename='img/start-count/intro.png') }}"
+                alt="Intro">
+        </div>
+    </div>
+
+    <script>
+        const introImage = document.getElementById('introImage');
+        const circleBg = document.getElementById('circleBg');
+
+        // Start animation immediately
+        introImage.style.animation = 'growImage 3s ease-out forwards';
+        circleBg.style.animation = 'growCircle 3s ease-out forwards';
+
+        // After animation completes (3s) + 500ms buffer, redirect to game
+        setTimeout(() => {
+            window.location.href = '/game-knowledge';
+        }, 3500);
+    </script>
+</body>
+
+</html>

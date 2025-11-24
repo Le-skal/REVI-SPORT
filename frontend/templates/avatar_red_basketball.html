@@ -12,7 +12,7 @@
 <body>
     <div class="screen-container avatar-red-screen">
         <a href="/nom_red_basketball" class="back-link" aria-label="Retour">
-            <img class="icon-back" src="{{ url_for('static', filename='img/back/back.png') }}" alt="Retour">
+            <img class="icon-back" src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
         </a>
 
         <img class="avatar-title" src="{{ url_for('static', filename='img/avatars/title.png') }}"
@@ -21,6 +21,9 @@
         <div class="team-header">
             <img class="team-court" src="{{ url_for('static', filename='img/nom_red_basketball/intro.png') }}"
                 alt="Équipe Rouge">
+            {% if red_team_name %}
+            <p class="team-name-display">{{ red_team_name }}</p>
+            {% endif %}
         </div>
 
         <div class="avatars-grid">

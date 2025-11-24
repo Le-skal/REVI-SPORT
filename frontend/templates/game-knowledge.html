@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game-knowledge.css') }}">
+    <title>Game Knowledge</title>
+</head>
+
+<body>
+    <div class="screen-container game-knowledge-screen">
+        <!-- Red Team Avatar -->
+        <div class="team-header red-team">
+            <div class="avatar-circle">
+                <img src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar ~ '.png') }}"
+                    alt="Red Avatar">
+            </div>
+            <span class="team-score">{{ red_score }}</span>
+        </div>
+
+        <!-- VS -->
+        <div class="vs-image">
+            <img src="{{ url_for('static', filename='img/common/vs.png') }}" alt="VS">
+        </div>
+
+        <!-- Blue Team Avatar -->
+        <div class="team-header blue-team">
+            <span class="team-score">{{ blue_score }}</span>
+            <div class="avatar-circle">
+                <img src="{{ url_for('static', filename='img/avatars/avatar' ~ blue_avatar ~ '.png') }}"
+                    alt="Blue Avatar">
+            </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-counter">
+            <div class="circle-outer"></div>
+            <svg class="progress-ring" width="63" height="62">
+                <!-- Cercle blanc en arrière-plan -->
+                <circle class="progress-ring-background" stroke="#FFFFFF" stroke-width="5" fill="transparent" r="26.5"
+                    cx="31.5" cy="31" />
+                <!-- Cercle jaune qui se vide -->
+                <circle class="progress-ring-circle" stroke="#C99F17" stroke-width="5" fill="transparent" r="26.5"
+                    cx="31.5" cy="31" />
+            </svg>
+            <div class="countdown-number">30</div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="question-card">
+            <img class="question-image" src="{{ url_for('static', filename='img/questions/' ~ question_image) }}"
+                alt="Question">
+            <div class="question-overlay">
+                <img src="" alt="Result" class="overlay-img">
+            </div>
+            <p class="question-text">{{ question_text }}</p>
+        </div>
+
+        <!-- Options -->
+        <div class="options-container">
+            {% for option in options %}
+            <div class="option-btn" data-option="{{ loop.index }}" data-correct="{{ correctAnswer + 1 }}">
+                <span class="option-text">{{ option }}</span>
+                <div class="option-radio"></div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Confirmation Button -->
+        <button class="confirm-btn" id="confirmBtn" style="display: none;">
+            <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
+        </button>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn theme-btn" onclick="handleAction('theme')">
+                <img src="{{ url_for('static', filename='img/action-buttons/theme.png') }}" alt="Choix du thème">
+            </button>
+            <button class="action-btn team-btn" onclick="handleAction('team')">
+                <img src="{{ url_for('static', filename='img/action-buttons/team.png') }}" alt="Esprit d'équipe">
+            </button>
+            <button class="action-btn double-point-btn" onclick="handleAction('double-point')">
+                <img src="{{ url_for('static', filename='img/action-buttons/double-point.png') }}" alt="Double point">
+            </button>
+            <button class="action-btn prison-btn" onclick="handleAction('prison')">
+                <img src="{{ url_for('static', filename='img/action-buttons/prison.png') }}" alt="Double prison">
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let selectedOption = null;
+        let answered = false;
+        const optionBtns = document.querySelectorAll('.option-btn');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const correctAnswer = {{ correctAnswer }};
+        const questionOverlay = document.querySelector('.question-overlay');
+        const overlayImg = document.querySelector('.overlay-img');
+
+        // Timer countdown with SVG circle animation
+        let timeLeft = 30;
+        const totalTime = 30;
+        const numberElement = document.querySelector('.countdown-number');
+        const circleElement = document.querySelector('.progress-ring-circle');
+
+        // Calculer la circonférence du cercle
+        const radius = circleElement.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+
+        // Configurer le cercle
+        circleElement.style.strokeDasharray = `${circumference} ${circumference}`;
+        circleElement.style.strokeDashoffset = '0';
+
+        numberElement.textContent = timeLeft;
+
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+                // Auto-submit or handle timeout
+                showTimeout();
+                return;
+            }
+
+            numberElement.textContent = timeLeft;
+
+            // Calculer le pourcentage restant
+            const progress = timeLeft / totalTime;
+            // Inverser pour que le cercle se vide (0 = plein, circumference = vide)
+            const offset = circumference - (progress * circumference);
+
+            circleElement.style.strokeDashoffset = offset;
+        }, 1000);
+
+        // Option selection
+        optionBtns.forEach((btn, index) => {
+            btn.addEventListener('click', function () {
+                if (!answered) {
+                    // Remove selected class from all buttons
+                    optionBtns.forEach(b => b.classList.remove('selected'));
+                    // Add selected class to clicked button
+                    this.classList.add('selected');
+                    selectedOption = index;
+                    // Show confirmation button
+                    confirmBtn.style.display = 'flex';
+                    confirmBtn.classList.add('show-animation');
+                }
+            });
+        });
+
+        confirmBtn.addEventListener('click', function () {
+            if (selectedOption !== null) {
+                handleAnswer(selectedOption, correctAnswer);
+            }
+        });
+
+        function handleAnswer(selectedIndex, correctAnswerIndex) {
+            answered = true;
+            const isCorrect = selectedIndex === correctAnswerIndex;
+
+            if (isCorrect) {
+                // Correct answer
+                showCorrect(selectedIndex);
+            } else {
+                // Wrong answer
+                showIncorrect(selectedIndex, correctAnswerIndex);
+            }
+
+            // Remove selected class from all buttons
+            optionBtns.forEach(btn => {
+                btn.classList.remove('selected');
+                btn.classList.add('disabled');
+                btn.style.pointerEvents = 'none';
+            });
+
+            // Hide confirm button
+            confirmBtn.style.display = 'none';
+
+            // Clear timer
+            clearInterval(timerInterval);
+        }
+
+        function showCorrect(selectedIndex) {
+            optionBtns[selectedIndex].classList.add('correct');
+            // Show check icon with white text
+            const radio = optionBtns[selectedIndex].querySelector('.option-radio');
+            radio.innerHTML = '✓';
+            radio.style.color = '#FFFFFF';
+            radio.style.fontSize = '14px';
+            radio.style.fontWeight = 'bold';
+            radio.style.background = '#5DBA68';
+            radio.style.border = 'none';
+
+            // Show correct image overlay
+            questionOverlay.classList.add('correct');
+            overlayImg.src = "{{ url_for('static', filename='img/common/correct.png') }}";
+            questionOverlay.classList.add('show');
+        }
+
+        function showIncorrect(selectedIndex, correctAnswerIndex) {
+            // Wrong selected answer - show X with white text
+            optionBtns[selectedIndex].classList.add('incorrect');
+            const wrongRadio = optionBtns[selectedIndex].querySelector('.option-radio');
+            wrongRadio.innerHTML = '✕';
+            wrongRadio.style.color = '#FFFFFF';
+            wrongRadio.style.fontSize = '14px';
+            wrongRadio.style.fontWeight = 'bold';
+            wrongRadio.style.background = '#C04E43';
+            wrongRadio.style.border = 'none';
+
+            // Correct answer - show check with white text
+            optionBtns[correctAnswerIndex].classList.add('correct');
+            const correctRadio = optionBtns[correctAnswerIndex].querySelector('.option-radio');
+            correctRadio.innerHTML = '✓';
+            correctRadio.style.color = '#FFFFFF';
+            correctRadio.style.fontSize = '14px';
+            correctRadio.style.fontWeight = 'bold';
+            correctRadio.style.background = '#5DBA68';
+            correctRadio.style.border = 'none';
+
+            // Show incorrect image overlay
+            questionOverlay.classList.add('incorrect');
+            overlayImg.src = "{{ url_for('static', filename='img/common/incorrect.png') }}";
+            questionOverlay.classList.add('show');
+        }
+
+        function showTimeout() {
+            // Timeout: show correct answer with check
+            optionBtns.forEach((btn, index) => {
+                if (index === correctAnswer) {
+                    btn.classList.add('correct');
+                    const radio = btn.querySelector('.option-radio');
+                    radio.innerHTML = '✓';
+                    radio.style.color = '#FFFFFF';
+                    radio.style.fontSize = '14px';
+                    radio.style.fontWeight = 'bold';
+                    radio.style.background = '#5DBA68';
+                    radio.style.border = 'none';
+                }
+            });
+
+            // Show timeout image overlay - bigger
+            questionOverlay.classList.add('timeout');
+            overlayImg.src = "{{ url_for('static', filename='img/common/timeout.png') }}";
+            questionOverlay.classList.add('show');
+
+            answered = true;
+            confirmBtn.style.display = 'none';
+        }
+
+        function handleAction(action) {
+            console.log('Action:', action, 'Selected option:', selectedOption);
+            // Will be implemented later
+        }
+    </script>
+</body>
+
+</html>

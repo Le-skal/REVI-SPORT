@@ -1,0 +1,111 @@
+/* ===== STYLE PAGE QUESTION SELECTION ===== */
+
+.question-selection-screen {
+    align-items: flex-start;
+    gap: 0;
+    padding: 16px;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    position: relative;
+    margin-bottom: 32px;
+}
+
+/* Back Button */
+/* Inherited from global style.css */
+
+/* Title Container */
+.title-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-img {
+    max-width: 600px;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Cards Container */
+.cards-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+    padding: 32px 16px;
+}
+
+/* Selection Card */
+.selection-card {
+    width: 100%;
+    max-width: 500px;
+    background: transparent;
+    border: 3px solid transparent;
+    border-radius: 0;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.selection-card:hover {
+    transform: translateY(-8px);
+    border-color: #C99F17;
+}
+
+.selection-card:active {
+    transform: translateY(-4px);
+}
+
+/* Card Image Container */
+.card-image-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+.card-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Card Label */
+.card-label {
+    font-size: 28px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    color: #FFFFFF;
+    margin: 0;
+    text-align: center;
+    display: none;
+}
+
+/* Hover Effects */
+.selection-card:hover {
+    border-color: #C99F17;
+}

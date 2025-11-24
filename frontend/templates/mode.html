@@ -17,16 +17,37 @@
             alt="Veuillez sélectionner un mode">
 
         <div class="mode-container">
-            <a href="/sport" class="mode-card-link">
+            <div class="mode-card-link" onclick="selectMode('sport-collectif')">
                 <img class="mode-card" src="{{ url_for('static', filename='img/mode/mode1.png') }}"
                     alt="Mode 1 - Sport collectif">
-            </a>
-            <a href="#" class="mode-card-link">
+            </div>
+            <div class="mode-card-link" onclick="selectMode('relais-biathlon')">
                 <img class="mode-card" src="{{ url_for('static', filename='img/mode/mode2.png') }}"
                     alt="Mode 2 - Relais, biathlon">
-            </a>
+            </div>
         </div>
     </div>
+
+    <script>
+        function selectMode(mode) {
+            // Save mode to game_setup.json
+            fetch('/save-game-setup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ mode: mode })
+            }).then(response => response.json())
+                .then(data => {
+                    console.log('Mode saved:', data);
+                    // Redirect to sport page
+                    window.location.href = '/sport';
+                })
+                .catch(error => {
+                    console.error('Error saving mode:', error);
+                });
+        }
+    </script>
 </body>
 
 </html>

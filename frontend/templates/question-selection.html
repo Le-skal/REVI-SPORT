@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/question-selection.css') }}">
+    <title>Sélection des Questions</title>
+</head>
+
+<body>
+    <div class="screen-container question-selection-screen">
+        <!-- Header -->
+        <div class="header">
+            <!-- Back Button -->
+            <button class="back-btn" onclick="goBack()">
+                <img src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
+            </button>
+
+            <!-- Title Image -->
+            <div class="title-container">
+                <img src="{{ url_for('static', filename='img/selection-questions/selection-title.png') }}"
+                    alt="Sélection des Questions" class="title-img">
+            </div>
+        </div>
+
+        <!-- Selection Cards Container -->
+        <div class="cards-container">
+            <!-- Aléatoire Card -->
+            <div class="selection-card aleatoire-card" onclick="selectOption('aleatoire')">
+                <div class="card-image-container">
+                    <img src="{{ url_for('static', filename='img/selection-questions/aleatoire.png') }}" alt="Aléatoire"
+                        class="card-image">
+                </div>
+                <p class="card-label">Aléatoire</p>
+            </div>
+
+            <!-- Thème Card -->
+            <div class="selection-card theme-card" onclick="selectOption('theme')">
+                <div class="card-image-container">
+                    <img src="{{ url_for('static', filename='img/selection-questions/theme.png') }}" alt="Thème"
+                        class="card-image">
+                </div>
+                <p class="card-label">Thème</p>
+            </div>
+
+            <!-- Sous-thème Card -->
+            <div class="selection-card sous-theme-card" onclick="selectOption('sous-theme')">
+                <div class="card-image-container">
+                    <img src="{{ url_for('static', filename='img/selection-questions/sous-theme.png') }}"
+                        alt="Sous-thème" class="card-image">
+                </div>
+                <p class="card-label">Sous-thème</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateRandomGameSetup() {
+            const themes = ['math', 'francais', 'histoire', 'geographie', 'svt', 'chimie'];
+            const jokers = ['theme', 'team', 'double-point', 'double-prison', 'switch', 'indice', 'game-master'];
+            const levels = ['Cycle 2 niveau 1: CP', 'Cycle 2 niveau 2: CE1', 'Cycle 2 niveau 3: CE2', 'Cycle 3 niveau 1: CM1', 'Cycle 3 niveau 2: CM2', 'Cycle 3 niveau 3: 6ème', 'Cycle 4 niveau 1: 5ème', 'Cycle 4 niveau 2: 4ème', 'Cycle 4 niveau 3: 3ème', 'Adulte: team building'];
+            const penalties = [2, 3, 4, 5];
+
+            const minPassages = getRandomInt(1, 5);
+            const maxPassages = getRandomInt(minPassages, minPassages + 5);
+
+            return {
+                theme: getRandomElement(themes),
+                joker: getRandomElement(jokers),
+                level: getRandomElement(levels),
+                minPassages: minPassages,
+                maxPassages: maxPassages,
+                penalty: getRandomElement(penalties)
+            };
+        }
+
+        function selectOption(option) {
+            console.log('Selected option:', option);
+
+            if (option === 'aleatoire') {
+                // Generate random values for all fields
+                const randomSetup = generateRandomGameSetup();
+                console.log('Random game setup:', randomSetup);
+
+                // Save to game_setup.json
+                fetch('/save-game-setup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(randomSetup)
+                }).then(response => response.json())
+                    .then(data => {
+                        console.log('Random setup saved:', data);
+                        // Redirect to the next page (you can change this to wherever you want)
+                        window.location.href = '/basketball';
+                    })
+                    .catch(error => {
+                        console.error('Error saving random setup:', error);
+                    });
+            } else if (option === 'theme') {
+                window.location.href = '/theme-selection';
+            }
+            // Will be implemented after routing is decided
+        }
+    </script>
+</body>
+
+</html>

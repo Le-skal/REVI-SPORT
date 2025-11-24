@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/level-selection.css') }}">
+    <title>Choix du Niveau</title>
+</head>
+
+<body>
+    <div class="screen-container level-selection-screen">
+        <!-- Header -->
+        <div class="header">
+            <!-- Back Button -->
+            <button class="back-btn" onclick="goBack()">
+                <img src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
+            </button>
+
+            <!-- Title Image -->
+            <div class="title-container">
+                <img src="{{ url_for('static', filename='img/choix-niveau/title.png') }}" alt="Choix du Niveau"
+                    class="title-img">
+            </div>
+        </div>
+
+        <!-- Level Cards Container -->
+        <div class="levels-container">
+            <!-- Cycle 2 Card -->
+            <div class="level-card" data-level="cycle2" onclick="selectLevel(this)">
+                <div class="card-background">
+                    <img src="{{ url_for('static', filename='img/choix-niveau/cycle2-icon.png') }}" alt="Cycle 2"
+                        class="level-icon">
+                    <h3 class="level-title">Cycle 2 : CP, CE1, CE2</h3>
+                </div>
+                <div class="difficulty-buttons cycle2-buttons" style="display: none;">
+                    <button class="difficulty-btn" data-difficulty="1" onclick="selectDifficulty(event)">Niveau 1 :
+                        CP</button>
+                    <button class="difficulty-btn" data-difficulty="2" onclick="selectDifficulty(event)">Niveau 2 :
+                        CE1</button>
+                    <button class="difficulty-btn" data-difficulty="3" onclick="selectDifficulty(event)">Niveau 3 :
+                        CE2</button>
+                </div>
+            </div>
+
+            <!-- Cycle 3 Card -->
+            <div class="level-card" data-level="cycle3" onclick="selectLevel(this)">
+                <div class="card-background">
+                    <img src="{{ url_for('static', filename='img/choix-niveau/cycle3-icon.png') }}" alt="Cycle 3"
+                        class="level-icon">
+                    <h3 class="level-title">Cycle 3 : CM1, CM2, 6ème</h3>
+                </div>
+                <div class="difficulty-buttons cycle3-buttons" style="display: none;">
+                    <button class="difficulty-btn" data-difficulty="1" onclick="selectDifficulty(event)">Niveau 1 :
+                        CM1</button>
+                    <button class="difficulty-btn" data-difficulty="2" onclick="selectDifficulty(event)">Niveau 2 :
+                        CM2</button>
+                    <button class="difficulty-btn" data-difficulty="3" onclick="selectDifficulty(event)">Niveau 3 :
+                        6ème</button>
+                </div>
+            </div>
+
+            <!-- Cycle 4 Card -->
+            <div class="level-card" data-level="cycle4" onclick="selectLevel(this)">
+                <div class="card-background">
+                    <img src="{{ url_for('static', filename='img/choix-niveau/cycle4-icon.png') }}" alt="Cycle 4"
+                        class="level-icon">
+                    <h3 class="level-title">Cycle 4 : 5ème, 4ème, 3ème</h3>
+                </div>
+                <div class="difficulty-buttons cycle4-buttons" style="display: none;">
+                    <button class="difficulty-btn" data-difficulty="1" onclick="selectDifficulty(event)">Niveau 1 :
+                        5ème</button>
+                    <button class="difficulty-btn" data-difficulty="2" onclick="selectDifficulty(event)">Niveau 2 :
+                        4ème</button>
+                    <button class="difficulty-btn" data-difficulty="3" onclick="selectDifficulty(event)">Niveau 3 :
+                        3ème</button>
+                </div>
+            </div>
+
+            <!-- Adulte Card -->
+            <div class="level-card" data-level="adulte" onclick="selectLevel(this)">
+                <div class="card-background">
+                    <img src="{{ url_for('static', filename='img/choix-niveau/adulte-icon.png') }}" alt="Adulte"
+                        class="level-icon">
+                    <h3 class="level-title">Adulte : team building</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passages Section -->
+        <div class="passages-section">
+            <!-- Title -->
+            <div class="passages-header">
+                <img src="{{ url_for('static', filename='img/choix-passages/title.png') }}"
+                    alt="Nombre de passages aux questions" class="passages-title">
+            </div>
+
+            <!-- Info Cards Container -->
+            <div class="passages-info-cards">
+                <!-- Min Passages Card -->
+                <div class="passage-card-wrapper">
+                    <div class="info-card" onclick="toggleCard(this)">
+                        <div class="card-icon">
+                            <img src="{{ url_for('static', filename='img/choix-passages/min-passages.png') }}"
+                                alt="Min passages">
+                        </div>
+                        <h3 class="card-label">Nombre minimal de passages par joueur</h3>
+                    </div>
+                    <div class="card-input-wrapper" style="display: none;">
+                        <label>Nombre minimal :</label>
+                        <input type="number" class="passage-input" id="minPassages" value="1" min="1">
+                    </div>
+                </div>
+
+                <!-- Max Passages Card -->
+                <div class="passage-card-wrapper">
+                    <div class="info-card" onclick="toggleCard(this)">
+                        <div class="card-icon">
+                            <img src="{{ url_for('static', filename='img/choix-passages/max-passages.png') }}"
+                                alt="Max passages">
+                        </div>
+                        <h3 class="card-label">Nombre maximal de passages par joueur</h3>
+                    </div>
+                    <div class="card-input-wrapper" style="display: none;">
+                        <label>Nombre maximal :</label>
+                        <input type="number" class="passage-input" id="maxPassages" value="4" min="1">
+                    </div>
+                </div>
+
+                <!-- Penalty Card -->
+                <div class="passage-card-wrapper">
+                    <div class="info-card" onclick="toggleCard(this)">
+                        <div class="card-icon">
+                            <img src="{{ url_for('static', filename='img/choix-passages/penalty.png') }}" alt="Penalty">
+                        </div>
+                        <h3 class="card-label">Pénalité en cas de non-passage</h3>
+                    </div>
+                    <div class="penalty-buttons card-input-wrapper" style="display: none;">
+                        <button class="penalty-btn" data-penalty="2" onclick="selectPenalty(event)">2 points</button>
+                        <button class="penalty-btn" data-penalty="3" onclick="selectPenalty(event)">3 points</button>
+                        <button class="penalty-btn" data-penalty="4" onclick="selectPenalty(event)">4 points</button>
+                        <button class="penalty-btn" data-penalty="5" onclick="selectPenalty(event)">5 points</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Valider Button -->
+            <button class="valider-btn" id="passagesValiderBtn" onclick="handlePassagesValider()">
+                <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
+            </button>
+        </div>
+
+        <script>
+            let selectedLevel = null;
+            let selectedDifficulty = null;
+
+            function goBack() {
+                window.history.back();
+            }
+
+            function checkValiderButton() {
+                const minPassages = document.getElementById('minPassages').value;
+                const maxPassages = document.getElementById('maxPassages').value;
+                const selectedPenalty = document.querySelector('.penalty-btn.selected');
+                const validerBtn = document.getElementById('passagesValiderBtn');
+                const passagesSection = document.querySelector('.passages-section');
+
+                // Check if all required fields are filled
+                // Level is selected
+                // Min and max passages have values
+                // Penalty is selected
+                // If level is not adulte, difficulty must also be selected
+                let isValid = selectedLevel && minPassages && maxPassages && selectedPenalty;
+
+                if (isValid && selectedLevel !== 'adulte') {
+                    // For non-adulte levels, difficulty is required
+                    isValid = isValid && selectedDifficulty;
+                }
+
+                if (isValid) {
+                    validerBtn.style.display = 'flex';
+                    passagesSection.style.marginBottom = '35px';
+                } else {
+                    validerBtn.style.display = 'none';
+                    passagesSection.style.marginBottom = '100px';
+                }
+            }
+
+            // Initial check on page load
+            document.addEventListener('DOMContentLoaded', function () {
+                checkValiderButton();
+
+                // Add event listeners to input fields
+                document.getElementById('minPassages').addEventListener('input', checkValiderButton);
+                document.getElementById('maxPassages').addEventListener('input', checkValiderButton);
+            });
+
+            function selectLevel(element) {
+                // Remove selected class from previously selected card
+                const previousSelected = document.querySelector('.level-card.selected');
+                if (previousSelected && previousSelected !== element) {
+                    previousSelected.classList.remove('selected');
+                    // Hide difficulty buttons for previous selection
+                    const previousButtons = previousSelected.querySelector('.difficulty-buttons');
+                    if (previousButtons) {
+                        previousButtons.style.display = 'none';
+                    }
+                    // Reset difficulty selection
+                    selectedDifficulty = null;
+                }
+
+                // Toggle selected class on clicked card
+                element.classList.toggle('selected');
+
+                // Update selectedLevel
+                if (element.classList.contains('selected')) {
+                    selectedLevel = element.dataset.level;
+                    console.log('Selected level:', selectedLevel);
+
+                    // Show difficulty buttons if they exist
+                    const difficultyButtons = element.querySelector('.difficulty-buttons');
+                    if (difficultyButtons) {
+                        difficultyButtons.style.display = 'flex';
+                        // Reset all difficulty buttons to white
+                        difficultyButtons.querySelectorAll('.difficulty-btn').forEach(btn => {
+                            btn.classList.remove('selected');
+                        });
+                    }
+                } else {
+                    selectedLevel = null;
+                    console.log('Deselected level');
+
+                    // Hide difficulty buttons
+                    const difficultyButtons = element.querySelector('.difficulty-buttons');
+                    if (difficultyButtons) {
+                        difficultyButtons.style.display = 'none';
+                    }
+                    selectedDifficulty = null;
+                }
+
+                checkValiderButton();
+            }
+
+            function selectDifficulty(event) {
+                event.stopPropagation();
+                const button = event.target;
+                const container = button.parentElement;
+
+                // Remove selected class from other buttons in this container
+                container.querySelectorAll('.difficulty-btn').forEach(btn => {
+                    if (btn !== button) {
+                        btn.classList.remove('selected');
+                    }
+                });
+
+                // Toggle selected class on clicked button
+                button.classList.toggle('selected');
+
+                // Update selectedDifficulty
+                if (button.classList.contains('selected')) {
+                    selectedDifficulty = button.dataset.difficulty;
+                    console.log('Selected difficulty:', selectedDifficulty);
+                } else {
+                    selectedDifficulty = null;
+                }
+
+                checkValiderButton();
+            }
+
+            function toggleCard(element) {
+                const wrapper = element.parentElement;
+                const inputWrapper = wrapper.querySelector('.card-input-wrapper');
+                if (inputWrapper) {
+                    if (inputWrapper.style.display === 'none') {
+                        inputWrapper.style.display = 'flex';
+                        element.classList.add('compressed');
+                        wrapper.classList.add('compressed');
+                        inputWrapper.classList.remove('hidden');
+                    } else {
+                        inputWrapper.classList.add('hidden');
+                        setTimeout(() => {
+                            inputWrapper.style.display = 'none';
+                            element.classList.remove('compressed');
+                            wrapper.classList.remove('compressed');
+                            inputWrapper.classList.remove('hidden');
+                        }, 300);
+                    }
+                }
+            }
+
+            function selectPenalty(event) {
+                event.stopPropagation();
+                const button = event.target;
+                const container = button.parentElement;
+
+                // Remove selected class from other buttons
+                container.querySelectorAll('.penalty-btn').forEach(btn => {
+                    if (btn !== button) {
+                        btn.classList.remove('selected');
+                    }
+                });
+
+                // Toggle selected class on clicked button
+                button.classList.toggle('selected');
+
+                checkValiderButton();
+            }
+
+            function handlePassagesValider() {
+                const minPassages = document.getElementById('minPassages').value;
+                const maxPassages = document.getElementById('maxPassages').value;
+                const selectedPenalty = document.querySelector('.penalty-btn.selected');
+                const penalty = selectedPenalty ? selectedPenalty.dataset.penalty : null;
+
+                // Map cycle + difficulty to actual grade level
+                const levelMapping = {
+                    'cycle2': {
+                        '1': 'Cycle 2 niveau 1 : Cycle 2 :CP',
+                        '2': 'Cycle 2 niveau 2 : CE1',
+                        '3': 'Cycle 2 niveau 3 : CE2'
+                    },
+                    'cycle3': {
+                        '1': 'Cycle 3 niveau 1 : CM1',
+                        '2': 'Cycle 3 niveau 2 : CM2',
+                        '3': 'Cycle 3 niveau 3 : 6ème'
+                    },
+                    'cycle4': {
+                        '1': 'Cycle 4 niveau 1 : 5ème',
+                        '2': 'Cycle 4 niveau 2 : 4ème',
+                        '3': 'Cycle 4 niveau 3 : 3ème'
+                    },
+                    'adulte': 'adulte'
+                };
+
+                // Get the actual level value
+                let levelValue;
+                if (selectedLevel === 'adulte') {
+                    levelValue = 'Adulte : team building';
+                } else {
+                    levelValue = levelMapping[selectedLevel][selectedDifficulty];
+                }
+
+                console.log('Passages data:', {
+                    level: levelValue,
+                    minPassages: minPassages,
+                    maxPassages: maxPassages,
+                    penalty: penalty
+                });
+
+                // Save to game_setup.json
+                if (levelValue && minPassages && maxPassages && penalty) {
+                    fetch('/save-game-setup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            level: levelValue,
+                            minPassages: parseInt(minPassages),
+                            maxPassages: parseInt(maxPassages),
+                            penalty: parseInt(penalty)
+                        })
+                    }).then(response => response.json())
+                        .then(data => {
+                            console.log('Passages saved:', data);
+                            // Redirect to basketball page
+                            window.location.href = '/basketball';
+                        })
+                        .catch(error => {
+                            console.error('Error saving passages:', error);
+                        });
+                }
+            }
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,238 @@
+/* ===== STYLE PAGE THEME SELECTION ===== */
+
+.theme-selection-screen {
+    align-items: flex-start;
+    gap: 0;
+    padding: 16px;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    position: relative;
+    margin-bottom: 16px;
+}
+
+/* Back Button */
+/* Inherited from global style.css */
+
+/* Title Container */
+.title-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.title-img {
+    max-width: 400px;
+    width: 60%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Intro Section */
+.intro-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 0 16px;
+}
+
+.intro-img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Themes Grid */
+.themes-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 0 16px;
+    margin-bottom: 100px;
+}
+
+/* Theme Card */
+.theme-card {
+    background: transparent;
+    border: 3px solid transparent;
+    border-radius: 0;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 175px;
+}
+
+.theme-card:hover .card-text {
+    border: 3px solid #C99F17;
+}
+
+.theme-card:active {
+    transform: none;
+}
+
+/* Selected State */
+.theme-card.selected .card-text {
+    border: 3px solid #C99F17;
+}
+
+.theme-card.selected .theme-name,
+.theme-card.selected .theme-count {
+    color: #C99F17;
+}
+
+/* Card Content */
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* Theme Icon - Top centered */
+.theme-icon {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+/* Card Background Box - Bottom */
+.card-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 125px;
+    background: #2C2C3A;
+    border-radius: 8px;
+    border: 3px solid transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    box-sizing: border-box;
+    justify-content: flex-end;
+    transition: all 0.3s ease;
+}
+
+.theme-name {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Komika Axis', 'Poppins', sans-serif;
+    color: #FFFFFF;
+    margin: 0;
+    letter-spacing: 0;
+    line-height: 18px;
+}
+
+.theme-count {
+    font-size: 15px;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    color: #FFFFFF;
+    margin: 0;
+    opacity: 1;
+    line-height: 20px;
+}
+
+/* Valider Button */
+.valider-btn {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.valider-btn img {
+    max-width: 100px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+    transition: transform 0.2s ease;
+}
+
+.valider-btn:hover img {
+    transform: scale(1.05);
+}
+
+.valider-btn.show-animation {
+    animation: slideUp 0.3s ease forwards;
+}
+
+.valider-btn.hide-animation {
+    animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(30px);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .themes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .theme-card {
+        min-height: 120px;
+    }
+}

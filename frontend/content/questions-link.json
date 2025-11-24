@@ -1,0 +1,112 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "level": 1,
+            "question_text": "Relier les auteurs à leurs œuvres",
+            "question_image": "question-link-1.png",
+            "left_items": [
+                {
+                    "id": "left_1",
+                    "image": "link-1-left-1.png",
+                    "label": "Élément 1"
+                },
+                {
+                    "id": "left_2",
+                    "image": "link-1-left-2.png",
+                    "label": "Élément 2"
+                },
+                {
+                    "id": "left_3",
+                    "image": "link-1-left-3.png",
+                    "label": "Élément 3"
+                }
+            ],
+            "right_items": [
+                {
+                    "id": "right_1",
+                    "image": "link-1-right-1.png",
+                    "label": "Correspondance 1"
+                },
+                {
+                    "id": "right_2",
+                    "image": "link-1-right-2.png",
+                    "label": "Correspondance 2"
+                },
+                {
+                    "id": "right_3",
+                    "image": "link-1-right-3.png",
+                    "label": "Correspondance 3"
+                }
+            ],
+            "correct_pairs": [
+                {
+                    "left": "left_1",
+                    "right": "right_3"
+                },
+                {
+                    "left": "left_2",
+                    "right": "right_2"
+                },
+                {
+                    "left": "left_3",
+                    "right": "right_1"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "level": 2,
+            "question_text": "Relier les animaux à leurs familles",
+            "question_image": "question-link-2.png",
+            "left_items": [
+                {
+                    "id": "left_1",
+                    "image": "link-2-left-1.png",
+                    "label": "Élément 1"
+                },
+                {
+                    "id": "left_2",
+                    "image": "link-2-left-2.png",
+                    "label": "Élément 2"
+                },
+                {
+                    "id": "left_3",
+                    "image": "link-2-left-3.png",
+                    "label": "Élément 3"
+                }
+            ],
+            "right_items": [
+                {
+                    "id": "right_1",
+                    "image": "link-2-right-1.png",
+                    "label": "Correspondance 1"
+                },
+                {
+                    "id": "right_2",
+                    "image": "link-2-right-2.png",
+                    "label": "Correspondance 2"
+                },
+                {
+                    "id": "right_3",
+                    "image": "link-2-right-3.png",
+                    "label": "Correspondance 3"
+                }
+            ],
+            "correct_pairs": [
+                {
+                    "left": "left_1",
+                    "right": "right_2"
+                },
+                {
+                    "left": "left_2",
+                    "right": "right_3"
+                },
+                {
+                    "left": "left_3",
+                    "right": "right_2"
+                }
+            ]
+        }
+    ]
+}

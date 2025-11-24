@@ -1,0 +1,80 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "question": "Remplacer les syllabes dans l'ordre pour la volcanologie",
+            "image": "questions/volcanologie.png",
+            "items": [
+                "vol",
+                "can",
+                "o",
+                "logie",
+                "ma",
+                "ri",
+                "to",
+                "fa",
+                "e",
+                "mé",
+                "ther",
+                "pho",
+                "se"
+            ],
+            "correctOrder": [
+                0,
+                1,
+                2,
+                3
+            ],
+            "difficulty": "easy"
+        },
+        {
+            "id": 2,
+            "question": "Remplacer les syllabes dans l'ordre",
+            "image": "questions/volcanologie.png",
+            "items": [
+                "geo",
+                "gra",
+                "phy",
+                "pho",
+                "to",
+                "gra",
+                "fie",
+                "bio",
+                "sphere",
+                "at",
+                "mos"
+            ],
+            "correctOrder": [
+                0,
+                1,
+                2
+            ],
+            "difficulty": "medium"
+        },
+        {
+            "id": 3,
+            "question": "Remplacer les syllabes dans l'ordre",
+            "image": "questions/volcanologie.png",
+            "items": [
+                "me",
+                "teo",
+                "ro",
+                "lo",
+                "gie",
+                "chro",
+                "no",
+                "gy",
+                "astro",
+                "nomie"
+            ],
+            "correctOrder": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ],
+            "difficulty": "hard"
+        }
+    ]
+}

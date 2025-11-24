@@ -1,0 +1,606 @@
+/* ===== STYLE PAGE CONFIGURATION TIMINGS ===== */
+
+.configuration-timings-screen {
+    align-items: flex-start;
+    gap: 0;
+    padding: 16px;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    position: relative;
+    margin-bottom: 24px;
+}
+
+/* Title Container */
+.title-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.title-img {
+    max-width: 500px;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Timings Container */
+.timings-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 0 16px;
+    margin-bottom: 100px;
+}
+
+/* Timing Card */
+.timing-card {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    overflow: visible;
+    transition: all 0.3s ease;
+    height: 160px;
+}
+
+/* Card Content */
+.card-content {
+    width: 100%;
+    background: #2C2C3A;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: auto;
+}
+
+.card-content:hover {
+    transform: scale(1.01);
+}
+
+.card-content.compressed {
+    padding: 10px;
+    gap: 6px;
+}
+
+/* Card Icon */
+.card-icon {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.card-content.compressed .card-icon {
+    width: 120px;
+}
+
+/* Card Label */
+.card-label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.card-content.compressed .card-label {
+    font-size: 18px;
+    line-height: 24px;
+}
+
+/* Input Wrapper */
+.card-input-wrapper {
+    width: 100%;
+    max-width: 752px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 24px;
+    gap: 24px;
+    background: #2C2C3A;
+    border-radius: 8px;
+    animation: slideDown 0.3s ease forwards;
+    margin-top: 8px;
+}
+
+.card-input-wrapper.hidden {
+    animation: slideUp 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.card-input-wrapper label {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Dual Inputs Layout */
+.card-input-wrapper.dual-inputs {
+    flex-direction: row;
+    gap: 12px;
+    height: auto;
+    padding: 0;
+    background: transparent;
+}
+
+/* Sport Points Wrapper */
+.sport-points-wrapper {
+    flex-direction: row;
+    gap: 24px;
+    height: 70px !important;
+    min-height: 70px !important;
+    max-height: 70px !important;
+    padding: 0 24px;
+    background: #2C2C3A;
+    align-items: center;
+}
+
+.sport-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.sport-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.sport-name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+
+.points-input-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    flex: 1;
+}
+
+.sport-points-input {
+    width: 65px;
+    text-align: right;
+    font-size: 18px;
+    font-weight: 700;
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    padding: 0;
+}
+
+.sport-points-input:focus {
+    outline: none;
+}
+
+/* Remove number input arrows for sport points */
+.sport-points-input::-webkit-inner-spin-button,
+.sport-points-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.sport-points-input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    text-align: right;
+}
+
+.points-label {
+    flex: 1;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Duel Buttons */
+.duel-buttons {
+    width: 100%;
+    max-width: 500px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    animation: slideDown 0.3s ease forwards;
+    margin-top: 8px;
+    padding: 0;
+}
+
+.duel-buttons.hidden {
+    animation: slideUp 0.3s ease forwards;
+}
+
+.duel-btn {
+    flex: 1;
+    min-width: 70px;
+    height: 40px;
+    background: #2C2C3A;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0 8px;
+    text-align: center;
+}
+
+.duel-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Selected button stays white */
+.duel-btn.selected {
+    color: #FFFFFF;
+    border-color: transparent;
+}
+
+/* Non-selected buttons when another duel point is selected */
+.duel-buttons .duel-btn:not(.selected) {
+    color: rgba(170, 169, 169, 0.4);
+}
+
+.input-field {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #2C2C3A;
+    border-radius: 8px;
+    padding: 10px 16px;
+    height: 40px;
+}
+
+.input-field label {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.input-field .timing-input {
+    flex: 1;
+    max-width: 60px;
+    height: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 0;
+    text-align: right;
+}
+
+/* Remove number input arrows */
+.input-field .timing-input::-webkit-inner-spin-button,
+.input-field .timing-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input-field .timing-input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.input-field .unit {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    white-space: nowrap;
+    margin-left: 4px;
+}
+
+/* Timing Input */
+.timing-input {
+    width: 100%;
+    max-width: 95px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 8px 0;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.timing-input:focus {
+    outline: none;
+}
+
+.timing-input::placeholder {
+    color: rgba(170, 169, 169, 0.5);
+}
+
+/* Prison Buttons */
+.prison-buttons {
+    width: 100%;
+    max-width: 500px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    animation: slideDown 0.3s ease forwards;
+    margin-top: 8px;
+    padding: 0;
+}
+
+.prison-buttons.hidden {
+    animation: slideUp 0.3s ease forwards;
+}
+
+.prison-btn {
+    flex: 1;
+    min-width: 70px;
+    height: 40px;
+    background: #2C2C3A;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0 8px;
+    text-align: center;
+}
+
+.prison-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Selected button stays white */
+.prison-btn.selected {
+    color: #FFFFFF;
+    border-color: transparent;
+}
+
+/* Non-selected buttons when another prison time is selected */
+.prison-buttons .prison-btn:not(.selected) {
+    color: rgba(170, 169, 169, 0.4);
+}
+
+/* Answer Buttons */
+.answer-buttons {
+    width: 100%;
+    max-width: 500px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    animation: slideDown 0.3s ease forwards;
+    margin-top: 8px;
+    padding: 0;
+}
+
+.answer-buttons.hidden {
+    animation: slideUp 0.3s ease forwards;
+}
+
+.answer-btn {
+    flex: 1;
+    min-width: 70px;
+    height: 40px;
+    background: #2C2C3A;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0 8px;
+    text-align: center;
+}
+
+.answer-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Selected button stays white */
+.answer-btn.selected {
+    color: #FFFFFF;
+    border-color: transparent;
+}
+
+/* Non-selected buttons when another answer time is selected */
+.answer-buttons .answer-btn:not(.selected) {
+    color: rgba(170, 169, 169, 0.4);
+}
+
+/* Valider Button */
+.points-section .valider-btn {
+    position: relative;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-top: 16px;
+    animation: slideUpButton 0.4s ease forwards;
+}
+
+@keyframes slideUpButton {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.points-section .valider-btn img {
+    max-width: 120px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+    transition: transform 0.2s ease;
+}
+
+.points-section .valider-btn:hover img {
+    transform: scale(1.05);
+}
+
+/* Points Section */
+.points-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin-top: 60px;
+}
+
+.points-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.points-title {
+    max-width: 500px;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+}
+
+.points-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    padding: 0 16px;
+}
+
+/* Custom Scrollbar */
+.configuration-timings-screen::-webkit-scrollbar {
+    width: 8px;
+}
+
+.configuration-timings-screen::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.configuration-timings-screen::-webkit-scrollbar-thumb {
+    background: #9B8B4F;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+.configuration-timings-screen::-webkit-scrollbar-thumb:hover {
+    background: #B5A65F;
+}

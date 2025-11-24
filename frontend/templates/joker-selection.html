@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/joker-selection.css') }}">
+    <title>Choix des Jokers</title>
+</head>
+
+<body>
+    <div class="screen-container joker-selection-screen">
+        <!-- Header -->
+        <div class="header">
+            <!-- Back Button -->
+            <button class="back-btn" onclick="goBack()">
+                <img src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
+            </button>
+
+            <!-- Title Image -->
+            <div class="title-container">
+                <img src="{{ url_for('static', filename='img/choix-joker/title.png') }}" alt="Choix des Jokers"
+                    class="title-img">
+            </div>
+        </div>
+
+        <!-- Intro Section -->
+        <div class="intro-section">
+            <img src="{{ url_for('static', filename='img/choix-joker/intro.png') }}"
+                alt="Veuillez sélectionner un joker" class="intro-img">
+        </div>
+
+        <!-- Jokers Grid -->
+        <div class="jokers-grid">
+            <!-- Theme Joker -->
+            <div class="joker-card" data-joker="theme" onclick="selectJoker(this)">
+                <img src="{{ url_for('static', filename='img/choix-joker/theme-joker.png') }}" alt="Theme Joker"
+                    class="joker-img">
+                <div class="joker-select-btn" style="display: none;"></div>
+            </div>
+
+            <!-- Team Joker -->
+            <div class="joker-card" data-joker="team" onclick="selectJoker(this)">
+                <img src="{{ url_for('static', filename='img/choix-joker/team-joker.png') }}" alt="Team Joker"
+                    class="joker-img">
+                <div class="joker-select-btn" style="display: none;"></div>
+            </div>
+
+            <!-- Double Point Joker -->
+            <div class="joker-card" data-joker="double-point" onclick="selectJoker(this)">
+                <img src="{{ url_for('static', filename='img/choix-joker/double-point-joker.png') }}"
+                    alt="Double Point Joker" class="joker-img">
+                <div class="joker-select-btn" style="display: none;"></div>
+            </div>
+
+            <!-- Double Prison Joker -->
+            <div class="joker-card" data-joker="double-prison" onclick="selectJoker(this)">
+                <img src="{{ url_for('static', filename='img/choix-joker/double-prison-joker.png') }}"
+                    alt="Double Prison Joker" class="joker-img">
+                <div class="joker-select-btn" style="display: none;"></div>
+            </div>
+
+            <!-- Switch Joker -->
+            <div class="joker-card" data-joker="switch" onclick="selectJoker(this)">
+                <img src="{{ url_for('static', filename='img/choix-joker/switch-joker.png') }}" alt="Switch Joker"
+                    class="joker-img">
+                <div class="joker-select-btn" style="display: none;"></div>
+            </div>
+
+            <!-- Indice Joker -->
+            <div class="joker-card" data-joker="indice" onclick="selectJoker(this)">
+                <img src="{{ url_for('static', filename='img/choix-joker/indice-joker.png') }}" alt="Indice Joker"
+                    class="joker-img">
+                <div class="joker-select-btn" style="display: none;"></div>
+            </div>
+
+            <!-- Game Master Joker -->
+            <div class="joker-card" data-joker="game-master" onclick="selectJoker(this)">
+                <img src="{{ url_for('static', filename='img/choix-joker/game-master-joker.png') }}"
+                    alt="Game Master Joker" class="joker-img">
+                <div class="joker-select-btn" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Valider Button -->
+        <button class="valider-btn" id="validerBtn" style="display: none;">
+            <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
+        </button>
+    </div>
+
+    <script>
+        let selectedJoker = null;
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function selectJoker(element) {
+            // Remove selected class from previously selected card
+            const previousSelected = document.querySelector('.joker-card.selected');
+            if (previousSelected && previousSelected !== element) {
+                previousSelected.classList.remove('selected');
+                previousSelected.querySelector('.joker-select-btn').style.display = 'none';
+            }
+
+            // Toggle selected class on clicked card
+            element.classList.toggle('selected');
+
+            // Update selectedJoker
+            if (element.classList.contains('selected')) {
+                selectedJoker = element.dataset.joker;
+                element.querySelector('.joker-select-btn').style.display = 'flex';
+                // Show valider button
+                document.getElementById('validerBtn').style.display = 'flex';
+                document.getElementById('validerBtn').classList.add('show-animation');
+            } else {
+                selectedJoker = null;
+                element.querySelector('.joker-select-btn').style.display = 'none';
+                // Hide valider button
+                document.getElementById('validerBtn').classList.add('hide-animation');
+                setTimeout(() => {
+                    document.getElementById('validerBtn').style.display = 'none';
+                    document.getElementById('validerBtn').classList.remove('hide-animation');
+                }, 300);
+            }
+
+            console.log('Selected joker:', selectedJoker);
+        }
+
+        function handleValider() {
+            if (selectedJoker) {
+                console.log('Validating joker:', selectedJoker);
+
+                // Save the selected joker to game_setup.json
+                fetch('/save-game-setup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ joker: selectedJoker })
+                }).then(response => response.json())
+                    .then(data => {
+                        console.log('Joker saved:', data);
+                        window.location.href = '/level-selection';
+                    })
+                    .catch(error => {
+                        console.error('Error saving joker:', error);
+                        window.location.href = '/level-selection';
+                    });
+            }
+        }
+
+        // Add click handler to valider button
+        document.addEventListener('DOMContentLoaded', function () {
+            const validerBtn = document.getElementById('validerBtn');
+            if (validerBtn) {
+                validerBtn.addEventListener('click', handleValider);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -15,18 +15,51 @@
   max-width: 90%;
   max-height: 160px;
   object-fit: contain;
-  margin: 0 auto;
+  margin: 0;
   flex-shrink: 0;
   display: block;
 }
 
+.team-name-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-name-input {
+  position: absolute;
+  z-index: 10;
+  background: transparent;
+  border: none;
+  color: #BA4A4A;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 20px;
+  text-align: center;
+  width: 45%;
+  right: 30px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.team-name-input::placeholder {
+  color: rgba(186, 74, 74, 0.5);
+  opacity: 1;
+}
+
+.team-name-input:focus {
+  outline: none;
+  background: rgba(240, 196, 0, 0);
+  border-radius: 5px;
+}
+
 .icon-back {
-  width: auto;
-  height: auto;
-  max-width: 40px;
-  max-height: 40px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
-  margin: 10px 20px 0 0;
   cursor: pointer;
 }
 
@@ -74,7 +107,7 @@
   color: #ba4a4a;
   font-size: 22px;
   font-weight: 500;
-  text-align:left;
+  text-align: left;
   width: 60%;
   padding: 10px;
   font-family: 'Poppins', sans-serif;
@@ -118,4 +151,3 @@
 .next-btn:hover img {
   transform: scale(1.05);
 }
-

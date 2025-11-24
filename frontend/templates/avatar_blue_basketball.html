@@ -21,6 +21,9 @@
         <div class="team-header">
             <img class="team-court" src="{{ url_for('static', filename='img/nom_blue_basketball/intro.png') }}"
                 alt="Équipe Rouge">
+            {% if blue_team_name %}
+            <p class="team-name-display">{{ blue_team_name }}</p>
+            {% endif %}
         </div>
 
         <div class="avatars-grid">
