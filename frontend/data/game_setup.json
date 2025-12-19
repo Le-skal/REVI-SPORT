@@ -1,4 +1,26 @@
 {
-  "mode": "relais-biathlon",
-  "sport": "ultimate"
+  "mode": "sport-collectif",
+  "sport": "basketball",
+  "theme": "math",
+  "joker": "switch",
+  "level": "Cycle 4 niveau 3 : 3ème",
+  "minPassages": 1,
+  "maxPassages": 4,
+  "penalty": 3,
+  "jokers": [
+    "theme",
+    "team",
+    "double-point",
+    "double-prison",
+    "indice"
+  ],
+  "gameTime": 32,
+  "timeoutCount": 5,
+  "prisonTime": 30,
+  "answerTime": 30,
+  "sportPoints": 3,
+  "duelPoints": 3,
+  "themes": [
+    "histoire"
+  ]
 }

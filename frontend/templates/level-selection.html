@@ -107,9 +107,10 @@
                         </div>
                         <h3 class="card-label">Nombre minimal de passages par joueur</h3>
                     </div>
-                    <div class="card-input-wrapper" style="display: none;">
+                    <div class="card-input-wrapper" style="display: none;"
+                        onclick="showKeypad(document.getElementById('minPassages')); event.stopPropagation();">
                         <label>Nombre minimal :</label>
-                        <input type="number" class="passage-input" id="minPassages" value="1" min="1">
+                        <input type="text" readonly class="passage-input" id="minPassages" value="1" min="1">
                     </div>
                 </div>
 
@@ -122,9 +123,10 @@
                         </div>
                         <h3 class="card-label">Nombre maximal de passages par joueur</h3>
                     </div>
-                    <div class="card-input-wrapper" style="display: none;">
+                    <div class="card-input-wrapper" style="display: none;"
+                        onclick="showKeypad(document.getElementById('maxPassages')); event.stopPropagation();">
                         <label>Nombre maximal :</label>
-                        <input type="number" class="passage-input" id="maxPassages" value="4" min="1">
+                        <input type="text" readonly class="passage-input" id="maxPassages" value="4" min="1">
                     </div>
                 </div>
 
@@ -151,12 +153,103 @@
             </button>
         </div>
 
+        <!-- Numeric Keypad Overlay -->
+        <div id="numericKeypad" class="keypad-overlay" style="display: none;">
+            <div class="keypad-container">
+                <div class="keypad-header">
+                    <h3 id="keypadTitle">Entrez un nombre</h3>
+                    <button class="keypad-close" onclick="hideKeypad()">✕</button>
+                </div>
+                <div class="keypad-display">
+                    <input type="text" id="keypadDisplay" readonly>
+                </div>
+                <div class="keypad-buttons">
+                    <button class="keypad-btn" onclick="keypadPress('1')">1</button>
+                    <button class="keypad-btn" onclick="keypadPress('2')">2</button>
+                    <button class="keypad-btn" onclick="keypadPress('3')">3</button>
+                    <button class="keypad-btn" onclick="keypadPress('4')">4</button>
+                    <button class="keypad-btn" onclick="keypadPress('5')">5</button>
+                    <button class="keypad-btn" onclick="keypadPress('6')">6</button>
+                    <button class="keypad-btn" onclick="keypadPress('7')">7</button>
+                    <button class="keypad-btn" onclick="keypadPress('8')">8</button>
+                    <button class="keypad-btn" onclick="keypadPress('9')">9</button>
+                    <button class="keypad-btn keypad-clear" onclick="keypadClear()">C</button>
+                    <button class="keypad-btn" onclick="keypadPress('0')">0</button>
+                    <button class="keypad-btn keypad-backspace" onclick="keypadBackspace()">⌫</button>
+                </div>
+                <button class="keypad-ok" onclick="keypadOk()">OK</button>
+            </div>
+        </div>
+
         <script>
             let selectedLevel = null;
             let selectedDifficulty = null;
+            let currentInputField = null;
 
             function goBack() {
                 window.history.back();
+            }
+
+            // Numeric Keypad Functions
+            function showKeypad(inputElement) {
+                currentInputField = inputElement;
+                const keypad = document.getElementById('numericKeypad');
+                const display = document.getElementById('keypadDisplay');
+                const title = document.getElementById('keypadTitle');
+
+                // Set title based on which field is being edited
+                if (inputElement.id === 'minPassages') {
+                    title.textContent = 'Nombre minimal de passages';
+                } else if (inputElement.id === 'maxPassages') {
+                    title.textContent = 'Nombre maximal de passages';
+                }
+
+                // Set current value in display
+                display.value = inputElement.value || '';
+
+                // Show keypad
+                keypad.style.display = 'flex';
+            }
+
+            function hideKeypad() {
+                const keypad = document.getElementById('numericKeypad');
+                keypad.style.display = 'none';
+                currentInputField = null;
+            }
+
+            function keypadPress(digit) {
+                const display = document.getElementById('keypadDisplay');
+                // Limit to 2 digits
+                if (display.value.length < 2) {
+                    display.value += digit;
+                }
+            }
+
+            function keypadBackspace() {
+                const display = document.getElementById('keypadDisplay');
+                display.value = display.value.slice(0, -1);
+            }
+
+            function keypadClear() {
+                const display = document.getElementById('keypadDisplay');
+                display.value = '';
+            }
+
+            function keypadOk() {
+                const display = document.getElementById('keypadDisplay');
+                const value = display.value;
+
+                // Validate the value (must be at least 1)
+                if (value && parseInt(value) >= 1) {
+                    if (currentInputField) {
+                        currentInputField.value = value;
+                        checkValiderButton();
+                    }
+                    hideKeypad();
+                } else {
+                    // Show error or set to minimum value
+                    display.value = '1';
+                }
             }
 
             function checkValiderButton() {
@@ -365,7 +458,7 @@
                         .then(data => {
                             console.log('Passages saved:', data);
                             // Redirect to basketball page
-                            window.location.href = '/basketball';
+                            window.location.href = '/configuration-timings';
                         })
                         .catch(error => {
                             console.error('Error saving passages:', error);

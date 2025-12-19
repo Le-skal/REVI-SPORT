@@ -1,0 +1,421 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "image": "geographie.png",
+            "question": "Combien de pays forment l'UE aujourd'hui ?",
+            "options": [
+                "10",
+                "21",
+                "27",
+                "35"
+            ],
+            "correctAnswer": 2,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 2,
+            "image": "geographie.png",
+            "question": "Quel pays est sorti de l'UE le 31 janvier 2020 ?",
+            "options": [
+                "Norvège",
+                "Suisse",
+                "Royaume-Uni",
+                "Islande"
+            ],
+            "correctAnswer": 2,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 3,
+            "image": "geographie.png",
+            "question": "Que signifie la métropolisation ?",
+            "options": [
+                "les hommes et les activités économiques se concentrent dans les grandes aires d'attraction des villes",
+                "les hommes et les activités économiques se concentrent dans les zones rurales",
+                "le métro se développe dans plusieurs villes en France",
+                "le métro se développe dans la capitale avec le Grand Paris"
+            ],
+            "correctAnswer": 0,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 4,
+            "image": "geographie.png",
+            "question": "Quel terme donne-t-on à la tendance d'installer des usines dans des sites différents du siège social (notamment à l'étranger), afin de bénéficier de meilleures conditions de production ?",
+            "options": [
+                "la décentralisation",
+                "la déclusterisation",
+                "la délocalisation",
+                "la décolonisation"
+            ],
+            "correctAnswer": 2,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 5,
+            "image": "geographie.png",
+            "question": "Où se situe la diagonale du vide ?",
+            "options": [
+                "de la Bretagne à la Corse",
+                "de l'Alsace à la Normandie",
+                "des Ardennes aux Pyrénées",
+                "de l'Île de France à la Provence"
+            ],
+            "correctAnswer": 2,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 6,
+            "image": "geographie.png",
+            "question": "Quelles sont les espaces les plus dynamiques en France en 2024 (2 réponses) ?",
+            "options": [
+                "l'agglomération parisienne",
+                "les eurorégions",
+                "les départements de la diagonale du vide",
+                "la Corse"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 7,
+            "image": "geographie.png",
+            "question": "Quelle région française, où se situe notamment les villes de Nancy et Metz, fait partie de « la Grande région », territoire transfrontalier avec le Luxembourg, une partie de la Belgique et de l'Allemagne ?",
+            "options": [
+                "La région Grand-Est",
+                "la région Occitanie",
+                "la région Bretagne",
+                "la région Hauts-de-France"
+            ],
+            "correctAnswer": 0,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 8,
+            "image": "geographie.png",
+            "question": "Combien d'habitants la région Île-de-France concentre-t-elle ?",
+            "options": [
+                "2 millions",
+                "5 millions",
+                "12 millions",
+                "20 millions"
+            ],
+            "correctAnswer": 2,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 9,
+            "image": "geographie.png",
+            "question": "Comment appelle-t-on l'aménagement en cours en Île-de-France pour faciliter la mobilité dans le territoire, afin de le rendre plus attractif ?",
+            "options": [
+                "Le Grand Paris Express",
+                "le Orly-CDG express",
+                "la métropolisation express",
+                "le trans Paris express"
+            ],
+            "correctAnswer": 0,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 10,
+            "image": "geographie.png",
+            "question": "Place sur la carte de France ces sites touristiques : où se situe le Mont-Saint-Michel ?",
+            "options": [
+                "en Normandie",
+                "en Bretagne",
+                "en Pays de la Loire",
+                "en Picardie"
+            ],
+            "correctAnswer": 0,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 11,
+            "image": "geographie.png",
+            "question": "Quelles sont les deux principales raisons du développement du tourisme international depuis 1980 ?",
+            "options": [
+                "l'augmentation du geographies de travail",
+                "les progrès des transports",
+                "l'élévation du niveau de vie",
+                "la baisse des salaires"
+            ],
+            "correctAnswer": [
+                1,
+                2
+            ],
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 12,
+            "image": "geographie.png",
+            "question": "Quelle est la plus grande collectivité territoriale de France, dont la majeure partie du territoire est recouvert par la forêt amazonienne ?",
+            "options": [
+                "la Guadeloupe",
+                "la Martinique",
+                "la Guyane",
+                "la Réunion"
+            ],
+            "correctAnswer": 2,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 13,
+            "image": "geographie.png",
+            "question": "En quelle année l'euro est-il mis en circulation ?",
+            "options": [
+                "1998",
+                "2000",
+                "2002",
+                "2004"
+            ],
+            "correctAnswer": 2,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 14,
+            "image": "geographie.png",
+            "question": "Quel nom porte l'espace formé par 23 des 27 États membres de l'UE et dans lequel les personnes peuvent circuler librement sans contrôle aux frontières ?",
+            "options": [
+                "Espace Schengen",
+                "Espace européen",
+                "Zone euro",
+                "Union douanière"
+            ],
+            "correctAnswer": 0,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 15,
+            "image": "geographie.png",
+            "question": "En France, le réseau de transport est-il centralisé sur ?",
+            "options": [
+                "la vallée du Rhône",
+                "les bouches du Rhône",
+                "l'Île-de-France",
+                "le Centre Val de Loire"
+            ],
+            "correctAnswer": 2,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 16,
+            "image": "geographie.png",
+            "question": "Paysage littoral : quel type de paysage représente le phare de Ploumanac'h ?",
+            "options": [
+                "paysage littoral",
+                "paysage urbain",
+                "paysage industriel",
+                "paysage montagnard"
+            ],
+            "correctAnswer": 0,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 17,
+            "image": "geographie.png",
+            "question": "Les pays dans lesquels on parle français sont-ils appelés ?",
+            "options": [
+                "pays francophiles",
+                "pays francophobes",
+                "pays franquistes",
+                "pays francophones"
+            ],
+            "correctAnswer": 3,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 18,
+            "image": "geographie.png",
+            "question": "La France est la 7ème puissance économique majeure. Parmi ces propositions, 3 pays sont devant la France. Lesquels ?",
+            "options": [
+                "États-Unis",
+                "Chine",
+                "Allemagne",
+                "Italie",
+                "Mexique",
+                "Brésil",
+                "Canada"
+            ],
+            "correctAnswer": [
+                0,
+                1,
+                2
+            ],
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 19,
+            "image": "geographie.png",
+            "question": "Quel est le principal objectif du développement durable ?",
+            "options": [
+                "augmenter la production industrielle",
+                "répondre aux besoins présents sans compromettre ceux des générations futures",
+                "réduire les inégalités économiques et sociales"
+            ],
+            "correctAnswer": 1,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 20,
+            "image": "geographie.png",
+            "question": "Quelle grande organisation internationale a pour mission de maintenir la paix et la sécurité dans le monde ?",
+            "options": [
+                "le FMI (Fond monétaire international)",
+                "l'OTAN (Organisation du traité de l'Atlantique nord)",
+                "l'ONU (Organisation des Nations Unies)",
+                "l'UE (Union Européenne)"
+            ],
+            "correctAnswer": 2,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 21,
+            "image": "geographie.png",
+            "question": "Place sur la carte de France : où se situe Bordeaux ?",
+            "options": [
+                "Sud-Ouest",
+                "Sud-Est",
+                "Nord-Ouest",
+                "Nord-Est"
+            ],
+            "correctAnswer": 0,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 22,
+            "image": "geographie.png",
+            "question": "Place sur la carte : où se situe le désert du Sahara ?",
+            "options": [
+                "en Afrique du Nord",
+                "en Afrique centrale",
+                "en Afrique australe",
+                "en Afrique de l'Est"
+            ],
+            "correctAnswer": 0,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 23,
+            "image": "geographie.png",
+            "question": "Place sur la carte de l'UE : où se situe Rome ?",
+            "options": [
+                "en Italie (Sud de l'Europe)",
+                "en Espagne",
+                "en Grèce",
+                "au Portugal"
+            ],
+            "correctAnswer": 0,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 24,
+            "image": "geographie.png",
+            "question": "Quelle ville française abrite le siège du Parlement européen ?",
+            "options": [
+                "Dijon",
+                "Nancy",
+                "Strasbourg",
+                "Lyon"
+            ],
+            "correctAnswer": 2,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 25,
+            "image": "geographie.png",
+            "question": "Quel territoire n'est pas un DROM de la France ?",
+            "options": [
+                "la Guadeloupe",
+                "la Nouvelle-Calédonie",
+                "la Guyane",
+                "la Réunion"
+            ],
+            "correctAnswer": 1,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 26,
+            "image": "geographie.png",
+            "question": "Combien de pays sont actuellement membres de l'Union européenne (2024) ?",
+            "options": [
+                "25",
+                "27",
+                "29",
+                "31"
+            ],
+            "correctAnswer": 1,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 27,
+            "image": "geographie.png",
+            "question": "Combien d'habitants compte l'UE (à 20 millions près) ?",
+            "options": [
+                "350 millions",
+                "400 millions",
+                "450 millions",
+                "500 millions"
+            ],
+            "correctAnswer": 2,
+            "theme": "geographie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        }
+    ]
+}

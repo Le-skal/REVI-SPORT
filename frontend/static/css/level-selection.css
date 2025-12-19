@@ -355,6 +355,7 @@
     border-radius: 8px;
     animation: slideDown 0.3s ease forwards;
     margin-top: 8px;
+    cursor: pointer;
 }
 
 .card-input-wrapper.hidden {
@@ -397,6 +398,18 @@
 
 .passage-input::placeholder {
     color: rgba(170, 169, 169, 0.5);
+}
+
+/* Remove number input arrows */
+.passage-input::-webkit-inner-spin-button,
+.passage-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.passage-input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 /* Penalty Buttons */
@@ -490,4 +503,210 @@
 
 .passages-section .valider-btn:hover img {
     transform: scale(1.05);
+}
+
+/* ===== NUMERIC KEYPAD OVERLAY ===== */
+
+.keypad-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.keypad-container {
+    background: #2C2C3A;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 90%;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.keypad-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.keypad-header h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.keypad-close {
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.keypad-close:hover {
+    transform: scale(1.1);
+    color: #C99F17;
+}
+
+.keypad-display {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.keypad-display input {
+    width: 100%;
+    height: 60px;
+    background: #1E1E2A;
+    border: 2px solid #3A3A4A;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    text-align: center;
+    padding: 0 16px;
+}
+
+.keypad-display input:focus {
+    outline: none;
+    border-color: #C99F17;
+}
+
+.keypad-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.keypad-btn {
+    height: 60px;
+    background: #3A3A4A;
+    border: none;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.keypad-btn:hover {
+    background: #4A4A5A;
+    transform: scale(1.05);
+}
+
+.keypad-btn:active {
+    transform: scale(0.95);
+}
+
+.keypad-btn.keypad-clear {
+    background: #E74C3C;
+    color: #FFFFFF;
+}
+
+.keypad-btn.keypad-clear:hover {
+    background: #C0392B;
+}
+
+.keypad-btn.keypad-backspace {
+    background: #F39C12;
+    color: #FFFFFF;
+}
+
+.keypad-btn.keypad-backspace:hover {
+    background: #E67E22;
+}
+
+.keypad-ok {
+    width: 100%;
+    height: 60px;
+    background: #27AE60;
+    border: none;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.keypad-ok:hover {
+    background: #229954;
+    transform: scale(1.02);
+}
+
+.keypad-ok:active {
+    transform: scale(0.98);
+}
+
+/* Responsive Design for Keypad */
+@media (max-width: 600px) {
+    .keypad-container {
+        padding: 16px;
+    }
+
+    .keypad-header h3 {
+        font-size: 18px;
+    }
+
+    .keypad-display input {
+        height: 50px;
+        font-size: 28px;
+    }
+
+    .keypad-btn {
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .keypad-ok {
+        height: 50px;
+        font-size: 18px;
+    }
 }

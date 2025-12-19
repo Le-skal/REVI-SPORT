@@ -35,14 +35,14 @@
                     <h3 class="card-label">Temps du jeu effectif</h3>
                 </div>
                 <div class="card-input-wrapper dual-inputs" style="display: none;" onclick="event.stopPropagation()">
-                    <div class="input-field">
+                    <div class="input-field" onclick="showKeypad('gameTime'); event.stopPropagation();">
                         <label>Temps du jeu :</label>
-                        <input type="number" class="timing-input" id="gameTime" min="1" value="32">
+                        <input type="text" class="timing-input" id="gameTime" readonly value="32">
                         <span class="unit">min</span>
                     </div>
-                    <div class="input-field">
+                    <div class="input-field" onclick="showKeypad('timeoutCount'); event.stopPropagation();">
                         <label>Nombre de temps-mort :</label>
-                        <input type="number" class="timing-input" id="timeoutCount" min="0" value="5">
+                        <input type="text" class="timing-input" id="timeoutCount" readonly value="5">
                     </div>
                 </div>
             </div>
@@ -95,15 +95,15 @@
                         <h3 class="card-label">Points sportifs</h3>
                     </div>
                     <div class="sport-points-wrapper card-input-wrapper" style="display: none;"
-                        onclick="event.stopPropagation()">
+                        onclick="showKeypad('sportPoints'); event.stopPropagation();">
                         <div class="sport-info">
                             <img src="{{ url_for('static', filename='img/configuration-timings/' + sport + '.png') }}"
                                 alt="{{ sport }}" class="sport-icon">
                             <span class="sport-name">Sport choisi : {{ sport|capitalize }}</span>
                         </div>
                         <div class="points-input-group">
-                            <input type="number" class="timing-input sport-points-input" id="sportPoints" min="1"
-                                max="99" value="3">
+                            <input type="text" class="timing-input sport-points-input" id="sportPoints" readonly
+                                value="3">
                             <span class="points-label">POINTS / PANIER</span>
                         </div>
                     </div>
@@ -157,9 +157,9 @@
                     const buttons = inputWrapper.querySelectorAll('.prison-btn, .answer-btn, .duel-btn');
                     buttons.forEach(btn => btn.classList.remove('selected'));
 
-                    // Clear input values for number inputs
-                    const numberInputs = inputWrapper.querySelectorAll('input[type="number"]');
-                    numberInputs.forEach(input => {
+                    // Clear input values for text inputs
+                    const textInputs = inputWrapper.querySelectorAll('input[type="text"]');
+                    textInputs.forEach(input => {
                         if (input.id === 'gameTime') input.value = '32';
                         else if (input.id === 'timeoutCount') input.value = '5';
                         else if (input.id === 'sportPoints') input.value = '3';
@@ -269,7 +269,7 @@
                 .then(data => {
                     console.log('Timings saved:', data);
                     // Redirect to basketball page
-                    window.location.href = '/basketball';
+                    window.location.href = '/recapitulatif';
                 })
                 .catch(error => {
                     console.error('Error saving timings:', error);
@@ -284,7 +284,94 @@
             document.getElementById('sportPoints').addEventListener('input', checkValiderButton);
         });
 
+        // Keypad functions
+        let currentKeypadInput = null;
+
+        function showKeypad(inputId) {
+            currentKeypadInput = document.getElementById(inputId);
+            const keypad = document.getElementById('keypadOverlay');
+            const display = document.getElementById('keypadDisplay');
+            const title = document.getElementById('keypadTitle');
+
+            // Set title based on which field is being edited
+            if (inputId === 'gameTime') {
+                title.textContent = 'Temps du jeu';
+            } else if (inputId === 'timeoutCount') {
+                title.textContent = 'Nombre de temps-mort';
+            } else if (inputId === 'sportPoints') {
+                title.textContent = 'Points / Panier';
+            }
+
+            // Set current value in display
+            display.value = currentKeypadInput.value || '';
+            keypad.style.display = 'flex';
+        }
+
+        function hideKeypad() {
+            document.getElementById('keypadOverlay').style.display = 'none';
+            currentKeypadInput = null;
+        }
+
+        function keypadPress(num) {
+            const display = document.getElementById('keypadDisplay');
+            const currentValue = display.value;
+
+            // Limit to 2 digits
+            if (currentValue.length < 2) {
+                display.value = currentValue + num;
+            }
+        }
+
+        function keypadBackspace() {
+            const display = document.getElementById('keypadDisplay');
+            display.value = display.value.slice(0, -1);
+        }
+
+        function keypadClear() {
+            document.getElementById('keypadDisplay').value = '';
+        }
+
+        function keypadOk() {
+            const display = document.getElementById('keypadDisplay');
+            const value = display.value;
+
+            if (currentKeypadInput && value !== '') {
+                currentKeypadInput.value = value;
+                checkValiderButton();
+            }
+
+            hideKeypad();
+        }
+
     </script>
+
+    <!-- Keypad Overlay -->
+    <div id="keypadOverlay" class="keypad-overlay" style="display: none;">
+        <div class="keypad-container">
+            <div class="keypad-header">
+                <h3 id="keypadTitle">Entrez un nombre</h3>
+                <button class="keypad-close" onclick="hideKeypad()">✕</button>
+            </div>
+            <div class="keypad-display">
+                <input type="text" id="keypadDisplay" readonly>
+            </div>
+            <div class="keypad-buttons">
+                <button class="keypad-btn" onclick="keypadPress('1')">1</button>
+                <button class="keypad-btn" onclick="keypadPress('2')">2</button>
+                <button class="keypad-btn" onclick="keypadPress('3')">3</button>
+                <button class="keypad-btn" onclick="keypadPress('4')">4</button>
+                <button class="keypad-btn" onclick="keypadPress('5')">5</button>
+                <button class="keypad-btn" onclick="keypadPress('6')">6</button>
+                <button class="keypad-btn" onclick="keypadPress('7')">7</button>
+                <button class="keypad-btn" onclick="keypadPress('8')">8</button>
+                <button class="keypad-btn" onclick="keypadPress('9')">9</button>
+                <button class="keypad-btn keypad-clear" onclick="keypadClear()">C</button>
+                <button class="keypad-btn" onclick="keypadPress('0')">0</button>
+                <button class="keypad-btn keypad-backspace" onclick="keypadBackspace()">⌫</button>
+            </div>
+            <button class="keypad-ok" onclick="keypadOk()">OK</button>
+        </div>
+    </div>
 </body>
 
 </html>

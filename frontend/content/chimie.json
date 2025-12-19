@@ -1,0 +1,468 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "image": "chimie.png",
+            "question": "Pourquoi l'état solide a une forme propre ?",
+            "options": [
+                "car les molécules sont proches les unes des autres",
+                "car les molécules sont éloignées les unes des autres",
+                "car les molécules sont fixes les unes par rapport aux autres",
+                "car les molécules sont en mouvement"
+            ],
+            "correctAnswer": 2,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 2,
+            "image": "chimie.png",
+            "question": "Pourquoi l'état gazeux n'a pas de forme propre ?",
+            "options": [
+                "car les molécules sont proches les unes des autres",
+                "car les molécules sont éloignées les unes des autres",
+                "car les molécules sont fixes les unes par rapport aux autres",
+                "car les molécules sont en mouvement"
+            ],
+            "correctAnswer": 3,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 3,
+            "image": "chimie.png",
+            "question": "Il existe une limite à la quantité du soluté pouvant se dissoudre dans l'eau. Lorsque cette limite est atteinte, quel terme emploie-t-on pour définir la solution ?",
+            "options": [
+                "soluble",
+                "saturée",
+                "complète",
+                "insoluble"
+            ],
+            "correctAnswer": 1,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 4,
+            "image": "chimie.png",
+            "question": "De quoi est constitué un atome (plusieurs réponses) ?",
+            "options": [
+                "d'ions",
+                "d'un noyau",
+                "d'un nuage d'électrons",
+                "de molécules"
+            ],
+            "correctAnswer": [
+                1,
+                2
+            ],
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 5,
+            "image": "chimie.png",
+            "question": "Quelles affirmations sont justes ?",
+            "options": [
+                "le noyau d'un atome est chargé positivement",
+                "le noyau d'un atome est chargée négativement",
+                "le nuage d'électrons est chargé positivement",
+                "le nuage d'électrons est chargé négativement"
+            ],
+            "correctAnswer": [
+                0,
+                3
+            ],
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 6,
+            "image": "chimie.png",
+            "question": "Une solution basique a-t-elle un pH ?",
+            "options": [
+                "égal à 7",
+                "supérieur à 7",
+                "inférieur à 7",
+                "égal à 0"
+            ],
+            "correctAnswer": 1,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 7,
+            "image": "chimie.png",
+            "question": "Une solution acide a-t-elle un pH ?",
+            "options": [
+                "égal à 7",
+                "supérieur à 7",
+                "inférieur à 7",
+                "égal à 0"
+            ],
+            "correctAnswer": 2,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 8,
+            "image": "chimie.png",
+            "question": "Quel est le pH d'une solution neutre ?",
+            "options": [
+                "0",
+                "7",
+                "14"
+            ],
+            "correctAnswer": 1,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 9,
+            "image": "chimie.png",
+            "question": "Quelle est la formule chimique de l'ion hydrogène ?",
+            "options": [
+                "HO-",
+                "HO+",
+                "H+",
+                "H-"
+            ],
+            "correctAnswer": 2,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 10,
+            "image": "chimie.png",
+            "question": "Une solution qui contient moins d'ions H+ que d'ions HO- a un pH compris entre quel intervalle ?",
+            "options": [
+                "0 et 7",
+                "7 et 14",
+                "0 et 14",
+                "7 et 10"
+            ],
+            "correctAnswer": 1,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 11,
+            "image": "chimie.png",
+            "question": "Que se passe-t-il lors d'une transformation chimique (ex C + O2 -> CO2) ?",
+            "options": [
+                "les atomes se conservent",
+                "les molécules se conservent",
+                "la masse totale se conserve",
+                "certains atomes disparaissent"
+            ],
+            "correctAnswer": [
+                0,
+                2
+            ],
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 12,
+            "image": "chimie.png",
+            "question": "Pour cette équation de réaction, ajoute des coefficients afin d'assurer la conservation des éléments : CH4 + O2 -> CO2 + H2O",
+            "options": [
+                "1CH4 + 2O2 -> 1CO2 + 2H2O",
+                "2CH4 + 2O2 -> 2CO2 + 2H2O",
+                "1CH4 + 1O2 -> 1CO2 + 1H2O",
+                "2CH4 + 3O2 -> 2CO2 + 4H2O"
+            ],
+            "correctAnswer": 0,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 13,
+            "image": "chimie.png",
+            "question": "Pour cette équation de réaction, ajoute des coefficients afin d'assurer la conservation des éléments : Fe + O2 -> Fe3O4",
+            "options": [
+                "1Fe + 1O2 -> 1Fe3O4",
+                "2Fe + 2O2 -> 1Fe3O4",
+                "3Fe + 2O2 -> 1Fe3O4",
+                "4Fe + 3O2 -> 1Fe3O4"
+            ],
+            "correctAnswer": 2,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 14,
+            "image": "chimie.png",
+            "question": "Quelle est l'unité de la force ?",
+            "options": [
+                "le watt",
+                "le volt",
+                "l'ohm",
+                "le newton"
+            ],
+            "correctAnswer": 3,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 15,
+            "image": "chimie.png",
+            "question": "Quel appareil utilise-t-on pour mesurer la force ?",
+            "options": [
+                "l'impédancemètre",
+                "l'ampèremètre",
+                "le dynamomètre",
+                "le décamètre"
+            ],
+            "correctAnswer": 2,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 16,
+            "image": "chimie.png",
+            "question": "P276. Sur ce schéma, place le segment fléché pour exprimer la force de traction de la voiture sur la caravane. Où placer le point d'application ?",
+            "options": [
+                "sur la voiture",
+                "sur l'attache de la caravane",
+                "sur la route",
+                "à mi-chemin entre la voiture et la caravane"
+            ],
+            "correctAnswer": 1,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 17,
+            "image": "chimie.png",
+            "question": "Classe ces actions : quelles sont des actions de contact ?",
+            "options": [
+                "action de la raquette sur la balle",
+                "action du vent sur une voile",
+                "attraction de la Terre sur un corps",
+                "action d'un aimant sur une bille de fer"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 18,
+            "image": "chimie.png",
+            "question": "P278. En observant cette chronophotographie, que peut-on en déduire sur le mouvement de la voiture ?",
+            "options": [
+                "il est accéléré",
+                "il est uniforme",
+                "il est ralenti",
+                "il s'arrête"
+            ],
+            "correctAnswer": 0,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 19,
+            "image": "chimie.png",
+            "question": "Quelle est l'unité dans le système international de la vitesse ?",
+            "options": [
+                "m/s",
+                "g/l",
+                "km/s",
+                "km/h"
+            ],
+            "correctAnswer": 0,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 20,
+            "image": "chimie.png",
+            "question": "Soit g l'intensité de la pesanteur. Quelle est sa valeur en N/kg sur Terre, au dixième près ?",
+            "options": [
+                "9,8",
+                "10",
+                "8,9",
+                "11"
+            ],
+            "correctAnswer": 0,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 21,
+            "image": "chimie.png",
+            "question": "Quelle est la formule pour calculer la valeur d'un poids ?",
+            "options": [
+                "p = m + g",
+                "p = m × g",
+                "p = m / g",
+                "p = m - g"
+            ],
+            "correctAnswer": 1,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 22,
+            "image": "chimie.png",
+            "question": "Quelle relation lie puissance, intensité et tension électrique ?",
+            "options": [
+                "P = U × I",
+                "P = U / I",
+                "P = I / U",
+                "P = U + I"
+            ],
+            "correctAnswer": 0,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 23,
+            "image": "chimie.png",
+            "question": "Relie la grandeur électrique avec l'unité qu'il convient : énergie",
+            "options": [
+                "ampère",
+                "volt",
+                "watt",
+                "joule"
+            ],
+            "correctAnswer": 3,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "link"
+        },
+        {
+            "id": 24,
+            "image": "chimie.png",
+            "question": "Le son peut-il se propager (plusieurs réponses possibles) ?",
+            "options": [
+                "dans l'air",
+                "dans l'eau",
+                "dans l'acier",
+                "dans le vide"
+            ],
+            "correctAnswer": [
+                0,
+                2
+            ],
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 25,
+            "image": "chimie.png",
+            "question": "Combien de chimies approximatif en seconde la lumière met-elle pour parcourir la distance Terre-Lune (384 400km) ?",
+            "options": [
+                "moins de 1s",
+                "entre 1s et 2s",
+                "entre 2s et 3s",
+                "plus de 3s"
+            ],
+            "correctAnswer": 1,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 26,
+            "image": "chimie.png",
+            "question": "Comment nomme-t-on les espèces chimiques formées lors d'une transformation chimique ?",
+            "options": [
+                "les réactifs",
+                "les produits",
+                "les catalyseurs",
+                "les solvants"
+            ],
+            "correctAnswer": 1,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 27,
+            "image": "chimie.png",
+            "question": "Quelle est la formule chimique de l'acide chlorhydrique ?",
+            "options": [
+                "H2SO4",
+                "H2CO3",
+                "HCl",
+                "HNO3"
+            ],
+            "correctAnswer": 2,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 28,
+            "image": "chimie.png",
+            "question": "Quel est le nom de la force qui agit sur les objets en mouvement dans un fluide (air ou eau) ?",
+            "options": [
+                "la force de gravitation",
+                "la force de frottement",
+                "la force électromagnétique",
+                "la force centrifuge"
+            ],
+            "correctAnswer": 1,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 29,
+            "image": "chimie.png",
+            "question": "Quel est l'effet Joule ?",
+            "options": [
+                "l'effet d'une force appliquée à un objet",
+                "l'effet de la chaleur sur un gaz",
+                "la conversion de l'énergie électrique en chaleur par un conducteur",
+                "l'augmentation de la vitesse d'une réaction chimique"
+            ],
+            "correctAnswer": 2,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 30,
+            "image": "chimie.png",
+            "question": "Qu'est ce que la conductivité électrique ?",
+            "options": [
+                "la capacité d'un matériau à transmettre de la chaleur",
+                "la capacité d'un matériau à se déformer sans se rompre",
+                "la capacité d'un matériau à conduire un courant électrique",
+                "la capacité d'un matériau à absorber de la lumière"
+            ],
+            "correctAnswer": 2,
+            "theme": "chimie",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        }
+    ]
+}

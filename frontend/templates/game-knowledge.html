@@ -73,35 +73,86 @@
             <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
         </button>
 
-        <!-- Action Buttons -->
+        <!-- Action Buttons (During Question) -->
         <div class="action-buttons">
-            <button class="action-btn theme-btn" onclick="handleAction('theme')">
-                <img src="{{ url_for('static', filename='img/action-buttons/theme.png') }}" alt="Choix du thème">
+            <button class="action-btn switch-btn" onclick="handleDuringAction('switch')" id="switchBtn">
+                <img src="{{ url_for('static', filename='img/action-buttons/switch.png') }}" alt="Switch"
+                    class="action-icon">
+                <span class="action-label">Switch</span>
             </button>
-            <button class="action-btn team-btn" onclick="handleAction('team')">
-                <img src="{{ url_for('static', filename='img/action-buttons/team.png') }}" alt="Esprit d'équipe">
+            <button class="action-btn indice-btn" onclick="handleDuringAction('indice')" id="indiceBtn">
+                <img src="{{ url_for('static', filename='img/action-buttons/indice.png') }}" alt="Indice"
+                    class="action-icon">
+                <span class="action-label">Indice</span>
             </button>
-            <button class="action-btn double-point-btn" onclick="handleAction('double-point')">
-                <img src="{{ url_for('static', filename='img/action-buttons/double-point.png') }}" alt="Double point">
-            </button>
-            <button class="action-btn prison-btn" onclick="handleAction('prison')">
-                <img src="{{ url_for('static', filename='img/action-buttons/prison.png') }}" alt="Double prison">
-            </button>
+        </div>
+
+        <!-- Joker Popup (Before Question) -->
+        <div id="jokerPopup" class="joker-popup" style="display: none;">
+            <div class="joker-popup-content">
+                <button class="joker-popup-close" onclick="closeJokerPopup()">✕</button>
+                <img src="{{ url_for('static', filename='img/action-buttons/joker.png') }}" alt="Joker"
+                    class="joker-icon">
+                <h2 class="joker-title">Voulez-vous utiliser un Joker ?</h2>
+                <div class="joker-popup-buttons">
+                    <button class="joker-popup-btn joker-no-btn" onclick="closeJokerPopup()">Non</button>
+                    <button class="joker-popup-btn joker-yes-btn" onclick="showJokerSelection()">Oui</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Joker Selection Popup -->
+        <div id="jokerSelectionPopup" class="joker-popup" style="display: none;">
+            <div class="joker-popup-content">
+                <button class="joker-popup-close" onclick="hideJokerSelection()">✕</button>
+                <img src="{{ url_for('static', filename='img/action-buttons/joker.png') }}" alt="Joker"
+                    class="joker-icon">
+                <h2 class="joker-title">Choisissez votre joker</h2>
+                <div class="joker-selection-grid">
+                    <button class="joker-selection-btn" data-joker="theme" onclick="selectBeforeJoker('theme')"
+                        id="jokerTheme">
+                        <img src="{{ url_for('static', filename='img/action-buttons/theme.png') }}"
+                            alt="Choix du thème">
+                    </button>
+                    <button class="joker-selection-btn" data-joker="team" onclick="selectBeforeJoker('team')"
+                        id="jokerTeam">
+                        <img src="{{ url_for('static', filename='img/action-buttons/team.png') }}"
+                            alt="Esprit d'équipe">
+                    </button>
+                    <button class="joker-selection-btn" data-joker="double-point"
+                        onclick="selectBeforeJoker('double-point')" id="jokerDoublePoint">
+                        <img src="{{ url_for('static', filename='img/action-buttons/double-point.png') }}"
+                            alt="Double point">
+                    </button>
+                    <button class="joker-selection-btn" data-joker="double-prison"
+                        onclick="selectBeforeJoker('double-prison')" id="jokerDoublePrison">
+                        <img src="{{ url_for('static', filename='img/action-buttons/prison.png') }}"
+                            alt="Double prison">
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         let selectedOption = null;
         let answered = false;
+        let jokerUsedThisQuestion = false;
+        const availableJokers = {{ jokers | tojson | safe }};
         const optionBtns = document.querySelectorAll('.option-btn');
         const confirmBtn = document.getElementById('confirmBtn');
         const correctAnswer = {{ correctAnswer }};
         const questionOverlay = document.querySelector('.question-overlay');
         const overlayImg = document.querySelector('.overlay-img');
+        const currentTheme = {{ question_theme | tojson | safe }};
+        const currentGameType = 'knowledge';
+        const skipJokerPopup = {{ skip_joker_popup | tojson | safe }};
 
         // Timer countdown with SVG circle animation
-        let timeLeft = 30;
-        const totalTime = 30;
+        const answerTime = {{ answer_time | default (30) }};
+        let timeLeft = answerTime;
+        const totalTime = answerTime;
+        let timerInterval = null;
         const numberElement = document.querySelector('.countdown-number');
         const circleElement = document.querySelector('.progress-ring-circle');
 
@@ -115,25 +166,341 @@
 
         numberElement.textContent = timeLeft;
 
-        const timerInterval = setInterval(() => {
-            timeLeft--;
+        // Initialize joker availability
+        function initializeJokers() {
+            const beforeJokers = ['theme', 'team', 'double-point', 'double-prison'];
+            let hasAvailableBeforeJoker = false;
 
-            if (timeLeft < 0) {
-                clearInterval(timerInterval);
-                // Auto-submit or handle timeout
-                showTimeout();
+            // Check before-question jokers
+            beforeJokers.forEach(joker => {
+                const btn = document.getElementById('joker' + joker.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(''));
+                if (btn) {
+                    if (!availableJokers.includes(joker)) {
+                        btn.disabled = true;
+                        btn.classList.add('joker-disabled');
+                    } else {
+                        hasAvailableBeforeJoker = true;
+                    }
+                }
+            });
+
+            // Show popup only if there's at least one available before-joker AND we're not skipping
+            if (hasAvailableBeforeJoker && !skipJokerPopup) {
+                document.getElementById('jokerPopup').style.display = 'flex';
+            } else {
+                // Start timer immediately if no before-jokers available or skipping popup
+                startTimer();
+            }
+
+            // Check during-question jokers
+            if (!availableJokers.includes('switch')) {
+                document.getElementById('switchBtn').disabled = true;
+                document.getElementById('switchBtn').classList.add('joker-disabled');
+            }
+            if (!availableJokers.includes('indice')) {
+                document.getElementById('indiceBtn').disabled = true;
+                document.getElementById('indiceBtn').classList.add('joker-disabled');
+            }
+        }
+
+        function showJokerSelection() {
+            document.getElementById('jokerPopup').style.display = 'none';
+            document.getElementById('jokerSelectionPopup').style.display = 'flex';
+        }
+
+        function hideJokerSelection() {
+            document.getElementById('jokerSelectionPopup').style.display = 'none';
+            // Only start timer if joker wasn't used (meaning user cancelled)
+            if (!jokerUsedThisQuestion) {
+                startTimer();
+            }
+        }
+
+        function closeJokerPopup() {
+            document.getElementById('jokerPopup').style.display = 'none';
+            startTimer();
+        }
+
+        function selectBeforeJoker(jokerType) {
+            if (!availableJokers.includes(jokerType) || jokerUsedThisQuestion) {
                 return;
             }
 
-            numberElement.textContent = timeLeft;
+            document.getElementById('jokerSelectionPopup').style.display = 'none';
 
-            // Calculer le pourcentage restant
-            const progress = timeLeft / totalTime;
-            // Inverser pour que le cercle se vide (0 = plein, circumference = vide)
-            const offset = circumference - (progress * circumference);
+            // For theme joker, don't remove yet or start timer - wait for theme selection
+            // For other jokers, remove immediately and start timer
+            if (jokerType !== 'theme') {
+                jokerUsedThisQuestion = true;
+                removeJokerFromSetup(jokerType);
+                startTimer();
+            }
 
-            circleElement.style.strokeDashoffset = offset;
-        }, 1000);
+            // Apply joker effect
+            applyJokerEffect(jokerType);
+        }
+
+        function handleDuringAction(jokerType) {
+            if (!availableJokers.includes(jokerType) || jokerUsedThisQuestion) {
+                return;
+            }
+
+            jokerUsedThisQuestion = true;
+
+            // Disable the button
+            document.getElementById(jokerType + 'Btn').disabled = true;
+            document.getElementById(jokerType + 'Btn').classList.add('joker-disabled');
+
+            // Remove joker from game_setup.json
+            removeJokerFromSetup(jokerType);
+
+            // Apply joker effect
+            applyJokerEffect(jokerType);
+        }
+
+        function removeJokerFromSetup(jokerType) {
+            // Send request to remove joker from game_setup.json
+            fetch('/remove-joker', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ joker: jokerType })
+            }).then(response => response.json())
+                .then(data => {
+                    console.log('Joker removed:', data);
+                })
+                .catch(error => {
+                    console.error('Error removing joker:', error);
+                });
+        }
+
+        function applyJokerEffect(jokerType) {
+            if (jokerType === 'theme') {
+                // Theme joker: First get available themes
+                fetch('/get-available-themes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        currentTheme: currentTheme
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.themes.length > 0) {
+                            // Show theme selection to user
+                            showThemeSelection(data.themes);
+                        } else {
+                            alert('Aucun autre thème disponible');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error getting themes:', error);
+                        alert('Erreur lors du chargement des thèmes');
+                    });
+            } else if (jokerType === 'switch') {
+                // Switch joker: Change to another question from same theme instantly
+                console.log('Applying switch joker - getting new question from same theme');
+
+                // Remove the joker immediately
+                removeJokerFromSetup('switch');
+
+                // Get a new question from the same theme
+                fetch('/apply-switch-joker', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        currentTheme: currentTheme,
+                        currentQuestionId: {{ question.id if question else 0 }},
+                    gameType: currentGameType
+                    })
+        })
+                    .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Switch joker: New question ID:', data.questionId, 'Theme:', data.theme);
+                    // Reload page with new question, skip joker popup
+                    window.location.href = `/game-knowledge?questionId=${data.questionId}&theme=${data.theme}&skipJokerPopup=true`;
+                } else {
+                    alert('Erreur: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error applying switch joker:', error);
+                alert('Erreur lors du changement de question');
+            });
+            } else if (jokerType === 'indice') {
+            // Indice joker: Remove one incorrect answer
+            console.log('Applying indice joker - removing one incorrect answer');
+
+            // Get the correct answer
+            const correctAnswer = {{ question.correctAnswer if question else 0 }};
+        console.log('Correct answer index:', correctAnswer);
+
+        // Get all option buttons
+        const optionButtons = document.querySelectorAll('.option-btn');
+        console.log('Total options:', optionButtons.length);
+
+        // Find incorrect options that are still visible
+        const incorrectOptions = [];
+        optionButtons.forEach((btn, index) => {
+            if (index !== correctAnswer && btn.style.display !== 'none' && !btn.disabled) {
+                incorrectOptions.push({ button: btn, index: index });
+            }
+        });
+
+        console.log('Incorrect options available:', incorrectOptions.length);
+
+        if (incorrectOptions.length > 0) {
+            // Randomly select one incorrect option to remove
+            const randomIndex = Math.floor(Math.random() * incorrectOptions.length);
+            const optionToRemove = incorrectOptions[randomIndex];
+
+            console.log('Removing option at index:', optionToRemove.index);
+
+            // Hide the option with animation
+            optionToRemove.button.style.transition = 'opacity 0.5s, transform 0.5s';
+            optionToRemove.button.style.opacity = '0.3';
+            optionToRemove.button.style.transform = 'scale(0.8)';
+            optionToRemove.button.style.pointerEvents = 'none';
+            optionToRemove.button.style.textDecoration = 'line-through';
+            optionToRemove.button.disabled = true;
+        }
+            } else {
+            // TODO: Implement other joker effects
+            console.log('Applied joker:', jokerType);
+        }
+        }
+
+        function showThemeSelection(availableThemes) {
+            // All themes with their display names (must match theme values in JSON files)
+            const allThemes = ['chimie', 'francais', 'geographie', 'histoire', 'math', 'svt'];
+            const themeNames = {
+                'chimie': 'Chimie',
+                'francais': 'Français',
+                'geographie': 'Géographie',
+                'histoire': 'Histoire',
+                'math': 'Mathématiques',
+                'svt': 'SVT'
+            };
+
+            console.log('Current theme from template:', currentTheme);
+            console.log('All themes to display:', allThemes);
+
+            const grid = document.querySelector('#jokerSelectionPopup .joker-selection-grid');
+            grid.innerHTML = ''; // Clear existing content
+
+            // Create buttons for ALL themes
+            allThemes.forEach(theme => {
+                const button = document.createElement('button');
+                button.className = `joker-selection-btn theme-selection-btn theme-${theme}`;
+                button.textContent = themeNames[theme] || theme;
+                button.dataset.theme = theme;
+
+                // Disable if it's the current theme
+                if (theme === currentTheme) {
+                    button.disabled = true;
+                    button.classList.add('joker-disabled');
+                    button.style.cursor = 'not-allowed';
+                } else {
+                    button.addEventListener('click', () => {
+                        console.log('=== BUTTON CLICK DEBUG ===');
+                        console.log('Theme clicked:', theme);
+                        console.log('Theme type:', typeof theme);
+                        console.log('Theme value repr:', JSON.stringify(theme));
+                        selectNewTheme(theme);
+                    });
+                }
+
+                grid.appendChild(button);
+            });
+
+            const popup = document.getElementById('jokerSelectionPopup');
+            const content = popup.querySelector('.joker-popup-content');
+            content.querySelector('.joker-title').textContent = 'Choisissez un nouveau thème';
+            popup.style.display = 'flex';
+        }
+
+        function selectNewTheme(selectedTheme) {
+            console.log('\n=== SELECT NEW THEME DEBUG ===');
+            console.log('selectNewTheme called with:', selectedTheme);
+            console.log('selectedTheme type:', typeof selectedTheme);
+            console.log('selectedTheme JSON:', JSON.stringify(selectedTheme));
+            console.log('Current theme:', currentTheme);
+            console.log('Current game type:', currentGameType);
+
+            document.getElementById('jokerSelectionPopup').style.display = 'none';
+            jokerUsedThisQuestion = true;
+
+            // Remove the theme joker from game_setup.json
+            removeJokerFromSetup('theme');
+
+            // Apply theme joker with selected theme
+            const requestData = {
+                selectedTheme: selectedTheme,
+                currentGameType: currentGameType
+            };
+            console.log('\n=== FETCH REQUEST DEBUG ===');
+            console.log('Request data object:', requestData);
+            console.log('Request data JSON:', JSON.stringify(requestData));
+            console.log('selectedTheme in request:', requestData.selectedTheme);
+
+            fetch('/apply-theme-joker', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+                .then(response => {
+                    console.log('\n=== SERVER RESPONSE DEBUG ===');
+                    console.log('Response status:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response data:', data);
+                    console.log('Success:', data.success);
+                    if (data.success) {
+                        console.log('New question theme:', data.theme);
+                        console.log('New question ID:', data.questionId);
+                        console.log('Full question object:', data.question);
+                        // Reload page with new question AND theme, skip joker popup
+                        window.location.href = `/game-knowledge?questionId=${data.questionId}&theme=${data.theme}&skipJokerPopup=true`;
+                    } else {
+                        console.error('Server error:', data.error);
+                        alert('Erreur: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error applying theme joker:', error);
+                    alert('Erreur lors du changement de thème');
+                });
+        } function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+
+                if (timeLeft < 0) {
+                    clearInterval(timerInterval);
+                    showTimeout();
+                    return;
+                }
+
+                numberElement.textContent = timeLeft;
+
+                const progress = timeLeft / totalTime;
+                const offset = circumference - (progress * circumference);
+                circleElement.style.strokeDashoffset = offset;
+            }, 1000);
+        }
+
+        // Initialize on page load
+        initializeJokers();
+
+
 
         // Option selection
         optionBtns.forEach((btn, index) => {

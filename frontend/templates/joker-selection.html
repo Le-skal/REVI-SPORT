@@ -76,7 +76,7 @@
             </div>
 
             <!-- Game Master Joker -->
-            <div class="joker-card" data-joker="game-master" onclick="selectJoker(this)">
+            <div class="joker-card game-master-toggle" onclick="toggleAllJokers()">
                 <img src="{{ url_for('static', filename='img/choix-joker/game-master-joker.png') }}"
                     alt="Game Master Joker" class="joker-img">
                 <div class="joker-select-btn" style="display: none;"></div>
@@ -90,62 +90,99 @@
     </div>
 
     <script>
-        let selectedJoker = null;
+        let selectedJokers = [];
+        const regularJokers = ['theme', 'team', 'double-point', 'double-prison', 'switch', 'indice'];
 
         function goBack() {
             window.history.back();
         }
 
         function selectJoker(element) {
-            // Remove selected class from previously selected card
-            const previousSelected = document.querySelector('.joker-card.selected');
-            if (previousSelected && previousSelected !== element) {
-                previousSelected.classList.remove('selected');
-                previousSelected.querySelector('.joker-select-btn').style.display = 'none';
-            }
+            const jokerValue = element.dataset.joker;
 
             // Toggle selected class on clicked card
             element.classList.toggle('selected');
 
-            // Update selectedJoker
+            // Update selectedJokers array
             if (element.classList.contains('selected')) {
-                selectedJoker = element.dataset.joker;
+                // Add joker to array if not already present
+                if (!selectedJokers.includes(jokerValue)) {
+                    selectedJokers.push(jokerValue);
+                }
                 element.querySelector('.joker-select-btn').style.display = 'flex';
-                // Show valider button
+            } else {
+                // Remove joker from array
+                selectedJokers = selectedJokers.filter(j => j !== jokerValue);
+                element.querySelector('.joker-select-btn').style.display = 'none';
+            }
+
+            updateValiderButton();
+            console.log('Selected jokers:', selectedJokers);
+        }
+
+        function toggleAllJokers() {
+            const gameMasterCard = document.querySelector('.game-master-toggle');
+            const allJokerCards = document.querySelectorAll('.joker-card[data-joker]');
+
+            // Check if all jokers are currently selected
+            const allSelected = regularJokers.every(joker => selectedJokers.includes(joker));
+
+            if (allSelected) {
+                // Deselect all
+                selectedJokers = [];
+                allJokerCards.forEach(card => {
+                    card.classList.remove('selected');
+                    card.querySelector('.joker-select-btn').style.display = 'none';
+                });
+                gameMasterCard.classList.remove('selected');
+                gameMasterCard.querySelector('.joker-select-btn').style.display = 'none';
+            } else {
+                // Select all
+                selectedJokers = [...regularJokers];
+                allJokerCards.forEach(card => {
+                    card.classList.add('selected');
+                    card.querySelector('.joker-select-btn').style.display = 'flex';
+                });
+                gameMasterCard.classList.add('selected');
+                gameMasterCard.querySelector('.joker-select-btn').style.display = 'flex';
+            }
+
+            updateValiderButton();
+            console.log('Selected jokers:', selectedJokers);
+        }
+
+        function updateValiderButton() {
+            // Show/hide valider button based on selection
+            if (selectedJokers.length > 0) {
                 document.getElementById('validerBtn').style.display = 'flex';
                 document.getElementById('validerBtn').classList.add('show-animation');
             } else {
-                selectedJoker = null;
-                element.querySelector('.joker-select-btn').style.display = 'none';
-                // Hide valider button
                 document.getElementById('validerBtn').classList.add('hide-animation');
                 setTimeout(() => {
                     document.getElementById('validerBtn').style.display = 'none';
                     document.getElementById('validerBtn').classList.remove('hide-animation');
                 }, 300);
             }
-
-            console.log('Selected joker:', selectedJoker);
         }
 
         function handleValider() {
-            if (selectedJoker) {
-                console.log('Validating joker:', selectedJoker);
+            if (selectedJokers.length > 0) {
+                console.log('Validating jokers:', selectedJokers);
 
-                // Save the selected joker to game_setup.json
+                // Save the selected jokers to game_setup.json
                 fetch('/save-game-setup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ joker: selectedJoker })
+                    body: JSON.stringify({ jokers: selectedJokers })
                 }).then(response => response.json())
                     .then(data => {
-                        console.log('Joker saved:', data);
+                        console.log('Jokers saved:', data);
                         window.location.href = '/level-selection';
                     })
                     .catch(error => {
-                        console.error('Error saving joker:', error);
+                        console.error('Error saving jokers:', error);
                         window.location.href = '/level-selection';
                     });
             }

@@ -1,0 +1,813 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "image": "math.png",
+            "question": "Quel est le résultat de 1/4 × 2/3 ?",
+            "options": [
+                "2/12",
+                "1/6",
+                "2/7",
+                "7/12"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 2,
+            "image": "math.png",
+            "question": "Quel est le résultat de 7/8 + 7/4 ?",
+            "options": [
+                "7/12",
+                "49/24",
+                "14/8",
+                "21/8"
+            ],
+            "correctAnswer": 3,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 3,
+            "image": "math.png",
+            "question": "Quel est le résultat de 2 - (1/3 × 3) ?",
+            "options": [
+                "0",
+                "1",
+                "2",
+                "3"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 4,
+            "image": "math.png",
+            "question": "Le nombre 16 est-il (plusieurs réponses possibles) ?",
+            "options": [
+                "un multiple de 4",
+                "divisible par 4",
+                "un diviseur de 4",
+                "un multiple de 6"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 5,
+            "image": "math.png",
+            "question": "144 est-il divisible par (plusieurs réponses possibles) ?",
+            "options": [
+                "2",
+                "3",
+                "5",
+                "9"
+            ],
+            "correctAnswer": [
+                0,
+                1,
+                3
+            ],
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 6,
+            "image": "math.png",
+            "question": "330 est-il divisible par (plusieurs réponses possibles) ?",
+            "options": [
+                "2",
+                "5",
+                "9",
+                "10"
+            ],
+            "correctAnswer": [
+                0,
+                1,
+                3
+            ],
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 7,
+            "image": "math.png",
+            "question": "Parmi tous ces nombres, lesquels sont divisibles par 3 ?",
+            "options": [
+                "120",
+                "333",
+                "121",
+                "443"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 8,
+            "image": "math.png",
+            "question": "Quelle est la fraction irréductible de 25/30 ?",
+            "options": [
+                "5/6",
+                "10/12",
+                "15/18",
+                "20/24"
+            ],
+            "correctAnswer": 0,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 9,
+            "image": "math.png",
+            "question": "Quel est le plus grand diviseur commun à 36 et à 54 ?",
+            "options": [
+                "2",
+                "6",
+                "18",
+                "36"
+            ],
+            "correctAnswer": 2,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 10,
+            "image": "math.png",
+            "question": "Quel est le résultat de (-2)⁴ ?",
+            "options": [
+                "16",
+                "-16",
+                "32",
+                "-32"
+            ],
+            "correctAnswer": 0,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 11,
+            "image": "math.png",
+            "question": "Classe ces valeurs de la plus petite à la plus grande",
+            "options": [
+                "6×10⁷, 150×10⁶, 8×10⁸, 150×10⁷",
+                "150×10⁶, 6×10⁷, 150×10⁷, 8×10⁸",
+                "8×10⁸, 150×10⁷, 6×10⁷, 150×10⁶",
+                "150×10⁶, 150×10⁷, 6×10⁷, 8×10⁸"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 12,
+            "image": "math.png",
+            "question": "5³ est égal à ?",
+            "options": [
+                "15",
+                "25",
+                "100",
+                "125"
+            ],
+            "correctAnswer": 3,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 13,
+            "image": "math.png",
+            "question": "Quel est le résultat de √(12-3) ?",
+            "options": [
+                "2",
+                "3",
+                "4",
+                "6"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 14,
+            "image": "math.png",
+            "question": "Quel est le résultat de √(12×3) ?",
+            "options": [
+                "3",
+                "4",
+                "6",
+                "9"
+            ],
+            "correctAnswer": 2,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 15,
+            "image": "math.png",
+            "question": "Quel est le résultat de √(-16) ?",
+            "options": [
+                "-4",
+                "-2",
+                "4",
+                "le résultat n'existe pas"
+            ],
+            "correctAnswer": 3,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 16,
+            "image": "math.png",
+            "question": "À quoi est égal (4x + 1)² (2 réponses possibles) ?",
+            "options": [
+                "(4x+1)(4x+1)",
+                "4x² + 1",
+                "16x² + 2",
+                "16x² + 8x + 1"
+            ],
+            "correctAnswer": [
+                0,
+                3
+            ],
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 17,
+            "image": "math.png",
+            "question": "Quel est le résultat de (2x + 2)² si x = 4 ?",
+            "options": [
+                "64",
+                "80",
+                "100",
+                "120"
+            ],
+            "correctAnswer": 2,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 18,
+            "image": "math.png",
+            "question": "À quoi est égal (a + b)² ?",
+            "options": [
+                "a² + b² + 2ab",
+                "a² - b²",
+                "a² + b² - 2ab",
+                "a² + b²"
+            ],
+            "correctAnswer": 0,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 19,
+            "image": "math.png",
+            "question": "À quoi est égal 35x² - 5x ?",
+            "options": [
+                "5x(7x - 1)",
+                "5x²(7x - 1)",
+                "30x",
+                "7(5x² - x)"
+            ],
+            "correctAnswer": 0,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 20,
+            "image": "math.png",
+            "question": "L'équation 6x = 42 a pour solution x = ?",
+            "options": [
+                "6",
+                "7",
+                "8",
+                "36"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 21,
+            "image": "math.png",
+            "question": "L'équation 2x² + 3 = 11 a pour solution x = ?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 22,
+            "image": "math.png",
+            "question": "Si a < b, quelles affirmations sont vraies ?",
+            "options": [
+                "a + 3 < b + 3",
+                "a + 3 > b + 3",
+                "a × 3 < b × 3",
+                "a × 3 > b × 3"
+            ],
+            "correctAnswer": [
+                0,
+                2
+            ],
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 23,
+            "image": "math.png",
+            "question": "Si a < b, quelles affirmations sont fausses ?",
+            "options": [
+                "a + 5 < b + 5",
+                "a x 5 < b x 5",
+                "a - 5 < b - 5",
+                "a x (-5) < b x (-5)"
+            ],
+            "correctAnswer": 3,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 24,
+            "image": "math.png",
+            "question": "L'image de (-2) par la fonction x → 2x + 7 est ?",
+            "options": [
+                "1",
+                "3",
+                "5",
+                "7"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 25,
+            "image": "math.png",
+            "question": "L'antécédent de 5 par la fonction x → x² + 1 est ?",
+            "options": [
+                "1",
+                "2",
+                "25",
+                "26"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 26,
+            "image": "math.png",
+            "question": "P129. En regardant ce graphique, détermine l'image de 3 par f",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ],
+            "correctAnswer": 0,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 27,
+            "image": "math.png",
+            "question": "P129. En regardant ce graphique, détermine l'antécédent de 2 par f",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ],
+            "correctAnswer": 0,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 28,
+            "image": "math.png",
+            "question": "P130. En observant ce graphique, pour quelles valeurs de x a-t-on f(x) = 4 (plusieurs réponses possibles) ?",
+            "options": [
+                "0",
+                "1",
+                "3",
+                "4"
+            ],
+            "correctAnswer": [
+                0,
+                3
+            ],
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 29,
+            "image": "math.png",
+            "question": "Parmi ces fonctions, lesquelles sont linéaires ?",
+            "options": [
+                "f(x) = 4x + 2",
+                "f(x) = 1/4x",
+                "f(x) = 2x² - 4",
+                "f(x) = 12x"
+            ],
+            "correctAnswer": [
+                1,
+                3
+            ],
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 30,
+            "image": "math.png",
+            "question": "Quelle est l'image de 7 dans la fonction f : x → 7x + 3 ?",
+            "options": [
+                "49",
+                "52",
+                "59",
+                "62"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 31,
+            "image": "math.png",
+            "question": "Quelles représentations graphiques de ces fonctions passent par le point de coordonnées (0 ; 5) ?",
+            "options": [
+                "y = 5x + 5",
+                "y = 5x",
+                "y = x - 5",
+                "y = 2x + 5"
+            ],
+            "correctAnswer": [
+                0,
+                3
+            ],
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 32,
+            "image": "math.png",
+            "question": "En observant cette représentation graphique (fonction affine), détermine à quelle fonction elle appartient ?",
+            "options": [
+                "y = x + 3",
+                "y = 2x + 3",
+                "y = 2x",
+                "y = 2x + 5"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 33,
+            "image": "math.png",
+            "question": "Quel est le coefficient de proportionnalité de ce tableau ?",
+            "options": [
+                "1",
+                "1,5",
+                "2",
+                "2,5"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 34,
+            "image": "math.png",
+            "question": "Un pull de 80€ est soldé de 10%. Quel est son nouveau prix ?",
+            "options": [
+                "70€",
+                "72€",
+                "74€",
+                "76€"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 35,
+            "image": "math.png",
+            "question": "En observant ce diagramme (p139), et en sachant que 360 personnes ont répondu oui (50%), détermine le nombre total de personnes ayant répondu à l'enquête ?",
+            "options": [
+                "360",
+                "540",
+                "720",
+                "900"
+            ],
+            "correctAnswer": 2,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 36,
+            "image": "math.png",
+            "question": "1 enfant a 8 ans, 3 ont 10 ans, 1 a 12 ans. Quel est l'âge moyen ?",
+            "options": [
+                "10 ans",
+                "11 ans",
+                "12 ans",
+                "13 ans"
+            ],
+            "correctAnswer": 0,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 37,
+            "image": "math.png",
+            "question": "2 enfants ont 9 ans, 1 a 10 ans, 1 a 12 ans, 2 ont 14 ans. Quelle est la médiane ?",
+            "options": [
+                "9",
+                "10",
+                "11",
+                "12"
+            ],
+            "correctAnswer": 2,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 38,
+            "image": "math.png",
+            "question": "Une boîte contient 15 boules : 2 sont vertes, 4 sont rouges, 6 sont bleues, 3 sont blanches. Quelle est la probabilité de tirer une boule blanche ?",
+            "options": [
+                "1/2",
+                "1/3",
+                "1/4",
+                "1/5"
+            ],
+            "correctAnswer": 3,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 39,
+            "image": "math.png",
+            "question": "Une boîte contient 15 boules : 2 sont vertes, 4 sont rouges, 6 sont bleues, 3 sont blanches. Quelle est la probabilité que la boule tirée soit verte ou rouge ?",
+            "options": [
+                "1/5",
+                "2/5",
+                "3/5",
+                "4/5"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 40,
+            "image": "math.png",
+            "question": "Dans le triangle ABC rectangle en B, quel est le cos(A) ?",
+            "options": [
+                "AB/AC",
+                "BC/AC",
+                "BC/AB",
+                "AB/BC"
+            ],
+            "correctAnswer": 0,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 41,
+            "image": "math.png",
+            "question": "Dans le triangle ABC rectangle en B, quel est le sin(A) ?",
+            "options": [
+                "AB/AC",
+                "BC/AC",
+                "BC/AB",
+                "AB/BC"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 42,
+            "image": "math.png",
+            "question": "Triangle p148 Thalès. En observant ce triangle, si AM/AB = AN/AC, que peut-on en déduire d'après le théorème de Thalès (et la réciproque) ?",
+            "options": [
+                "AM/AB = MN/BC",
+                "(MN) // (BC)",
+                "(MN) ⊥ (BC)",
+                "MB = NC"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 43,
+            "image": "math.png",
+            "question": "P149. En utilisant le théorème de Thalès, calcule la longueur de MN",
+            "options": [
+                "voir schéma page 149"
+            ],
+            "correctAnswer": 0,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 44,
+            "image": "math.png",
+            "question": "Quand on double la longueur d'un côté d'un carré, son aire est multipliée par ?",
+            "options": [
+                "2",
+                "4",
+                "6",
+                "8"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 45,
+            "image": "math.png",
+            "question": "Quand on double le rayon d'une boule, son volume est multiplié par ?",
+            "options": [
+                "2",
+                "4",
+                "6",
+                "8"
+            ],
+            "correctAnswer": 3,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 46,
+            "image": "math.png",
+            "question": "Fig p155 hexagone. Dans la rotation de centre O, d'angle 180° et de sens négatif, l'image du point B est ?",
+            "options": [
+                "C",
+                "D",
+                "E",
+                "F"
+            ],
+            "correctAnswer": 2,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 47,
+            "image": "math.png",
+            "question": "Fig p155 hexagone. L'image de C par la translation qui transforme A en F est ?",
+            "options": [
+                "O",
+                "B",
+                "D",
+                "E"
+            ],
+            "correctAnswer": 3,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 48,
+            "image": "math.png",
+            "question": "Fig p157. L'image de I par l'homothétie de centre G et de rapport -2 est ?",
+            "options": [
+                "C",
+                "H",
+                "F",
+                "A"
+            ],
+            "correctAnswer": 0,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 49,
+            "image": "math.png",
+            "question": "Fig p157. L'image de E par l'homothétie de centre G et de rapport -1 est ?",
+            "options": [
+                "L",
+                "M",
+                "B",
+                "P"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 50,
+            "image": "math.png",
+            "question": "Convertis 3h24 en minutes",
+            "options": [
+                "184 min",
+                "194 min",
+                "204 min",
+                "214 min"
+            ],
+            "correctAnswer": 2,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 51,
+            "image": "math.png",
+            "question": "Convertis 137 min en heures et minutes",
+            "options": [
+                "2h07min",
+                "2h17min",
+                "2h27min",
+                "2h37min"
+            ],
+            "correctAnswer": 1,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 52,
+            "image": "math.png",
+            "question": "La valeur exacte du volume d'un cube de côté 3 cm est ?",
+            "options": [
+                "6 cm³",
+                "12 cm³",
+                "18 cm³",
+                "27 cm³"
+            ],
+            "correctAnswer": 3,
+            "theme": "math",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        }
+    ]
+}

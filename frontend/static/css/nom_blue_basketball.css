@@ -4,7 +4,7 @@
   width: 40%;
   height: 10%;
   object-fit: contain;
-  margin: 20% auto 0;
+  margin: 0 auto 0;
   flex-shrink: 0;
   display: block;
 }
@@ -71,22 +71,26 @@
 .players-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 8px;
   width: 90%;
   margin: 0 auto;
-  flex-grow: 1;
-  overflow-y: auto;
+  flex: 1;
+  overflow-y: hidden;
   align-content: center;
+  padding-bottom: 20px;
+  min-height: 0;
 }
 
 .player-card {
   position: relative;
   width: 100%;
-  height: 80px;
+  min-height: 45px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  flex: 0 1 auto;
 }
 
 .field-bg {
@@ -125,6 +129,69 @@
   border-radius: 5px;
 }
 
+.remove-player-btn {
+  position: absolute;
+  right: 15px;
+  z-index: 20;
+  background: transparent;
+  border: none;
+  width: 32px;
+  height: 32px;
+  color: #4A80BA;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.remove-player-btn:hover {
+  color: #2E5F8F;
+  transform: scale(1.2);
+}
+
+.remove-player-btn:active {
+  transform: scale(0.9);
+}
+
+.add-player-btn {
+  position: relative;
+  width: 100%;
+  min-height: 45px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  flex: 0 1 auto;
+}
+
+.add-player-btn .field-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.add-player-text {
+  position: relative;
+  z-index: 10;
+  color: rgb(74, 128, 186);
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+}
+
 .next-btn {
   display: flex;
   align-items: center;
@@ -150,4 +217,236 @@
 
 .next-btn:hover img {
   transform: scale(1.05);
+}
+
+/* ===== KEYBOARD STYLES ===== */
+
+/* Keyboard Overlay */
+.keyboard-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Keyboard Container */
+.keyboard-container {
+  background: #2C2C3A;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  max-width: 550px;
+  width: 90%;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Keyboard Header */
+.keyboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.keyboard-header h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.keyboard-close {
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.keyboard-close:hover {
+  transform: scale(1.1);
+  color: #C99F17;
+}
+
+/* Keyboard Display */
+.keyboard-display {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.keyboard-display input {
+  width: 100%;
+  height: 50px;
+  background: #1E1E2A;
+  border: 2px solid #3A3A4A;
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  padding: 0 12px;
+}
+
+.keyboard-display input:focus {
+  outline: none;
+  border-color: #C99F17;
+}
+
+/* Keyboard Keys */
+.keyboard-keys {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Key Button */
+.key-btn {
+  min-width: 42px;
+  height: 45px;
+  background: #3A3A4A;
+  border: none;
+  border-radius: 6px;
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+}
+
+.key-btn:hover {
+  background: #4A4A5A;
+  transform: scale(1.05);
+}
+
+.key-btn:active {
+  transform: scale(0.95);
+}
+
+/* Special Keys */
+.key-space {
+  flex: 2;
+  min-width: 200px;
+}
+
+.key-clear {
+  background: #E74C3C;
+  color: #FFFFFF;
+  flex: 1;
+  min-width: 120px;
+}
+
+.key-clear:hover {
+  background: #C0392B;
+}
+
+.key-backspace {
+  background: #F39C12;
+  color: #FFFFFF;
+  min-width: 80px;
+}
+
+.key-backspace:hover {
+  background: #E67E22;
+}
+
+/* OK Button */
+.keyboard-ok {
+  width: 100%;
+  height: 50px;
+  background: #27AE60;
+  border: none;
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.keyboard-ok:hover {
+  background: #229954;
+  transform: scale(1.02);
+}
+
+.keyboard-ok:active {
+  transform: scale(0.98);
+}
+
+/* Responsive Design for Keyboard */
+@media (max-width: 600px) {
+  .keyboard-container {
+    padding: 16px;
+    max-width: 95%;
+  }
+
+  .keyboard-header h3 {
+    font-size: 16px;
+  }
+
+  .keyboard-display input {
+    height: 45px;
+    font-size: 18px;
+  }
+
+  .key-btn {
+    min-width: 38px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .keyboard-ok {
+    height: 45px;
+    font-size: 16px;
+  }
 }

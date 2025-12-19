@@ -22,35 +22,29 @@
             <img class="nom-red-intro" src="{{ url_for('static', filename='img/nom_red_basketball/intro.png') }}"
                 alt="Introduction">
             <input type="text" class="team-name-input" id="teamNameInput" placeholder="Nom de l'équipe" maxlength="20"
-                autocomplete="off">
+                autocomplete="off" readonly onclick="showKeyboard(this)">
         </div>
 
-        <div class="players-list">
+        <div class="players-list" id="playersList">
             <div class="player-card">
                 <img class="field-bg" src="{{ url_for('static', filename='img/nom_red_basketball/field.png') }}"
                     alt="Field">
-                <input type="text" class="player-input" placeholder="Nom joueur 1" data-player="1">
+                <input type="text" class="player-input" placeholder="Nom joueur 1" data-player="1" readonly
+                    onclick="showKeyboard(this)">
             </div>
             <div class="player-card">
                 <img class="field-bg" src="{{ url_for('static', filename='img/nom_red_basketball/field.png') }}"
                     alt="Field">
-                <input type="text" class="player-input" placeholder="Nom joueur 2" data-player="2">
+                <input type="text" class="player-input" placeholder="Nom joueur 2" data-player="2" readonly
+                    onclick="showKeyboard(this)">
             </div>
-            <div class="player-card">
+
+            <!-- Add Player Button -->
+            <button class="add-player-btn" id="addPlayerBtn" onclick="addPlayer()">
                 <img class="field-bg" src="{{ url_for('static', filename='img/nom_red_basketball/field.png') }}"
                     alt="Field">
-                <input type="text" class="player-input" placeholder="Nom joueur 3" data-player="3">
-            </div>
-            <div class="player-card">
-                <img class="field-bg" src="{{ url_for('static', filename='img/nom_red_basketball/field.png') }}"
-                    alt="Field">
-                <input type="text" class="player-input" placeholder="Nom joueur 4" data-player="4">
-            </div>
-            <div class="player-card">
-                <img class="field-bg" src="{{ url_for('static', filename='img/nom_red_basketball/field.png') }}"
-                    alt="Field">
-                <input type="text" class="player-input" placeholder="Nom joueur 5" data-player="5">
-            </div>
+                <span class="add-player-text">+ Ajouter un joueur</span>
+            </button>
         </div>
 
         <button class="next-btn" id="nextBtn" style="display: none;">
@@ -59,38 +53,152 @@
     </div>
 
     <script>
-        const inputs = document.querySelectorAll('.player-input');
         const teamNameInput = document.getElementById('teamNameInput');
         const nextBtn = document.getElementById('nextBtn');
+        const playersList = document.getElementById('playersList');
+        const addPlayerBtn = document.getElementById('addPlayerBtn');
+        let playerCount = 2;
+        const MAX_PLAYERS = 10;
+        const MIN_PLAYERS = 2;
+
+        function getAllPlayerInputs() {
+            return document.querySelectorAll('.player-input');
+        }
 
         function checkAllFilled() {
+            const inputs = getAllPlayerInputs();
             const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
             nextBtn.style.display = allFilled ? 'flex' : 'none';
         }
 
-        inputs.forEach(input => {
-            input.addEventListener('input', checkAllFilled);
-            input.addEventListener('focus', function () {
+        function addPlayer() {
+            if (playerCount >= MAX_PLAYERS) {
+                return;
+            }
+
+            playerCount++;
+
+            // Create new player card
+            const newPlayerCard = document.createElement('div');
+            newPlayerCard.className = 'player-card';
+            newPlayerCard.innerHTML = `
+                <img class="field-bg" src="{{ url_for('static', filename='img/nom_red_basketball/field.png') }}" alt="Field">
+                <input type="text" class="player-input" placeholder="Nom joueur ${playerCount}" data-player="${playerCount}" readonly onclick="showKeyboard(this)">
+                <button class="remove-player-btn" onclick="removePlayer(this)">✕</button>
+            `;
+
+            // Insert before the add button
+            playersList.insertBefore(newPlayerCard, addPlayerBtn);
+
+            // Add event listeners to the new input
+            const newInput = newPlayerCard.querySelector('.player-input');
+            newInput.addEventListener('input', checkAllFilled);
+            newInput.addEventListener('focus', function () {
                 this.select();
             });
-        });
 
+            // Hide add button if max players reached
+            if (playerCount >= MAX_PLAYERS) {
+                addPlayerBtn.style.display = 'none';
+            }
+
+            checkAllFilled();
+        }
+
+        function removePlayer(btn) {
+            const currentCount = getAllPlayerInputs().length;
+
+            if (currentCount <= MIN_PLAYERS) {
+                return;
+            }
+
+            const playerCard = btn.closest('.player-card');
+            playerCard.remove();
+            playerCount--;
+
+            // Show add button if below max
+            if (playerCount < MAX_PLAYERS) {
+                addPlayerBtn.style.display = 'flex';
+            }
+
+            checkAllFilled();
+        }
+
+        function setupEventListeners() {
+            const inputs = getAllPlayerInputs();
+            inputs.forEach(input => {
+                input.addEventListener('input', checkAllFilled);
+                input.addEventListener('focus', function () {
+                    this.select();
+                });
+            });
+        }
+
+        setupEventListeners();
         checkAllFilled();
+
+        // Keyboard functions
+        let currentKeyboardInput = null;
+
+        function showKeyboard(inputElement) {
+            currentKeyboardInput = inputElement;
+            const keyboard = document.getElementById('keyboardOverlay');
+            const display = document.getElementById('keyboardDisplay');
+
+            display.value = inputElement.value || '';
+            keyboard.style.display = 'flex';
+        }
+
+        function hideKeyboard() {
+            document.getElementById('keyboardOverlay').style.display = 'none';
+            currentKeyboardInput = null;
+        }
+
+        function keyPress(char) {
+            const display = document.getElementById('keyboardDisplay');
+            if (display.value.length < 20) {
+                display.value += char;
+            }
+        }
+
+        function keyBackspace() {
+            const display = document.getElementById('keyboardDisplay');
+            display.value = display.value.slice(0, -1);
+        }
+
+        function keyClear() {
+            document.getElementById('keyboardDisplay').value = '';
+        }
+
+        function keyOk() {
+            const display = document.getElementById('keyboardDisplay');
+            const value = display.value;
+
+            if (currentKeyboardInput) {
+                currentKeyboardInput.value = value;
+                // Trigger input event to update button visibility
+                const event = new Event('input', { bubbles: true });
+                currentKeyboardInput.dispatchEvent(event);
+            }
+
+            hideKeyboard();
+        }
 
         // Sauvegarde des noms d'équipe rouge au clic
         nextBtn.addEventListener('click', async function (e) {
             e.preventDefault();
 
             const teamName = teamNameInput.value.trim() || 'Équipe Rouge';
+            const inputs = getAllPlayerInputs();
 
             const redTeamNames = {
-                team_name: teamName,
-                joueur_1: inputs[0].value.trim(),
-                joueur_2: inputs[1].value.trim(),
-                joueur_3: inputs[2].value.trim(),
-                joueur_4: inputs[3].value.trim(),
-                joueur_5: inputs[4].value.trim()
+                team_name: teamName
             };
+
+            // Add all players dynamically
+            inputs.forEach((input, index) => {
+                redTeamNames[`joueur_${index + 1}`] = input.value.trim();
+            });
 
             try {
                 const response = await fetch('/save-red-team', {
@@ -110,6 +218,59 @@
             }
         });
     </script>
+
+    <!-- Keyboard Overlay -->
+    <div id="keyboardOverlay" class="keyboard-overlay" style="display: none;">
+        <div class="keyboard-container">
+            <div class="keyboard-header">
+                <h3 id="keyboardTitle">Entrez le nom</h3>
+                <button class="keyboard-close" onclick="hideKeyboard()">✕</button>
+            </div>
+            <div class="keyboard-display">
+                <input type="text" id="keyboardDisplay" readonly>
+            </div>
+            <div class="keyboard-keys">
+                <div class="keyboard-row">
+                    <button class="key-btn" onclick="keyPress('A')">A</button>
+                    <button class="key-btn" onclick="keyPress('Z')">Z</button>
+                    <button class="key-btn" onclick="keyPress('E')">E</button>
+                    <button class="key-btn" onclick="keyPress('R')">R</button>
+                    <button class="key-btn" onclick="keyPress('T')">T</button>
+                    <button class="key-btn" onclick="keyPress('Y')">Y</button>
+                    <button class="key-btn" onclick="keyPress('U')">U</button>
+                    <button class="key-btn" onclick="keyPress('I')">I</button>
+                    <button class="key-btn" onclick="keyPress('O')">O</button>
+                    <button class="key-btn" onclick="keyPress('P')">P</button>
+                </div>
+                <div class="keyboard-row">
+                    <button class="key-btn" onclick="keyPress('Q')">Q</button>
+                    <button class="key-btn" onclick="keyPress('S')">S</button>
+                    <button class="key-btn" onclick="keyPress('D')">D</button>
+                    <button class="key-btn" onclick="keyPress('F')">F</button>
+                    <button class="key-btn" onclick="keyPress('G')">G</button>
+                    <button class="key-btn" onclick="keyPress('H')">H</button>
+                    <button class="key-btn" onclick="keyPress('J')">J</button>
+                    <button class="key-btn" onclick="keyPress('K')">K</button>
+                    <button class="key-btn" onclick="keyPress('L')">L</button>
+                    <button class="key-btn" onclick="keyPress('M')">M</button>
+                </div>
+                <div class="keyboard-row">
+                    <button class="key-btn" onclick="keyPress('W')">W</button>
+                    <button class="key-btn" onclick="keyPress('X')">X</button>
+                    <button class="key-btn" onclick="keyPress('C')">C</button>
+                    <button class="key-btn" onclick="keyPress('V')">V</button>
+                    <button class="key-btn" onclick="keyPress('B')">B</button>
+                    <button class="key-btn" onclick="keyPress('N')">N</button>
+                    <button class="key-btn key-backspace" onclick="keyBackspace()">⌫</button>
+                </div>
+                <div class="keyboard-row">
+                    <button class="key-btn key-space" onclick="keyPress(' ')">ESPACE</button>
+                    <button class="key-btn key-clear" onclick="keyClear()">EFFACER</button>
+                </div>
+            </div>
+            <button class="keyboard-ok" onclick="keyOk()">OK</button>
+        </div>
+    </div>
 </body>
 
 </html>

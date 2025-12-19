@@ -46,7 +46,7 @@
             </div>
 
             <!-- Sous-thème Card -->
-            <div class="selection-card sous-theme-card" onclick="selectOption('sous-theme')">
+            <div class="selection-card sous-theme-card disabled">
                 <div class="card-image-container">
                     <img src="{{ url_for('static', filename='img/selection-questions/sous-theme.png') }}"
                         alt="Sous-thème" class="card-image">
@@ -107,7 +107,7 @@
                     .then(data => {
                         console.log('Random setup saved:', data);
                         // Redirect to the next page (you can change this to wherever you want)
-                        window.location.href = '/basketball';
+                        window.location.href = '/joker-selection';
                     })
                     .catch(error => {
                         console.error('Error saving random setup:', error);

@@ -409,8 +409,9 @@
         }
 
         // Timer countdown with SVG circle animation
-        let timeLeft = 30;
-        const totalTime = 30;
+        const answerTime = {{ answer_time | default (30) }};
+        let timeLeft = answerTime;
+        const totalTime = answerTime;
         const numberElement = document.querySelector('.countdown-number');
         const circleElement = document.querySelector('.progress-ring-circle');
 

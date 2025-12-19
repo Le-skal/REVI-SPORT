@@ -1,0 +1,583 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "image": "histoire.png",
+            "question": "Quel évènement est le déclencheur de la première guerre mondiale ?",
+            "options": [
+                "l'assassinat de l'archiduc autrichien François-Ferdinand",
+                "le génocide arménien",
+                "l'arrivée d'Adolf Hitler au pouvoir en Allemagne",
+                "la Révolution Russe"
+            ],
+            "correctAnswer": 0,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 2,
+            "image": "histoire.png",
+            "question": "Quel jour a été signé l'armistice de la Première guerre mondiale ?",
+            "options": [
+                "8 mai 1918",
+                "11 juin 1918",
+                "1er novembre 1918",
+                "11 novembre 1918"
+            ],
+            "correctAnswer": 3,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 3,
+            "image": "histoire.png",
+            "question": "Lors de la première guerre, deux blocs s'opposent. Quels pays font partie de la Triple Alliance ?",
+            "options": [
+                "Allemagne, Italie, Autriche-Hongrie",
+                "France, Royaume-Uni, Russie",
+                "Allemagne, France, Italie",
+                "Royaume-Uni, États-Unis, France"
+            ],
+            "correctAnswer": 0,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 4,
+            "image": "histoire.png",
+            "question": "Quel traité de paix est signé en 1919 à la suite de la première guerre mondiale ?",
+            "options": [
+                "traité de Rome",
+                "traité de Versailles",
+                "traité de Paris",
+                "traité de Verdun"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 5,
+            "image": "histoire.png",
+            "question": "Qui est le chef des bolcheviks, fondateur de l'URSS en 1922 ?",
+            "options": [
+                "Staline",
+                "Lénine",
+                "Trotski",
+                "Khrouchtchev"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 6,
+            "image": "histoire.png",
+            "question": "Comment peut-on caractériser un régime totalitaire comme le nazisme ou le stalinisme (plusieurs réponses possibles) ?",
+            "options": [
+                "un régime du parti unique",
+                "un régime démocratique",
+                "un régime de propagande qui voue le culte du chef",
+                "un régime où les médias sont libres"
+            ],
+            "correctAnswer": [
+                0,
+                2
+            ],
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 7,
+            "image": "histoire.png",
+            "question": "En quelle année Adolf Hitler devient-il démocratiquement chancelier allemand, et prend le pouvoir en Allemagne ?",
+            "options": [
+                "1918",
+                "1933",
+                "1939",
+                "1945"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 8,
+            "image": "histoire.png",
+            "question": "Quelles lois, du nom d'une ville en Allemagne, sont adoptées en 1935 par le parti nazi et marquent l'avènement de la politique antisémite du régime ?",
+            "options": [
+                "lois de Nuremberg",
+                "lois de Berlin",
+                "lois de Munich",
+                "lois de Francfort"
+            ],
+            "correctAnswer": 0,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 9,
+            "image": "histoire.png",
+            "question": "En quelle année le front populaire arrive-t-il au pouvoir en France ?",
+            "options": [
+                "1933",
+                "1934",
+                "1935",
+                "1936"
+            ],
+            "correctAnswer": 3,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 10,
+            "image": "histoire.png",
+            "question": "Quelles réformes ont été adoptées par le front populaire ?",
+            "options": [
+                "la semaine de 35h",
+                "2 semaines de congés payés",
+                "la baisse des salaires",
+                "l'instauration de meilleures conditions de travail"
+            ],
+            "correctAnswer": [
+                1,
+                3
+            ],
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 11,
+            "image": "histoire.png",
+            "question": "Figure du socialisme et du front populaire, je suis président du Conseil de juin 1936 à juin 1937. Qui suis-je ?",
+            "options": [
+                "Léon Blum",
+                "Pierre Mendès France",
+                "Jean Jaurès",
+                "Georges Clemenceau"
+            ],
+            "correctAnswer": 0,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 12,
+            "image": "histoire.png",
+            "question": "Quel jour a été signée l'armistice de la 2ème guerre mondiale ?",
+            "options": [
+                "1er janvier 1945",
+                "8 mai 1945",
+                "11 septembre 1945",
+                "11 novembre 1945"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 13,
+            "image": "histoire.png",
+            "question": "La « shoah » (destruction de juifs d'Europe pendant la 2ème guerre mondiale) est-elle (2 réponses attendues) ?",
+            "options": [
+                "un crime perpétré par les nazis",
+                "un crime perpétré par les communistes",
+                "un crime resté impuni",
+                "un crime reconnu comme crime contre l'humanité"
+            ],
+            "correctAnswer": [
+                0,
+                3
+            ],
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 14,
+            "image": "histoire.png",
+            "question": "Ancien militaire, je choisis de collaborer avec l'Allemagne en 1940 et je dirige le régime de Vichy. Qui suis-je ?",
+            "options": [
+                "le général de Gaulle",
+                "Léon Blum",
+                "le maréchal Pétain",
+                "le maréchal Foch"
+            ],
+            "correctAnswer": 2,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 15,
+            "image": "histoire.png",
+            "question": "Chef de la résistance française pendant la 2ème guerre mondiale, je lance l'appel à la résistance depuis Londres le 18 juin 1940. Qui suis-je ?",
+            "options": [
+                "le maréchal Pétain",
+                "le général de Gaulle",
+                "Jean Moulin",
+                "Georges Clemenceau"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 16,
+            "image": "histoire.png",
+            "question": "Où est installé le gouvernement du maréchal Pétain en 1940 ?",
+            "options": [
+                "Paris",
+                "Tours",
+                "Vichy",
+                "Londres"
+            ],
+            "correctAnswer": 2,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 17,
+            "image": "histoire.png",
+            "question": "Que s'est-il passé le jour J en 1944 ?",
+            "options": [
+                "les alliés ont débarqué sur les plages de Normandie",
+                "Adolf Hitler et les allemands capitulent et signent un traité de paix",
+                "une bombe atomique explose à Hiroshima",
+                "la libération provoque la chute du régime de Vichy"
+            ],
+            "correctAnswer": 0,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 18,
+            "image": "histoire.png",
+            "question": "En quelle année le droit de vote est-il donné aux femmes en France ?",
+            "options": [
+                "1942",
+                "1944",
+                "1950",
+                "1967"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 19,
+            "image": "histoire.png",
+            "question": "Comment nomme-t-on le conflit politique et idéologique entre bloc de l'Ouest et bloc de l'Est, qui repose sur des affrontements indirects mais ne conduit jamais à une guerre ouverte, de 1947 à 1991 ?",
+            "options": [
+                "Guerre froide",
+                "Guerre mondiale",
+                "Guerre de position",
+                "Guerre idéologique"
+            ],
+            "correctAnswer": 0,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 20,
+            "image": "histoire.png",
+            "question": "En 1949, quel État européen se retrouve divisé en 2 États ennemis, et cristallise la tension entre bloc de l'Est et bloc de l'Ouest ?",
+            "options": [
+                "Italie",
+                "Autriche",
+                "Allemagne",
+                "Yougoslavie"
+            ],
+            "correctAnswer": 2,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 21,
+            "image": "histoire.png",
+            "question": "En quelle année est créée l'Union européenne, par le traité de Maastricht ?",
+            "options": [
+                "1961",
+                "1985",
+                "1992",
+                "2002"
+            ],
+            "correctAnswer": 2,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 22,
+            "image": "histoire.png",
+            "question": "En quelle année la Vème République est-elle mise en place en France ?",
+            "options": [
+                "1948",
+                "1958",
+                "1962",
+                "1969"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 23,
+            "image": "histoire.png",
+            "question": "Complète la frise : quel président était en fonction de 1995 à 2007 ?",
+            "options": [
+                "Giscard d'Estaing",
+                "Mitterrand",
+                "Chirac",
+                "Sarkozy"
+            ],
+            "correctAnswer": 2,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "text-input"
+        },
+        {
+            "id": 24,
+            "image": "histoire.png",
+            "question": "Quel terme emploie-t-on lorsque le président de la République et le premier ministre appartiennent à des partis politiques de tendance opposée ?",
+            "options": [
+                "l'alternance",
+                "le partage",
+                "la cohabitation",
+                "la mitoyenneté"
+            ],
+            "correctAnswer": 2,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 25,
+            "image": "histoire.png",
+            "question": "Quelle réforme est votée pendant les années Mitterrand ?",
+            "options": [
+                "l'abolition de la peine de mort",
+                "la retraite à 65 ans",
+                "le droit de vote aux femmes",
+                "la réduction du mandat présidentiel à 5 ans (quinquennat)"
+            ],
+            "correctAnswer": 0,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 26,
+            "image": "histoire.png",
+            "question": "Je suis élu président de la République de 1981 à 1995. Qui suis-je ?",
+            "options": [
+                "Valéry Giscard d'Estaing",
+                "François Mitterrand",
+                "Jacques Chirac",
+                "Georges Pompidou"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 27,
+            "image": "histoire.png",
+            "question": "Quelle loi de 1975 dépénalise et autorise le droit à l'avortement en France ?",
+            "options": [
+                "loi Pompidou",
+                "loi Veil",
+                "loi Cresson",
+                "loi Giscard"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 28,
+            "image": "histoire.png",
+            "question": "À quel âge un citoyen français peut-il devenir président de la République ou élu député à l'Assemblée nationale ?",
+            "options": [
+                "16 ans",
+                "18 ans",
+                "21 ans",
+                "24 ans"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 29,
+            "image": "histoire.png",
+            "question": "Quelle conférence de 1945 a décidé du sort de l'Allemagne après la Seconde Guerre Mondiale ?",
+            "options": [
+                "la conférence de Yalta",
+                "la conférence de Téhéran",
+                "la conférence de Potsdam",
+                "la conférence de Nuremberg"
+            ],
+            "correctAnswer": 0,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 30,
+            "image": "histoire.png",
+            "question": "Le mouvement de décolonisation a commencé en 1947 avec l'indépendance de quel pays ?",
+            "options": [
+                "le Kenya",
+                "l'Algérie",
+                "l'Inde",
+                "le Sénégal"
+            ],
+            "correctAnswer": 2,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 31,
+            "image": "histoire.png",
+            "question": "Quelle célèbre figure politique a conduit l'Inde à l'Indépendance en 1947 ?",
+            "options": [
+                "Nehru",
+                "Gandhi",
+                "Jinnah",
+                "Patel"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 32,
+            "image": "histoire.png",
+            "question": "Parmi ces 4 pays, lequel n'est pas à l'origine de la création de la communauté économique européenne (CEE) en 1957 ?",
+            "options": [
+                "la France",
+                "l'Allemagne",
+                "le Royaume-Uni",
+                "le Luxembourg"
+            ],
+            "correctAnswer": 2,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 33,
+            "image": "histoire.png",
+            "question": "Quelle alliance militaire a été créée par les États-Unis et leurs alliés en 1949 ?",
+            "options": [
+                "l'ONU",
+                "l'UE",
+                "l'URSS",
+                "l'OTAN"
+            ],
+            "correctAnswer": 3,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 34,
+            "image": "histoire.png",
+            "question": "En quelle année le Brexit a-t-il été officiellement acté ?",
+            "options": [
+                "2018",
+                "2020",
+                "2022",
+                "2024"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 35,
+            "image": "histoire.png",
+            "question": "Quel pays a été envahi par l'Allemagne en premier lors de la Seconde Guerre Mondiale ?",
+            "options": [
+                "la Russie",
+                "l'Autriche",
+                "la Pologne",
+                "la France"
+            ],
+            "correctAnswer": 2,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 36,
+            "image": "histoire.png",
+            "question": "Quel évènement a précipité la fin de la 4ème République ?",
+            "options": [
+                "le début de la Seconde Guerre Mondiale",
+                "le premier choc pétrolier",
+                "l'indépendance de l'Inde",
+                "la crise algérienne"
+            ],
+            "correctAnswer": 3,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 37,
+            "image": "histoire.png",
+            "question": "En quelle année a eu lieu le blocus de Cuba ?",
+            "options": [
+                "1960",
+                "1962",
+                "1964",
+                "1966"
+            ],
+            "correctAnswer": 1,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 38,
+            "image": "histoire.png",
+            "question": "Trouve l'intrus (pense au pays d'origine) : Lénine, Gorbatchev, Staline, Churchill",
+            "options": [
+                "Lénine",
+                "Gorbatchev",
+                "Staline",
+                "Churchill"
+            ],
+            "correctAnswer": 3,
+            "theme": "histoire",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        }
+    ]
+}

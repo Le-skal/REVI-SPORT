@@ -1,0 +1,496 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "image": "svt.png",
+            "question": "Qu'est-ce que les allèles ?",
+            "options": [
+                "l'ensemble de tous les gènes d'un individu",
+                "toutes les versions d'un même gène",
+                "tous les gènes portés par un seul chromosome",
+                "tous les gènes portés par une paire de chromosomes"
+            ],
+            "correctAnswer": 1,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 2,
+            "image": "svt.png",
+            "question": "Portion de la molécule d'ADN contenant une information qui détermine un caractère héréditaire. Qui suis-je ?",
+            "options": [
+                "chromosome",
+                "gène",
+                "allèle",
+                "nucléotide"
+            ],
+            "correctAnswer": 1,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 3,
+            "image": "svt.png",
+            "question": "Sur quelle paire de chromosomes les gènes A, B, C sont-ils correctement représentés ? (voir p297)",
+            "options": [
+                "paire 1",
+                "paire 2",
+                "paire 3",
+                "paire 4"
+            ],
+            "correctAnswer": 0,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 4,
+            "image": "svt.png",
+            "question": "Quels mécanismes sont associés à la reproduction sexuée (plusieurs réponses attendues) ?",
+            "options": [
+                "la méiose",
+                "la fécondation",
+                "la cellulose",
+                "la formation"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 5,
+            "image": "svt.png",
+            "question": "Quelles affirmations sont vraies ?",
+            "options": [
+                "la reproduction sexuée permet d'obtenir des individus génétiquement identiques",
+                "la reproduction asexuée permet d'obtenir des individus génétiquement identiques (clones)",
+                "la reproduction sexuée met en jeu la méiose puis la fécondation",
+                "la reproduction sexuée met en jeu la fécondation puis la méiose"
+            ],
+            "correctAnswer": [
+                1,
+                2
+            ],
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 6,
+            "image": "svt.png",
+            "question": "En SVT, qu'appelle-t-on l'arbre du vivant ?",
+            "options": [
+                "les liens de parenté qui existent entre les individus d'une espèce donnée",
+                "les différences anatomiques entre les espèces",
+                "les liens de parenté entre différentes espèces d'arbres",
+                "les liens de parenté qui existent entre différentes espèces"
+            ],
+            "correctAnswer": 3,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 7,
+            "image": "svt.png",
+            "question": "En observant cet arbre évolutif, quelle espèce actuelle a le lien de parenté le plus étroit avec l'espèce humaine ?",
+            "options": [
+                "le gorille",
+                "le chimpanzé",
+                "l'orang-outan",
+                "le gibbon"
+            ],
+            "correctAnswer": 1,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 8,
+            "image": "svt.png",
+            "question": "Dans un milieu donné, certains allèles plus avantageux vont s'affirmer et favoriser la survie de l'espèce et la capacité à se reproduire. Leur fréquence va alors augmenter au sein de la population. Comment appelle-t-on ce mécanisme ?",
+            "options": [
+                "la survie animale",
+                "la sélection naturelle",
+                "l'innovation évolutive",
+                "le choix artificiel"
+            ],
+            "correctAnswer": 1,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 9,
+            "image": "svt.png",
+            "question": "Qu'est-ce qu'un écosystème ?",
+            "options": [
+                "un ensemble constitué par un milieu, des êtres vivants et leurs relations",
+                "un environnement sans aucune trace humaine",
+                "l'ensemble des êtres vivants sur Terre",
+                "un ensemble de milieux naturels sans êtres vivants"
+            ],
+            "correctAnswer": 0,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 10,
+            "image": "svt.png",
+            "question": "L'Homme perturbe l'équilibre de nombreux écosystèmes. Quelles affirmations sont vraies ?",
+            "options": [
+                "en moyenne, le taux d'extinction des espèces est 500 fois inférieur grâce à la présence de l'Homme",
+                "le maintien de la biodiversité est menacée par l'agriculture intensive",
+                "les activités humaines, notamment la combustion des énergies fossiles, engendre un refroidissement des svtératures au niveau des pôles",
+                "le développement durable est une solution pour préserver et protéger l'environnement"
+            ],
+            "correctAnswer": [
+                1,
+                3
+            ],
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 11,
+            "image": "svt.png",
+            "question": "Classe ces activités : lesquelles ont un impact positif sur la biodiversité ?",
+            "options": [
+                "agriculture raisonnée",
+                "création de parcs naturels",
+                "introduction d'espèces invasives",
+                "agriculture intensive"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 12,
+            "image": "svt.png",
+            "question": "Classe ces activités : lesquelles ont un impact positif sur la biodiversité ?",
+            "options": [
+                "quotas de pêche",
+                "choix des énergies renouvelables",
+                "déforestation",
+                "combustion des énergies fossiles"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 13,
+            "image": "svt.png",
+            "question": "Quelles affirmations sont vraies sur les bactéries ?",
+            "options": [
+                "elles sont systématiquement pathogènes",
+                "elles sont présentes partout dans l'environnement (air, aliments, eau)",
+                "elles sont présentes en très grands nombres dans notre corps",
+                "elles sont parfois visibles à l'œil nu"
+            ],
+            "correctAnswer": [
+                1,
+                2
+            ],
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 14,
+            "image": "svt.png",
+            "question": "Classe ces mesures d'hygiène : lesquelles sont de l'antisepsie ?",
+            "options": [
+                "se laver les mains au savon",
+                "stériliser des instruments chirurgicaux avant une opération",
+                "nettoyer une plaie ouverte avec de l'alcool à 70°C",
+                "utiliser un bain de bouche en cas de gingivite (infection des gencives)"
+            ],
+            "correctAnswer": [
+                2,
+                3
+            ],
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 15,
+            "image": "svt.png",
+            "question": "Les antibiotiques sont-ils efficaces contre ?",
+            "options": [
+                "uniquement les bactéries",
+                "uniquement les virus",
+                "tous les virus et les bactéries",
+                "certain virus et certaines bactéries"
+            ],
+            "correctAnswer": 0,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 16,
+            "image": "svt.png",
+            "question": "Quelle réaction immunitaire est immédiate, non spécifique, et suffit souvent à stopper les infections en digérant les micro-organismes pathogènes ?",
+            "options": [
+                "la phagocytose",
+                "la réaction allergique",
+                "la réaction inflammatoire",
+                "la réponse immunitaire adaptative"
+            ],
+            "correctAnswer": 0,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 17,
+            "image": "svt.png",
+            "question": "De quelles couleurs sont les globules qui interviennent dans les défenses naturelles de l'organisme (réactions immunitaires) ?",
+            "options": [
+                "blanches",
+                "rouges",
+                "bleues",
+                "noires"
+            ],
+            "correctAnswer": 0,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 18,
+            "image": "svt.png",
+            "question": "Relie chaque anticorps à la bactérie qu'il peut neutraliser (voir schéma p307)",
+            "options": [
+                "correspondance 1",
+                "correspondance 2",
+                "correspondance 3",
+                "correspondance 4"
+            ],
+            "correctAnswer": 0,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "link"
+        },
+        {
+            "id": 19,
+            "image": "svt.png",
+            "question": "Quelles cellules produisent des anticorps ?",
+            "options": [
+                "les lymphocytes B",
+                "les lymphocytes T",
+                "les phagocytes",
+                "les hématies"
+            ],
+            "correctAnswer": 0,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 20,
+            "image": "svt.png",
+            "question": "P306. Complète ce schéma (voir document)",
+            "options": [
+                "lymphocyte B, anticorps, antigène, activation du système immunitaire",
+                "lymphocyte T, anticorps, antigène, activation du système immunitaire",
+                "phagocyte, anticorps, antigène, activation du système immunitaire",
+                "macrophage, anticorps, antigène, activation du système immunitaire"
+            ],
+            "correctAnswer": 0,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "text-input"
+        },
+        {
+            "id": 21,
+            "image": "svt.png",
+            "question": "Quelles propriétés ont les anticorps ?",
+            "options": [
+                "ils sont sécrétés par les phagocytes",
+                "ils sont capables de neutraliser spécifiquement des antigènes",
+                "ils définissent, par leur présence, la séropositivité d'un individu",
+                "ils sont en permanence présents dans le sang"
+            ],
+            "correctAnswer": [
+                1,
+                2
+            ],
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 22,
+            "image": "svt.png",
+            "question": "Quelles affirmations sont vraies sur le vaccin ?",
+            "options": [
+                "il contient des anticorps",
+                "il contient des antigènes",
+                "il est efficace à vie s'il est injecté dès la petite enfance",
+                "des piqûres de rappel sont très souvent indispensables pour entretenir la mémoire immunitaire"
+            ],
+            "correctAnswer": [
+                1,
+                3
+            ],
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 23,
+            "image": "svt.png",
+            "question": "La vaccination a pour effet de déclencher la production de globules blancs dits mémoires. Lesquels ?",
+            "options": [
+                "lymphocytes mémoires",
+                "phagocytes mémoires",
+                "macrophages mémoires",
+                "neutrophiles mémoires"
+            ],
+            "correctAnswer": 0,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 24,
+            "image": "svt.png",
+            "question": "Quel naturaliste anglais du XIXème siècle décrit la sélection naturelle comme un mécanisme de l'évolution ?",
+            "options": [
+                "Alfred Wallace",
+                "Charles Darwin",
+                "Jean-Baptiste Lamarck",
+                "Gregor Mendel"
+            ],
+            "correctAnswer": 1,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 25,
+            "image": "svt.png",
+            "question": "De quoi est généralement constitué une cellule ?",
+            "options": [
+                "d'un noyau et d'un cytoplasme",
+                "d'un noyau et d'un mucus",
+                "d'un grain et d'un cytoplasme",
+                "d'un grain et d'un mucus"
+            ],
+            "correctAnswer": 0,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 26,
+            "image": "svt.png",
+            "question": "Classe du plus petit au plus grand",
+            "options": [
+                "noyau cellulaire, cellule, bactérie, puce, fourmi",
+                "cellule, noyau cellulaire, bactérie, puce, fourmi",
+                "bactérie, noyau cellulaire, cellule, fourmi, puce",
+                "noyau cellulaire, bactérie, cellule, puce, fourmi"
+            ],
+            "correctAnswer": 0,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "order"
+        },
+        {
+            "id": 27,
+            "image": "svt.png",
+            "question": "Quelle est la structure de base de l'ADN ?",
+            "options": [
+                "une simple hélice",
+                "une double hélice",
+                "un triple brin",
+                "une chaîne linéaire"
+            ],
+            "correctAnswer": 1,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 28,
+            "image": "svt.png",
+            "question": "Quel élément de la cellule est responsable de la synthèse des protéines ?",
+            "options": [
+                "le noyau",
+                "les ribosomes",
+                "la mitochondrie",
+                "le réticulum endoplasmique"
+            ],
+            "correctAnswer": 1,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 29,
+            "image": "svt.png",
+            "question": "Comment s'appelle l'ensemble des gènes d'un individu ?",
+            "options": [
+                "le génotype",
+                "le phénotype",
+                "le caryotype",
+                "le génome"
+            ],
+            "correctAnswer": 3,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 30,
+            "image": "svt.png",
+            "question": "Quel processus permet de produire des cellules sexuelles (gamètes) ?",
+            "options": [
+                "mitose",
+                "méiose",
+                "transcription",
+                "réplication"
+            ],
+            "correctAnswer": 1,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 31,
+            "image": "svt.png",
+            "question": "Quelle est la principale cause des séismes ?",
+            "options": [
+                "l'éruption volcanique",
+                "le glissement de terrain",
+                "le déplacement des plaques tectoniques",
+                "le changement climatique"
+            ],
+            "correctAnswer": 2,
+            "theme": "svt",
+            "level": "Cycle 4 niveau 3 : 3ème",
+            "gameType": "knowledge"
+        }
+    ]
+}

@@ -112,31 +112,36 @@
     </div>
 
     <script>
-        let selectedTheme = null;
+        let selectedThemes = [];
 
         function goBack() {
             window.history.back();
         }
 
         function selectTheme(element) {
-            // Remove selected class from previously selected card
-            const previousSelected = document.querySelector('.theme-card.selected');
-            if (previousSelected && previousSelected !== element) {
-                previousSelected.classList.remove('selected');
-            }
-
             // Toggle selected class on clicked card
             element.classList.toggle('selected');
 
-            // Update selectedTheme
+            // Update selectedThemes array
+            const theme = element.dataset.theme;
             if (element.classList.contains('selected')) {
-                selectedTheme = element.dataset.theme;
-                // Show valider button
+                // Add theme if not already in array
+                if (!selectedThemes.includes(theme)) {
+                    selectedThemes.push(theme);
+                }
+            } else {
+                // Remove theme from array
+                const index = selectedThemes.indexOf(theme);
+                if (index > -1) {
+                    selectedThemes.splice(index, 1);
+                }
+            }
+
+            // Show/hide valider button based on selection count
+            if (selectedThemes.length > 0) {
                 document.getElementById('validerBtn').style.display = 'flex';
                 document.getElementById('validerBtn').classList.add('show-animation');
             } else {
-                selectedTheme = null;
-                // Hide valider button
                 document.getElementById('validerBtn').classList.add('hide-animation');
                 setTimeout(() => {
                     document.getElementById('validerBtn').style.display = 'none';
@@ -144,27 +149,27 @@
                 }, 300);
             }
 
-            console.log('Selected theme:', selectedTheme);
+            console.log('Selected themes:', selectedThemes);
         }
 
         function handleValider() {
-            if (selectedTheme) {
-                console.log('Validating theme:', selectedTheme);
+            if (selectedThemes.length > 0) {
+                console.log('Validating themes:', selectedThemes);
 
-                // Save the selected theme to game_setup.json
+                // Save the selected themes to game_setup.json
                 fetch('/save-game-setup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ theme: selectedTheme })
+                    body: JSON.stringify({ themes: selectedThemes })
                 }).then(response => response.json())
                     .then(data => {
-                        console.log('Theme saved:', data);
+                        console.log('Themes saved:', data);
                         window.location.href = '/joker-selection';
                     })
                     .catch(error => {
-                        console.error('Error saving theme:', error);
+                        console.error('Error saving themes:', error);
                         window.location.href = '/joker-selection';
                     });
             }
