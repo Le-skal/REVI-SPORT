@@ -338,7 +338,8 @@
             console.log('Applying indice joker - removing one incorrect answer');
 
             // Get the correct answer
-            const correctAnswer = {{ question.correctAnswer if question else 0 }};
+            const correctAnswer = {{ question.correctAnswer if question else 0 }
+        };
         console.log('Correct answer index:', correctAnswer);
 
         // Get all option buttons
