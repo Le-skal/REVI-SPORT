@@ -23,7 +23,7 @@
   width: 60%;
   height: 10%;
   object-fit: contain;
-  margin: 20% auto 0;
+  margin: 10% auto 0;
   flex-shrink: 0;
   display: block;
 }
@@ -37,10 +37,13 @@
 }
 
 .card img {
-  width: 100%;
+  width: 90%;
+  /* ou la taille que tu veux */
   height: auto;
   object-fit: contain;
   display: block;
+  margin: 0 auto;
+  /* ← ajoute cette ligne pour centrer */
 }
 
 .brand-card {
@@ -87,7 +90,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  width: 92%;
+  width: 80%;
   margin: 0 auto;
 }
 

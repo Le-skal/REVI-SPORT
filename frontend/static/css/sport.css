@@ -4,7 +4,7 @@
   width: 40%;
   height: 10%;
   object-fit: contain;
-  margin: 20% auto 0;
+  margin: 15% auto 0;
   flex-shrink: 0;
   display: block;
 }
@@ -13,7 +13,7 @@
   width: auto;
   height: auto;
   max-width: 90%;
-  max-height: 160px;
+  max-height: 180px;
   object-fit: contain;
   margin: 0 auto;
   flex-shrink: 0;
@@ -25,7 +25,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
-  width:100%;
+  width: 100%;
   margin: 0 auto;
   align-content: center;
   overflow-y: visible;
@@ -48,5 +48,5 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  max-width: 244px;
+  max-width: 277px;
 }

@@ -4,7 +4,7 @@
   width: 40%;
   height: auto;
   object-fit: contain;
-  margin: 8% auto 0;
+  margin: 5% auto 0;
   flex-shrink: 0;
   display: block;
 }
@@ -23,6 +23,7 @@
   width: 100%;
   height: auto;
   object-fit: contain;
+  max-height: 95%;
 }
 
 .team-name-display {
@@ -60,7 +61,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
-  width: 90%;
+  width: 85%;
   margin: 0 auto 20px;
   padding: 10px 0;
   flex-grow: 1;
