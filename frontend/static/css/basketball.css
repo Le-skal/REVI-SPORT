@@ -67,8 +67,8 @@
 
 .court-avatar {
   position: absolute;
-  width: 60px !important;
-  height: 60px !important;
+  width: 70px !important;
+  height: 70px !important;
   border-radius: 50%;
   object-fit: cover;
   z-index: 5;
@@ -76,13 +76,13 @@
 
 .red-avatar {
   top: 50%;
-  left: 19.5%;
+  left: 22%;
   transform: translateY(-50%);
 }
 
 .blue-avatar {
   top: 50%;
-  right: 19.5%;
+  right: 22%;
   transform: translateY(-50%);
 }
 
