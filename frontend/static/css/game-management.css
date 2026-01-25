@@ -1,0 +1,414 @@
+/* ===== STYLE PAGE GAME MANAGEMENT ===== */
+
+.game-management-screen {
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px;
+    padding-top: 30px;
+}
+
+/* ===== HEADER SECTION ===== */
+.header-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 10px;
+}
+
+.team-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.team-info.blue-team {
+    flex-direction: row;
+}
+
+.team-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid;
+}
+
+.red-team .team-avatar {
+    border-color: rgb(186, 74, 74);
+}
+
+.blue-team .team-avatar {
+    border-color: rgb(74, 128, 186);
+}
+
+.team-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 100%;
+    letter-spacing: 0%;
+}
+
+.red-team .team-name {
+    color: rgb(186, 74, 74);
+}
+
+.blue-team .team-name {
+    color: rgb(74, 128, 186);
+}
+
+.score-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.score {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 42px;
+    font-weight: bold;
+}
+
+.red-score {
+    color: rgb(186, 74, 74);
+}
+
+.blue-score {
+    color: rgb(74, 128, 186);
+}
+
+.vs {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 24px;
+    color: #ffffff;
+    font-style: italic;
+}
+
+/* ===== TIMER SECTION ===== */
+.timer-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.control-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    padding: 0;
+}
+
+.control-btn img {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+}
+
+.control-btn:hover {
+    transform: scale(1.05);
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+.timer-display {
+    background: transparent;
+    padding: 8px 30px;
+    border-radius: 8px;
+    min-width: 190px;
+    text-align: center;
+}
+
+.timer-display span {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 2px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ===== COURT SECTION ===== */
+.card {
+    width: 92%;
+    margin: 0 auto;
+    border-radius: 14px;
+    padding: 12px;
+    position: relative;
+}
+
+.card img {
+    width: 90%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.court-card {
+    position: relative;
+}
+
+.court-avatar {
+    position: absolute;
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 5;
+}
+
+.red-avatar {
+    top: 50%;
+    left: 22%;
+    transform: translateY(-50%);
+}
+
+.blue-avatar {
+    top: 50%;
+    right: 22%;
+    transform: translateY(-50%);
+}
+
+/* Field positions (non-basketball) */
+.field-court .red-avatar {
+    left: 31%;
+}
+
+.field-court .blue-avatar {
+    right: 31%;
+}
+
+/* Relais-biathlon positions */
+.relais-court .court-avatar {
+    width: 60.5px !important;
+    height: 60.5px !important;
+}
+
+
+.relais-court .red-avatar {
+    top: 50%;
+    left: 39.5%;
+}
+
+.relais-court .blue-avatar {
+    top: 50%;
+    right: 37%;
+}
+
+/* ===== TABS SECTION ===== */
+.tabs-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    padding: 0;
+}
+
+.tab-btn img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+.tab-btn.active {
+    opacity: 1;
+}
+
+.tab-btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* ===== EVENTS TABLE ===== */
+.events-section {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.events-section.hidden {
+    display: none;
+}
+
+.events-table {
+    width: 100%;
+    background: #2C2C3A;
+    border: 1px solid #5B5B5B;
+    border-radius: 4px;
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-header {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 46px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.table-header>div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 130%;
+    color: #FFFFFF;
+    border-top: 1px solid #5B5B5B;
+    border-left: 1px solid #5B5B5B;
+    box-sizing: border-box;
+}
+
+.table-header>div:first-child {
+    border-left: none;
+}
+
+.table-body {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.table-row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 39px;
+    background: rgba(255, 255, 255, 0.002);
+}
+
+.table-row>div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 130%;
+    color: #FFFFFF;
+    border-top: 1px solid #5B5B5B;
+    border-left: 1px solid #5B5B5B;
+    box-sizing: border-box;
+}
+
+.table-row>div:first-child {
+    border-left: none;
+}
+
+.table-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.col-joueur {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.team-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.team-indicator.red {
+    background-color: rgb(186, 74, 74);
+}
+
+.team-indicator.blue {
+    background-color: rgb(74, 128, 186);
+}
+
+/* Result classes */
+.col-resultat.correct {
+    color: #4caf50;
+}
+
+.col-resultat.incorrect {
+    color: #f44336;
+}
+
+.col-resultat.neutral {
+    color: #ff9800;
+}
+
+.col-resultat.points {
+    color: #f0c400;
+}
+
+/* ===== INACTIVE PLAYERS SECTION ===== */
+.inactive-players {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 15px;
+    background: rgba(30, 30, 40, 0.6);
+    border-radius: 10px;
+    height: 100%;
+}
+
+.inactive-list h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid;
+}
+
+.red-inactive h4 {
+    color: rgb(186, 74, 74);
+    border-color: rgb(186, 74, 74);
+}
+
+.blue-inactive h4 {
+    color: rgb(74, 128, 186);
+    border-color: rgb(74, 128, 186);
+}
+
+/* Scrollbar styling */
+.table-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table-body::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.table-body::-webkit-scrollbar-thumb {
+    background: rgba(240, 196, 0, 0.5);
+    border-radius: 3px;
+}
+
+.table-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(240, 196, 0, 0.7);
+}

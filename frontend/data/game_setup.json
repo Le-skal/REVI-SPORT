@@ -1,27 +1,28 @@
 {
-  "mode": "sport-collectif",
-  "sport": "basketball",
+  "mode": "relais-biathlon",
+  "parcours": "motricite",
   "themes": [
-    "math",
-    "francais",
-    "histoire",
-    "geographie",
-    "svt",
-    "chimie"
+    "francais"
   ],
-  "jokers": [
-    "theme",
-    "double-point",
-    "double-prison"
-  ],
+  "joker": "double-point",
   "level": "Cycle 4 niveau 3 : 3ème",
   "minPassages": 1,
   "maxPassages": 4,
   "penalty": 4,
+  "jokers": [
+    "theme",
+    "team",
+    "double-point",
+    "double-prison",
+    "switch",
+    "indice"
+  ],
   "gameTime": 32,
-  "timeoutCount": 5,
-  "prisonTime": 30,
-  "answerTime": 30,
-  "sportPoints": 3,
-  "duelPoints": 3
+  "passagesCount": 8,
+  "reponsesCount": 5,
+  "penalties": [
+    "gainage",
+    "squat"
+  ],
+  "penaltyDuration": 20
 }

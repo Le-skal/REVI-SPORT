@@ -69,6 +69,11 @@ def sport():
     return render_template("sport.html")
 
 
+@app.route("/parcours")
+def parcours():
+    return render_template("parcours.html")
+
+
 @app.route("/basketball")
 def basketball():
     # Charger les données de l'équipe rouge si elles existent
@@ -115,13 +120,17 @@ def basketball():
         except:
             pass
 
-    # Charger le niveau depuis game_setup.json
+    # Charger le niveau, sport et mode depuis game_setup.json
     level = None
+    sport = "basketball"
+    mode = "sport-collectif"
     if os.path.exists(GAME_SETUP_FILE):
         try:
             with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
                 game_setup = json.load(f)
                 level = game_setup.get("level")
+                sport = game_setup.get("sport", "basketball")
+                mode = game_setup.get("mode", "sport-collectif")
         except:
             pass
 
@@ -134,22 +143,119 @@ def basketball():
         blue_team_names=blue_team_names,
         blue_avatar_id=blue_avatar_id,
         level=level,
+        sport=sport,
+        mode=mode,
+    )
+
+
+@app.route("/game-management")
+def game_management():
+    # Load red team data
+    red_team_name = "Rouge"
+    red_avatar_id = "1"
+    if os.path.exists(RED_TEAM_FILE):
+        try:
+            with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
+                red_team_data = json.load(f)
+                red_team_name = red_team_data.get("team_name", "Rouge")
+                red_avatar_id = red_team_data.get("avatar", "1")
+        except:
+            pass
+
+    # Load blue team data
+    blue_team_name = "Bleue"
+    blue_avatar_id = "2"
+    if os.path.exists(BLUE_TEAM_FILE):
+        try:
+            with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
+                blue_team_data = json.load(f)
+                blue_team_name = blue_team_data.get("team_name", "Bleue")
+                blue_avatar_id = blue_team_data.get("avatar", "2")
+        except:
+            pass
+
+    # Load game setup for time and sport
+    game_time_minutes = 32
+    sport = "basketball"
+    mode = None
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                game_time_minutes = game_setup.get("gameTime", 32)
+                sport = game_setup.get("sport", "basketball")
+                mode = game_setup.get("mode")
+        except:
+            pass
+
+    # Load game management data
+    game_management_file = os.path.join(DATA_DIR, "game-management.json")
+    red_score = 0
+    blue_score = 0
+    events = []
+    if os.path.exists(game_management_file):
+        try:
+            with open(game_management_file, "r", encoding="utf-8") as f:
+                game_data = json.load(f)
+                red_score = game_data.get("red_score", 0)
+                blue_score = game_data.get("blue_score", 0)
+                events = game_data.get("events", [])
+        except:
+            pass
+
+    game_time = f"{game_time_minutes:02d} : 00"
+
+    return render_template(
+        "game-management.html",
+        red_team_name=red_team_name,
+        red_avatar_id=red_avatar_id,
+        blue_team_name=blue_team_name,
+        blue_avatar_id=blue_avatar_id,
+        red_score=red_score,
+        blue_score=blue_score,
+        game_time=game_time,
+        game_time_minutes=game_time_minutes,
+        events=events,
+        sport=sport,
+        mode=mode,
     )
 
 
 @app.route("/nom_red_basketball")
 def nom_red_basketball():
-    return render_template("nom_red_basketball.html")
+    sport = "basketball"
+    mode = None
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                sport = game_setup.get("sport", "basketball")
+                mode = game_setup.get("mode")
+        except:
+            pass
+    return render_template("nom_red_basketball.html", sport=sport, mode=mode)
 
 
 @app.route("/nom_blue_basketball")
 def nom_blue_basketball():
-    return render_template("nom_blue_basketball.html")
+    sport = "basketball"
+    mode = None
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                sport = game_setup.get("sport", "basketball")
+                mode = game_setup.get("mode")
+        except:
+            pass
+    return render_template("nom_blue_basketball.html", sport=sport, mode=mode)
 
 
 @app.route("/avatar_red_basketball")
 def avatar_red_basketball():
     red_team_name = None
+    sport = "basketball"
+    mode = None
     if os.path.exists(RED_TEAM_FILE):
         try:
             with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
@@ -157,12 +263,27 @@ def avatar_red_basketball():
                 red_team_name = red_team_data.get("team_name")
         except:
             pass
-    return render_template("avatar_red_basketball.html", red_team_name=red_team_name)
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                sport = game_setup.get("sport", "basketball")
+                mode = game_setup.get("mode")
+        except:
+            pass
+    return render_template(
+        "avatar_red_basketball.html",
+        red_team_name=red_team_name,
+        sport=sport,
+        mode=mode,
+    )
 
 
 @app.route("/avatar_blue_basketball")
 def avatar_blue_basketball():
     blue_team_name = None
+    sport = "basketball"
+    mode = None
     if os.path.exists(BLUE_TEAM_FILE):
         try:
             with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
@@ -170,7 +291,20 @@ def avatar_blue_basketball():
                 blue_team_name = blue_team_data.get("team_name")
         except:
             pass
-    return render_template("avatar_blue_basketball.html", blue_team_name=blue_team_name)
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                sport = game_setup.get("sport", "basketball")
+                mode = game_setup.get("mode")
+        except:
+            pass
+    return render_template(
+        "avatar_blue_basketball.html",
+        blue_team_name=blue_team_name,
+        sport=sport,
+        mode=mode,
+    )
 
 
 @app.route("/countdown")
@@ -213,9 +347,28 @@ def configuration_timings():
     return render_template("configuration-timings.html", sport=sport)
 
 
+@app.route("/configuration-relais")
+def configuration_relais():
+    return render_template("configuration-relais.html")
+
+
 @app.route("/recapitulatif")
 def recapitulatif():
-    return render_template("recapitulatif.html")
+    sport = "basketball"
+    parcours = None
+    mode = None
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                sport = game_setup.get("sport", "basketball")
+                parcours = game_setup.get("parcours")
+                mode = game_setup.get("mode")
+        except:
+            pass
+    return render_template(
+        "recapitulatif.html", sport=sport, parcours=parcours, mode=mode
+    )
 
 
 @app.route("/game-intro")
@@ -985,7 +1138,7 @@ def get_random_question():
     try:
         # Get optional gameType parameter (defaults to "knowledge")
         requested_game_type = request.args.get("gameType", "knowledge")
-        
+
         # Load game setup
         if not os.path.exists(GAME_SETUP_FILE):
             return jsonify({"success": False, "error": "Game setup not found"}), 404
@@ -1009,7 +1162,7 @@ def get_random_question():
         filtered_questions = [
             q
             for q in all_questions
-            if q.get("theme") in selected_themes 
+            if q.get("theme") in selected_themes
             and q.get("level") == selected_level
             and q.get("gameType") == requested_game_type
         ]

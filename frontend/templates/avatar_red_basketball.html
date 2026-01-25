@@ -19,8 +19,16 @@
             alt="Choix de l'avatar">
 
         <div class="team-header">
+            {% if mode == 'relais-biathlon' %}
+            <img class="team-court" src="{{ url_for('static', filename='img/nom_red_basketball/intro3.png') }}"
+                alt="Équipe Rouge">
+            {% elif sport == 'basketball' %}
             <img class="team-court" src="{{ url_for('static', filename='img/nom_red_basketball/intro.png') }}"
                 alt="Équipe Rouge">
+            {% else %}
+            <img class="team-court" src="{{ url_for('static', filename='img/nom_red_basketball/intro2.png') }}"
+                alt="Équipe Rouge">
+            {% endif %}
             {% if red_team_name %}
             <p class="team-name-display">{{ red_team_name }}</p>
             {% endif %}

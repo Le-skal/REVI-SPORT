@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game-management.css') }}">
+    <title>Gestion du match</title>
+    <meta name="description" content="Gestion du match en cours.">
+</head>
+
+<body>
+    <div class="screen-container game-management-screen">
+        <!-- Header: Scores and Teams -->
+        <div class="header-section">
+            <div class="team-info red-team">
+                <div class="team-avatar">
+                    <img src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar_id ~ '.png') }}"
+                        alt="Avatar équipe rouge">
+                </div>
+                <span class="team-name">{{ red_team_name }}</span>
+            </div>
+
+            <div class="score-section">
+                <span class="score red-score">{{ red_score }}</span>
+                <span class="vs">VS</span>
+                <span class="score blue-score">{{ blue_score }}</span>
+            </div>
+
+            <div class="team-info blue-team">
+                <span class="team-name">{{ blue_team_name }}</span>
+                <div class="team-avatar">
+                    <img src="{{ url_for('static', filename='img/avatars/avatar' ~ blue_avatar_id ~ '.png') }}"
+                        alt="Avatar équipe bleue">
+                </div>
+            </div>
+        </div>
+
+        <!-- Timer and Controls -->
+        <div class="timer-section">
+            <button class="control-btn prolonger-btn" aria-label="Prolonger">
+                <img src="{{ url_for('static', filename='img/game-management/prolonger.png') }}" alt="Prolonger">
+            </button>
+
+            <div class="timer-display">
+                <span id="game-timer">{{ game_time }}</span>
+            </div>
+
+            <button class="control-btn arreter-btn" aria-label="Arrêter">
+                <img src="{{ url_for('static', filename='img/game-management/arreter.png') }}" alt="Arrêter">
+            </button>
+        </div>
+
+        <!-- Court/Field -->
+        <div
+            class="card court-card {% if mode == 'relais-biathlon' %}relais-court{% elif sport == 'basketball' %}basketball-court{% else %}field-court{% endif %}">
+            {% if mode == 'relais-biathlon' %}
+            <img src="{{ url_for('static', filename='img/basketball/relais-biathlon.png') }}"
+                alt="Terrain relais-biathlon">
+            {% elif sport == 'basketball' %}
+            <img src="{{ url_for('static', filename='img/basketball/court.png') }}" alt="Terrain de basket">
+            {% else %}
+            <img src="{{ url_for('static', filename='img/basketball/field.png') }}" alt="Terrain de {{ sport }}">
+            {% endif %}
+            <img class="court-avatar red-avatar"
+                src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar_id ~ '.png') }}"
+                alt="Avatar équipe rouge">
+            <img class="court-avatar blue-avatar"
+                src="{{ url_for('static', filename='img/avatars/avatar' ~ blue_avatar_id ~ '.png') }}"
+                alt="Avatar équipe bleue">
+        </div>
+
+        <!-- Tabs Section -->
+        <div class="tabs-section">
+            <button class="tab-btn active" data-tab="temps-support">
+                <img src="{{ url_for('static', filename='img/game-management/temps-support.png') }}"
+                    alt="Temps support">
+            </button>
+            <button class="tab-btn" data-tab="joueurs-inactifs">
+                <img src="{{ url_for('static', filename='img/game-management/joueurs-inactifs.png') }}"
+                    alt="Joueurs inactifs">
+            </button>
+        </div>
+
+        <!-- Events Table -->
+        <div class="events-section" id="temps-support-content">
+            <div class="events-table">
+                <div class="table-header">
+                    <div class="col-temps">🎾 Temps</div>
+                    <div class="col-joueur">👤 Joueur</div>
+                    <div class="col-action">💪 Action</div>
+                    <div class="col-resultat">📊 Résultat</div>
+                </div>
+                <div class="table-body" id="events-list">
+                    {% for event in events %}
+                    <div class="table-row">
+                        <div class="col-temps">{{ event.time }}</div>
+                        <div class="col-joueur">
+                            <span class="team-indicator {{ event.team }}"></span>
+                            {{ event.player }}
+                        </div>
+                        <div class="col-action">{{ event.action }}</div>
+                        <div class="col-resultat {{ event.result_class }}">{{ event.result }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Inactive Players Section (hidden by default) -->
+        <div class="events-section hidden" id="joueurs-inactifs-content">
+            <div class="inactive-players">
+                <div class="inactive-list red-inactive">
+                    <h4>Équipe Rouge</h4>
+                    <div id="red-inactive-players"></div>
+                </div>
+                <div class="inactive-list blue-inactive">
+                    <h4>Équipe Bleue</h4>
+                    <div id="blue-inactive-players"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const tabName = this.dataset.tab;
+                document.getElementById('temps-support-content').classList.toggle('hidden', tabName !== 'temps-support');
+                document.getElementById('joueurs-inactifs-content').classList.toggle('hidden', tabName !== 'joueurs-inactifs');
+            });
+        });
+
+        // Timer functionality
+        let gameMinutes = {{ game_time_minutes }};
+        let gameSeconds = 0;
+        let timerInterval = null;
+        let isRunning = false;
+
+        function updateTimerDisplay() {
+            const mins = String(gameMinutes).padStart(2, '0');
+            const secs = String(gameSeconds).padStart(2, '0');
+            document.getElementById('game-timer').textContent = `${mins} : ${secs}`;
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            isRunning = true;
+            timerInterval = setInterval(() => {
+                if (gameSeconds === 0) {
+                    if (gameMinutes === 0) {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        return;
+                    }
+                    gameMinutes--;
+                    gameSeconds = 59;
+                } else {
+                    gameSeconds--;
+                }
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+        }
+
+        // Control buttons
+        document.querySelector('.prolonger-btn').addEventListener('click', function () {
+            gameMinutes += 5;
+            updateTimerDisplay();
+        });
+
+        document.querySelector('.arreter-btn').addEventListener('click', function () {
+            if (isRunning) {
+                stopTimer();
+            } else {
+                startTimer();
+            }
+        });
+
+        // Initialize
+        updateTimerDisplay();
+        startTimer();
+    </script>
+</body>
+
+</html>

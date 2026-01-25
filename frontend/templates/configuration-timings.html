@@ -102,9 +102,25 @@
                             <span class="sport-name">Sport choisi : {{ sport|capitalize }}</span>
                         </div>
                         <div class="points-input-group">
-                            <input type="text" class="timing-input sport-points-input" id="sportPoints" readonly
-                                value="3">
+                            {% if sport == 'football' %}
+                            <input type="text" class="timing-input sport-points-input" id="sportPoints" readonly value="2">
+                            <span class="points-label">POINTS / BUT</span>
+                            {% elif sport == 'handball' %}
+                            <input type="text" class="timing-input sport-points-input" id="sportPoints" readonly value="1">
+                            <span class="points-label">POINT / BUT</span>
+                            {% elif sport == 'rugby' %}
+                            <input type="text" class="timing-input sport-points-input" id="sportPoints" readonly value="5">
+                            <span class="points-label">POINTS / ESSAI</span>
+                            {% elif sport == 'basketball' %}
+                            <input type="text" class="timing-input sport-points-input" id="sportPoints" readonly value="3">
                             <span class="points-label">POINTS / PANIER</span>
+                            {% elif sport == 'ultimate' %}
+                            <input type="text" class="timing-input sport-points-input" id="sportPoints" readonly value="1">
+                            <span class="points-label">POINT / POINT MARQUÉ</span>
+                            {% else %}
+                            <input type="text" class="timing-input sport-points-input" id="sportPoints" readonly value="1">
+                            <span class="points-label">POINT</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -134,6 +150,27 @@
     </div>
 
     <script>
+        // Sport-specific default points
+        {% if sport == 'football' %}
+        const sportPointsDefault = '2';
+        const sportPointsLabel = 'Points / But';
+        {% elif sport == 'handball' %}
+        const sportPointsDefault = '1';
+        const sportPointsLabel = 'Point / But';
+        {% elif sport == 'rugby' %}
+        const sportPointsDefault = '5';
+        const sportPointsLabel = 'Points / Essai';
+        {% elif sport == 'basketball' %}
+        const sportPointsDefault = '3';
+        const sportPointsLabel = 'Points / Panier';
+        {% elif sport == 'ultimate' %}
+        const sportPointsDefault = '1';
+        const sportPointsLabel = 'Point / Point marqué';
+        {% else %}
+        const sportPointsDefault = '1';
+        const sportPointsLabel = 'Point';
+        {% endif %}
+
         function goBack() {
             window.history.back();
         }
@@ -162,7 +199,7 @@
                     textInputs.forEach(input => {
                         if (input.id === 'gameTime') input.value = '32';
                         else if (input.id === 'timeoutCount') input.value = '5';
-                        else if (input.id === 'sportPoints') input.value = '3';
+                        else if (input.id === 'sportPoints') input.value = sportPointsDefault;
                     });
 
                     // Check valider button after clearing
@@ -299,7 +336,7 @@
             } else if (inputId === 'timeoutCount') {
                 title.textContent = 'Nombre de temps-mort';
             } else if (inputId === 'sportPoints') {
-                title.textContent = 'Points / Panier';
+                title.textContent = sportPointsLabel;
             }
 
             // Set current value in display

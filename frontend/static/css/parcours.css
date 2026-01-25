@@ -1,0 +1,66 @@
+/* ===== STYLE PAGE PARCOURS ===== */
+
+.parcours-screen {
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px;
+    gap: 20px;
+}
+
+.back-link {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 10;
+}
+
+.icon-back {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.parcours-title {
+    width: 60%;
+    max-width: 400px;
+    height: auto;
+    object-fit: contain;
+    margin-top: 10%;
+    flex-shrink: 0;
+    display: block;
+}
+
+.parcours-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.parcours-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    border-radius: 8px;
+}
+
+.parcours-card:hover {
+    border-color: #f0c400;
+}
+
+.parcours-card.selected {
+    border-color: #f0c400;
+}
+
+.parcours-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}

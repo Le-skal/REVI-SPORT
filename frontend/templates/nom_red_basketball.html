@@ -19,8 +19,16 @@
             alt="Nommer l'équipe rouge">
 
         <div class="team-name-container">
+            {% if mode == 'relais-biathlon' %}
+            <img class="nom-red-intro" src="{{ url_for('static', filename='img/nom_red_basketball/intro3.png') }}"
+                alt="Introduction">
+            {% elif sport == 'basketball' %}
             <img class="nom-red-intro" src="{{ url_for('static', filename='img/nom_red_basketball/intro.png') }}"
                 alt="Introduction">
+            {% else %}
+            <img class="nom-red-intro" src="{{ url_for('static', filename='img/nom_red_basketball/intro2.png') }}"
+                alt="Introduction">
+            {% endif %}
             <input type="text" class="team-name-input" id="teamNameInput" placeholder="Nom de l'équipe" maxlength="20"
                 autocomplete="off" readonly onclick="showKeyboard(this)">
         </div>

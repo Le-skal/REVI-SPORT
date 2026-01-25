@@ -457,8 +457,16 @@
                     }).then(response => response.json())
                         .then(data => {
                             console.log('Passages saved:', data);
-                            // Redirect to basketball page
-                            window.location.href = '/configuration-timings';
+                            // Check mode to determine redirect
+                            fetch('/get-game-setup')
+                                .then(response => response.json())
+                                .then(gameSetup => {
+                                    if (gameSetup.mode === 'relais-biathlon') {
+                                        window.location.href = '/configuration-relais';
+                                    } else {
+                                        window.location.href = '/configuration-timings';
+                                    }
+                                });
                         })
                         .catch(error => {
                             console.error('Error saving passages:', error);

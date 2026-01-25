@@ -50,7 +50,12 @@
                 <!-- Sport choisi -->
                 <div class="recap-item">
                     <div class="item-icon">
+                        {% if parcours %}
+                        <img src="{{ url_for('static', filename='img/recapitulatif/relais-biathlon.png') }}"
+                            alt="Parcours">
+                        {% else %}
                         <img src="{{ url_for('static', filename='img/recapitulatif/sport.png') }}" alt="Sport">
+                        {% endif %}
                     </div>
                     <div class="item-content">
                         <span class="item-label">Sport choisi</span>
@@ -61,7 +66,13 @@
                 <!-- Équipe A choisie -->
                 <div class="recap-item">
                     <div class="item-icon">
+                        {% if mode == 'relais-biathlon' %}
+                        <img src="{{ url_for('static', filename='img/recapitulatif/team-a3.png') }}" alt="Équipe A">
+                        {% elif sport == 'basketball' %}
                         <img src="{{ url_for('static', filename='img/recapitulatif/team-a.png') }}" alt="Équipe A">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='img/recapitulatif/team-a2.png') }}" alt="Équipe A">
+                        {% endif %}
                     </div>
                     <div class="item-content">
                         <span class="item-label">Équipe A choisie</span>
@@ -72,7 +83,13 @@
                 <!-- Équipe B choisie -->
                 <div class="recap-item">
                     <div class="item-icon">
+                        {% if mode == 'relais-biathlon' %}
+                        <img src="{{ url_for('static', filename='img/recapitulatif/team-b3.png') }}" alt="Équipe B">
+                        {% elif sport == 'basketball' %}
                         <img src="{{ url_for('static', filename='img/recapitulatif/team-b.png') }}" alt="Équipe B">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='img/recapitulatif/team-b2.png') }}" alt="Équipe B">
+                        {% endif %}
                     </div>
                     <div class="item-content">
                         <span class="item-label">Équipe B choisie</span>
@@ -91,7 +108,19 @@
                     </div>
                 </div>
 
-                <!-- Nombre de passages -->
+                <!-- Nombre de passages / Temporalité -->
+                {% if mode == 'relais-biathlon' %}
+                <div class="recap-item">
+                    <div class="item-icon">
+                        <img src="{{ url_for('static', filename='img/recapitulatif/temporalite.png') }}"
+                            alt="Temporalité">
+                    </div>
+                    <div class="item-content">
+                        <span class="item-label">Temporalité choisie</span>
+                        <span class="item-value" id="temporaliteValue">8 PASSAGES - ALÉATOIRE</span>
+                    </div>
+                </div>
+                {% else %}
                 <div class="recap-item">
                     <div class="item-icon">
                         <img src="{{ url_for('static', filename='img/recapitulatif/passages.png') }}" alt="Passages">
@@ -101,6 +130,7 @@
                         <span class="item-value" id="passagesValue">MIN : 1 - MAX : 4 - PÉNALITÉ DE 5 POINTS</span>
                     </div>
                 </div>
+                {% endif %}
             </div>
 
             <!-- Launch Button -->
@@ -169,21 +199,46 @@
             // Update Mode
             const modeText = gameSetup.mode === 'sport-collectif'
                 ? 'MODE 1 : SPORT COLLECTIF'
-                : 'MODE 2 : DUEL';
+                : 'MODE 2 : Relais, biathlon';
             document.getElementById('modeValue').textContent = modeText;
 
             // Update Sport
             const sportPoints = gameSetup.sportPoints || 3;
-            const sportText = `${gameSetup.sport?.toUpperCase() || 'SPORT'} : 5 JOUEURS - ${sportPoints} POINTS`;
+            let sportText;
+            if (gameSetup.parcours === 'motricite') {
+                sportText = 'RELAIS';
+            } else if (gameSetup.parcours === 'urbain') {
+                sportText = 'BIATHLON';
+            } else {
+                sportText = `${gameSetup.sport?.toUpperCase() || 'SPORT'} : ${sportPoints} POINTS`;
+            }
             document.getElementById('sportValue').textContent = sportText;
 
             // Update Level
             const levelText = `${gameSetup.level?.toUpperCase() || 'NIVEAU'}`;
             document.getElementById('levelValue').textContent = levelText;
 
-            // Update Passages
-            const passagesText = `MIN : ${gameSetup.minPassages} - MAX : ${gameSetup.maxPassages} - PÉNALITÉ DE ${gameSetup.penalty} POINTS`;
-            document.getElementById('passagesValue').textContent = passagesText;
+            // Update Passages or Temporalité
+            if (gameSetup.mode === 'relais-biathlon') {
+                // Display temporalité for mode 2
+                const passagesCount = gameSetup.passagesCount || 0;
+                let penaltyText;
+
+                if (gameSetup.penalties && gameSetup.penalties.length === 2) {
+                    penaltyText = 'ALÉATOIRE';
+                } else if (gameSetup.penalties && gameSetup.penalties.length === 1) {
+                    penaltyText = gameSetup.penalties[0].toUpperCase();
+                } else {
+                    penaltyText = 'AUCUNE';
+                }
+
+                const temporaliteText = `${passagesCount} PASSAGES - ${penaltyText}`;
+                document.getElementById('temporaliteValue').textContent = temporaliteText;
+            } else {
+                // Display passages for mode 1
+                const passagesText = `MIN : ${gameSetup.minPassages} - MAX : ${gameSetup.maxPassages} - PÉNALITÉ DE ${gameSetup.penalty} POINTS`;
+                document.getElementById('passagesValue').textContent = passagesText;
+            }
 
             // Update Team A (Red Team)
             if (redTeamData.team_name && redTeamData.avatar) {

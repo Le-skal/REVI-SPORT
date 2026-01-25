@@ -63,12 +63,13 @@
 
 .court-card {
   position: relative;
+  width: 85% !important;
 }
 
 .court-avatar {
   position: absolute;
-  width: 70px !important;
-  height: 70px !important;
+  width: 75px !important;
+  height: 75px !important;
   border-radius: 50%;
   object-fit: cover;
   z-index: 5;
@@ -84,6 +85,31 @@
   top: 50%;
   right: 22%;
   transform: translateY(-50%);
+}
+
+/* Field positions (non-basketball) */
+.field-court .red-avatar {
+  left: 31%;
+}
+
+.field-court .blue-avatar {
+  right: 31%;
+}
+
+/* Relais-biathlon positions */
+.relais-court .court-avatar {
+  width: 55.5px !important;
+  height: 55.5px !important;
+}
+
+.relais-court .red-avatar {
+  top: 50%;
+  left: 39.5%;
+}
+
+.relais-court .blue-avatar {
+  top: 50%;
+  right: 37%;
 }
 
 .actions {

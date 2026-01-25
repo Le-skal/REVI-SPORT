@@ -1,0 +1,495 @@
+/* ===== STYLE PAGE CONFIGURATION RELAIS ===== */
+
+.configuration-relais-screen {
+    align-items: flex-start;
+    gap: 0;
+    padding: 16px;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.configuration-relais-screen .header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    position: relative;
+    margin-bottom: 24px;
+}
+
+/* Title Container */
+.configuration-relais-screen .title-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.configuration-relais-screen .title-img {
+    max-width: 500px;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Relais Container */
+.relais-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 0 16px;
+    margin-bottom: 100px;
+}
+
+/* Relais Card */
+.relais-card {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    overflow: visible;
+    transition: all 0.3s ease;
+}
+
+/* Card Content */
+.relais-card .card-content {
+    width: 100%;
+    background: #2C2C3A;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: auto;
+}
+
+.relais-card .card-content:hover {
+    transform: scale(1.01);
+}
+
+.relais-card .card-content.compressed {
+    padding: 10px;
+    gap: 6px;
+}
+
+/* Card Icon */
+.relais-card .card-icon {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.relais-card .card-content.compressed .card-icon {
+    width: 120px;
+}
+
+/* Card Label */
+.relais-card .card-label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+/* Card Expanded */
+.card-expanded {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border-radius: 8px;
+    margin-top: 8px;
+    animation: slideDown 0.3s ease forwards;
+}
+
+.card-expanded.hidden {
+    animation: slideUp 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Durée Expanded */
+.duree-expanded {
+    gap: 8px !important;
+}
+
+/* Inputs Row (2 inputs side by side) */
+.inputs-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+/* Input Field */
+.relais-card .input-field {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    background: #2C2C3A;
+    border-radius: 8px;
+    padding: 10px 16px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.relais-card .input-field.full-width {
+    width: 100%;
+    flex: none;
+}
+
+.relais-card .input-field label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.relais-card .input-field .timing-input {
+    flex: 1;
+    max-width: 60px;
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: right;
+    padding: 0;
+}
+
+.relais-card .input-field .timing-input:focus {
+    outline: none;
+}
+
+.relais-card .input-field .unit {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    margin-left: 4px;
+}
+
+/* Penalties Container */
+.penalties-expanded {
+    gap: 16px !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.penalties-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Penalty Option */
+.penalty-option {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    border: 3px solid transparent;
+}
+
+.penalty-option:hover {
+    transform: scale(1.02);
+}
+
+.penalty-option.selected {
+    border-color: #f0c400;
+}
+
+.penalty-img {
+    width: 100%;
+    max-width: 240px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* Valider Button */
+.configuration-relais-screen .valider-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.configuration-relais-screen .valider-btn img {
+    max-width: 120px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+    transition: transform 0.2s ease;
+}
+
+.configuration-relais-screen .valider-btn:hover img {
+    transform: scale(1.05);
+}
+
+/* ===== KEYPAD STYLES ===== */
+
+.keypad-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.keypad-container {
+    background: #2C2C3A;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 90%;
+}
+
+.keypad-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.keypad-header h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.keypad-close {
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.keypad-close:hover {
+    transform: scale(1.1);
+    color: #C99F17;
+}
+
+.keypad-display {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.keypad-display input {
+    width: 100%;
+    height: 60px;
+    background: #1E1E2A;
+    border: 2px solid #3A3A4A;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    text-align: center;
+    padding: 0 16px;
+}
+
+.keypad-display input:focus {
+    outline: none;
+    border-color: #C99F17;
+}
+
+.keypad-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.keypad-btn {
+    height: 60px;
+    background: #3A3A4A;
+    border: none;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.keypad-btn:hover {
+    background: #4A4A5A;
+    transform: scale(1.05);
+}
+
+.keypad-btn:active {
+    transform: scale(0.95);
+}
+
+.keypad-btn.keypad-clear {
+    background: #E74C3C;
+    color: #FFFFFF;
+}
+
+.keypad-btn.keypad-clear:hover {
+    background: #C0392B;
+}
+
+.keypad-btn.keypad-backspace {
+    background: #F39C12;
+    color: #FFFFFF;
+}
+
+.keypad-btn.keypad-backspace:hover {
+    background: #E67E22;
+}
+
+.keypad-ok {
+    width: 100%;
+    height: 60px;
+    background: #27AE60;
+    border: none;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.keypad-ok:hover {
+    background: #229954;
+    transform: scale(1.02);
+}
+
+.keypad-ok:active {
+    transform: scale(0.98);
+}
+
+/* Custom Scrollbar */
+.configuration-relais-screen::-webkit-scrollbar {
+    width: 8px;
+}
+
+.configuration-relais-screen::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.configuration-relais-screen::-webkit-scrollbar-thumb {
+    background: #9B8B4F;
+    border-radius: 10px;
+}
+
+.configuration-relais-screen::-webkit-scrollbar-thumb:hover {
+    background: #B5A65F;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .inputs-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .penalties-container {
+        flex-direction: column;
+    }
+
+    .penalty-option {
+        max-width: 100%;
+    }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/parcours.css') }}">
+    <title>Choix du parcours</title>
+</head>
+
+<body>
+    <div class="screen-container parcours-screen">
+        <a href="/mode" class="back-link" aria-label="Retour">
+            <img class="icon-back" src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
+        </a>
+
+        <img class="parcours-title" src="{{ url_for('static', filename='img/parcours/title.png') }}"
+            alt="Choix du parcours">
+
+        <div class="parcours-container">
+            <div class="parcours-card" onclick="selectParcours('motricite')">
+                <img class="parcours-img" src="{{ url_for('static', filename='img/parcours/motricite.png') }}"
+                    alt="Parcours motricité : - 10 ans">
+            </div>
+
+            <div class="parcours-card" onclick="selectParcours('urbain')">
+                <img class="parcours-img" src="{{ url_for('static', filename='img/parcours/urbain.png') }}"
+                    alt="Parcours urbain : + 10 ans">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectParcours(parcours) {
+            // Save parcours to game_setup.json
+            fetch('/save-game-setup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ parcours: parcours })
+            }).then(response => response.json())
+                .then(data => {
+                    console.log('Parcours saved:', data);
+                    // Redirect to basketball page (team setup)
+                    window.location.href = '/basketball';
+                })
+                .catch(error => {
+                    console.error('Error saving parcours:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>

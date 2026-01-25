@@ -79,7 +79,7 @@
             const maxPassages = getRandomInt(minPassages, minPassages + 5);
 
             return {
-                theme: getRandomElement(themes),
+                themes: [getRandomElement(themes)],
                 joker: getRandomElement(jokers),
                 level: getRandomElement(levels),
                 minPassages: minPassages,

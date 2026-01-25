@@ -27,9 +27,17 @@
         <p class="level-text">{{ level }}</p>
         {% endif %}
 
-        <div class="card court-card">
+        <div class="card court-card {% if mode == 'relais-biathlon' %}relais-court{% elif sport == 'basketball' %}basketball-court{% else %}field-court{% endif %}">
+            {% if mode == 'relais-biathlon' %}
+            <img src="{{ url_for('static', filename='img/basketball/relais-biathlon.png') }}"
+                alt="Terrain relais-biathlon">
+            {% elif sport == 'basketball' %}
             <img src="{{ url_for('static', filename='img/basketball/court.png') }}"
-                alt="Terrain de basket avec équipes">
+                alt="Terrain de basket">
+            {% else %}
+            <img src="{{ url_for('static', filename='img/basketball/field.png') }}"
+                alt="Terrain de {{ sport }}">
+            {% endif %}
             {% if red_avatar_id %}
             <img class="court-avatar red-avatar"
                 src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar_id ~ '.png') }}"

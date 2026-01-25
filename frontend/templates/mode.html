@@ -40,8 +40,12 @@
             }).then(response => response.json())
                 .then(data => {
                     console.log('Mode saved:', data);
-                    // Redirect to sport page
-                    window.location.href = '/sport';
+                    // Redirect based on mode
+                    if (mode === 'sport-collectif') {
+                        window.location.href = '/sport';
+                    } else if (mode === 'relais-biathlon') {
+                        window.location.href = '/parcours';
+                    }
                 })
                 .catch(error => {
                     console.error('Error saving mode:', error);
