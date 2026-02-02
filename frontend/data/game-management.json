@@ -1,6 +1,6 @@
 {
-  "red_score": 28,
-  "blue_score": 30,
+  "red_score": 25,
+  "blue_score": 27,
   "events": [
     {
       "time": "00 : 01",
@@ -188,6 +188,22 @@
     },
     {
       "time": "03 : 19",
+      "team": "blue",
+      "player": "JulienM",
+      "action": "Pénalité joueur inactif",
+      "result": "-3 pts",
+      "result_class": "penalty"
+    },
+    {
+      "time": "00 : 23",
+      "team": "red",
+      "player": "SophieDU",
+      "action": "Pénalité joueur inactif",
+      "result": "-3 pts",
+      "result_class": "penalty"
+    },
+    {
+      "time": "00 : 23",
       "team": "blue",
       "player": "JulienM",
       "action": "Pénalité joueur inactif",

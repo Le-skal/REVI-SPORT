@@ -75,7 +75,7 @@
         <!-- Tabs Section -->
         {% if mode != 'relais-biathlon' %}
         <div class="tabs-section">
-            <button class="tab-btn active" data-tab="temps-support">
+            <button class="tab-btn temps-support-btn" onclick="showKeypad()">
                 <img src="{{ url_for('static', filename='img/game-management/temps-support.png') }}"
                     alt="Temps support">
             </button>
@@ -87,7 +87,7 @@
         {% endif %}
 
         <!-- Events Table -->
-        <div class="events-section" id="temps-support-content">
+        <div class="events-section" id="temps-support-content" style="display: block;">
             <div class="events-table">
                 <div class="table-header">
                     <div class="col-temps">🎾 Temps</div>
@@ -161,9 +161,46 @@
                 <button class="keypad-ok" onclick="keypadOk()">OK</button>
             </div>
         </div>
+
+        <!-- Bonus Question Keypad Overlay -->
+        <div id="bonusKeypad" class="keypad-overlay" style="display: none;">
+            <div class="keypad-container">
+                <div class="keypad-header">
+                    <h3 id="bonusKeypadTitle">Question Bonus - Points</h3>
+                    <button class="keypad-close" onclick="hideBonusKeypad()">✕</button>
+                </div>
+                <p style="text-align: center; color: #f0c400; font-family: 'Poppins', sans-serif; margin: 10px 0;">Choisissez le nombre de points pour la question de départage</p>
+                <div class="keypad-display">
+                    <input type="text" id="bonusKeypadDisplay" readonly>
+                </div>
+                <div class="keypad-buttons">
+                    <button class="keypad-btn" onclick="bonusKeypadPress('1')">1</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('2')">2</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('3')">3</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('4')">4</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('5')">5</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('6')">6</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('7')">7</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('8')">8</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('9')">9</button>
+                    <button class="keypad-btn keypad-clear" onclick="bonusKeypadClear()">C</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('0')">0</button>
+                    <button class="keypad-btn keypad-backspace" onclick="bonusKeypadBackspace()">⌫</button>
+                </div>
+                <button class="keypad-ok" onclick="bonusKeypadOk()">Lancer Question</button>
+            </div>
+        </div>
     </div>
 
     <script>
+        // Check URL parameter to show specific tab
+        const urlParams = new URLSearchParams(window.location.search);
+        const showTab = urlParams.get('show');
+        if (showTab === 'temps-support') {
+            document.getElementById('temps-support-content')?.classList.remove('hidden');
+            document.querySelector('.tab-btn[data-tab="temps-support"]')?.classList.add('active');
+        }
+
         // Tab switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function () {
@@ -198,11 +235,18 @@
                     currentMinutes = Math.floor(elapsed / 60);
                     currentSeconds = elapsed % 60;
 
-                    // Check if already past target
+                    // Check if already past target - if so, reset timer
                     if (currentMinutes >= targetMinutes) {
-                        currentMinutes = targetMinutes;
+                        currentMinutes = 0;
                         currentSeconds = 0;
+                        startTimestamp = null;
+                        localStorage.removeItem('gameTimer');
                     }
+                } else if (state.isAtMax) {
+                    // Timer was set to max with arreter button - reset on reload
+                    currentMinutes = 0;
+                    currentSeconds = 0;
+                    localStorage.removeItem('gameTimer');
                 }
             }
         }
@@ -268,15 +312,23 @@
 
         // Control buttons
         document.querySelector('.prolonger-btn').addEventListener('click', function () {
-            showKeypad();
+            showBonusKeypad();
         });
 
         document.querySelector('.arreter-btn').addEventListener('click', function () {
-            if (isRunning) {
-                stopTimer();
-            } else {
-                startTimer();
-            }
+            // Set timer to maximum target time
+            stopTimer();
+            currentMinutes = targetMinutes;
+            currentSeconds = 0;
+            startTimestamp = null;
+            updateTimerDisplay();
+            // Save state with isAtMax flag so it resets on reload
+            const state = {
+                startTimestamp: null,
+                targetMinutes: targetMinutes,
+                isAtMax: true
+            };
+            localStorage.setItem('gameTimer', JSON.stringify(state));
         });
 
         // Keypad functions
@@ -331,10 +383,51 @@
             hideKeypad();
         }
 
+        // Bonus Question Keypad Functions
+        function showBonusKeypad() {
+            document.getElementById('bonusKeypad').style.display = 'flex';
+            document.getElementById('bonusKeypadDisplay').value = '';
+        }
+
+        function hideBonusKeypad() {
+            document.getElementById('bonusKeypad').style.display = 'none';
+        }
+
+        function bonusKeypadPress(digit) {
+            const display = document.getElementById('bonusKeypadDisplay');
+            if (display.value.length < 2) {
+                display.value += digit;
+            }
+        }
+
+        function bonusKeypadBackspace() {
+            const display = document.getElementById('bonusKeypadDisplay');
+            display.value = display.value.slice(0, -1);
+        }
+
+        function bonusKeypadClear() {
+            document.getElementById('bonusKeypadDisplay').value = '';
+        }
+
+        function bonusKeypadOk() {
+            const points = document.getElementById('bonusKeypadDisplay').value;
+            if (points && parseInt(points) > 0) {
+                // Launch question like after recapitulatif page
+                hideBonusKeypad();
+                window.location.href = '/countdown';
+            }
+        }
+
         // Close keypad on overlay click
         document.getElementById('prolongerKeypad').addEventListener('click', function(e) {
             if (e.target === this) {
                 hideKeypad();
+            }
+        });
+
+        document.getElementById('bonusKeypad').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideBonusKeypad();
             }
         });
 
