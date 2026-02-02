@@ -1,0 +1,11 @@
+{
+  "red_team": {
+    "team_name": "Les Dragons",
+    "inactive_players": ["SophieDU", "MaximeR"]
+  },
+  "blue_team": {
+    "team_name": "Les Tigres",
+    "inactive_players": ["JulienM"]
+  },
+  "penalty_points": 5
+}

@@ -1,0 +1,102 @@
+{
+  "red_score": 49,
+  "blue_score": 51,
+  "events": [
+    {
+      "time": "00 : 01",
+      "team": "all",
+      "player": "Tous",
+      "action": "Début du match",
+      "result": "Match en cours",
+      "result_class": "info"
+    },
+    {
+      "time": "03 : 45",
+      "team": "red",
+      "player": "AlexBO",
+      "action": "Duel contre EmmaMO",
+      "result": "Correct (+3)",
+      "result_class": "success"
+    },
+    {
+      "time": "03 : 45",
+      "team": "blue",
+      "player": "NathanPI",
+      "action": "Joker Indice",
+      "result": "Utilisé",
+      "result_class": "info"
+    },
+    {
+      "time": "05 : 10",
+      "team": "red",
+      "player": "SophieDU",
+      "action": "Duel contre ThomasVI",
+      "result": "Perdu (prison)",
+      "result_class": "failure"
+    },
+    {
+      "time": "08 : 00",
+      "team": "red",
+      "player": "LucasDE",
+      "action": "Pénalité",
+      "result": "Faute (prison)",
+      "result_class": "penalty"
+    },
+    {
+      "time": "10 : 15",
+      "team": "blue",
+      "player": "JulietteLE",
+      "action": "Duel contre LéoFA",
+      "result": "Correct (+3)",
+      "result_class": "success"
+    },
+    {
+      "time": "12 : 36",
+      "team": "blue",
+      "player": "MarineCA",
+      "action": "Panier",
+      "result": "3 points",
+      "result_class": "points"
+    },
+    {
+      "time": "14 : 20",
+      "team": "red",
+      "player": "AlexBO",
+      "action": "Duel contre NathanPI",
+      "result": "Perdu (prison)",
+      "result_class": "failure"
+    },
+    {
+      "time": "16 : 55",
+      "team": "blue",
+      "player": "EmmaMO",
+      "action": "Joker Double Points",
+      "result": "Utilisé",
+      "result_class": "info"
+    },
+    {
+      "time": "18 : 30",
+      "team": "blue",
+      "player": "ThomasVI",
+      "action": "Duel contre SophieDU",
+      "result": "Correct (+6)",
+      "result_class": "success"
+    },
+    {
+      "time": "21 : 00",
+      "team": "red",
+      "player": "LucasDE",
+      "action": "Panier",
+      "result": "2 points",
+      "result_class": "points"
+    },
+    {
+      "time": "24 : 15",
+      "team": "blue",
+      "player": "LéoFA",
+      "action": "Duel contre AlexBO",
+      "result": "Correct (+3)",
+      "result_class": "success"
+    }
+  ]
+}

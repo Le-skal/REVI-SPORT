@@ -347,11 +347,6 @@ def configuration_timings():
     return render_template("configuration-timings.html", sport=sport)
 
 
-@app.route("/configuration-relais")
-def configuration_relais():
-    return render_template("configuration-relais.html")
-
-
 @app.route("/recapitulatif")
 def recapitulatif():
     sport = "basketball"
@@ -369,6 +364,365 @@ def recapitulatif():
     return render_template(
         "recapitulatif.html", sport=sport, parcours=parcours, mode=mode
     )
+
+
+@app.route("/game-end")
+def game_end():
+    """Route pour la page de fin de match avec statistiques détaillées"""
+    # Charger les données de fin de match
+    GAME_END_FILE = os.path.join(DATA_DIR, "game-end.json")
+
+    if os.path.exists(GAME_END_FILE):
+        try:
+            with open(GAME_END_FILE, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return render_template("game-end.html", data=data)
+        except Exception as e:
+            print(f"Erreur lors du chargement de game-end.json: {e}")
+
+    # Données par défaut si le fichier n'existe pas
+    default_data = {
+        "final_score": {"red_team": 0, "blue_team": 0, "winner": "blue"},
+        "teams": {
+            "red": {"name": "Équipe rouge", "avatar": "1", "players": []},
+            "blue": {"name": "Équipe bleue", "avatar": "2", "players": []},
+        },
+        "mvp": {
+            "red": {
+                "player": "Joueur",
+                "avatar": "1",
+                "stats": {"points_scored": 0, "duels_won": 0, "jokers_used": 0},
+            },
+            "blue": {
+                "player": "Joueur",
+                "avatar": "2",
+                "stats": {"points_scored": 0, "duels_won": 0, "jokers_used": 0},
+            },
+        },
+        "duels": [],
+        "questions": [],
+        "penalties": [],
+        "jokers": {"red": [], "blue": []},
+        "game_info": {
+            "mode": "sport-collectif",
+            "sport": "basketball",
+            "level": "Cycle 4",
+            "duration": "00:00",
+            "themes": [],
+        },
+    }
+
+    return render_template("game-end.html", data=default_data)
+
+
+@app.route("/lancement")
+def lancement():
+    """Page de lancement des questions en mode relais-biathlon"""
+    # Get team from query parameter (red or blue)
+    team = request.args.get("team", "red")
+    parcours_num = request.args.get("parcours", "1")
+
+    # Check if this is a penalty passage (passage supplémentaire)
+    is_penalty = request.args.get("penalty", "false").lower() == "true"
+    joker_player = request.args.get("joker_player", "")
+    joker_name = request.args.get("joker_name", "Joker C - Passage supplémentaire")
+
+    # Parcours text
+    parcours_texts = {
+        "1": "Premier parcours",
+        "2": "Deuxième parcours",
+        "3": "Troisième parcours",
+        "4": "Quatrième parcours",
+        "5": "Cinquième parcours",
+        "6": "Sixième parcours",
+        "7": "Septième parcours",
+        "8": "Huitième parcours",
+        "9": "Neuvième parcours",
+        "10": "Dixième parcours"
+    }
+    parcours_text = parcours_texts.get(parcours_num, f"Parcours {parcours_num}")
+
+    # Load team data based on which team
+    avatar_id = "1"
+    team_name = "Équipe rouge"
+    player_name = "Joueur"
+    players = []
+
+    if team == "red":
+        if os.path.exists(RED_TEAM_FILE):
+            try:
+                with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
+                    team_data = json.load(f)
+                    avatar_id = team_data.get("avatar", "1")
+                    team_name = team_data.get("team_name", "Équipe rouge")
+                    players = team_data.get("players", [])
+            except:
+                pass
+    else:
+        if os.path.exists(BLUE_TEAM_FILE):
+            try:
+                with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
+                    team_data = json.load(f)
+                    avatar_id = team_data.get("avatar", "2")
+                    team_name = team_data.get("team_name", "Équipe bleue")
+                    players = team_data.get("players", [])
+            except:
+                pass
+
+    # Get current player (based on parcours number)
+    parcours_index = int(parcours_num) - 1
+    if players and parcours_index < len(players):
+        player_name = players[parcours_index].get("name", players[parcours_index]) if isinstance(players[parcours_index], dict) else players[parcours_index]
+    elif players:
+        player_name = players[0].get("name", players[0]) if isinstance(players[0], dict) else players[0]
+
+    # Get total etapes from game setup
+    total_etapes = 8
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                total_etapes = game_setup.get("passages", 8)
+        except:
+            pass
+
+    current_etape = int(parcours_num)
+
+    return render_template(
+        "lancement.html",
+        team=team,
+        parcours_text=parcours_text,
+        avatar_id=avatar_id,
+        team_name=team_name,
+        player_name=player_name,
+        current_etape=current_etape,
+        total_etapes=total_etapes,
+        is_penalty=is_penalty,
+        joker_player=joker_player,
+        joker_name=joker_name
+    )
+
+
+@app.route("/prison")
+def prison():
+    """Page prison affichant le timer de pénalité"""
+    # Get parameters
+    team = request.args.get("team", "red")
+    player_name = request.args.get("player", "Joueur")
+    reason = request.args.get("reason", "mauvaise réponse")
+
+    # Load team data
+    avatar_id = "1"
+    team_name = "Équipe Rouge"
+    players = []
+
+    if team == "red":
+        if os.path.exists(RED_TEAM_FILE):
+            try:
+                with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
+                    team_data = json.load(f)
+                    avatar_id = team_data.get("avatar", "1")
+                    team_name = team_data.get("team_name", "Équipe Rouge")
+                    # Get players list
+                    for i in range(1, 6):
+                        p = team_data.get(f"joueur_{i}")
+                        if p:
+                            players.append(p)
+            except:
+                pass
+    else:
+        if os.path.exists(BLUE_TEAM_FILE):
+            try:
+                with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
+                    team_data = json.load(f)
+                    avatar_id = team_data.get("avatar", "2")
+                    team_name = team_data.get("team_name", "Équipe Bleue")
+                    # Get players list
+                    for i in range(1, 6):
+                        p = team_data.get(f"joueur_{i}")
+                        if p:
+                            players.append(p)
+            except:
+                pass
+
+    # Load prison time from game setup
+    prison_time = 30
+    sport = "basketball"
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                prison_time = game_setup.get("prisonTime", 30)
+                sport = game_setup.get("sport", "basketball")
+        except:
+            pass
+
+    # Count players on terrain (all except the one in prison)
+    total_players = len(players) if players else 5
+    players_on_terrain = total_players - 1
+
+    return render_template(
+        "prison.html",
+        team=team,
+        team_name=team_name,
+        avatar_id=avatar_id,
+        player_name=player_name,
+        reason=reason,
+        prison_time=prison_time,
+        sport=sport,
+        players=players,
+        players_on_terrain=players_on_terrain,
+        total_players=total_players
+    )
+
+
+@app.route("/bracelet")
+def bracelet():
+    """Page bracelet affichant l'image plein écran avec le score"""
+    # Get team from query parameter (red or blue)
+    team = request.args.get("team", "red")
+
+    # Load game management data for scores
+    game_management_file = os.path.join(DATA_DIR, "game-management.json")
+    red_score = 0
+    blue_score = 0
+
+    if os.path.exists(game_management_file):
+        try:
+            with open(game_management_file, "r", encoding="utf-8") as f:
+                game_data = json.load(f)
+                red_score = game_data.get("red_score", 0)
+                blue_score = game_data.get("blue_score", 0)
+        except:
+            pass
+
+    return render_template(
+        "bracelet.html",
+        team=team,
+        red_score=red_score,
+        blue_score=blue_score
+    )
+
+
+@app.route("/joueurs-inactifs")
+def joueurs_inactifs():
+    # Load team data
+    red_avatar_id = "1"
+    blue_avatar_id = "2"
+
+    if os.path.exists(RED_TEAM_FILE):
+        try:
+            with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
+                red_team_data = json.load(f)
+                red_avatar_id = red_team_data.get("avatar", "1")
+        except:
+            pass
+
+    if os.path.exists(BLUE_TEAM_FILE):
+        try:
+            with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
+                blue_team_data = json.load(f)
+                blue_avatar_id = blue_team_data.get("avatar", "2")
+        except:
+            pass
+
+    # Load sport and penalty from game setup
+    sport = "basketball"
+    penalty_points = 3
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                sport = game_setup.get("sport", "basketball")
+                penalty_points = game_setup.get("penalty", 3)
+        except:
+            pass
+
+    # Load inactive players data
+    inactive_file = os.path.join(DATA_DIR, "joueurs-inactifs.json")
+    inactive_players = []
+
+    if os.path.exists(inactive_file):
+        try:
+            with open(inactive_file, "r", encoding="utf-8") as f:
+                inactive_data = json.load(f)
+                # Get inactive players with team info
+                red_inactive = inactive_data.get("red_team", {}).get(
+                    "inactive_players", []
+                )
+                blue_inactive = inactive_data.get("blue_team", {}).get(
+                    "inactive_players", []
+                )
+                # Create list with player name and team
+                for player in red_inactive:
+                    inactive_players.append({"name": player, "team": "red"})
+                for player in blue_inactive:
+                    inactive_players.append({"name": player, "team": "blue"})
+        except:
+            pass
+
+    return render_template(
+        "joueurs-inactifs.html",
+        red_avatar_id=red_avatar_id,
+        blue_avatar_id=blue_avatar_id,
+        sport=sport,
+        inactive_players=inactive_players,
+        penalty_points=penalty_points,
+    )
+
+
+@app.route("/activate-penalty", methods=["POST"])
+def activate_penalty():
+    try:
+        data = request.get_json()
+        penalty_points = data.get("penalty_points", 0)
+        inactive_players = data.get("inactive_players", [])
+        current_time = data.get("current_time", "00 : 00")
+
+        # Load game management data
+        game_mgmt_file = os.path.join(DATA_DIR, "game-management.json")
+        game_data = {"red_score": 0, "blue_score": 0, "events": []}
+
+        if os.path.exists(game_mgmt_file):
+            with open(game_mgmt_file, "r", encoding="utf-8") as f:
+                game_data = json.load(f)
+
+        # Check which teams have inactive players
+        has_red_inactive = any(p.get("team") == "red" for p in inactive_players)
+        has_blue_inactive = any(p.get("team") == "blue" for p in inactive_players)
+
+        # Subtract penalty only from teams with inactive players
+        if has_red_inactive:
+            game_data["red_score"] = max(
+                0, game_data.get("red_score", 0) - penalty_points
+            )
+        if has_blue_inactive:
+            game_data["blue_score"] = max(
+                0, game_data.get("blue_score", 0) - penalty_points
+            )
+
+        # Add one penalty event per inactive player
+        for player in inactive_players:
+            penalty_event = {
+                "time": current_time,
+                "team": player.get("team", "all"),
+                "player": player.get("name", "Inconnu"),
+                "action": "Pénalité joueur inactif",
+                "result": f"-{penalty_points} pts",
+                "result_class": "penalty",
+            }
+            game_data["events"].append(penalty_event)
+
+        # Mark penalty as applied
+        game_data["penalty_applied"] = True
+
+        # Save updated data
+        with open(game_mgmt_file, "w", encoding="utf-8") as f:
+            json.dump(game_data, f, indent=2, ensure_ascii=False)
+
+        return jsonify({"success": True, "message": "Penalty applied"})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/game-intro")

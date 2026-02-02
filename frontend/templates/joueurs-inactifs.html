@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/joueurs-inactifs.css') }}">
+    <title>Joueurs Non Passés</title>
+</head>
+
+<body>
+    <div class="screen-container joueurs-inactifs-screen">
+        <!-- Back Button -->
+        <button class="back-btn" onclick="goBack()">
+            <img src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
+        </button>
+
+        <!-- Teams Header -->
+        <div class="teams-header">
+            <div class="teams-avatars">
+                <div class="avatar-card red-border">
+                    <img src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar_id ~ '.png') }}"
+                        alt="Avatar équipe rouge">
+                </div>
+                <div class="avatar-card blue-border">
+                    <img src="{{ url_for('static', filename='img/avatars/avatar' ~ blue_avatar_id ~ '.png') }}"
+                        alt="Avatar équipe bleue">
+                </div>
+            </div>
+            <div class="warning-box">
+                <p class="warning-text">Les deux équipes</p>
+                <img src="{{ url_for('static', filename='img/joueurs-inactifs/triangle.gif') }}" alt="Attention"
+                    class="warning-icon">
+            </div>
+        </div>
+
+        <!-- Title -->
+        <h1 class="page-title">Joueurs non passés !</h1>
+
+        <!-- Court -->
+        <div class="card court-card {% if sport == 'basketball' %}basketball-court{% else %}field-court{% endif %}">
+            {% if sport == 'basketball' %}
+            <img src="{{ url_for('static', filename='img/basketball/court.png') }}" alt="Terrain de basket">
+            {% else %}
+            <img src="{{ url_for('static', filename='img/basketball/field.png') }}" alt="Terrain de {{ sport }}">
+            {% endif %}
+            <div class="court-overlay">
+                <span class="match-text">Match en cours</span>
+            </div>
+            <img class="court-avatar red-avatar"
+                src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar_id ~ '.png') }}"
+                alt="Avatar équipe rouge">
+            <img class="court-avatar blue-avatar"
+                src="{{ url_for('static', filename='img/avatars/avatar' ~ blue_avatar_id ~ '.png') }}"
+                alt="Avatar équipe bleue">
+        </div>
+
+        <!-- Bottom Section -->
+        <div class="bottom-section">
+            <!-- Liste des joueurs -->
+            <div class="players-list-card">
+                <h3 class="card-title">Liste des joueurs</h3>
+                <div class="players-names">
+                    {% for player in inactive_players %}
+                    <span class="player-name {{ player.team }}">{{ player.name }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Pénalité -->
+            <div class="penalty-card">
+                <h3 class="card-title">-{{ penalty_points }} points de pénalité</h3>
+                <button class="activate-btn" onclick="activatePenalty()">Activer la pénalité</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        // Get inactive players data from template
+        const inactivePlayers = {{ inactive_players | tojson }};
+
+        // Get current timer time from localStorage
+        function getCurrentTime() {
+            const saved = localStorage.getItem('gameTimer');
+            if (saved) {
+                const state = JSON.parse(saved);
+                if (state.startTimestamp) {
+                    const elapsed = Math.floor((Date.now() - state.startTimestamp) / 1000);
+                    const mins = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                    const secs = String(elapsed % 60).padStart(2, '0');
+                    return `${mins} : ${secs}`;
+                }
+            }
+            return "00 : 00";
+        }
+
+        function activatePenalty() {
+            const currentTime = getCurrentTime();
+
+            fetch('/activate-penalty', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    penalty_points: {{ penalty_points }},
+                    inactive_players: inactivePlayers,
+                    current_time: currentTime
+                })
+            }).then(response => response.json())
+                .then(data => {
+                    console.log('Penalty activated:', data);
+                    window.location.href = '/game-management';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    window.location.href = '/game-management';
+                });
+        }
+    </script>
+</body>
+
+</html>

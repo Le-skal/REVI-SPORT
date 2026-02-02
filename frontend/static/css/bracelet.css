@@ -1,0 +1,59 @@
+/* ===== STYLE PAGE BRACELET ===== */
+
+.bracelet-screen {
+    position: relative;
+    padding: 24px;
+}
+
+.bracelet-screen.red-bg {
+    background: linear-gradient(to bottom right, #BA4A4A80 50%, transparent 50%);
+}
+
+.bracelet-screen.blue-bg {
+    background: linear-gradient(to bottom right, #4A80BA80 50%, transparent 50%);
+}
+
+/* ===== LOGO BRACELET ===== */
+
+.bracelet-logo {
+    position: absolute;
+    top: 125px;
+    left: 100px;
+    width: 200px;
+    height: auto;
+}
+
+/* ===== SCORE ===== */
+
+.score-container {
+    position: absolute;
+    bottom: 200px;
+    right: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border-radius: 16px;
+    padding: 16px 32px;
+}
+
+.score {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 75px;
+    font-weight: bold;
+}
+
+.score.red {
+    color: #E57373;
+}
+
+.score.blue {
+    color: #64B5F6;
+}
+
+.score-separator {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffffff;
+}

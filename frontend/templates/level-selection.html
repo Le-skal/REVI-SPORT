@@ -153,6 +153,132 @@
             </button>
         </div>
 
+        <!-- Relais Section (for relais-biathlon mode) -->
+        <div class="relais-section" style="display: none;">
+            <!-- Title -->
+            <div class="relais-header">
+                <img src="{{ url_for('static', filename='img/configuration-timings/title.png') }}"
+                    alt="Configuration de la Temporalité" class="relais-title">
+            </div>
+
+            <!-- Cards Container -->
+            <div class="relais-container">
+                <!-- Durée du jeu Card -->
+                <div class="relais-card" data-card="duree">
+                    <div class="card-content" onclick="toggleRelaisCard(this.parentElement)">
+                        <img src="{{ url_for('static', filename='img/configuration-relais/hourglass.png') }}"
+                            alt="Durée du jeu" class="card-icon">
+                        <h3 class="card-label">Durée du jeu</h3>
+                    </div>
+                    <div class="card-expanded duree-expanded" style="display: none;" onclick="event.stopPropagation()">
+                        <!-- Row 1: Temps du jeu OU Nombre de passages (choix exclusif) -->
+                        <div class="inputs-row">
+                            <div class="input-field duration-choice selected" data-mode="time" onclick="selectDurationMode(this, 'time'); event.stopPropagation();">
+                                <label>Temps du jeu :</label>
+                                <input type="text" class="timing-input" id="gameTime" readonly value="32">
+                                <span class="unit">min</span>
+                            </div>
+                            <div class="input-field duration-choice" data-mode="passages" onclick="selectDurationMode(this, 'passages'); event.stopPropagation();">
+                                <label>Nombre de passages :</label>
+                                <input type="text" class="timing-input" id="passagesCount" readonly value="8">
+                            </div>
+                        </div>
+                        <!-- Row 2: Nombre de réponses (full width) -->
+                        <div class="input-field full-width" onclick="showKeypad(document.getElementById('reponsesCount'), 'Nombre de réponses'); event.stopPropagation();">
+                            <label>Nombre de réponses :</label>
+                            <input type="text" class="timing-input" id="reponsesCount" readonly value="5">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pénalité sportive Card -->
+                <div class="relais-card" data-card="penalite">
+                    <div class="card-content" onclick="toggleRelaisCard(this.parentElement)">
+                        <img src="{{ url_for('static', filename='img/configuration-relais/redcard.png') }}"
+                            alt="Pénalité sportive" class="card-icon">
+                        <h3 class="card-label">Pénalité sportive</h3>
+                    </div>
+                    <div class="card-expanded penalties-expanded" style="display: none;" onclick="event.stopPropagation()">
+                        <!-- Penalty Options Grid -->
+                        <div class="penalties-grid">
+                            <!-- Row 1 -->
+                            <div class="penalty-card" data-penalty="gainage" data-motricite="Durée de 10 s" data-urbain="Durée de 20 s" onclick="toggleRelaisPenalty(this)">
+                                <div class="penalty-card-img">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/gainage.png') }}" alt="Position de gainage">
+                                </div>
+                                <div class="penalty-card-info">
+                                    <h4 class="penalty-card-title">Position de gainage</h4>
+                                    <p class="penalty-card-desc">Durée de 10 s</p>
+                                    <button class="penalty-card-btn">Choisir</button>
+                                </div>
+                            </div>
+                            <div class="penalty-card" data-penalty="squat" data-motricite="Durée de 10 s" data-urbain="Durée de 20 s" onclick="toggleRelaisPenalty(this)">
+                                <div class="penalty-card-img">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/squat.png') }}" alt="Squat">
+                                </div>
+                                <div class="penalty-card-info">
+                                    <h4 class="penalty-card-title">Squat</h4>
+                                    <p class="penalty-card-desc">Durée de 10 s</p>
+                                    <button class="penalty-card-btn">Choisir</button>
+                                </div>
+                            </div>
+                            <!-- Row 2 -->
+                            <div class="penalty-card" data-penalty="parcours" data-motricite="Temps du parcours" data-urbain="Temps du parcours" onclick="toggleRelaisPenalty(this)">
+                                <div class="penalty-card-img">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/parcours.png') }}" alt="Parcours de pénalité">
+                                </div>
+                                <div class="penalty-card-info">
+                                    <h4 class="penalty-card-title">Parcours de pénalité</h4>
+                                    <p class="penalty-card-desc">Temps du parcours</p>
+                                    <button class="penalty-card-btn">Choisir</button>
+                                </div>
+                            </div>
+                            <div class="penalty-card" data-penalty="genoux" data-motricite="Durée de 10 s" data-urbain="Durée de 20 s" onclick="toggleRelaisPenalty(this)">
+                                <div class="penalty-card-img">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/genoux.png') }}" alt="Montée de genoux">
+                                </div>
+                                <div class="penalty-card-info">
+                                    <h4 class="penalty-card-title">Montée de genoux</h4>
+                                    <p class="penalty-card-desc">Durée de 10 s</p>
+                                    <button class="penalty-card-btn">Choisir</button>
+                                </div>
+                            </div>
+                            <!-- Row 3 -->
+                            <div class="penalty-card" data-penalty="jumpingjacks" data-motricite="15 répétitions" data-urbain="30 répétitions" onclick="toggleRelaisPenalty(this)">
+                                <div class="penalty-card-img">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/jumpingjacks.png') }}" alt="Jumping Jacks">
+                                </div>
+                                <div class="penalty-card-info">
+                                    <h4 class="penalty-card-title">Jumping Jacks</h4>
+                                    <p class="penalty-card-desc">15 répétitions</p>
+                                    <button class="penalty-card-btn">Choisir</button>
+                                </div>
+                            </div>
+                            <div class="penalty-card" data-penalty="pompes" data-motricite="5 répétitions" data-urbain="10 répétitions" onclick="toggleRelaisPenalty(this)">
+                                <div class="penalty-card-img">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/pompes.png') }}" alt="Pompes">
+                                </div>
+                                <div class="penalty-card-info">
+                                    <h4 class="penalty-card-title">Pompes</h4>
+                                    <p class="penalty-card-desc">5 répétitions</p>
+                                    <button class="penalty-card-btn">Choisir</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Aléatoire Button -->
+                        <div class="penalty-random-btn" onclick="toggleAllPenalties()">
+                            <img src="{{ url_for('static', filename='img/configuration-relais/aleatoire.png') }}" alt="Aléatoire">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Valider Button -->
+            <button class="valider-btn" id="relaisValiderBtn" onclick="handleRelaisValider()" style="display: none;">
+                <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
+            </button>
+        </div>
+
         <!-- Numeric Keypad Overlay -->
         <div id="numericKeypad" class="keypad-overlay" style="display: none;">
             <div class="keypad-container">
@@ -185,20 +311,60 @@
             let selectedLevel = null;
             let selectedDifficulty = null;
             let currentInputField = null;
+            let currentMode = 'sport-collectif'; // default mode
+            let selectedDurationMode = 'time'; // 'time' or 'passages'
 
             function goBack() {
                 window.history.back();
             }
 
+            // Check mode on page load and show appropriate section
+            async function initPage() {
+                try {
+                    const response = await fetch('/get-game-setup');
+                    if (response.ok) {
+                        const gameSetup = await response.json();
+                        currentMode = gameSetup.mode || 'sport-collectif';
+                        const parcours = gameSetup.parcours || 'motricite';
+
+                        if (currentMode === 'relais-biathlon') {
+                            document.querySelector('.passages-section').style.display = 'none';
+                            document.querySelector('.relais-section').style.display = 'block';
+
+                            // Update penalty descriptions based on parcours
+                            updatePenaltyDescriptions(parcours);
+                        } else {
+                            document.querySelector('.passages-section').style.display = 'block';
+                            document.querySelector('.relais-section').style.display = 'none';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading game setup:', error);
+                }
+                checkValiderButton();
+            }
+
+            function updatePenaltyDescriptions(parcours) {
+                document.querySelectorAll('.penalty-card[data-penalty]').forEach(card => {
+                    const desc = card.querySelector('.penalty-card-desc');
+                    const value = card.dataset[parcours];
+                    if (desc && value) {
+                        desc.textContent = value;
+                    }
+                });
+            }
+
             // Numeric Keypad Functions
-            function showKeypad(inputElement) {
+            function showKeypad(inputElement, customTitle) {
                 currentInputField = inputElement;
                 const keypad = document.getElementById('numericKeypad');
                 const display = document.getElementById('keypadDisplay');
                 const title = document.getElementById('keypadTitle');
 
                 // Set title based on which field is being edited
-                if (inputElement.id === 'minPassages') {
+                if (customTitle) {
+                    title.textContent = customTitle;
+                } else if (inputElement.id === 'minPassages') {
                     title.textContent = 'Nombre minimal de passages';
                 } else if (inputElement.id === 'maxPassages') {
                     title.textContent = 'Nombre maximal de passages';
@@ -253,6 +419,14 @@
             }
 
             function checkValiderButton() {
+                if (currentMode === 'relais-biathlon') {
+                    checkRelaisValiderButton();
+                } else {
+                    checkPassagesValiderButton();
+                }
+            }
+
+            function checkPassagesValiderButton() {
                 const minPassages = document.getElementById('minPassages').value;
                 const maxPassages = document.getElementById('maxPassages').value;
                 const selectedPenalty = document.querySelector('.penalty-btn.selected');
@@ -280,9 +454,38 @@
                 }
             }
 
+            function checkRelaisValiderButton() {
+                const reponsesCount = document.getElementById('reponsesCount').value;
+                const validerBtn = document.getElementById('relaisValiderBtn');
+
+                // Check if level is selected (and difficulty for non-adulte)
+                let levelValid = selectedLevel;
+                if (levelValid && selectedLevel !== 'adulte') {
+                    levelValid = selectedDifficulty;
+                }
+
+                // Check the selected duration mode value
+                let durationValid = false;
+                if (selectedDurationMode === 'time') {
+                    durationValid = document.getElementById('gameTime').value;
+                } else {
+                    durationValid = document.getElementById('passagesCount').value;
+                }
+
+                // Check if at least one penalty is selected
+                const penaltyValid = selectedPenalties.length > 0;
+
+                // Check if all required fields are filled
+                if (levelValid && durationValid && reponsesCount && penaltyValid) {
+                    validerBtn.style.display = 'flex';
+                } else {
+                    validerBtn.style.display = 'none';
+                }
+            }
+
             // Initial check on page load
             document.addEventListener('DOMContentLoaded', function () {
-                checkValiderButton();
+                initPage();
 
                 // Add event listeners to input fields
                 document.getElementById('minPassages').addEventListener('input', checkValiderButton);
@@ -400,39 +603,41 @@
                 checkValiderButton();
             }
 
+            // Level mapping used by both modes
+            const levelMapping = {
+                'cycle2': {
+                    '1': 'Cycle 2 niveau 1 : Cycle 2 :CP',
+                    '2': 'Cycle 2 niveau 2 : CE1',
+                    '3': 'Cycle 2 niveau 3 : CE2'
+                },
+                'cycle3': {
+                    '1': 'Cycle 3 niveau 1 : CM1',
+                    '2': 'Cycle 3 niveau 2 : CM2',
+                    '3': 'Cycle 3 niveau 3 : 6ème'
+                },
+                'cycle4': {
+                    '1': 'Cycle 4 niveau 1 : 5ème',
+                    '2': 'Cycle 4 niveau 2 : 4ème',
+                    '3': 'Cycle 4 niveau 3 : 3ème'
+                },
+                'adulte': 'adulte'
+            };
+
+            function getLevelValue() {
+                if (selectedLevel === 'adulte') {
+                    return 'Adulte : team building';
+                } else {
+                    return levelMapping[selectedLevel][selectedDifficulty];
+                }
+            }
+
             function handlePassagesValider() {
                 const minPassages = document.getElementById('minPassages').value;
                 const maxPassages = document.getElementById('maxPassages').value;
                 const selectedPenalty = document.querySelector('.penalty-btn.selected');
                 const penalty = selectedPenalty ? selectedPenalty.dataset.penalty : null;
 
-                // Map cycle + difficulty to actual grade level
-                const levelMapping = {
-                    'cycle2': {
-                        '1': 'Cycle 2 niveau 1 : Cycle 2 :CP',
-                        '2': 'Cycle 2 niveau 2 : CE1',
-                        '3': 'Cycle 2 niveau 3 : CE2'
-                    },
-                    'cycle3': {
-                        '1': 'Cycle 3 niveau 1 : CM1',
-                        '2': 'Cycle 3 niveau 2 : CM2',
-                        '3': 'Cycle 3 niveau 3 : 6ème'
-                    },
-                    'cycle4': {
-                        '1': 'Cycle 4 niveau 1 : 5ème',
-                        '2': 'Cycle 4 niveau 2 : 4ème',
-                        '3': 'Cycle 4 niveau 3 : 3ème'
-                    },
-                    'adulte': 'adulte'
-                };
-
-                // Get the actual level value
-                let levelValue;
-                if (selectedLevel === 'adulte') {
-                    levelValue = 'Adulte : team building';
-                } else {
-                    levelValue = levelMapping[selectedLevel][selectedDifficulty];
-                }
+                const levelValue = getLevelValue();
 
                 console.log('Passages data:', {
                     level: levelValue,
@@ -457,21 +662,147 @@
                     }).then(response => response.json())
                         .then(data => {
                             console.log('Passages saved:', data);
-                            // Check mode to determine redirect
-                            fetch('/get-game-setup')
-                                .then(response => response.json())
-                                .then(gameSetup => {
-                                    if (gameSetup.mode === 'relais-biathlon') {
-                                        window.location.href = '/configuration-relais';
-                                    } else {
-                                        window.location.href = '/configuration-timings';
-                                    }
-                                });
+                            window.location.href = '/configuration-timings';
                         })
                         .catch(error => {
                             console.error('Error saving passages:', error);
                         });
                 }
+            }
+
+            // Relais mode functions
+            function selectDurationMode(element, mode) {
+                // Remove selected from all duration choices
+                document.querySelectorAll('.duration-choice').forEach(choice => {
+                    choice.classList.remove('selected');
+                });
+
+                // Add selected to clicked element
+                element.classList.add('selected');
+                selectedDurationMode = mode;
+
+                // Open keypad for the selected input
+                if (mode === 'time') {
+                    showKeypad(document.getElementById('gameTime'), 'Temps du jeu');
+                } else {
+                    showKeypad(document.getElementById('passagesCount'), 'Nombre de passages');
+                }
+
+                checkRelaisValiderButton();
+            }
+
+            function toggleRelaisCard(element) {
+                const expanded = element.querySelector('.card-expanded');
+                const cardContent = element.querySelector('.card-content');
+
+                if (expanded.style.display === 'none') {
+                    expanded.style.display = 'flex';
+                    cardContent.classList.add('compressed');
+                    expanded.classList.remove('hidden');
+                } else {
+                    expanded.classList.add('hidden');
+                    setTimeout(() => {
+                        expanded.style.display = 'none';
+                        cardContent.classList.remove('compressed');
+                        expanded.classList.remove('hidden');
+                    }, 300);
+                }
+            }
+
+            const allPenalties = ['gainage', 'squat', 'parcours', 'genoux', 'jumpingjacks', 'pompes'];
+            let selectedPenalties = [];
+
+            function toggleRelaisPenalty(element) {
+                const penaltyValue = element.dataset.penalty;
+                element.classList.toggle('selected');
+
+                if (element.classList.contains('selected')) {
+                    if (!selectedPenalties.includes(penaltyValue)) {
+                        selectedPenalties.push(penaltyValue);
+                    }
+                } else {
+                    selectedPenalties = selectedPenalties.filter(p => p !== penaltyValue);
+                }
+
+                // Update random button state
+                updateRandomButtonState();
+                checkRelaisValiderButton();
+            }
+
+            function toggleAllPenalties() {
+                const randomBtn = document.querySelector('.penalty-random-btn');
+                const allPenaltyCards = document.querySelectorAll('.penalty-card[data-penalty]');
+
+                // Check if all penalties are currently selected
+                const allSelected = allPenalties.every(p => selectedPenalties.includes(p));
+
+                if (allSelected) {
+                    // Deselect all
+                    selectedPenalties = [];
+                    allPenaltyCards.forEach(card => {
+                        card.classList.remove('selected');
+                    });
+                    randomBtn.classList.remove('selected');
+                } else {
+                    // Select all
+                    selectedPenalties = [...allPenalties];
+                    allPenaltyCards.forEach(card => {
+                        card.classList.add('selected');
+                    });
+                    randomBtn.classList.add('selected');
+                }
+
+                checkRelaisValiderButton();
+            }
+
+            function updateRandomButtonState() {
+                const randomBtn = document.querySelector('.penalty-random-btn');
+                if (randomBtn) {
+                    const allSelected = allPenalties.every(p => selectedPenalties.includes(p));
+                    if (allSelected) {
+                        randomBtn.classList.add('selected');
+                    } else {
+                        randomBtn.classList.remove('selected');
+                    }
+                }
+            }
+
+            function handleRelaisValider() {
+                const reponsesCount = parseInt(document.getElementById('reponsesCount').value);
+                const levelValue = getLevelValue();
+
+                const relaisData = {
+                    level: levelValue,
+                    durationMode: selectedDurationMode,
+                    reponsesCount: reponsesCount,
+                    penalties: selectedPenalties, // Uses the global selectedPenalties array
+                    penaltyDuration: 20
+                };
+
+                // Add only the selected duration value
+                if (selectedDurationMode === 'time') {
+                    relaisData.gameTime = parseInt(document.getElementById('gameTime').value);
+                } else {
+                    relaisData.passagesCount = parseInt(document.getElementById('passagesCount').value);
+                }
+
+                console.log('Relais data:', relaisData);
+
+                // Save to game_setup.json
+                fetch('/save-game-setup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(relaisData)
+                }).then(response => response.json())
+                    .then(data => {
+                        console.log('Relais config saved:', data);
+                        window.location.href = '/recapitulatif';
+                    })
+                    .catch(error => {
+                        console.error('Error saving relais config:', error);
+                    });
             }
         </script>
 </body>

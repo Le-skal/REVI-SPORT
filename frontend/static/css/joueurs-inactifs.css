@@ -1,0 +1,278 @@
+/* ===== STYLE PAGE JOUEURS INACTIFS ===== */
+
+.joueurs-inactifs-screen {
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    padding-top: 30px;
+    position: relative;
+}
+
+/* Back Button */
+.joueurs-inactifs-screen .back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10;
+}
+
+.joueurs-inactifs-screen .back-btn img {
+    width: 40px;
+    height: auto;
+}
+
+/* Teams Header */
+.teams-header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 20px;
+    width: 100%;
+    margin-top: 40px;
+    padding-left: 50px;
+}
+
+.teams-avatars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.avatar-card {
+    width: 200px;
+    height: 120px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 3px solid;
+}
+
+.avatar-card.red-border {
+    border-color: rgb(186, 74, 74);
+}
+
+.avatar-card.blue-border {
+    border-color: rgb(74, 128, 186);
+}
+
+.avatar-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+/* Warning Box */
+.warning-box {
+    background: #2C2C3A;
+    border-radius: 12px;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    height: 250px;
+    width: 60%;
+}
+
+.warning-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.warning-icon {
+    width: 200px;
+    height: auto;
+}
+
+/* Page Title */
+.page-title {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    margin: 10px 0;
+    text-align: center;
+}
+
+/* Court Card */
+.joueurs-inactifs-screen .card {
+    width: 92%;
+    margin: 0 auto;
+    border-radius: 14px;
+    padding: 12px;
+    position: relative;
+}
+
+.joueurs-inactifs-screen .card img {
+    width: 90%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.joueurs-inactifs-screen .court-card {
+    position: relative;
+}
+
+.joueurs-inactifs-screen .court-avatar {
+    position: absolute;
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 5;
+}
+
+.joueurs-inactifs-screen .red-avatar {
+    top: 50%;
+    left: 22%;
+    transform: translateY(-50%);
+}
+
+.joueurs-inactifs-screen .blue-avatar {
+    top: 50%;
+    right: 22%;
+    transform: translateY(-50%);
+}
+
+/* Field positions (non-basketball) */
+.joueurs-inactifs-screen .field-court .red-avatar {
+    left: 31%;
+}
+
+.joueurs-inactifs-screen .field-court .blue-avatar {
+    right: 31%;
+}
+
+/* Court Overlay */
+.court-overlay {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.match-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #FFFFFF;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+/* Bottom Section */
+.bottom-section {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    padding: 0 16px;
+    margin-top: auto;
+    padding-bottom: 20px;
+}
+
+/* Players List Card */
+.players-list-card {
+    width: 252px;
+    min-height: 144px;
+    background: #373748;
+    border: none;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.players-list-card .card-title {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: #FFFFFF;
+    margin: 0;
+    text-align: center;
+}
+
+.players-names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.player-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.player-name.red {
+    color: #BA4A4A;
+}
+
+.player-name.blue {
+    color: #4A80BA;
+}
+
+/* Penalty Card */
+.penalty-card {
+    flex: 1;
+    max-width: 386px;
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.penalty-card .card-title {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: #FFFFFF;
+    margin: 0;
+    text-align: center;
+    background: #373748;
+    padding: 12px 24px;
+    border-radius: 16px;
+}
+
+.activate-btn {
+    background: #FFFFFF;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 24px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E1E2A;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.activate-btn:hover {
+    transform: scale(1.05);
+    background: #f0f0f0;
+}
+
+.activate-btn:active {
+    transform: scale(0.95);
+}

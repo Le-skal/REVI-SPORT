@@ -44,7 +44,8 @@
             </button>
 
             <div class="timer-display">
-                <span id="game-timer">{{ game_time }}</span>
+                <span id="game-timer">00 : 00</span>
+                <span class="timer-target">/ <span id="target-time">{{ game_time }}</span></span>
             </div>
 
             <button class="control-btn arreter-btn" aria-label="Arrêter">
@@ -72,16 +73,18 @@
         </div>
 
         <!-- Tabs Section -->
+        {% if mode != 'relais-biathlon' %}
         <div class="tabs-section">
             <button class="tab-btn active" data-tab="temps-support">
                 <img src="{{ url_for('static', filename='img/game-management/temps-support.png') }}"
                     alt="Temps support">
             </button>
-            <button class="tab-btn" data-tab="joueurs-inactifs">
+            <a href="/joueurs-inactifs" class="tab-btn">
                 <img src="{{ url_for('static', filename='img/game-management/joueurs-inactifs.png') }}"
                     alt="Joueurs inactifs">
-            </button>
+            </a>
         </div>
+        {% endif %}
 
         <!-- Events Table -->
         <div class="events-section" id="temps-support-content">
@@ -108,6 +111,7 @@
             </div>
         </div>
 
+        {% if mode != 'relais-biathlon' %}
         <!-- Inactive Players Section (hidden by default) -->
         <div class="events-section hidden" id="joueurs-inactifs-content">
             <div class="inactive-players">
@@ -119,6 +123,42 @@
                     <h4>Équipe Bleue</h4>
                     <div id="blue-inactive-players"></div>
                 </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Prolonger Keypad Overlay -->
+        <div id="prolongerKeypad" class="keypad-overlay" style="display: none;">
+            <div class="keypad-container">
+                <div class="keypad-header">
+                    <h3 id="keypadTitle">Prolonger (minutes)</h3>
+                    <button class="keypad-close" onclick="hideKeypad()">✕</button>
+                </div>
+                <!-- Quick Options -->
+                <div class="quick-options">
+                    <button class="quick-option-btn" onclick="quickAdd(1)">1 min</button>
+                    <button class="quick-option-btn" onclick="quickAdd(5)">5 min</button>
+                    <button class="quick-option-btn" onclick="quickAdd(10)">10 min</button>
+                    <button class="quick-option-btn" onclick="quickAdd(15)">15 min</button>
+                </div>
+                <div class="keypad-display">
+                    <input type="text" id="keypadDisplay" readonly>
+                </div>
+                <div class="keypad-buttons">
+                    <button class="keypad-btn" onclick="keypadPress('1')">1</button>
+                    <button class="keypad-btn" onclick="keypadPress('2')">2</button>
+                    <button class="keypad-btn" onclick="keypadPress('3')">3</button>
+                    <button class="keypad-btn" onclick="keypadPress('4')">4</button>
+                    <button class="keypad-btn" onclick="keypadPress('5')">5</button>
+                    <button class="keypad-btn" onclick="keypadPress('6')">6</button>
+                    <button class="keypad-btn" onclick="keypadPress('7')">7</button>
+                    <button class="keypad-btn" onclick="keypadPress('8')">8</button>
+                    <button class="keypad-btn" onclick="keypadPress('9')">9</button>
+                    <button class="keypad-btn keypad-clear" onclick="keypadClear()">C</button>
+                    <button class="keypad-btn" onclick="keypadPress('0')">0</button>
+                    <button class="keypad-btn keypad-backspace" onclick="keypadBackspace()">⌫</button>
+                </div>
+                <button class="keypad-ok" onclick="keypadOk()">OK</button>
             </div>
         </div>
     </div>
@@ -136,33 +176,82 @@
             });
         });
 
-        // Timer functionality
-        let gameMinutes = {{ game_time_minutes }};
-        let gameSeconds = 0;
+        // Timer functionality with localStorage persistence
+        let currentMinutes = 0;
+        let currentSeconds = 0;
+        let targetMinutes = {{ game_time_minutes }};
         let timerInterval = null;
         let isRunning = false;
+        let startTimestamp = null;
+
+        // Load saved timer state from localStorage
+        function loadTimerState() {
+            const saved = localStorage.getItem('gameTimer');
+            if (saved) {
+                const state = JSON.parse(saved);
+                startTimestamp = state.startTimestamp;
+                targetMinutes = state.targetMinutes || {{ game_time_minutes }};
+
+                if (startTimestamp) {
+                    // Calculate elapsed time since start
+                    const elapsed = Math.floor((Date.now() - startTimestamp) / 1000);
+                    currentMinutes = Math.floor(elapsed / 60);
+                    currentSeconds = elapsed % 60;
+
+                    // Check if already past target
+                    if (currentMinutes >= targetMinutes) {
+                        currentMinutes = targetMinutes;
+                        currentSeconds = 0;
+                    }
+                }
+            }
+        }
+
+        // Save timer state to localStorage
+        function saveTimerState() {
+            const state = {
+                startTimestamp: startTimestamp,
+                targetMinutes: targetMinutes
+            };
+            localStorage.setItem('gameTimer', JSON.stringify(state));
+        }
 
         function updateTimerDisplay() {
-            const mins = String(gameMinutes).padStart(2, '0');
-            const secs = String(gameSeconds).padStart(2, '0');
+            const mins = String(currentMinutes).padStart(2, '0');
+            const secs = String(currentSeconds).padStart(2, '0');
             document.getElementById('game-timer').textContent = `${mins} : ${secs}`;
+        }
+
+        function updateTargetDisplay() {
+            const mins = String(targetMinutes).padStart(2, '0');
+            document.getElementById('target-time').textContent = `${mins} : 00`;
         }
 
         function startTimer() {
             if (isRunning) return;
             isRunning = true;
+
+            // Set start timestamp if not already set
+            if (!startTimestamp) {
+                startTimestamp = Date.now();
+                saveTimerState();
+            }
+
             timerInterval = setInterval(() => {
-                if (gameSeconds === 0) {
-                    if (gameMinutes === 0) {
-                        clearInterval(timerInterval);
-                        isRunning = false;
-                        return;
-                    }
-                    gameMinutes--;
-                    gameSeconds = 59;
-                } else {
-                    gameSeconds--;
+                // Calculate current time from start timestamp
+                const elapsed = Math.floor((Date.now() - startTimestamp) / 1000);
+                currentMinutes = Math.floor(elapsed / 60);
+                currentSeconds = elapsed % 60;
+
+                // Check if reached target
+                if (currentMinutes >= targetMinutes) {
+                    currentMinutes = targetMinutes;
+                    currentSeconds = 0;
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    onTimerEnd();
                 }
+
                 updateTimerDisplay();
             }, 1000);
         }
@@ -172,10 +261,14 @@
             isRunning = false;
         }
 
+        function onTimerEnd() {
+            // Timer reached the target - you can add a sound or visual effect here
+            console.log('Timer ended!');
+        }
+
         // Control buttons
         document.querySelector('.prolonger-btn').addEventListener('click', function () {
-            gameMinutes += 5;
-            updateTimerDisplay();
+            showKeypad();
         });
 
         document.querySelector('.arreter-btn').addEventListener('click', function () {
@@ -186,8 +279,69 @@
             }
         });
 
-        // Initialize
+        // Keypad functions
+        function showKeypad() {
+            document.getElementById('prolongerKeypad').style.display = 'flex';
+            document.getElementById('keypadDisplay').value = '';
+        }
+
+        function hideKeypad() {
+            document.getElementById('prolongerKeypad').style.display = 'none';
+        }
+
+        function keypadPress(digit) {
+            const display = document.getElementById('keypadDisplay');
+            if (display.value.length < 2) {
+                display.value += digit;
+            }
+        }
+
+        function keypadBackspace() {
+            const display = document.getElementById('keypadDisplay');
+            display.value = display.value.slice(0, -1);
+        }
+
+        function keypadClear() {
+            document.getElementById('keypadDisplay').value = '';
+        }
+
+        function keypadOk() {
+            const display = document.getElementById('keypadDisplay');
+            const value = parseInt(display.value);
+            if (value && value > 0) {
+                targetMinutes += value;
+                updateTargetDisplay();
+                saveTimerState();
+                // Restart timer if it was stopped at the end
+                if (!isRunning && (currentMinutes < targetMinutes || (currentMinutes === targetMinutes && currentSeconds === 0))) {
+                    startTimer();
+                }
+            }
+            hideKeypad();
+        }
+
+        function quickAdd(minutes) {
+            targetMinutes += minutes;
+            updateTargetDisplay();
+            saveTimerState();
+            // Restart timer if it was stopped at the end
+            if (!isRunning && (currentMinutes < targetMinutes || (currentMinutes === targetMinutes && currentSeconds === 0))) {
+                startTimer();
+            }
+            hideKeypad();
+        }
+
+        // Close keypad on overlay click
+        document.getElementById('prolongerKeypad').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideKeypad();
+            }
+        });
+
+        // Initialize - load saved state first
+        loadTimerState();
         updateTimerDisplay();
+        updateTargetDisplay();
         startTimer();
     </script>
 </body>

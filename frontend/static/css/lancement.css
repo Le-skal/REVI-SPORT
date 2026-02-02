@@ -1,0 +1,245 @@
+/* ===== STYLE PAGE LANCEMENT ===== */
+
+.lancement-screen {
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+}
+
+/* ===== PARCOURS TITLE ===== */
+
+.parcours-title {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 32px;
+    font-style: italic;
+    color: #C99F17;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0;
+    margin-top: 10px;
+}
+
+/* ===== TEAM INFO CARD ===== */
+
+.team-info-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #2C2C3A;
+    border-radius: 12px;
+    padding: 16px 24px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.team-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.team-player-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    font-style: italic;
+    color: #ffffff;
+    margin: 0;
+}
+
+/* ===== FÉLICITATIONS SECTION ===== */
+
+.felicitations-section {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.felicitations-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 8px 0;
+}
+
+.etape-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+/* ===== COURT ===== */
+
+.lancement-screen .card {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 14px;
+    padding: 0;
+    position: relative;
+}
+
+.lancement-screen .card>img:first-child {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    border-radius: 14px;
+}
+
+.court-card {
+    position: relative;
+}
+
+.court-avatar {
+    position: absolute;
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 5;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.relais-court .red-avatar {
+    left: 50%;
+    top: 75%;
+    transform: translate(-50%, -50%);
+}
+
+.relais-court .blue-avatar {
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+}
+
+/* ===== LAUNCH BUTTON ===== */
+
+.launch-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    max-width: 500px;
+    background: #3D3D4D;
+    border: none;
+    border-radius: 12px;
+    padding: 18px 32px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    margin-top: auto;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.launch-btn:hover {
+    background: #4a4a5a;
+    transform: scale(1.02);
+}
+
+.launch-btn:active {
+    transform: scale(0.98);
+}
+
+/* ===== PENALTY MODE ===== */
+
+.penalty-title {
+    color: #6B9BD2;
+    font-size: 28px;
+}
+
+.penalty-title.red-penalty {
+    color: #E57373;
+}
+
+.penalty-title.blue-penalty {
+    color: #6B9BD2;
+}
+
+.penalty-info-section {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.penalty-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.penalty-player-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #3D3D4D;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.penalty-player-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+.joker-card-img {
+    width: 60px;
+    height: auto;
+}
+
+.joker-info-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.penalty-action-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    background: #3D3D4D;
+    border-radius: 12px;
+    padding: 20px 32px;
+    width: 90%;
+    max-width: 500px;
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.penalty-action-title {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 18px;
+    font-style: italic;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+}
+
+.penalty-btn {
+    background: #ffffff;
+    color: #2C2C3A;
+    border-radius: 30px;
+    padding: 14px 40px;
+    width: auto;
+    margin: 0;
+}

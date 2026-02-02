@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lancement.css') }}">
+    <title>{% if is_penalty %}Pénalité{% else %}Lancement{% endif %} - Révi'Sport</title>
+</head>
+
+<body>
+    <div class="screen-container lancement-screen">
+        {% if is_penalty %}
+        <!-- PENALTY MODE -->
+        <h1 class="parcours-title penalty-title {{ team }}-penalty">Pénalité pour l'équipe {{ 'bleue' if team == 'blue' else 'rouge' }} !</h1>
+
+        <!-- Penalty Info Section -->
+        <div class="penalty-info-section">
+            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ avatar_id ~ '.png') }}"
+                alt="Avatar équipe" class="penalty-avatar">
+            <div class="penalty-player-card">
+                <h2 class="penalty-player-name">Joueur {{ player_name }}</h2>
+                <img src="{{ url_for('static', filename='img/jokers/joker-passage.png') }}"
+                    alt="Joker passage" class="joker-card-img">
+            </div>
+        </div>
+
+        <!-- Joker Info Text -->
+        <p class="joker-info-text">{{ joker_player }} a utilisé le {{ joker_name }}.</p>
+
+        <!-- Court -->
+        <div class="card court-card relais-court">
+            <img src="{{ url_for('static', filename='img/basketball/relais-biathlon.png') }}" alt="Terrain relais-biathlon">
+        </div>
+
+        <!-- Penalty Action Section -->
+        <div class="penalty-action-section">
+            <h2 class="penalty-action-title">Effectuez un parcours supplémentaire.</h2>
+            <button class="launch-btn penalty-btn" onclick="launchQuestion()">
+                Lancer la question
+            </button>
+        </div>
+
+        {% else %}
+        <!-- NORMAL MODE -->
+        <!-- Parcours Title -->
+        <h1 class="parcours-title">{{ parcours_text }}</h1>
+
+        <!-- Team Info Card -->
+        <div class="team-info-card">
+            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ avatar_id ~ '.png') }}"
+                alt="Avatar équipe" class="team-avatar">
+            <h2 class="team-player-text">{{ team_name }} - {{ player_name }}</h2>
+        </div>
+
+        <!-- Félicitations Section -->
+        <div class="felicitations-section">
+            <h2 class="felicitations-text">Félicitations, {{ player_name }}</h2>
+            <p class="etape-text">Étape {{ current_etape }}/{{ total_etapes }} terminée !</p>
+        </div>
+
+        <!-- Court -->
+        <div class="card court-card relais-court">
+            <img src="{{ url_for('static', filename='img/basketball/relais-biathlon.png') }}" alt="Terrain relais-biathlon">
+        </div>
+
+        <!-- Launch Button -->
+        <button class="launch-btn" onclick="launchQuestion()">
+            Lancer la question
+        </button>
+        {% endif %}
+    </div>
+
+    <script>
+        function launchQuestion() {
+            window.location.href = '/game-knowledge?mode=relais-biathlon&team={{ team }}';
+        }
+    </script>
+</body>
+
+</html>

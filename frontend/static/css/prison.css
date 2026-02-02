@@ -1,0 +1,204 @@
+/* ===== STYLE PAGE PRISON ===== */
+
+.prison-screen {
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+}
+
+/* ===== HEADER ===== */
+
+.prison-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.prison-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.timer-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: #3D3D4D;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.team-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+/* ===== TIMER CIRCLE ===== */
+
+.timer-circle {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.timer-circle svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.timer-bg {
+    fill: none;
+    stroke: #2C2C3A;
+    stroke-width: 6;
+}
+
+.timer-progress {
+    fill: none;
+    stroke: #E57373;
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.timer-circle.finished .timer-progress {
+    stroke: #4CAF50;
+}
+
+.timer-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* ===== STATUS TEXT ===== */
+
+.prison-status {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 24px;
+    font-style: italic;
+    color: #E57373;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 8px 0;
+}
+
+.prison-status.finished {
+    color: #4CAF50;
+}
+
+/* ===== COURT SECTION ===== */
+
+.court-section {
+    width: 90%;
+    overflow: hidden;
+}
+
+.terrain-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #3D3D4D;
+    border-radius: 8px 8px 0 0;
+    padding: 8px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.player-icon {
+    font-size: 16px;
+}
+
+.court-section .court-card {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0 0 12px 12px;
+    margin: 0;
+    padding: 0;
+}
+
+.court-section .court-card>img:first-child {
+    width: 100%;
+    height: auto;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Prison player positioning */
+.prison-player-icon {
+    position: absolute;
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prison-player-icon img {
+    width: 30px;
+    height: 30px;
+    filter: invert(1);
+}
+
+.prison-player-avatar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #4CAF50;
+}
+
+/* ===== PENALTY CARD ===== */
+
+.penalty-card {
+    width: 100%;
+    max-width: 500px;
+    background: #3D3D4D;
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+    margin-top: auto;
+}
+
+.penalty-title {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 16px;
+    font-style: italic;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin: 0 0 8px 0;
+}
+
+.penalty-reason {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+.error-icon {
+    color: #E57373;
+}

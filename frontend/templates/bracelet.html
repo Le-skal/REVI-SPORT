@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bracelet.css') }}">
+    <title>Bracelet - Révi'Sport</title>
+</head>
+
+<body>
+    <div class="screen-container bracelet-screen {{ team }}-bg">
+        <!-- Logo bracelet en haut à gauche -->
+        <img src="{{ url_for('static', filename='img/bracelet/' ~ team ~ '.png') }}"
+             alt="Bracelet {{ team }}"
+             class="bracelet-logo">
+
+        <!-- Score en bas à droite -->
+        <div class="score-container">
+            <span class="score red">{{ red_score }}</span>
+            <span class="score-separator">-</span>
+            <span class="score blue">{{ blue_score }}</span>
+        </div>
+    </div>
+</body>
+
+</html>

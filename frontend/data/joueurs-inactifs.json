@@ -1,0 +1,14 @@
+{
+  "red_team": {
+    "team_name": "Équipe Rouge",
+    "inactive_players": [
+      "SophieDU"
+    ]
+  },
+  "blue_team": {
+    "team_name": "Équipe Bleue",
+    "inactive_players": [
+      "JulienM"
+    ]
+  }
+}

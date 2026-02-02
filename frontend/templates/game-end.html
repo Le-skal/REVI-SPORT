@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game-end.css') }}">
+    <title>Fin du Match - Révi'Sport</title>
+    <meta name="description" content="Récapitulatif de fin de match avec statistiques.">
+</head>
+
+<body>
+    <div class="screen-container game-end-screen">
+        <a href="/game-management" class="back-link" aria-label="Retour">
+            <img class="icon-back" src="{{ url_for('static', filename='img/common/back.png') }}" alt="Retour">
+        </a>
+
+        <h1 class="game-end-title">FIN DU MATCH</h1>
+
+        <div class="card score-card">
+            <div class="team-score red-team">
+                <div class="team-label">Équipe rouge</div>
+                <div class="score">{{ data.final_score.red_team }}</div>
+            </div>
+
+            <div class="vs-container">
+                {% if data.final_score.winner == 'red' %}
+                <img src="{{ url_for('static', filename='img/common/trophy.png') }}" alt="Trophée" class="trophy">
+                {% else %}
+                <img src="{{ url_for('static', filename='img/common/cross.png') }}" alt="Croix" class="cross">
+                {% endif %}
+                <span class="vs-text">VS</span>
+                {% if data.final_score.winner == 'blue' %}
+                <img src="{{ url_for('static', filename='img/common/trophy.png') }}" alt="Trophée" class="trophy">
+                {% else %}
+                <img src="{{ url_for('static', filename='img/common/cross.png') }}" alt="Croix" class="cross">
+                {% endif %}
+            </div>
+
+            <div class="team-score blue-team">
+                <div class="team-label">Équipe bleue</div>
+                <div class="score">{{ data.final_score.blue_team }}</div>
+            </div>
+        </div>
+
+        <p class="victory-message">
+            {% if data.final_score.winner == 'blue' %}
+            Victoire de l'équipe bleue ! 🎉
+            {% else %}
+            Victoire de l'équipe rouge ! 🎉
+            {% endif %}
+        </p>
+
+        <div
+            class="card court-card {% if data.game_info.mode == 'relais-biathlon' %}relais-court{% elif data.game_info.sport == 'basketball' %}basketball-court{% else %}field-court{% endif %}">
+            {% if data.game_info.mode == 'relais-biathlon' %}
+            <img src="{{ url_for('static', filename='img/basketball/relais-biathlon.png') }}"
+                alt="Terrain relais-biathlon">
+            {% elif data.game_info.sport == 'basketball' %}
+            <img src="{{ url_for('static', filename='img/basketball/court.png') }}" alt="Terrain de basket">
+            {% else %}
+            <img src="{{ url_for('static', filename='img/basketball/field.png') }}"
+                alt="Terrain de {{ data.game_info.sport }}">
+            {% endif %}
+            {% if data.teams.red.avatar %}
+            <img class="court-avatar red-avatar"
+                src="{{ url_for('static', filename='img/avatars/avatar' ~ data.teams.red.avatar ~ '.png') }}"
+                alt="Avatar équipe rouge">
+            {% endif %}
+            {% if data.teams.blue.avatar %}
+            <img class="court-avatar blue-avatar"
+                src="{{ url_for('static', filename='img/avatars/avatar' ~ data.teams.blue.avatar ~ '.png') }}"
+                alt="Avatar équipe bleue">
+            {% endif %}
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs-navigation">
+            <button class="tab-btn active" data-tab="mvp">
+                <span class="tab-icon">🏆</span>
+                <span class="tab-text">MVP 🎖</span>
+            </button>
+            {% if data.game_info.mode != 'relais-biathlon' %}
+            <button class="tab-btn" data-tab="duels">
+                <span class="tab-icon">⚔️</span>
+                <span class="tab-text">Duels ⚔️</span>
+            </button>
+            <button class="tab-btn" data-tab="questions">
+                <span class="tab-icon">💬</span>
+                <span class="tab-text">Questions 💬</span>
+            </button>
+            {% endif %}
+            <button class="tab-btn" data-tab="penalties">
+                <span class="tab-icon">⚠️</span>
+                <span class="tab-text">Pénalités 🚨</span>
+            </button>
+            <button class="tab-btn" data-tab="jokers">
+                <span class="tab-icon">🃏</span>
+                <span class="tab-text">Jokers 🃏</span>
+            </button>
+        </div>
+
+        <!-- Tabs Content -->
+        <div class="tabs-content">
+            <!-- Tab MVP -->
+            <div class="tab-panel active" id="tab-mvp">
+                <div class="mvp-container">
+                    <!-- MVP Équipe Rouge -->
+                    <div class="mvp-card red-mvp">
+                        <h3 class="mvp-title">{{ data.mvp.red.player }} - Équipe rouge</h3>
+                        <div class="mvp-content">
+                            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ data.mvp.red.avatar ~ '.png') }}"
+                                alt="Avatar" class="mvp-avatar">
+                            <div class="mvp-stats">
+                                <div class="stat">
+                                    <span class="stat-icon">🏀</span>
+                                    <span class="stat-value">{{ data.mvp.red.stats.points_scored }} points marqués</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-icon">⚔️</span>
+                                    <span class="stat-value">{{ data.mvp.red.stats.duels_won }} duels gagnés sur 4</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-icon">🃏</span>
+                                    <span class="stat-value">{{ data.mvp.red.stats.jokers_used }} jokers utilisés</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MVP Équipe Bleue -->
+                    <div class="mvp-card blue-mvp">
+                        <h3 class="mvp-title">{{ data.mvp.blue.player }} - Équipe bleue</h3>
+                        <div class="mvp-content">
+                            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ data.mvp.blue.avatar ~ '.png') }}"
+                                alt="Avatar" class="mvp-avatar">
+                            <div class="mvp-stats">
+                                <div class="stat">
+                                    <span class="stat-icon">🏀</span>
+                                    <span class="stat-value">{{ data.mvp.blue.stats.points_scored }} points marqués</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-icon">⚔️</span>
+                                    <span class="stat-value">{{ data.mvp.blue.stats.duels_won }} duels gagnés sur 5</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-icon">🃏</span>
+                                    <span class="stat-value">{{ data.mvp.blue.stats.jokers_used }} joker utilisé</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if data.game_info.mode != 'relais-biathlon' %}
+            <!-- Tab Duels -->
+            <div class="tab-panel" id="tab-duels">
+                <div class="duels-container">
+                    <table class="duels-table">
+                        <thead>
+                            <tr>
+                                <th>🔴 Joueur Rouge</th>
+                                <th>🔵 Joueur Bleu</th>
+                                <th>🏆 Résultat</th>
+                                <th>🚨 Pénalité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for duel in data.duels %}
+                            <tr>
+                                <td>{{ duel.red_player }}</td>
+                                <td>{{ duel.blue_player }}</td>
+                                <td>
+                                    {% if duel.winner == 'red' %}
+                                    <span class="result-win">✅ {{ duel.red_player }} (+{{ duel.points }})</span>
+                                    {% else %}
+                                    <span class="result-win">✅ {{ duel.blue_player }} (+{{ duel.points }})</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if duel.winner == 'red' %}
+                                    <span class="result-lose">❌ {{ duel.blue_player }} (prison)</span>
+                                    {% else %}
+                                    <span class="result-lose">❌ {{ duel.red_player }} (prison)</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab Questions -->
+            <div class="tab-panel" id="tab-questions">
+                <div class="questions-container">
+                    <table class="questions-table">
+                        <thead>
+                            <tr>
+                                <th>📚 Matière</th>
+                                <th>💬 Question</th>
+                                <th>✅ Réponse</th>
+                                <th>🏆 Résultat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for question in data.questions %}
+                            <tr>
+                                <td>
+                                    <span class="theme-badge">{{ question.theme }}</span>
+                                </td>
+                                <td>{{ question.question }}</td>
+                                <td>{{ question.answer }}</td>
+                                <td>
+                                    {% if question.team == 'blue' %}
+                                    <span class="result-player blue">🔵 {{ question.player }} (+{{ question.points }})</span>
+                                    {% else %}
+                                    <span class="result-player red">🔴 {{ question.player }} (+{{ question.points }})</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Tab Pénalités -->
+            <div class="tab-panel" id="tab-penalties">
+                <div class="penalties-container">
+                    <!-- Équipe Rouge -->
+                    <div class="penalty-card red-penalty">
+                        <h3 class="penalty-title">🔴 Équipe rouge</h3>
+                        <div class="penalty-content">
+                            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ data.teams.red.avatar ~ '.png') }}"
+                                alt="Avatar" class="penalty-avatar">
+                            <div class="penalty-list">
+                                {% for penalty in data.penalties %}
+                                {% if penalty.team == 'red' %}
+                                <div class="penalty-item">
+                                    <span class="penalty-icon">{{ penalty.icon }}</span>
+                                    <span class="penalty-text">{{ penalty.reason }} - {{ penalty.player }}</span>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Équipe Bleue -->
+                    <div class="penalty-card blue-penalty">
+                        <h3 class="penalty-title">🔵 Équipe bleue</h3>
+                        <div class="penalty-content">
+                            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ data.teams.blue.avatar ~ '.png') }}"
+                                alt="Avatar" class="penalty-avatar">
+                            <div class="penalty-list">
+                                {% for penalty in data.penalties %}
+                                {% if penalty.team == 'blue' %}
+                                <div class="penalty-item">
+                                    <span class="penalty-icon">{{ penalty.icon }}</span>
+                                    <span class="penalty-text">{{ penalty.reason }} - {{ penalty.player }}</span>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Jokers -->
+            <div class="tab-panel" id="tab-jokers">
+                <div class="jokers-container">
+                    <!-- Équipe Rouge -->
+                    <div class="joker-card red-joker">
+                        <h3 class="joker-title">🔴 Équipe rouge</h3>
+                        <div class="joker-content">
+                            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ data.teams.red.avatar ~ '.png') }}"
+                                alt="Avatar" class="joker-avatar">
+                            <div class="joker-list">
+                                {% for joker in data.jokers.red %}
+                                <div class="joker-item">
+                                    <span class="joker-icon">{{ joker.icon }}</span>
+                                    <span class="joker-text">{{ joker.player }} - {{ joker.joker }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Équipe Bleue -->
+                    <div class="joker-card blue-joker">
+                        <h3 class="joker-title">🔵 Équipe bleue</h3>
+                        <div class="joker-content">
+                            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ data.teams.blue.avatar ~ '.png') }}"
+                                alt="Avatar" class="joker-avatar">
+                            <div class="joker-list">
+                                {% for joker in data.jokers.blue %}
+                                <div class="joker-item">
+                                    <span class="joker-icon">{{ joker.icon }}</span>
+                                    <span class="joker-text">{{ joker.player }} - {{ joker.joker }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="close-match-btn" onclick="window.location.href='/home'">
+            <span class="flag-icon">🏁</span>
+            <span class="btn-text">Clôturer le match</span>
+        </button>
+    </div>
+
+    <script>
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById('tab-' + tabId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

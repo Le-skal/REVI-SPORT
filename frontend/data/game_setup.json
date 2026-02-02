@@ -1,14 +1,10 @@
 {
-  "mode": "relais-biathlon",
-  "parcours": "motricite",
+  "mode": "sport-collectif",
+  "sport": "rugby",
   "themes": [
-    "francais"
+    "histoire",
+    "geographie"
   ],
-  "joker": "double-point",
-  "level": "Cycle 4 niveau 3 : 3ème",
-  "minPassages": 1,
-  "maxPassages": 4,
-  "penalty": 4,
   "jokers": [
     "theme",
     "team",
@@ -17,12 +13,14 @@
     "switch",
     "indice"
   ],
+  "level": "Cycle 4 niveau 3 : 3ème",
+  "minPassages": 1,
+  "maxPassages": 4,
+  "penalty": 3,
   "gameTime": 32,
-  "passagesCount": 8,
-  "reponsesCount": 5,
-  "penalties": [
-    "gainage",
-    "squat"
-  ],
-  "penaltyDuration": 20
+  "timeoutCount": 5,
+  "prisonTime": 30,
+  "answerTime": 30,
+  "sportPoints": 5,
+  "duelPoints": 3
 }

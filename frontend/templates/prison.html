@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/prison.css') }}">
+    <title>Prison - Révi'Sport</title>
+</head>
+
+<body>
+    <div class="screen-container prison-screen">
+        <!-- Header: Avatar + Timer -->
+        <div class="prison-header">
+            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ avatar_id ~ '.png') }}"
+                 alt="Avatar équipe" class="prison-avatar">
+            <div class="timer-card">
+                <span class="team-label">{{ team_name }}</span>
+                <div class="timer-circle" id="timerCircle">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
+                        <circle class="timer-progress" id="timerProgress" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <span class="timer-value" id="timerValue">{{ prison_time }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Text -->
+        <h1 class="prison-status" id="prisonStatus">Vous êtes en prison !</h1>
+
+        <!-- Court -->
+        <div class="court-section">
+            <div class="terrain-count" id="terrainCount">
+                <span class="player-icon">👤</span>
+                <span id="playersCount">{{ players_on_terrain }}/{{ total_players }}</span> sur le terrain
+            </div>
+            <div class="card court-card basketball-court">
+                <img src="{{ url_for('static', filename='img/basketball/court.png') }}" alt="Terrain">
+                <!-- Prison player icon -->
+                <div class="prison-player-icon" id="prisonPlayerIcon">
+                    <img src="{{ url_for('static', filename='img/common/walking.png') }}" alt="En prison">
+                </div>
+                <!-- Player avatar (shown when prison ends) -->
+                <img class="prison-player-avatar" id="prisonPlayerAvatar"
+                     src="{{ url_for('static', filename='img/avatars/avatar' ~ avatar_id ~ '.png') }}"
+                     alt="Joueur" style="display: none;">
+            </div>
+        </div>
+
+        <!-- Bottom Card -->
+        <div class="penalty-card" id="penaltyCard">
+            <h2 class="penalty-title" id="penaltyTitle">Attendre la fin de la pénalité</h2>
+            <p class="penalty-reason">{{ player_name }} est en prison après une {{ reason }} <span class="error-icon">❌</span></p>
+        </div>
+    </div>
+
+    <script>
+        const prisonTime = {{ prison_time }};
+        let timeLeft = prisonTime;
+        const timerValue = document.getElementById('timerValue');
+        const timerProgress = document.getElementById('timerProgress');
+        const timerCircle = document.getElementById('timerCircle');
+        const prisonStatus = document.getElementById('prisonStatus');
+        const penaltyTitle = document.getElementById('penaltyTitle');
+        const terrainCount = document.getElementById('terrainCount');
+        const playersCount = document.getElementById('playersCount');
+        const prisonPlayerIcon = document.getElementById('prisonPlayerIcon');
+        const prisonPlayerAvatar = document.getElementById('prisonPlayerAvatar');
+
+        // Circle circumference
+        const circumference = 2 * Math.PI * 45;
+        timerProgress.style.strokeDasharray = circumference;
+        timerProgress.style.strokeDashoffset = 0;
+
+        function updateTimer() {
+            timerValue.textContent = timeLeft;
+
+            // Update circle progress
+            const progress = (prisonTime - timeLeft) / prisonTime;
+            timerProgress.style.strokeDashoffset = circumference * progress;
+
+            if (timeLeft <= 0) {
+                // Prison finished
+                timerCircle.classList.add('finished');
+                prisonStatus.textContent = 'Fin de la prison !';
+                prisonStatus.classList.add('finished');
+                penaltyTitle.textContent = 'Fin de la pénalité';
+                playersCount.textContent = '{{ total_players }}/{{ total_players }}';
+
+                // Show player avatar, hide walking icon
+                prisonPlayerIcon.style.display = 'none';
+                prisonPlayerAvatar.style.display = 'block';
+
+                clearInterval(timerInterval);
+
+                // Redirect to game-management after 2 seconds
+                setTimeout(() => {
+                    window.location.href = '/game-management';
+                }, 2000);
+            } else {
+                timeLeft--;
+            }
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+
+</html>

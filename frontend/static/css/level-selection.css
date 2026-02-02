@@ -479,6 +479,7 @@
     transition: transform 0.2s ease;
     margin-top: 16px;
     animation: slideUpButton 0.4s ease forwards;
+    width: 100%;
 }
 
 @keyframes slideUpButton {
@@ -683,6 +684,406 @@
 
 .keypad-ok:active {
     transform: scale(0.98);
+}
+
+/* ===== RELAIS SECTION (for relais-biathlon mode) ===== */
+
+.relais-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 0 16px;
+    margin-top: 40px;
+    margin-bottom: 100px;
+}
+
+/* Relais Header */
+.relais-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.relais-title {
+    max-width: 400px;
+    width: 60%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Relais Container */
+.relais-section .relais-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+/* Relais Card */
+.relais-section .relais-card {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    overflow: visible;
+    transition: all 0.3s ease;
+}
+
+/* Card Content */
+.relais-section .relais-card .card-content {
+    width: 100%;
+    background: #2C2C3A;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: auto;
+}
+
+.relais-section .relais-card .card-content:hover {
+    transform: scale(1.01);
+}
+
+.relais-section .relais-card .card-content.compressed {
+    padding: 10px;
+    gap: 6px;
+}
+
+/* Card Icon */
+.relais-section .relais-card .card-icon {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.relais-section .relais-card .card-content.compressed .card-icon {
+    width: 120px;
+}
+
+/* Card Label */
+.relais-section .relais-card .card-label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+/* Card Expanded */
+.relais-section .card-expanded {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border-radius: 8px;
+    margin-top: 8px;
+    animation: slideDown 0.3s ease forwards;
+}
+
+.relais-section .card-expanded.hidden {
+    animation: slideUp 0.3s ease forwards;
+}
+
+/* Durée Expanded */
+.relais-section .duree-expanded {
+    gap: 8px !important;
+}
+
+/* Inputs Row */
+.relais-section .inputs-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+/* Duration Choice - exclusive selection */
+.relais-section .duration-choice {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.relais-section .duration-choice:not(.selected) {
+    filter: grayscale(50%);
+    opacity: 0.6;
+}
+
+.relais-section .duration-choice.selected {
+    filter: none;
+    opacity: 1;
+}
+
+/* Input Field */
+.relais-section .relais-card .input-field {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    background: #2C2C3A;
+    border-radius: 8px;
+    padding: 10px 16px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.relais-section .relais-card .input-field.full-width {
+    width: 100%;
+    flex: none;
+}
+
+.relais-section .relais-card .input-field label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.relais-section .relais-card .input-field .timing-input {
+    flex: 1;
+    max-width: 60px;
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: right;
+    padding: 0;
+}
+
+.relais-section .relais-card .input-field .timing-input:focus {
+    outline: none;
+}
+
+.relais-section .relais-card .input-field .unit {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    margin-left: 4px;
+}
+
+/* Penalties Container */
+.relais-section .penalties-expanded {
+    gap: 16px !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+/* Penalties Grid */
+.relais-section .penalties-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+/* Penalty Card */
+.relais-section .penalty-card {
+    background: #2C2C3A;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.relais-section .penalty-card:hover {
+    transform: scale(1.02);
+}
+
+.relais-section .penalty-card.selected {
+    border-color: #C99F17;
+}
+
+.relais-section .penalty-card.selected .penalty-card-btn {
+    background: #C99F17;
+    color: #1E1E2A;
+}
+
+/* Penalty Card Image */
+.relais-section .penalty-card-img {
+    width: 70px;
+    height: 70px;
+    min-width: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.relais-section .penalty-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Penalty Card Info */
+.relais-section .penalty-card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.relais-section .penalty-card-title {
+    font-family: 'Komika Axis', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 10px;
+    line-height: 18px;
+    color: #FFFFFF;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.relais-section .penalty-card-desc {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    color: #C99F17;
+    margin: 0;
+}
+
+.relais-section .penalty-card-btn {
+    margin-top: 6px;
+    padding: 6px 16px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: #1E1E2A;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.relais-section .penalty-card-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Penalty Random Button */
+.relais-section .penalty-random-btn {
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.relais-section .penalty-random-btn:hover {
+    transform: scale(1.02);
+}
+
+.relais-section .penalty-random-btn.selected {
+    box-shadow: 0 0 0 2px #C99F17;
+}
+
+.relais-section .penalty-random-btn img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Responsive for Penalties Grid */
+@media (max-width: 400px) {
+    .relais-section .penalties-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .relais-section .penalty-card {
+        padding: 12px;
+    }
+
+    .relais-section .penalty-card-img {
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
+    }
+}
+
+/* Valider Button for Relais */
+.relais-section .valider-btn {
+    position: relative;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    z-index: 100;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-top: 16px;
+    animation: slideUpButton 0.4s ease forwards;
+    width: 100%;
+}
+
+.relais-section .valider-btn img {
+    max-width: 120px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+    transition: transform 0.2s ease;
+}
+
+.relais-section .valider-btn:hover img {
+    transform: scale(1.05);
+}
+
+/* Responsive for Relais Section */
+@media (max-width: 500px) {
+    .relais-section .inputs-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .relais-section .penalties-container {
+        flex-direction: column;
+    }
+
+    .relais-section .penalty-option {
+        max-width: 100%;
+    }
 }
 
 /* Responsive Design for Keypad */

@@ -1,0 +1,590 @@
+/* ===== STYLE PAGE GAME-END ===== */
+
+.game-end-screen {
+    align-items: stretch;
+    gap: 0px;
+    padding: 16px;
+    padding-bottom: 20px;
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+.game-end-screen ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.game-end-screen ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.game-end-screen ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.game-end-screen ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Firefox */
+.game-end-screen * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+}
+
+.back-link {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 10;
+}
+
+.icon-back {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.game-end-title {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 40px;
+    font-style: italic;
+    color: #ffffff;
+    text-align: center;
+    margin: 20px auto 10px;
+}
+
+.card {
+    width: 92%;
+    margin: 0 auto;
+    border-radius: 14px;
+    padding: 12px;
+    position: relative;
+}
+
+.card img {
+    width: 90%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.score-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px 12px;
+    gap: 20px;
+}
+
+.team-score {
+    text-align: center;
+    flex: 1;
+    border: 3px solid;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.team-score.red-team {
+    border-color: #ff4444;
+}
+
+.team-score.blue-team {
+    border-color: #4488ff;
+}
+
+.team-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.score {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 64px;
+    font-style: italic;
+    color: #ffffff;
+}
+
+.red-team .score {
+    color: #ff4444;
+}
+
+.blue-team .score {
+    color: #4488ff;
+}
+
+.vs-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.vs-text {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 36px;
+    font-style: italic;
+    color: #ffffff;
+    margin: 0 15px;
+}
+
+.trophy,
+.cross {
+    width: 100% !important;
+    height: 100px !important;
+    object-fit: contain;
+}
+
+.victory-message {
+    text-align: center;
+    color: #f0c400;
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 24px;
+    font-style: italic;
+    margin: 5px 0;
+}
+
+.court-card {
+    position: relative;
+    width: 85% !important;
+}
+
+.court-avatar {
+    position: absolute;
+    width: 75px !important;
+    height: 75px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 5;
+}
+
+.red-avatar {
+    top: 50%;
+    left: 22%;
+    transform: translateY(-50%);
+}
+
+.blue-avatar {
+    top: 50%;
+    right: 22%;
+    transform: translateY(-50%);
+}
+
+/* Field positions (non-basketball) */
+.field-court .red-avatar {
+    left: 31%;
+}
+
+.field-court .blue-avatar {
+    right: 31%;
+}
+
+/* Relais-biathlon positions */
+.relais-court .court-avatar {
+    width: 55.5px !important;
+    height: 55.5px !important;
+}
+
+.relais-court .red-avatar {
+    top: 50%;
+    left: 39.5%;
+}
+
+.relais-court .blue-avatar {
+    top: 50%;
+    right: 37%;
+}
+
+/* ===== TABS NAVIGATION ===== */
+
+.tabs-navigation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 8px;
+    width: 92%;
+    height: 50px;
+    margin: 12px auto;
+}
+
+.tab-btn {
+    background: #2C2C3A;
+    border: none;
+    border-radius: 8px;
+    height: 50px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    filter: grayscale(50%);
+}
+
+.tab-btn:hover {
+    transform: scale(1.03);
+}
+
+.tab-btn.active {
+    filter: grayscale(0);
+}
+
+.tab-icon {
+    display: none;
+}
+
+.tab-text {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+/* ===== TABS CONTENT ===== */
+
+.tabs-content {
+    width: 92%;
+    margin: 0 auto;
+    border-radius: 14px;
+    padding: 0;
+    min-height: 150px;
+    overflow-y: auto;
+    background: transparent;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+/* ===== TAB MVP ===== */
+
+.mvp-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.mvp-card {
+    background: #2C2C3A;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.mvp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 12px 0;
+    text-align: center;
+}
+
+.mvp-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mvp-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.mvp-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-icon {
+    font-size: 14px;
+}
+
+.stat-value {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: #ffffff;
+}
+
+/* ===== TAB DUELS ===== */
+
+.duels-container {
+    background: #2C2C3A;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.duels-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.duels-table thead th {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: left;
+    padding: 12px 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.duels-table tbody td {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: #ffffff;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.duels-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.result-win {
+    color: #4caf50;
+    font-weight: 500;
+}
+
+.result-lose {
+    color: #f44336;
+    font-weight: 500;
+}
+
+/* Section title for penalties/jokers */
+.section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+/* ===== TAB QUESTIONS ===== */
+
+.questions-container {
+    background: #2C2C3A;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.questions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.questions-table thead th {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: left;
+    padding: 12px 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.questions-table tbody td {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: #ffffff;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.questions-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.theme-badge {
+    display: inline-block;
+}
+
+.result-player {
+    font-weight: 500;
+}
+
+.result-player.blue {
+    color: #4488ff;
+}
+
+.result-player.red {
+    color: #ff4444;
+}
+
+/* ===== TAB PÉNALITÉS ===== */
+
+.penalties-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.penalty-card {
+    background: #2C2C3A;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.penalty-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 12px 0;
+    text-align: center;
+}
+
+.penalty-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.penalty-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.penalty-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.penalty-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.penalty-icon {
+    font-size: 14px;
+}
+
+.penalty-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    color: #ffffff;
+}
+
+/* ===== TAB JOKERS ===== */
+
+.jokers-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.joker-card {
+    background: #2C2C3A;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.joker-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 12px 0;
+    text-align: center;
+}
+
+.joker-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.joker-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.joker-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.joker-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.joker-icon {
+    font-size: 14px;
+}
+
+.joker-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: #ffffff;
+}
+
+/* ===== BOUTON CLÔTURER ===== */
+
+.close-match-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 92%;
+    margin: 16px auto 0;
+    background: #2C2C3A;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 28px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.close-match-btn:hover {
+    background: #3a3a4a;
+    transform: scale(1.02);
+}
+
+.close-match-btn .flag-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.close-match-btn .btn-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    white-space: nowrap;
+}
