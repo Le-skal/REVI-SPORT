@@ -109,18 +109,18 @@
                 },
                 body: JSON.stringify({
                     penalty_points: {{ penalty_points }},
-                    inactive_players: inactivePlayers,
-                    current_time: currentTime
+                inactive_players: inactivePlayers,
+                current_time: currentTime
                 })
             }).then(response => response.json())
-                .then(data => {
-                    console.log('Penalty activated:', data);
-                    window.location.href = '/game-management';
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    window.location.href = '/game-management';
-                });
+            .then(data => {
+                console.log('Penalty activated:', data);
+                window.location.href = '/game-management';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.location.href = '/game-management';
+            });
         }
     </script>
 </body>

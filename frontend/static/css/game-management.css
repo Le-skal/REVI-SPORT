@@ -255,6 +255,26 @@
     opacity: 0.9;
 }
 
+/* Temps support button (action button, not a tab) */
+.temps-support-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    padding: 0;
+}
+
+.temps-support-btn img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+.temps-support-btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
 /* ===== EVENTS TABLE ===== */
 .events-section {
     flex: 1;

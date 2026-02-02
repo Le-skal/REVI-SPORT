@@ -75,7 +75,7 @@
         <!-- Tabs Section -->
         {% if mode != 'relais-biathlon' %}
         <div class="tabs-section">
-            <button class="tab-btn temps-support-btn" onclick="showKeypad()">
+            <button class="temps-support-btn">
                 <img src="{{ url_for('static', filename='img/game-management/temps-support.png') }}"
                     alt="Temps support">
             </button>
@@ -169,7 +169,8 @@
                     <h3 id="bonusKeypadTitle">Question Bonus - Points</h3>
                     <button class="keypad-close" onclick="hideBonusKeypad()">✕</button>
                 </div>
-                <p style="text-align: center; color: #f0c400; font-family: 'Poppins', sans-serif; margin: 10px 0;">Choisissez le nombre de points pour la question de départage</p>
+                <p style="text-align: center; color: #f0c400; font-family: 'Poppins', sans-serif; margin: 10px 0;">
+                    Choisissez le nombre de points pour la question de départage</p>
                 <div class="keypad-display">
                     <input type="text" id="bonusKeypadDisplay" readonly>
                 </div>
@@ -224,30 +225,30 @@
         // Load saved timer state from localStorage
         function loadTimerState() {
             const saved = localStorage.getItem('gameTimer');
-            if (saved) {
-                const state = JSON.parse(saved);
-                startTimestamp = state.startTimestamp;
-                targetMinutes = state.targetMinutes || {{ game_time_minutes }};
+            if (!saved) return;
 
-                if (startTimestamp) {
-                    // Calculate elapsed time since start
-                    const elapsed = Math.floor((Date.now() - startTimestamp) / 1000);
-                    currentMinutes = Math.floor(elapsed / 60);
-                    currentSeconds = elapsed % 60;
+            const state = JSON.parse(saved);
+            startTimestamp = state.startTimestamp;
+            targetMinutes = state.targetMinutes || {{ game_time_minutes }};
 
-                    // Check if already past target - if so, reset timer
-                    if (currentMinutes >= targetMinutes) {
-                        currentMinutes = 0;
-                        currentSeconds = 0;
-                        startTimestamp = null;
-                        localStorage.removeItem('gameTimer');
-                    }
-                } else if (state.isAtMax) {
-                    // Timer was set to max with arreter button - reset on reload
+            if (startTimestamp) {
+                // Calculate elapsed time since start
+                const elapsed = Math.floor((Date.now() - startTimestamp) / 1000);
+                currentMinutes = Math.floor(elapsed / 60);
+                currentSeconds = elapsed % 60;
+
+                // Check if already past target - if so, reset timer
+                if (currentMinutes >= targetMinutes) {
                     currentMinutes = 0;
                     currentSeconds = 0;
+                    startTimestamp = null;
                     localStorage.removeItem('gameTimer');
                 }
+            } else if (state.isAtMax) {
+                // Timer was set to max with arreter button - reset on reload
+                currentMinutes = 0;
+                currentSeconds = 0;
+                localStorage.removeItem('gameTimer');
             }
         }
 
@@ -311,9 +312,27 @@
         }
 
         // Control buttons
-        document.querySelector('.prolonger-btn').addEventListener('click', function () {
-            showBonusKeypad();
-        });
+        const tempsSupportBtn = document.querySelector('.temps-support-btn');
+        console.log('Temps support button:', tempsSupportBtn);
+        if (tempsSupportBtn) {
+            tempsSupportBtn.addEventListener('click', function () {
+                console.log('Temps support clicked, showing keypad');
+                showKeypad();
+            });
+        } else {
+            console.log('Temps support button not found');
+        }
+
+        const prolongerBtn = document.querySelector('.prolonger-btn');
+        console.log('Prolonger button:', prolongerBtn);
+        if (prolongerBtn) {
+            prolongerBtn.addEventListener('click', function () {
+                console.log('Prolonger clicked, showing bonus keypad');
+                showBonusKeypad();
+            });
+        } else {
+            console.log('Prolonger button not found');
+        }
 
         document.querySelector('.arreter-btn').addEventListener('click', function () {
             // Set timer to maximum target time
@@ -414,18 +433,18 @@
             if (points && parseInt(points) > 0) {
                 // Launch question like after recapitulatif page
                 hideBonusKeypad();
-                window.location.href = '/countdown';
+                window.location.href = '/countdown?bonus=true';
             }
         }
 
         // Close keypad on overlay click
-        document.getElementById('prolongerKeypad').addEventListener('click', function(e) {
+        document.getElementById('prolongerKeypad').addEventListener('click', function (e) {
             if (e.target === this) {
                 hideKeypad();
             }
         });
 
-        document.getElementById('bonusKeypad').addEventListener('click', function(e) {
+        document.getElementById('bonusKeypad').addEventListener('click', function (e) {
             if (e.target === this) {
                 hideBonusKeypad();
             }

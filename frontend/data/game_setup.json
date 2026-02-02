@@ -1,6 +1,6 @@
 {
   "mode": "sport-collectif",
-  "sport": "rugby",
+  "parcours": "motricite",
   "themes": [
     "histoire",
     "geographie"
@@ -14,6 +14,14 @@
     "indice"
   ],
   "level": "Cycle 4 niveau 3 : 3ème",
+  "durationMode": "time",
+  "reponsesCount": 5,
+  "penalties": [
+    "gainage"
+  ],
+  "penaltyDuration": 20,
+  "passagesCount": 5,
+  "sport": "rugby",
   "minPassages": 1,
   "maxPassages": 4,
   "penalty": 3,
@@ -21,6 +29,6 @@
   "timeoutCount": 5,
   "prisonTime": 30,
   "answerTime": 30,
-  "sportPoints": 5,
-  "duelPoints": 3
+  "sportPoints": 3,
+  "duelPoints": 4
 }

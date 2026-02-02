@@ -727,7 +727,16 @@ def activate_penalty():
 
 @app.route("/game-intro")
 def game_intro():
-    return render_template("game-intro.html")
+    mode = ''
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                mode = game_setup.get('mode', '')
+        except:
+            pass
+    is_bonus = request.args.get('bonus', 'false') == 'true'
+    return render_template("game-intro.html", mode=mode, is_bonus=is_bonus)
 
 
 @app.route("/game-knowledge")

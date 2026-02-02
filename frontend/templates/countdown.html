@@ -52,7 +52,11 @@
                 clearInterval(interval);
                 // Redirect to game intro page after countdown
                 setTimeout(() => {
-                    window.location.href = '/game-intro';
+                    // Check if this is a bonus question from game management
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const isBonus = urlParams.get('bonus') === 'true';
+                    const bonusParam = isBonus ? '?bonus=true' : '';
+                    window.location.href = '/game-intro' + bonusParam;
                 }, 1000);
             }
         }, 1000);

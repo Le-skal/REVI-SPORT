@@ -1,6 +1,6 @@
 {
-  "red_score": 25,
-  "blue_score": 27,
+  "red_score": 49,
+  "blue_score": 51,
   "events": [
     {
       "time": "00 : 01",
@@ -97,119 +97,6 @@
       "action": "Duel contre AlexBO",
       "result": "Correct (+3)",
       "result_class": "success"
-    },
-    {
-      "time": "--:--",
-      "team": "all",
-      "player": "Tous",
-      "action": "Pénalité joueurs inactifs",
-      "result": "-3 points",
-      "result_class": "penalty"
-    },
-    {
-      "time": "-- : --",
-      "team": "red",
-      "player": "SophieDU",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "-- : --",
-      "team": "red",
-      "player": "SophieDU",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "-- : --",
-      "team": "blue",
-      "player": "JulienM",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "-- : --",
-      "team": "red",
-      "player": "SophieDU",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "-- : --",
-      "team": "blue",
-      "player": "JulienM",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "-- : --",
-      "team": "red",
-      "player": "SophieDU",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "-- : --",
-      "team": "blue",
-      "player": "JulienM",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "02 : 23",
-      "team": "red",
-      "player": "SophieDU",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "02 : 23",
-      "team": "blue",
-      "player": "JulienM",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "03 : 19",
-      "team": "red",
-      "player": "SophieDU",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "03 : 19",
-      "team": "blue",
-      "player": "JulienM",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "00 : 23",
-      "team": "red",
-      "player": "SophieDU",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
-    },
-    {
-      "time": "00 : 23",
-      "team": "blue",
-      "player": "JulienM",
-      "action": "Pénalité joueur inactif",
-      "result": "-3 pts",
-      "result_class": "penalty"
     }
-  ],
-  "penalty_applied": true
+  ]
 }

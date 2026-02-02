@@ -13,8 +13,16 @@
     <div class="screen-container game-intro-screen">
         <div class="intro-container">
             <div class="circle-bg" id="circleBg"></div>
+            {% if is_bonus %}
+            <img class="intro-image" id="introImage" src="{{ url_for('static', filename='img/start-count/intro3.png') }}"
+                alt="Intro">
+            {% elif mode == 'relais-biathlon' %}
+            <img class="intro-image" id="introImage" src="{{ url_for('static', filename='img/start-count/intro2.png') }}"
+                alt="Intro">
+            {% else %}
             <img class="intro-image" id="introImage" src="{{ url_for('static', filename='img/start-count/intro.png') }}"
                 alt="Intro">
+            {% endif %}
         </div>
     </div>
 
