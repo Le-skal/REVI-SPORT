@@ -12,9 +12,8 @@
 <body>
     <div class="screen-container bracelet-screen {{ team }}-bg">
         <!-- Logo bracelet en haut à gauche -->
-        <img src="{{ url_for('static', filename='img/bracelet/' ~ team ~ '.png') }}"
-             alt="Bracelet {{ team }}"
-             class="bracelet-logo">
+        <img src="{{ url_for('static', filename='img/bracelet/' ~ team ~ '.png') }}" alt="Bracelet {{ team }}"
+            class="bracelet-logo">
 
         <!-- Score en bas à droite -->
         <div class="score-container">
@@ -23,6 +22,46 @@
             <span class="score blue">{{ blue_score }}</span>
         </div>
     </div>
+
+    <script>
+        const team = '{{ team }}';
+
+        // After 3 seconds, check for prison or go to question
+        setTimeout(() => {
+            // First check if this team needs to go to prison
+            fetch('/check-prison?team=' + team)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.prison_pending) {
+                        // Go to prison first
+                        window.location.href = `/prison?team=${team}`;
+                    } else {
+                        // Get random question and go
+                        fetch('/get-random-question')
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    const questionId = data.question.id;
+                                    const questionTheme = data.question.theme;
+                                    window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}`;
+                                } else {
+                                    console.error('Error loading question:', data.error);
+                                    window.location.href = `/game-knowledge?team=${team}`;
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error fetching question:', error);
+                                window.location.href = `/game-knowledge?team=${team}`;
+                            });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking prison:', error);
+                    // Fallback: go to question
+                    window.location.href = `/game-knowledge?team=${team}`;
+                });
+        }, 3000);
+    </script>
 </body>
 
 </html>

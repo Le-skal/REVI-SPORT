@@ -438,7 +438,7 @@ def lancement():
         "7": "Septième parcours",
         "8": "Huitième parcours",
         "9": "Neuvième parcours",
-        "10": "Dixième parcours"
+        "10": "Dixième parcours",
     }
     parcours_text = parcours_texts.get(parcours_num, f"Parcours {parcours_num}")
 
@@ -472,9 +472,17 @@ def lancement():
     # Get current player (based on parcours number)
     parcours_index = int(parcours_num) - 1
     if players and parcours_index < len(players):
-        player_name = players[parcours_index].get("name", players[parcours_index]) if isinstance(players[parcours_index], dict) else players[parcours_index]
+        player_name = (
+            players[parcours_index].get("name", players[parcours_index])
+            if isinstance(players[parcours_index], dict)
+            else players[parcours_index]
+        )
     elif players:
-        player_name = players[0].get("name", players[0]) if isinstance(players[0], dict) else players[0]
+        player_name = (
+            players[0].get("name", players[0])
+            if isinstance(players[0], dict)
+            else players[0]
+        )
 
     # Get total etapes from game setup
     total_etapes = 8
@@ -499,7 +507,7 @@ def lancement():
         total_etapes=total_etapes,
         is_penalty=is_penalty,
         joker_player=joker_player,
-        joker_name=joker_name
+        joker_name=joker_name,
     )
 
 
@@ -572,7 +580,7 @@ def prison():
         sport=sport,
         players=players,
         players_on_terrain=players_on_terrain,
-        total_players=total_players
+        total_players=total_players,
     )
 
 
@@ -597,10 +605,7 @@ def bracelet():
             pass
 
     return render_template(
-        "bracelet.html",
-        team=team,
-        red_score=red_score,
-        blue_score=blue_score
+        "bracelet.html", team=team, red_score=red_score, blue_score=blue_score
     )
 
 
@@ -727,15 +732,15 @@ def activate_penalty():
 
 @app.route("/game-intro")
 def game_intro():
-    mode = ''
+    mode = ""
     if os.path.exists(GAME_SETUP_FILE):
         try:
             with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
                 game_setup = json.load(f)
-                mode = game_setup.get('mode', '')
+                mode = game_setup.get("mode", "")
         except:
             pass
-    is_bonus = request.args.get('bonus', 'false') == 'true'
+    is_bonus = request.args.get("bonus", "false") == "true"
     return render_template("game-intro.html", mode=mode, is_bonus=is_bonus)
 
 
@@ -746,6 +751,8 @@ def game_knowledge():
     question_theme = request.args.get("theme", type=str)
     # Check if we should skip the joker popup (used after theme joker)
     skip_joker_popup = request.args.get("skipJokerPopup", "false").lower() == "true"
+    # Check if this is a bonus question (no jokers allowed)
+    is_bonus = request.args.get("bonus", "false").lower() == "true"
 
     # Load red and blue team data
     red_avatar = None
@@ -863,22 +870,43 @@ def game_knowledge():
     # Find the index of correct answer in the shuffled list
     correct_answer_index = final_options.index(correct_answer)
 
-    # Load jokers from game setup
+    # Get team parameter
+    team = request.args.get("team", "red")
+
+    # Load jokers and duel points from game setup
     jokers = []
+    duel_points = 3
     if os.path.exists(GAME_SETUP_FILE):
         try:
             with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
                 game_setup = json.load(f)
-                jokers = game_setup.get("jokers", [])
+                all_jokers = game_setup.get("jokers", [])
+                duel_points = game_setup.get("duelPoints", 3)
+                # Filter out jokers already used by this team
+                team_jokers_used = game_setup.get(f"{team}_jokers_used", [])
+                jokers = [j for j in all_jokers if j not in team_jokers_used]
         except:
             jokers = []
+
+    # Load actual scores from game-management.json
+    game_management_file = os.path.join(DATA_DIR, "game-management.json")
+    red_score = 0
+    blue_score = 0
+    if os.path.exists(game_management_file):
+        try:
+            with open(game_management_file, "r", encoding="utf-8") as f:
+                game_data = json.load(f)
+                red_score = game_data.get("red_score", 0)
+                blue_score = game_data.get("blue_score", 0)
+        except:
+            pass
 
     return render_template(
         "game-knowledge.html",
         red_avatar=red_avatar,
         blue_avatar=blue_avatar,
-        red_score=0,
-        blue_score=0,
+        red_score=red_score,
+        blue_score=blue_score,
         question_image=question.get("image"),
         question_text=question.get("question"),
         options=final_options,
@@ -889,6 +917,9 @@ def game_knowledge():
         question_theme=question.get("theme"),
         question_id=question.get("id"),
         skip_joker_popup=skip_joker_popup,
+        is_bonus=is_bonus,
+        team=team,
+        duel_points=duel_points,
     )
 
 
@@ -1421,13 +1452,234 @@ def save_game_setup():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+@app.route("/init-game", methods=["POST"])
+def init_game():
+    """Initialise le match: tracking des jokers par équipe et event de début"""
+    try:
+        # Charger game_setup existant
+        if not os.path.exists(GAME_SETUP_FILE):
+            return jsonify({"success": False, "error": "Game setup not found"}), 404
+
+        with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+            game_setup = json.load(f)
+
+        # Ajouter les champs de tracking
+        game_setup["current_team"] = "red"
+        game_setup["red_jokers_used"] = []
+        game_setup["blue_jokers_used"] = []
+        game_setup["double_points_active"] = None
+        game_setup["prison_pending"] = None
+        game_setup["red_questions_this_round"] = 0
+        game_setup["blue_questions_this_round"] = 0
+        game_setup["questions_per_team"] = 2  # Nombre de questions par équipe avant de changer
+
+        # Sauvegarder game_setup
+        with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+            json.dump(game_setup, f, ensure_ascii=False, indent=2)
+
+        # Charger les noms des équipes
+        red_team_name = "Rouge"
+        blue_team_name = "Bleue"
+        if os.path.exists(RED_TEAM_FILE):
+            try:
+                with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
+                    red_data = json.load(f)
+                    red_team_name = red_data.get("team_name", "Rouge")
+            except:
+                pass
+        if os.path.exists(BLUE_TEAM_FILE):
+            try:
+                with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
+                    blue_data = json.load(f)
+                    blue_team_name = blue_data.get("team_name", "Bleue")
+            except:
+                pass
+
+        # Créer game-management.json avec l'event de début
+        game_management_file = os.path.join(DATA_DIR, "game-management.json")
+        game_management_data = {
+            "red_score": 0,
+            "blue_score": 0,
+            "events": [
+                {
+                    "time": "00:00",
+                    "team": "both",
+                    "player": f"{red_team_name} vs {blue_team_name}",
+                    "action": "Début du match",
+                    "result": "⚽",
+                    "result_class": "neutral"
+                }
+            ]
+        }
+
+        with open(game_management_file, "w", encoding="utf-8") as f:
+            json.dump(game_management_data, f, ensure_ascii=False, indent=2)
+
+        return jsonify({"success": True, "message": "Game initialized"})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/save-question-result", methods=["POST"])
+def save_question_result():
+    """Sauvegarde le résultat d'une question et retourne la prochaine destination"""
+    try:
+        data = request.get_json()
+        team = data.get("team", "red")
+        correct = data.get("correct", False)
+        base_points = data.get("points", 3)
+        joker_used = data.get("joker_used")
+        question_theme = data.get("question_theme", "Question")
+        player_name = data.get("player_name", "Joueur")
+        current_time = data.get("current_time", "00:00")
+
+        # Charger game_setup pour vérifier double_points
+        with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+            game_setup = json.load(f)
+
+        # Calculer les points (x2 si double_points actif pour cette équipe)
+        points = base_points if correct else 0
+        if correct and game_setup.get("double_points_active") == team:
+            points = points * 2
+            # Désactiver après utilisation
+            game_setup["double_points_active"] = None
+
+        # Si joker utilisé, l'ajouter à la liste des jokers utilisés par l'équipe
+        if joker_used:
+            jokers_used_key = f"{team}_jokers_used"
+            if jokers_used_key not in game_setup:
+                game_setup[jokers_used_key] = []
+            if joker_used not in game_setup[jokers_used_key]:
+                game_setup[jokers_used_key].append(joker_used)
+
+            # Si joker prison, marquer l'adversaire pour prison
+            if joker_used == "double-prison":
+                opponent = "blue" if team == "red" else "red"
+                game_setup["prison_pending"] = opponent
+
+            # Si joker double-point, activer pour cette équipe
+            if joker_used == "double-point":
+                game_setup["double_points_active"] = team
+
+        # Sauvegarder game_setup
+        with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+            json.dump(game_setup, f, ensure_ascii=False, indent=2)
+
+        # Charger et mettre à jour game-management.json
+        game_management_file = os.path.join(DATA_DIR, "game-management.json")
+        with open(game_management_file, "r", encoding="utf-8") as f:
+            game_data = json.load(f)
+
+        # Mettre à jour le score
+        score_key = f"{team}_score"
+        game_data[score_key] = game_data.get(score_key, 0) + points
+
+        # Ajouter l'event pour le joker si utilisé
+        if joker_used:
+            joker_names = {
+                "double-prison": "Joker Prison",
+                "double-point": "Joker Double Points",
+                "theme": "Joker Thème",
+                "switch": "Joker Switch",
+                "indice": "Joker Indice",
+                "team": "Joker Team"
+            }
+            joker_event = {
+                "time": current_time,
+                "team": team,
+                "player": player_name,
+                "action": joker_names.get(joker_used, f"Joker {joker_used}"),
+                "result": "🃏",
+                "result_class": "joker"
+            }
+            game_data["events"].append(joker_event)
+
+        # Ajouter l'event pour la question
+        result_text = f"+{points} pts" if correct else "0 pts"
+        result_class = "correct" if correct else "incorrect"
+        event = {
+            "time": current_time,
+            "team": team,
+            "player": player_name,
+            "action": f"Question {question_theme.capitalize()}",
+            "result": result_text,
+            "result_class": result_class
+        }
+        game_data["events"].append(event)
+
+        # Sauvegarder game-management.json
+        with open(game_management_file, "w", encoding="utf-8") as f:
+            json.dump(game_data, f, ensure_ascii=False, indent=2)
+
+        # Incrémenter le compteur de questions pour cette équipe
+        questions_key = f"{team}_questions_this_round"
+        game_setup[questions_key] = game_setup.get(questions_key, 0) + 1
+
+        # Sauvegarder game_setup avec le compteur mis à jour
+        with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+            json.dump(game_setup, f, ensure_ascii=False, indent=2)
+
+        # Déterminer la prochaine destination (alternance red/blue)
+        questions_per_team = game_setup.get("questions_per_team", 2)
+        red_questions = game_setup.get("red_questions_this_round", 0)
+        blue_questions = game_setup.get("blue_questions_this_round", 0)
+
+        # Vérifier si les deux équipes ont fini leurs questions
+        if red_questions >= questions_per_team and blue_questions >= questions_per_team:
+            # Round complet, retour à game-management
+            game_setup["red_questions_this_round"] = 0
+            game_setup["blue_questions_this_round"] = 0
+            with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+                json.dump(game_setup, f, ensure_ascii=False, indent=2)
+            next_destination = "/game-management"
+        else:
+            # Alterner: après red → blue, après blue → red
+            next_team = "blue" if team == "red" else "red"
+            next_destination = f"/bracelet?team={next_team}"
+
+        return jsonify({
+            "success": True,
+            "next_destination": next_destination,
+            "red_score": game_data.get("red_score", 0),
+            "blue_score": game_data.get("blue_score", 0)
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/check-prison")
+def check_prison():
+    """Vérifie si une équipe doit aller en prison"""
+    try:
+        team = request.args.get("team", "")
+
+        if not os.path.exists(GAME_SETUP_FILE):
+            return jsonify({"prison_pending": False})
+
+        with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+            game_setup = json.load(f)
+
+        prison_pending = game_setup.get("prison_pending") == team
+
+        # Clear prison_pending if it was for this team
+        if prison_pending:
+            game_setup["prison_pending"] = None
+            with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+                json.dump(game_setup, f, ensure_ascii=False, indent=2)
+
+        return jsonify({"prison_pending": prison_pending})
+    except Exception as e:
+        return jsonify({"prison_pending": False, "error": str(e)})
+
+
 @app.route("/remove-joker", methods=["POST"])
 def remove_joker():
-    """Retire un joker de la liste des jokers disponibles dans game_setup.json"""
+    """Marque un joker comme utilisé par une équipe"""
     try:
-        # Récupérer le joker à retirer
         data = request.get_json()
         joker_to_remove = data.get("joker")
+        team = data.get("team", "red")  # Équipe qui utilise le joker
 
         if not joker_to_remove:
             return jsonify({"success": False, "error": "No joker specified"}), 400
@@ -1442,21 +1694,23 @@ def remove_joker():
                 404,
             )
 
-        # Retirer le joker de la liste
-        jokers = game_setup.get("jokers", [])
-        if joker_to_remove in jokers:
-            jokers.remove(joker_to_remove)
-            game_setup["jokers"] = jokers
+        # Ajouter le joker à la liste des jokers utilisés par l'équipe
+        team_jokers_key = f"{team}_jokers_used"
+        team_jokers_used = game_setup.get(team_jokers_key, [])
+
+        if joker_to_remove not in team_jokers_used:
+            team_jokers_used.append(joker_to_remove)
+            game_setup[team_jokers_key] = team_jokers_used
 
             # Sauvegarder
             with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
                 json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
             return jsonify(
-                {"success": True, "message": f"Joker {joker_to_remove} removed"}
+                {"success": True, "message": f"Joker {joker_to_remove} marked as used by {team}"}
             )
         else:
-            return jsonify({"success": False, "error": "Joker not found in setup"}), 404
+            return jsonify({"success": True, "message": f"Joker {joker_to_remove} already used by {team}"})
 
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500

@@ -171,20 +171,24 @@
                         <h3 class="card-label">Durée du jeu</h3>
                     </div>
                     <div class="card-expanded duree-expanded" style="display: none;" onclick="event.stopPropagation()">
-                        <!-- Row 1: Temps du jeu OU Nombre de passages (choix exclusif) -->
+                        <!-- Choix exclusif: Temps du jeu OU Nombre de passages OU Nombre de réponses -->
+                        <!-- Ligne 1: Temps du jeu et Nombre de passages -->
                         <div class="inputs-row">
-                            <div class="input-field duration-choice selected" data-mode="time" onclick="selectDurationMode(this, 'time'); event.stopPropagation();">
+                            <div class="input-field duration-choice selected" data-mode="time"
+                                onclick="selectDurationMode(this, 'time'); event.stopPropagation();">
                                 <label>Temps du jeu :</label>
                                 <input type="text" class="timing-input" id="gameTime" readonly value="32">
                                 <span class="unit">min</span>
                             </div>
-                            <div class="input-field duration-choice" data-mode="passages" onclick="selectDurationMode(this, 'passages'); event.stopPropagation();">
+                            <div class="input-field duration-choice" data-mode="passages"
+                                onclick="selectDurationMode(this, 'passages'); event.stopPropagation();">
                                 <label>Nombre de passages :</label>
                                 <input type="text" class="timing-input" id="passagesCount" readonly value="8">
                             </div>
                         </div>
-                        <!-- Row 2: Nombre de réponses (full width) -->
-                        <div class="input-field full-width" onclick="showKeypad(document.getElementById('reponsesCount'), 'Nombre de réponses'); event.stopPropagation();">
+                        <!-- Ligne 2: Nombre de réponses (full width) -->
+                        <div class="input-field duration-choice full-width" data-mode="reponses"
+                            onclick="selectDurationMode(this, 'reponses'); event.stopPropagation();">
                             <label>Nombre de réponses :</label>
                             <input type="text" class="timing-input" id="reponsesCount" readonly value="5">
                         </div>
@@ -198,13 +202,16 @@
                             alt="Pénalité sportive" class="card-icon">
                         <h3 class="card-label">Pénalité sportive</h3>
                     </div>
-                    <div class="card-expanded penalties-expanded" style="display: none;" onclick="event.stopPropagation()">
+                    <div class="card-expanded penalties-expanded" style="display: none;"
+                        onclick="event.stopPropagation()">
                         <!-- Penalty Options Grid -->
                         <div class="penalties-grid">
                             <!-- Row 1 -->
-                            <div class="penalty-card" data-penalty="gainage" data-motricite="Durée de 10 s" data-urbain="Durée de 20 s" onclick="toggleRelaisPenalty(this)">
+                            <div class="penalty-card" data-penalty="gainage" data-motricite="Durée de 10 s"
+                                data-urbain="Durée de 20 s" onclick="toggleRelaisPenalty(this)">
                                 <div class="penalty-card-img">
-                                    <img src="{{ url_for('static', filename='img/configuration-relais/gainage.png') }}" alt="Position de gainage">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/gainage.png') }}"
+                                        alt="Position de gainage">
                                 </div>
                                 <div class="penalty-card-info">
                                     <h4 class="penalty-card-title">Position de gainage</h4>
@@ -212,9 +219,11 @@
                                     <button class="penalty-card-btn">Choisir</button>
                                 </div>
                             </div>
-                            <div class="penalty-card" data-penalty="squat" data-motricite="Durée de 10 s" data-urbain="Durée de 20 s" onclick="toggleRelaisPenalty(this)">
+                            <div class="penalty-card" data-penalty="squat" data-motricite="Durée de 10 s"
+                                data-urbain="Durée de 20 s" onclick="toggleRelaisPenalty(this)">
                                 <div class="penalty-card-img">
-                                    <img src="{{ url_for('static', filename='img/configuration-relais/squat.png') }}" alt="Squat">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/squat.png') }}"
+                                        alt="Squat">
                                 </div>
                                 <div class="penalty-card-info">
                                     <h4 class="penalty-card-title">Squat</h4>
@@ -223,9 +232,11 @@
                                 </div>
                             </div>
                             <!-- Row 2 -->
-                            <div class="penalty-card" data-penalty="parcours" data-motricite="Temps du parcours" data-urbain="Temps du parcours" onclick="toggleRelaisPenalty(this)">
+                            <div class="penalty-card" data-penalty="parcours" data-motricite="Temps du parcours"
+                                data-urbain="Temps du parcours" onclick="toggleRelaisPenalty(this)">
                                 <div class="penalty-card-img">
-                                    <img src="{{ url_for('static', filename='img/configuration-relais/parcours.png') }}" alt="Parcours de pénalité">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/parcours.png') }}"
+                                        alt="Parcours de pénalité">
                                 </div>
                                 <div class="penalty-card-info">
                                     <h4 class="penalty-card-title">Parcours de pénalité</h4>
@@ -233,9 +244,11 @@
                                     <button class="penalty-card-btn">Choisir</button>
                                 </div>
                             </div>
-                            <div class="penalty-card" data-penalty="genoux" data-motricite="Durée de 10 s" data-urbain="Durée de 20 s" onclick="toggleRelaisPenalty(this)">
+                            <div class="penalty-card" data-penalty="genoux" data-motricite="Durée de 10 s"
+                                data-urbain="Durée de 20 s" onclick="toggleRelaisPenalty(this)">
                                 <div class="penalty-card-img">
-                                    <img src="{{ url_for('static', filename='img/configuration-relais/genoux.png') }}" alt="Montée de genoux">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/genoux.png') }}"
+                                        alt="Montée de genoux">
                                 </div>
                                 <div class="penalty-card-info">
                                     <h4 class="penalty-card-title">Montée de genoux</h4>
@@ -244,9 +257,11 @@
                                 </div>
                             </div>
                             <!-- Row 3 -->
-                            <div class="penalty-card" data-penalty="jumpingjacks" data-motricite="15 répétitions" data-urbain="30 répétitions" onclick="toggleRelaisPenalty(this)">
+                            <div class="penalty-card" data-penalty="jumpingjacks" data-motricite="15 répétitions"
+                                data-urbain="30 répétitions" onclick="toggleRelaisPenalty(this)">
                                 <div class="penalty-card-img">
-                                    <img src="{{ url_for('static', filename='img/configuration-relais/jumpingjacks.png') }}" alt="Jumping Jacks">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/jumpingjacks.png') }}"
+                                        alt="Jumping Jacks">
                                 </div>
                                 <div class="penalty-card-info">
                                     <h4 class="penalty-card-title">Jumping Jacks</h4>
@@ -254,9 +269,11 @@
                                     <button class="penalty-card-btn">Choisir</button>
                                 </div>
                             </div>
-                            <div class="penalty-card" data-penalty="pompes" data-motricite="5 répétitions" data-urbain="10 répétitions" onclick="toggleRelaisPenalty(this)">
+                            <div class="penalty-card" data-penalty="pompes" data-motricite="5 répétitions"
+                                data-urbain="10 répétitions" onclick="toggleRelaisPenalty(this)">
                                 <div class="penalty-card-img">
-                                    <img src="{{ url_for('static', filename='img/configuration-relais/pompes.png') }}" alt="Pompes">
+                                    <img src="{{ url_for('static', filename='img/configuration-relais/pompes.png') }}"
+                                        alt="Pompes">
                                 </div>
                                 <div class="penalty-card-info">
                                     <h4 class="penalty-card-title">Pompes</h4>
@@ -267,7 +284,8 @@
                         </div>
                         <!-- Aléatoire Button -->
                         <div class="penalty-random-btn" onclick="toggleAllPenalties()">
-                            <img src="{{ url_for('static', filename='img/configuration-relais/aleatoire.png') }}" alt="Aléatoire">
+                            <img src="{{ url_for('static', filename='img/configuration-relais/aleatoire.png') }}"
+                                alt="Aléatoire">
                         </div>
                     </div>
                 </div>
@@ -684,8 +702,10 @@
                 // Open keypad for the selected input
                 if (mode === 'time') {
                     showKeypad(document.getElementById('gameTime'), 'Temps du jeu');
-                } else {
+                } else if (mode === 'passages') {
                     showKeypad(document.getElementById('passagesCount'), 'Nombre de passages');
+                } else if (mode === 'reponses') {
+                    showKeypad(document.getElementById('reponsesCount'), 'Nombre de réponses');
                 }
 
                 checkRelaisValiderButton();

@@ -1,6 +1,6 @@
 {
   "mode": "sport-collectif",
-  "parcours": "motricite",
+  "sport": "basketball",
   "themes": [
     "histoire",
     "geographie"
@@ -14,14 +14,6 @@
     "indice"
   ],
   "level": "Cycle 4 niveau 3 : 3ème",
-  "durationMode": "time",
-  "reponsesCount": 5,
-  "penalties": [
-    "gainage"
-  ],
-  "penaltyDuration": 20,
-  "passagesCount": 5,
-  "sport": "rugby",
   "minPassages": 1,
   "maxPassages": 4,
   "penalty": 3,
@@ -30,5 +22,13 @@
   "prisonTime": 30,
   "answerTime": 30,
   "sportPoints": 3,
-  "duelPoints": 4
+  "duelPoints": 3,
+  "current_team": "red",
+  "red_jokers_used": [],
+  "blue_jokers_used": [],
+  "double_points_active": null,
+  "prison_pending": null,
+  "red_questions_this_round": 0,
+  "blue_questions_this_round": 0,
+  "questions_per_team": 2
 }

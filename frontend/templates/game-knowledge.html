@@ -73,7 +73,8 @@
             <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
         </button>
 
-        <!-- Action Buttons (During Question) -->
+        <!-- Action Buttons (During Question) - Hidden in bonus mode -->
+        {% if not is_bonus %}
         <div class="action-buttons">
             <button class="action-btn switch-btn" onclick="handleDuringAction('switch')" id="switchBtn">
                 <img src="{{ url_for('static', filename='img/action-buttons/switch.png') }}" alt="Switch"
@@ -86,7 +87,9 @@
                 <span class="action-label">Indice</span>
             </button>
         </div>
+        {% endif %}
 
+        {% if not is_bonus %}
         <!-- Joker Popup (Before Question) -->
         <div id="jokerPopup" class="joker-popup" style="display: none;">
             <div class="joker-popup-content">
@@ -132,12 +135,15 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 
     <script>
         let selectedOption = null;
         let answered = false;
-        let jokerUsedThisQuestion = false;
+        // Check if joker was already used (passed via URL from redirect)
+        const urlParamsInit = new URLSearchParams(window.location.search);
+        let jokerUsedThisQuestion = urlParamsInit.get('jokerUsed') ? true : false;
         const availableJokers = {{ jokers | tojson | safe }};
         const optionBtns = document.querySelectorAll('.option-btn');
         const confirmBtn = document.getElementById('confirmBtn');
@@ -147,6 +153,13 @@
         const currentTheme = {{ question_theme | tojson | safe }};
         const currentGameType = 'knowledge';
         const skipJokerPopup = {{ skip_joker_popup | tojson | safe }};
+        const isBonus = {{ is_bonus | tojson | safe }};
+        const currentTeam = {{ team | tojson | safe }};
+        const duelPoints = {{ duel_points | default(3) }};
+        // Check if joker was passed via URL (for theme/switch jokers that redirect)
+        const urlParams = new URLSearchParams(window.location.search);
+        const jokerFromUrl = urlParams.get('jokerUsed');
+        let jokerUsedForResult = jokerFromUrl || null; // Track which joker was used for saving result
 
         // Timer countdown with SVG circle animation
         const answerTime = {{ answer_time | default (30) }};
@@ -168,6 +181,12 @@
 
         // Initialize joker availability
         function initializeJokers() {
+            // In bonus mode, skip all joker initialization and start timer immediately
+            if (isBonus) {
+                startTimer();
+                return;
+            }
+
             const beforeJokers = ['theme', 'team', 'double-point', 'double-prison'];
             let hasAvailableBeforeJoker = false;
 
@@ -193,13 +212,15 @@
             }
 
             // Check during-question jokers
-            if (!availableJokers.includes('switch')) {
-                document.getElementById('switchBtn').disabled = true;
-                document.getElementById('switchBtn').classList.add('joker-disabled');
+            const switchBtn = document.getElementById('switchBtn');
+            const indiceBtn = document.getElementById('indiceBtn');
+            if (switchBtn && !availableJokers.includes('switch')) {
+                switchBtn.disabled = true;
+                switchBtn.classList.add('joker-disabled');
             }
-            if (!availableJokers.includes('indice')) {
-                document.getElementById('indiceBtn').disabled = true;
-                document.getElementById('indiceBtn').classList.add('joker-disabled');
+            if (indiceBtn && !availableJokers.includes('indice')) {
+                indiceBtn.disabled = true;
+                indiceBtn.classList.add('joker-disabled');
             }
         }
 
@@ -232,6 +253,7 @@
             // For other jokers, remove immediately and start timer
             if (jokerType !== 'theme') {
                 jokerUsedThisQuestion = true;
+                jokerUsedForResult = jokerType; // Track for saving result
                 removeJokerFromSetup(jokerType);
                 startTimer();
             }
@@ -246,6 +268,7 @@
             }
 
             jokerUsedThisQuestion = true;
+            jokerUsedForResult = jokerType; // Track for saving result
 
             // Disable the button
             document.getElementById(jokerType + 'Btn').disabled = true;
@@ -259,19 +282,19 @@
         }
 
         function removeJokerFromSetup(jokerType) {
-            // Send request to remove joker from game_setup.json
+            // Send request to mark joker as used by this team
             fetch('/remove-joker', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ joker: jokerType })
+                body: JSON.stringify({ joker: jokerType, team: currentTeam })
             }).then(response => response.json())
                 .then(data => {
-                    console.log('Joker removed:', data);
+                    console.log('Joker marked as used:', data);
                 })
                 .catch(error => {
-                    console.error('Error removing joker:', error);
+                    console.error('Error marking joker as used:', error);
                 });
         }
 
@@ -323,8 +346,8 @@
             .then(data => {
                 if (data.success) {
                     console.log('Switch joker: New question ID:', data.questionId, 'Theme:', data.theme);
-                    // Reload page with new question, skip joker popup
-                    window.location.href = `/game-knowledge?questionId=${data.questionId}&theme=${data.theme}&skipJokerPopup=true`;
+                    // Reload page with new question, skip joker popup, keep team, pass joker used
+                    window.location.href = `/game-knowledge?questionId=${data.questionId}&theme=${data.theme}&team=${currentTeam}&skipJokerPopup=true&jokerUsed=switch`;
                 } else {
                     alert('Erreur: ' + data.error);
                 }
@@ -468,8 +491,8 @@
                         console.log('New question theme:', data.theme);
                         console.log('New question ID:', data.questionId);
                         console.log('Full question object:', data.question);
-                        // Reload page with new question AND theme, skip joker popup
-                        window.location.href = `/game-knowledge?questionId=${data.questionId}&theme=${data.theme}&skipJokerPopup=true`;
+                        // Reload page with new question AND theme, skip joker popup, keep team, pass joker used
+                        window.location.href = `/game-knowledge?questionId=${data.questionId}&theme=${data.theme}&team=${currentTeam}&skipJokerPopup=true&jokerUsed=theme`;
                     } else {
                         console.error('Server error:', data.error);
                         alert('Erreur: ' + data.error);
@@ -548,6 +571,73 @@
 
             // Clear timer
             clearInterval(timerInterval);
+
+            // Save result and redirect (only if not bonus mode)
+            if (!isBonus) {
+                saveResultAndRedirect(isCorrect);
+            } else {
+                // Bonus mode: just go back to game-management after delay
+                setTimeout(() => {
+                    window.location.href = '/game-management';
+                }, 2000);
+            }
+        }
+
+        function saveResultAndRedirect(isCorrect) {
+            // Get game time from localStorage (time since match started)
+            let gameTime = "00:00";
+            const savedTimer = localStorage.getItem('gameTimer');
+            if (savedTimer) {
+                const timerState = JSON.parse(savedTimer);
+                if (timerState.startTimestamp) {
+                    const elapsed = Math.floor((Date.now() - timerState.startTimestamp) / 1000);
+                    const mins = Math.floor(elapsed / 60);
+                    const secs = elapsed % 60;
+                    gameTime = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                }
+            }
+
+            const resultData = {
+                team: currentTeam,
+                correct: isCorrect,
+                points: duelPoints,
+                joker_used: jokerUsedForResult,
+                question_theme: currentTheme,
+                player_name: "Joueur",
+                current_time: gameTime
+            };
+
+            fetch('/save-question-result', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(resultData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Redirect after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = data.next_destination;
+                    }, 2000);
+                } else {
+                    console.error('Error saving result:', data.error);
+                    setTimeout(() => {
+                        window.location.href = '/game-management';
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                console.error('Error saving result:', error);
+                setTimeout(() => {
+                    window.location.href = '/game-management';
+                }, 2000);
+            });
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
         function showCorrect(selectedIndex) {
@@ -613,6 +703,15 @@
             questionOverlay.classList.add('timeout');
             overlayImg.src = "{{ url_for('static', filename='img/common/timeout.png') }}";
             questionOverlay.classList.add('show');
+
+            // Save result (timeout = incorrect) and redirect
+            if (!isBonus) {
+                saveResultAndRedirect(false);
+            } else {
+                setTimeout(() => {
+                    window.location.href = '/game-management';
+                }, 2000);
+            }
 
             answered = true;
             confirmBtn.style.display = 'none';

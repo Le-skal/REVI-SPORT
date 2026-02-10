@@ -202,3 +202,42 @@
 .error-icon {
     color: #E57373;
 }
+
+/* ===== RETURN BUTTON ===== */
+
+.return-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 500px;
+    height: 55px;
+    background: #4CAF50;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    margin-bottom: 20px;
+}
+
+.return-btn:hover {
+    background: #43A047;
+    transform: scale(1.02);
+}
+
+.return-btn:active {
+    transform: scale(0.98);
+}
+
+.return-emoji {
+    font-size: 22px;
+    filter: grayscale(1) brightness(10);
+}
+
+.return-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+}

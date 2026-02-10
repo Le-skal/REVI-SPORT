@@ -13,8 +13,8 @@
     <div class="screen-container prison-screen">
         <!-- Header: Avatar + Timer -->
         <div class="prison-header">
-            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ avatar_id ~ '.png') }}"
-                 alt="Avatar équipe" class="prison-avatar">
+            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ avatar_id ~ '.png') }}" alt="Avatar équipe"
+                class="prison-avatar">
             <div class="timer-card">
                 <span class="team-label">{{ team_name }}</span>
                 <div class="timer-circle" id="timerCircle">
@@ -42,18 +42,21 @@
                 <div class="prison-player-icon" id="prisonPlayerIcon">
                     <img src="{{ url_for('static', filename='img/common/walking.png') }}" alt="En prison">
                 </div>
-                <!-- Player avatar (shown when prison ends) -->
-                <img class="prison-player-avatar" id="prisonPlayerAvatar"
-                     src="{{ url_for('static', filename='img/avatars/avatar' ~ avatar_id ~ '.png') }}"
-                     alt="Joueur" style="display: none;">
             </div>
         </div>
 
         <!-- Bottom Card -->
         <div class="penalty-card" id="penaltyCard">
             <h2 class="penalty-title" id="penaltyTitle">Attendre la fin de la pénalité</h2>
-            <p class="penalty-reason">{{ player_name }} est en prison après une {{ reason }} <span class="error-icon">❌</span></p>
+            <p class="penalty-reason">{{ player_name }} est en prison après une {{ reason }} <span
+                    class="error-icon">❌</span></p>
         </div>
+
+        <!-- Return Button (hidden until timer ends) -->
+        <button class="return-btn" id="returnBtn" style="display: none;" onclick="goToQuestion()">
+            <span class="return-emoji">▶️</span>
+            <span class="return-text">Répondre à la question</span>
+        </button>
     </div>
 
     <script>
@@ -66,8 +69,7 @@
         const penaltyTitle = document.getElementById('penaltyTitle');
         const terrainCount = document.getElementById('terrainCount');
         const playersCount = document.getElementById('playersCount');
-        const prisonPlayerIcon = document.getElementById('prisonPlayerIcon');
-        const prisonPlayerAvatar = document.getElementById('prisonPlayerAvatar');
+        const returnBtn = document.getElementById('returnBtn');
 
         // Circle circumference
         const circumference = 2 * Math.PI * 45;
@@ -89,16 +91,10 @@
                 penaltyTitle.textContent = 'Fin de la pénalité';
                 playersCount.textContent = '{{ total_players }}/{{ total_players }}';
 
-                // Show player avatar, hide walking icon
-                prisonPlayerIcon.style.display = 'none';
-                prisonPlayerAvatar.style.display = 'block';
-
                 clearInterval(timerInterval);
 
-                // Redirect to game-management after 2 seconds
-                setTimeout(() => {
-                    window.location.href = '/game-management';
-                }, 2000);
+                // Show return button
+                returnBtn.style.display = 'flex';
             } else {
                 timeLeft--;
             }
@@ -106,6 +102,24 @@
 
         const timerInterval = setInterval(updateTimer, 1000);
         updateTimer();
+
+        function goToQuestion() {
+            const team = '{{ team }}';
+            fetch('/get-random-question')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const questionId = data.question.id;
+                        const questionTheme = data.question.theme;
+                        window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}`;
+                    } else {
+                        window.location.href = `/game-knowledge?team=${team}`;
+                    }
+                })
+                .catch(error => {
+                    window.location.href = `/game-knowledge?team=${team}`;
+                });
+        }
     </script>
 </body>
 

@@ -14,11 +14,11 @@
         <div class="intro-container">
             <div class="circle-bg" id="circleBg"></div>
             {% if is_bonus %}
-            <img class="intro-image" id="introImage" src="{{ url_for('static', filename='img/start-count/intro3.png') }}"
-                alt="Intro">
+            <img class="intro-image" id="introImage"
+                src="{{ url_for('static', filename='img/start-count/intro3.png') }}" alt="Intro">
             {% elif mode == 'relais-biathlon' %}
-            <img class="intro-image" id="introImage" src="{{ url_for('static', filename='img/start-count/intro2.png') }}"
-                alt="Intro">
+            <img class="intro-image" id="introImage"
+                src="{{ url_for('static', filename='img/start-count/intro2.png') }}" alt="Intro">
             {% else %}
             <img class="intro-image" id="introImage" src="{{ url_for('static', filename='img/start-count/intro.png') }}"
                 alt="Intro">
@@ -34,37 +34,56 @@
         introImage.style.animation = 'growImage 3s ease-out forwards';
         circleBg.style.animation = 'growCircle 3s ease-out forwards';
 
-        // After animation completes (3s) + 500ms buffer, get random question and route
+        // After animation completes (3s) + 500ms buffer
         setTimeout(() => {
-            // Fetch random question based on game setup
-            fetch('/get-random-question')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const gameType = data.gameType;
-                        const questionId = data.question.id;
+            const urlParams = new URLSearchParams(window.location.search);
+            const isBonus = urlParams.get('bonus') === 'true';
 
-                        // Route to appropriate game page based on gameType
-                        const gameTypeToRoute = {
-                            'knowledge': '/game-knowledge',
-                            'link': '/game-link',
-                            'order': '/game-orderPhrase',
-                            'text-input': '/game-math'
-                        };
+            if (isBonus) {
+                // Bonus question: go directly to question (no init)
+                fetch('/get-random-question')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const gameType = data.gameType;
+                            const questionId = data.question.id;
+                            const questionTheme = data.question.theme;
 
-                        const route = gameTypeToRoute[gameType] || '/game-knowledge';
-                        window.location.href = `${route}?questionId=${questionId}`;
-                    } else {
-                        console.error('Error loading question:', data.error);
-                        // Fallback to knowledge game
-                        window.location.href = '/game-knowledge';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching question:', error);
-                    // Fallback to knowledge game
-                    window.location.href = '/game-knowledge';
-                });
+                            const gameTypeToRoute = {
+                                'knowledge': '/game-knowledge',
+                                'link': '/game-link',
+                                'order': '/game-orderPhrase',
+                                'text-input': '/game-math'
+                            };
+
+                            const route = gameTypeToRoute[gameType] || '/game-knowledge';
+                            window.location.href = `${route}?questionId=${questionId}&theme=${questionTheme}&bonus=true`;
+                        } else {
+                            console.error('Error loading question:', data.error);
+                            window.location.href = '/game-knowledge?bonus=true';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching question:', error);
+                        window.location.href = '/game-knowledge?bonus=true';
+                    });
+            } else {
+                // Normal game start: initialize game and go to game-management
+                fetch('/init-game', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = '/game-management?start=true';
+                        } else {
+                            console.error('Error initializing game:', data.error);
+                            window.location.href = '/game-management';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error initializing game:', error);
+                        window.location.href = '/game-management';
+                    });
+            }
         }, 3500);
     </script>
 </body>

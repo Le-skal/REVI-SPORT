@@ -48,8 +48,9 @@
                 <span class="timer-target">/ <span id="target-time">{{ game_time }}</span></span>
             </div>
 
-            <button class="control-btn arreter-btn" aria-label="Arrêter">
-                <img src="{{ url_for('static', filename='img/game-management/arreter.png') }}" alt="Arrêter">
+            <button class="control-btn pause-play-btn" aria-label="Pause/Play" id="pausePlayBtn">
+                <span class="pause-play-emoji">⏸️</span>
+                <span class="pause-play-text">Pause</span>
             </button>
         </div>
 
@@ -100,8 +101,14 @@
                     <div class="table-row">
                         <div class="col-temps">{{ event.time }}</div>
                         <div class="col-joueur">
+                            {% if event.team == 'both' %}
+                            <span class="team-indicator red"></span>
+                            <span class="tous-label">Tous</span>
+                            <span class="team-indicator blue"></span>
+                            {% else %}
                             <span class="team-indicator {{ event.team }}"></span>
                             {{ event.player }}
+                            {% endif %}
                         </div>
                         <div class="col-action">{{ event.action }}</div>
                         <div class="col-resultat {{ event.result_class }}">{{ event.result }}</div>
@@ -200,6 +207,21 @@
         if (showTab === 'temps-support') {
             document.getElementById('temps-support-content')?.classList.remove('hidden');
             document.querySelector('.tab-btn[data-tab="temps-support"]')?.classList.add('active');
+        }
+
+        // Check if game just started - auto redirect to first team's bracelet after 5 seconds
+        const isGameStart = urlParams.get('start') === 'true';
+        if (isGameStart) {
+            // Initialize timer with fresh start timestamp
+            const timerState = {
+                startTimestamp: Date.now(),
+                targetMinutes: {{ game_time_minutes }}
+            };
+            localStorage.setItem('gameTimer', JSON.stringify(timerState));
+
+            setTimeout(() => {
+                window.location.href = '/bracelet?team=red';
+            }, 5000);
         }
 
         // Tab switching
@@ -334,20 +356,30 @@
             console.log('Prolonger button not found');
         }
 
-        document.querySelector('.arreter-btn').addEventListener('click', function () {
-            // Set timer to maximum target time
-            stopTimer();
-            currentMinutes = targetMinutes;
-            currentSeconds = 0;
-            startTimestamp = null;
-            updateTimerDisplay();
-            // Save state with isAtMax flag so it resets on reload
-            const state = {
-                startTimestamp: null,
-                targetMinutes: targetMinutes,
-                isAtMax: true
-            };
-            localStorage.setItem('gameTimer', JSON.stringify(state));
+        // Pause/Play button toggle
+        const pausePlayBtn = document.getElementById('pausePlayBtn');
+        const pausePlayEmoji = pausePlayBtn.querySelector('.pause-play-emoji');
+        const pausePlayText = pausePlayBtn.querySelector('.pause-play-text');
+        let isPaused = false;
+        let pausedElapsedTime = 0;
+
+        pausePlayBtn.addEventListener('click', function () {
+            if (isPaused) {
+                // Resume: recalculate startTimestamp based on paused elapsed time
+                startTimestamp = Date.now() - (pausedElapsedTime * 1000);
+                saveTimerState();
+                startTimer();
+                pausePlayEmoji.textContent = '⏸️';
+                pausePlayText.textContent = 'Pause';
+                isPaused = false;
+            } else {
+                // Pause: save current elapsed time
+                stopTimer();
+                pausedElapsedTime = (currentMinutes * 60) + currentSeconds;
+                pausePlayEmoji.textContent = '▶️';
+                pausePlayText.textContent = 'Play';
+                isPaused = true;
+            }
         });
 
         // Keypad functions

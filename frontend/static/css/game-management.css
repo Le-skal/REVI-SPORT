@@ -329,6 +329,7 @@
 .table-body {
     flex: 1;
     overflow-y: auto;
+    max-height: 280px;
 }
 
 .table-row {
@@ -446,6 +447,29 @@
 
 .table-body::-webkit-scrollbar-thumb:hover {
     background: rgba(240, 196, 0, 0.7);
+}
+
+/* Both teams display (Début du match) */
+.both-teams-display {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.teams-vs {
+    font-size: 0.85em;
+}
+
+.teams-indicators {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tous-label {
+    font-size: 1em;
+    opacity: 1;
 }
 
 /* ===== KEYPAD OVERLAY ===== */
@@ -655,4 +679,31 @@
 
 .keypad-ok:active {
     transform: scale(0.98);
+}
+
+/* ===== PAUSE/PLAY BUTTON ===== */
+.pause-play-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 210px;
+    height: 45px;
+    background: #2C2C3A;
+    border-radius: 8px;
+}
+
+.pause-play-emoji {
+    font-size: 20px;
+    line-height: 30px;
+    filter: grayscale(1)
+}
+
+.pause-play-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    text-align: center;
+    color: #FFFFFF;
 }

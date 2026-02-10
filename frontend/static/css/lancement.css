@@ -225,6 +225,11 @@
     margin-bottom: 20px;
 }
 
+.triangle-gif {
+    width: 200px;
+    height: auto;
+}
+
 .penalty-action-title {
     font-family: 'Komika Axis', sans-serif;
     font-size: 18px;
