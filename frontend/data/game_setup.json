@@ -1,6 +1,6 @@
 {
-  "mode": "sport-collectif",
-  "sport": "basketball",
+  "mode": "relais-biathlon",
+  "parcours": "motricite",
   "themes": [
     "histoire",
     "geographie"
@@ -14,21 +14,17 @@
     "indice"
   ],
   "level": "Cycle 4 niveau 3 : 3ème",
-  "minPassages": 1,
-  "maxPassages": 4,
-  "penalty": 3,
+  "durationMode": "reponses",
+  "reponsesCount": 5,
+  "penalties": [
+    "gainage",
+    "squat",
+    "parcours",
+    "genoux",
+    "jumpingjacks",
+    "pompes"
+  ],
+  "penaltyDuration": 20,
   "gameTime": 32,
-  "timeoutCount": 5,
-  "prisonTime": 30,
-  "answerTime": 30,
-  "sportPoints": 3,
-  "duelPoints": 3,
-  "current_team": "red",
-  "red_jokers_used": [],
-  "blue_jokers_used": [],
-  "double_points_active": null,
-  "prison_pending": null,
-  "red_questions_this_round": 0,
-  "blue_questions_this_round": 0,
-  "questions_per_team": 2
+  "passagesCount": 8
 }

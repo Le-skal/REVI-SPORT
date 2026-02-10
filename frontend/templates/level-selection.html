@@ -171,7 +171,7 @@
                         <h3 class="card-label">Durée du jeu</h3>
                     </div>
                     <div class="card-expanded duree-expanded" style="display: none;" onclick="event.stopPropagation()">
-                        <!-- Choix exclusif: Temps du jeu OU Nombre de passages OU Nombre de réponses -->
+                        <!-- Choix exclusif: Temps du jeu OU Nombre de passages OU Nombre de points -->
                         <!-- Ligne 1: Temps du jeu et Nombre de passages -->
                         <div class="inputs-row">
                             <div class="input-field duration-choice selected" data-mode="time"
@@ -186,10 +186,10 @@
                                 <input type="text" class="timing-input" id="passagesCount" readonly value="8">
                             </div>
                         </div>
-                        <!-- Ligne 2: Nombre de réponses (full width) -->
+                        <!-- Ligne 2: Nombre de points (full width) -->
                         <div class="input-field duration-choice full-width" data-mode="reponses"
                             onclick="selectDurationMode(this, 'reponses'); event.stopPropagation();">
-                            <label>Nombre de réponses :</label>
+                            <label>Nombre de points :</label>
                             <input type="text" class="timing-input" id="reponsesCount" readonly value="5">
                         </div>
                     </div>
@@ -705,7 +705,7 @@
                 } else if (mode === 'passages') {
                     showKeypad(document.getElementById('passagesCount'), 'Nombre de passages');
                 } else if (mode === 'reponses') {
-                    showKeypad(document.getElementById('reponsesCount'), 'Nombre de réponses');
+                    showKeypad(document.getElementById('reponsesCount'), 'Nombre de points');
                 }
 
                 checkRelaisValiderButton();

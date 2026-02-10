@@ -329,7 +329,7 @@
 .table-body {
     flex: 1;
     overflow-y: auto;
-    max-height: 280px;
+    max-height: 250px;
 }
 
 .table-row {
