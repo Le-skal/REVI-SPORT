@@ -25,41 +25,112 @@
 
     <script>
         const team = '{{ team }}';
+        const mode = '{{ mode }}';
+        const currentPassage = {{ current_passage }};
+        const urlParams = new URLSearchParams(window.location.search);
+        const isBonus = urlParams.get('bonus') === 'true';
 
-        // After 3 seconds, check for prison or go to question
-        setTimeout(() => {
-            // First check if this team needs to go to prison
-            fetch('/check-prison?team=' + team)
+        // Function to go to question (mode sport-collectif)
+        function goToQuestion() {
+            fetch('/get-random-question')
                 .then(response => response.json())
                 .then(data => {
-                    if (data.prison_pending) {
-                        // Go to prison first
-                        window.location.href = `/prison?team=${team}`;
+                    if (data.success) {
+                        const questionId = data.question.id;
+                        const questionTheme = data.question.theme;
+                        const bonusParam = isBonus ? '&bonus=true' : '';
+                        window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}${bonusParam}`;
                     } else {
-                        // Get random question and go
-                        fetch('/get-random-question')
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    const questionId = data.question.id;
-                                    const questionTheme = data.question.theme;
-                                    window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}`;
-                                } else {
-                                    console.error('Error loading question:', data.error);
-                                    window.location.href = `/game-knowledge?team=${team}`;
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error fetching question:', error);
-                                window.location.href = `/game-knowledge?team=${team}`;
-                            });
+                        console.error('Error loading question:', data.error);
+                        const bonusParam = isBonus ? '&bonus=true' : '';
+                        window.location.href = `/game-knowledge?team=${team}${bonusParam}`;
                     }
                 })
                 .catch(error => {
-                    console.error('Error checking prison:', error);
-                    // Fallback: go to question
-                    window.location.href = `/game-knowledge?team=${team}`;
+                    console.error('Error fetching question:', error);
+                    const bonusParam = isBonus ? '&bonus=true' : '';
+                    window.location.href = `/game-knowledge?team=${team}${bonusParam}`;
                 });
+        }
+
+        // Function to go to question in bonus mode (relais-biathlon)
+        function goToQuestionBonus() {
+            fetch('/get-random-question')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const questionId = data.question.id;
+                        const questionTheme = data.question.theme;
+                        window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}&bonus=true&mode=relais-biathlon`;
+                    } else {
+                        console.error('Error loading question:', data.error);
+                        window.location.href = `/game-knowledge?team=${team}&bonus=true&mode=relais-biathlon`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching question:', error);
+                    window.location.href = `/game-knowledge?team=${team}&bonus=true&mode=relais-biathlon`;
+                });
+        }
+
+        // Function to go to lancement (mode relais-biathlon)
+        function goToLancement() {
+            // Check for passage_pending (joker Passage en plus)
+            fetch('/check-passage?team=' + team)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.passage_pending) {
+                        // Go to lancement in penalty mode
+                        let lancementUrl = `/lancement?team=${team}&parcours=${currentPassage}&penalty=true`;
+                        if (data.joker_used_by) {
+                            lancementUrl += `&joker_player=${encodeURIComponent(data.joker_used_by)}`;
+                        }
+                        lancementUrl += `&joker_name=${encodeURIComponent('Joker Passage en plus')}`;
+                        window.location.href = lancementUrl;
+                    } else {
+                        // Normal lancement
+                        window.location.href = `/lancement?team=${team}&parcours=${currentPassage}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking passage:', error);
+                    window.location.href = `/lancement?team=${team}&parcours=${currentPassage}`;
+                });
+        }
+
+        // After 3 seconds, redirect based on mode
+        setTimeout(() => {
+            if (mode === 'relais-biathlon' && !isBonus) {
+                // Mode relais-biathlon (normal): go to lancement page
+                goToLancement();
+            } else if (mode === 'relais-biathlon' && isBonus) {
+                // Mode relais-biathlon (bonus): skip lancement, go directly to question
+                goToQuestionBonus();
+            } else if (isBonus) {
+                // Bonus mode: skip prison check, go directly to question
+                goToQuestion();
+            } else {
+                // Mode sport-collectif: check for prison first
+                fetch('/check-prison?team=' + team)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.prison_pending) {
+                            // Go to prison first - include joker info if available
+                            let prisonUrl = `/prison?team=${team}`;
+                            if (data.joker_used_by) {
+                                prisonUrl += `&joker_used_by=${encodeURIComponent(data.joker_used_by)}`;
+                                prisonUrl += `&joker_team=${encodeURIComponent(data.joker_team)}`;
+                            }
+                            window.location.href = prisonUrl;
+                        } else {
+                            goToQuestion();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking prison:', error);
+                        goToQuestion();
+                    });
+            }
         }, 3000);
     </script>
 </body>

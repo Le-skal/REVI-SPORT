@@ -122,11 +122,19 @@
                         <img src="{{ url_for('static', filename='img/action-buttons/team.png') }}"
                             alt="Esprit d'équipe">
                     </button>
+                    {% if game_mode == 'relais-biathlon' %}
+                    <button class="joker-selection-btn" data-joker="double-passage"
+                        onclick="selectBeforeJoker('double-passage')" id="jokerDoublePassage">
+                        <img src="{{ url_for('static', filename='img/action-buttons/double-passage.png') }}"
+                            alt="Passage en plus">
+                    </button>
+                    {% else %}
                     <button class="joker-selection-btn" data-joker="double-point"
                         onclick="selectBeforeJoker('double-point')" id="jokerDoublePoint">
                         <img src="{{ url_for('static', filename='img/action-buttons/double-point.png') }}"
                             alt="Double point">
                     </button>
+                    {% endif %}
                     <button class="joker-selection-btn" data-joker="double-prison"
                         onclick="selectBeforeJoker('double-prison')" id="jokerDoublePrison">
                         <img src="{{ url_for('static', filename='img/action-buttons/prison.png') }}"
@@ -156,6 +164,9 @@
         const isBonus = {{ is_bonus | tojson | safe }};
         const currentTeam = {{ team | tojson | safe }};
         const duelPoints = {{ duel_points | default(3) }};
+        const gameMode = {{ game_mode | tojson | safe }};
+        const durationMode = {{ duration_mode | tojson | safe }};
+        const gameTimeMinutes = {{ game_time_minutes | default(32) }};
         // Check if joker was passed via URL (for theme/switch jokers that redirect)
         const urlParams = new URLSearchParams(window.location.search);
         const jokerFromUrl = urlParams.get('jokerUsed');
@@ -187,7 +198,10 @@
                 return;
             }
 
-            const beforeJokers = ['theme', 'team', 'double-point', 'double-prison'];
+            // Before-question jokers depend on game mode
+            const beforeJokers = gameMode === 'relais-biathlon'
+                ? ['theme', 'team', 'double-passage', 'double-prison']
+                : ['theme', 'team', 'double-point', 'double-prison'];
             let hasAvailableBeforeJoker = false;
 
             // Check before-question jokers
@@ -214,6 +228,7 @@
             // Check during-question jokers
             const switchBtn = document.getElementById('switchBtn');
             const indiceBtn = document.getElementById('indiceBtn');
+            const doublePassageBtn = document.getElementById('doublePassageBtn');
             if (switchBtn && !availableJokers.includes('switch')) {
                 switchBtn.disabled = true;
                 switchBtn.classList.add('joker-disabled');
@@ -221,6 +236,10 @@
             if (indiceBtn && !availableJokers.includes('indice')) {
                 indiceBtn.disabled = true;
                 indiceBtn.classList.add('joker-disabled');
+            }
+            if (doublePassageBtn && !availableJokers.includes('double-passage')) {
+                doublePassageBtn.disabled = true;
+                doublePassageBtn.classList.add('joker-disabled');
             }
         }
 
@@ -572,20 +591,14 @@
             // Clear timer
             clearInterval(timerInterval);
 
-            // Save result and redirect (only if not bonus mode)
-            if (!isBonus) {
-                saveResultAndRedirect(isCorrect);
-            } else {
-                // Bonus mode: just go back to game-management after delay
-                setTimeout(() => {
-                    window.location.href = '/game-management';
-                }, 2000);
-            }
+            // Save result and redirect (mode normal et bonus)
+            saveResultAndRedirect(isCorrect);
         }
 
         function saveResultAndRedirect(isCorrect) {
             // Get game time from localStorage (time since match started)
             let gameTime = "00:00";
+            let timeUp = false;
             const savedTimer = localStorage.getItem('gameTimer');
             if (savedTimer) {
                 const timerState = JSON.parse(savedTimer);
@@ -594,6 +607,14 @@
                     const mins = Math.floor(elapsed / 60);
                     const secs = elapsed % 60;
                     gameTime = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+                    // Check if time is up (mode relais-biathlon + durationMode time)
+                    if (gameMode === 'relais-biathlon' && durationMode === 'time') {
+                        const targetMinutes = timerState.targetMinutes || gameTimeMinutes;
+                        if (mins >= targetMinutes) {
+                            timeUp = true;
+                        }
+                    }
                 }
             }
 
@@ -604,7 +625,9 @@
                 joker_used: jokerUsedForResult,
                 question_theme: currentTheme,
                 player_name: "Joueur",
-                current_time: gameTime
+                current_time: gameTime,
+                is_bonus: isBonus,
+                time_up: timeUp
             };
 
             fetch('/save-question-result', {
@@ -705,13 +728,7 @@
             questionOverlay.classList.add('show');
 
             // Save result (timeout = incorrect) and redirect
-            if (!isBonus) {
-                saveResultAndRedirect(false);
-            } else {
-                setTimeout(() => {
-                    window.location.href = '/game-management';
-                }, 2000);
-            }
+            saveResultAndRedirect(false);
 
             answered = true;
             confirmBtn.style.display = 'none';

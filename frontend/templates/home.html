@@ -14,13 +14,22 @@
         <div class="logo">
             <img src="{{ url_for('static', filename='img/loading/logo.png') }}" alt="Révi'Sport logo">
         </div>
-        <div class="progress-bar"></div>
+        <div class="progress-bar" id="progressBar"></div>
     </div>
 
     <script>
-        setTimeout(() => {
-            window.location.href = "/mode";
-        }, 2000);
+        const urlParams = new URLSearchParams(window.location.search);
+        const isEnd = urlParams.get('end') === 'true';
+
+        if (isEnd) {
+            // Mode fin de match: cacher la barre et rester sur la page
+            document.getElementById('progressBar').style.display = 'none';
+        } else {
+            // Mode normal: rediriger après 2 secondes
+            setTimeout(() => {
+                window.location.href = "/mode";
+            }, 2000);
+        }
     </script>
 </body>
 

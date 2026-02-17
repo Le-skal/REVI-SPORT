@@ -925,8 +925,16 @@
     transform: scale(1.02);
 }
 
+/* Non-selected cards are grayscale */
+.relais-section .penalty-card:not(.selected) {
+    filter: grayscale(100%);
+    opacity: 0.6;
+}
+
+/* Selected card stays colorful */
 .relais-section .penalty-card.selected {
-    border-color: #C99F17;
+    filter: none;
+    opacity: 1;
 }
 
 .relais-section .penalty-card.selected .penalty-card-btn {
@@ -1011,10 +1019,6 @@
 
 .relais-section .penalty-random-btn:hover {
     transform: scale(1.02);
-}
-
-.relais-section .penalty-random-btn.selected {
-    box-shadow: 0 0 0 2px #C99F17;
 }
 
 .relais-section .penalty-random-btn img {

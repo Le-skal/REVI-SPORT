@@ -47,12 +47,20 @@
                 <div class="joker-select-btn" style="display: none;"></div>
             </div>
 
-            <!-- Double Point Joker -->
+            <!-- Double Point Joker (mode sport-collectif) / Double Passage Joker (mode relais-biathlon) -->
+            {% if mode == 'relais-biathlon' %}
+            <div class="joker-card" data-joker="double-passage" onclick="selectJoker(this)">
+                <img src="{{ url_for('static', filename='img/choix-joker/double-passage-joker.png') }}"
+                    alt="Passage en plus Joker" class="joker-img">
+                <div class="joker-select-btn" style="display: none;"></div>
+            </div>
+            {% else %}
             <div class="joker-card" data-joker="double-point" onclick="selectJoker(this)">
                 <img src="{{ url_for('static', filename='img/choix-joker/double-point-joker.png') }}"
                     alt="Double Point Joker" class="joker-img">
                 <div class="joker-select-btn" style="display: none;"></div>
             </div>
+            {% endif %}
 
             <!-- Double Prison Joker -->
             <div class="joker-card" data-joker="double-prison" onclick="selectJoker(this)">
@@ -91,7 +99,10 @@
 
     <script>
         let selectedJokers = [];
-        const regularJokers = ['theme', 'team', 'double-point', 'double-prison', 'switch', 'indice'];
+        const gameMode = '{{ mode | default("sport-collectif") }}';
+        const regularJokers = gameMode === 'relais-biathlon'
+            ? ['theme', 'team', 'double-passage', 'double-prison', 'switch', 'indice']
+            : ['theme', 'team', 'double-point', 'double-prison', 'switch', 'indice'];
 
         function goBack() {
             window.history.back();

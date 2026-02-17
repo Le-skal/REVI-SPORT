@@ -224,6 +224,23 @@
             }, 5000);
         }
 
+        // Check if returning from bonus round - auto redirect to game-end after 5 seconds
+        const fromBonus = urlParams.get('from_bonus') === 'true';
+        let bonusTimeout = null;
+        if (fromBonus) {
+            bonusTimeout = setTimeout(() => {
+                window.location.href = '/game-end';
+            }, 5000);
+
+            // Cancel timeout if admin clicks prolonger (to continue with another bonus)
+            document.querySelector('.prolonger-btn')?.addEventListener('click', () => {
+                if (bonusTimeout) {
+                    clearTimeout(bonusTimeout);
+                    bonusTimeout = null;
+                }
+            });
+        }
+
         // Tab switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function () {
@@ -463,9 +480,28 @@
         function bonusKeypadOk() {
             const points = document.getElementById('bonusKeypadDisplay').value;
             if (points && parseInt(points) > 0) {
-                // Launch question like after recapitulatif page
-                hideBonusKeypad();
-                window.location.href = '/countdown?bonus=true';
+                // Save bonus points and start bonus round
+                fetch('/save-game-setup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        bonus_points: parseInt(points),
+                        bonus_round_active: true,
+                        bonus_red_answered: false,
+                        bonus_blue_answered: false
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        hideBonusKeypad();
+                        // Start with red team
+                        window.location.href = '/bracelet?team=red&bonus=true';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving bonus setup:', error);
+                });
             }
         }
 

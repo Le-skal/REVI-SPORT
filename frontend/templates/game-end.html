@@ -121,7 +121,7 @@
                                 <div class="stat">
                                     <span class="stat-icon">⚔️</span>
                                     <span class="stat-value">{{ data.mvp.red.stats.duels_won }} duels gagnés sur
-                                        4</span>
+                                        {{ data.mvp.red.stats.duels_total }}</span>
                                 </div>
                                 <div class="stat">
                                     <span class="stat-icon">🃏</span>
@@ -146,7 +146,7 @@
                                 <div class="stat">
                                     <span class="stat-icon">⚔️</span>
                                     <span class="stat-value">{{ data.mvp.blue.stats.duels_won }} duels gagnés sur
-                                        5</span>
+                                        {{ data.mvp.blue.stats.duels_total }}</span>
                                 </div>
                                 <div class="stat">
                                     <span class="stat-icon">🃏</span>
@@ -317,7 +317,7 @@
             </div>
         </div>
 
-        <button class="close-match-btn" onclick="window.location.href='/home'">
+        <button class="close-match-btn" onclick="window.location.href='/home?end=true'">
             <span class="flag-icon">🏁</span>
             <span class="btn-text">Clôturer le match</span>
         </button>

@@ -58,7 +58,13 @@
         <!-- Félicitations Section -->
         <div class="felicitations-section">
             <h2 class="felicitations-text">Félicitations, {{ player_name }}</h2>
+            {% if duration_mode == 'passages' %}
             <p class="etape-text">Étape {{ current_etape }}/{{ total_etapes }} terminée !</p>
+            {% elif duration_mode == 'reponses' %}
+            <p class="etape-text">Score : {{ team_score }}/{{ target_score }} points</p>
+            {% elif duration_mode == 'time' %}
+            <p class="etape-text" id="timeDisplay">Temps : 00:00 / {{ game_time_minutes }}:00</p>
+            {% endif %}
         </div>
 
         <!-- Court -->
@@ -74,8 +80,75 @@
     </div>
 
     <script>
+        // Update time display for time mode
+        const durationMode = '{{ duration_mode }}';
+        if (durationMode === 'time') {
+            const timeDisplay = document.getElementById('timeDisplay');
+            const gameTimeMinutes = {{ game_time_minutes }};
+
+            function updateTimeDisplay() {
+                const saved = localStorage.getItem('gameTimer');
+                if (saved) {
+                    const state = JSON.parse(saved);
+                    if (state.startTimestamp) {
+                        const elapsed = Math.floor((Date.now() - state.startTimestamp) / 1000);
+                        const mins = Math.floor(elapsed / 60);
+                        const secs = elapsed % 60;
+                        const currentTime = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                        const targetTime = `${String(gameTimeMinutes).padStart(2, '0')}:00`;
+                        timeDisplay.textContent = `Temps : ${currentTime} / ${targetTime}`;
+                    }
+                }
+            }
+
+            updateTimeDisplay();
+            setInterval(updateTimeDisplay, 1000);
+        }
+
         function launchQuestion() {
-            window.location.href = '/game-knowledge?mode=relais-biathlon&team={{ team }}';
+            const team = '{{ team }}';
+
+            // First check if this team needs to go to prison
+            fetch('/check-prison?team=' + team)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.prison_pending) {
+                        // Go to prison first - include joker info if available
+                        let prisonUrl = `/prison?team=${team}`;
+                        if (data.joker_used_by) {
+                            prisonUrl += `&joker_used_by=${encodeURIComponent(data.joker_used_by)}`;
+                            prisonUrl += `&joker_team=${encodeURIComponent(data.joker_team)}`;
+                        }
+                        window.location.href = prisonUrl;
+                    } else {
+                        // No prison, fetch question and go
+                        goToQuestion();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking prison:', error);
+                    goToQuestion();
+                });
+        }
+
+        function goToQuestion() {
+            // Fetch a random question then redirect
+            fetch('/get-random-question')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const questionId = data.question.id;
+                        const questionTheme = data.question.theme;
+                        window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team={{ team }}&mode=relais-biathlon`;
+                    } else {
+                        console.error('Error loading question:', data.error);
+                        window.location.href = '/game-knowledge?team={{ team }}&mode=relais-biathlon';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching question:', error);
+                    window.location.href = '/game-knowledge?team={{ team }}&mode=relais-biathlon';
+                });
         }
     </script>
 </body>

@@ -48,8 +48,8 @@
         <!-- Bottom Card -->
         <div class="penalty-card" id="penaltyCard">
             <h2 class="penalty-title" id="penaltyTitle">Attendre la fin de la pénalité</h2>
-            <p class="penalty-reason">{{ player_name }} est en prison après une {{ reason }} <span
-                    class="error-icon">❌</span></p>
+            <p class="penalty-reason">{{ player_name }} est en prison car {{ reason }} <span
+                    class="error-icon">🃏</span></p>
         </div>
 
         <!-- Return Button (hidden until timer ends) -->
@@ -105,19 +105,45 @@
 
         function goToQuestion() {
             const team = '{{ team }}';
-            fetch('/get-random-question')
+            // Fetch game mode
+            fetch('/get-game-setup')
                 .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const questionId = data.question.id;
-                        const questionTheme = data.question.theme;
-                        window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}`;
-                    } else {
-                        window.location.href = `/game-knowledge?team=${team}`;
-                    }
+                .then(setup => {
+                    const mode = setup.mode || 'sport-collectif';
+                    const modeParam = mode === 'relais-biathlon' ? '&mode=relais-biathlon' : '';
+
+                    // Fetch random question
+                    fetch('/get-random-question')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const questionId = data.question.id;
+                                const questionTheme = data.question.theme;
+                                window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}${modeParam}`;
+                            } else {
+                                window.location.href = `/game-knowledge?team=${team}${modeParam}`;
+                            }
+                        })
+                        .catch(error => {
+                            window.location.href = `/game-knowledge?team=${team}${modeParam}`;
+                        });
                 })
                 .catch(error => {
-                    window.location.href = `/game-knowledge?team=${team}`;
+                    // Fallback without mode
+                    fetch('/get-random-question')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const questionId = data.question.id;
+                                const questionTheme = data.question.theme;
+                                window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}`;
+                            } else {
+                                window.location.href = `/game-knowledge?team=${team}`;
+                            }
+                        })
+                        .catch(err => {
+                            window.location.href = `/game-knowledge?team=${team}`;
+                        });
                 });
         }
     </script>

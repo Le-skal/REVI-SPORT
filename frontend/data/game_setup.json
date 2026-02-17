@@ -1,30 +1,3 @@
 {
-  "mode": "relais-biathlon",
-  "parcours": "motricite",
-  "themes": [
-    "histoire",
-    "geographie"
-  ],
-  "jokers": [
-    "theme",
-    "team",
-    "double-point",
-    "double-prison",
-    "switch",
-    "indice"
-  ],
-  "level": "Cycle 4 niveau 3 : 3ème",
-  "durationMode": "reponses",
-  "reponsesCount": 5,
-  "penalties": [
-    "gainage",
-    "squat",
-    "parcours",
-    "genoux",
-    "jumpingjacks",
-    "pompes"
-  ],
-  "penaltyDuration": 20,
-  "gameTime": 32,
-  "passagesCount": 8
+  "mode": "relais-biathlon"
 }

@@ -324,7 +324,16 @@ def theme_selection():
 
 @app.route("/joker-selection")
 def joker_selection():
-    return render_template("joker-selection.html")
+    # Load game mode
+    mode = "sport-collectif"
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                mode = game_setup.get("mode", "sport-collectif")
+        except:
+            pass
+    return render_template("joker-selection.html", mode=mode)
 
 
 @app.route("/level-selection")
@@ -369,50 +378,195 @@ def recapitulatif():
 @app.route("/game-end")
 def game_end():
     """Route pour la page de fin de match avec statistiques détaillées"""
-    # Charger les données de fin de match
-    GAME_END_FILE = os.path.join(DATA_DIR, "game-end.json")
 
-    if os.path.exists(GAME_END_FILE):
+    # Charger game-management.json pour les scores et events
+    game_management_file = os.path.join(DATA_DIR, "game-management.json")
+    game_data = {"red_score": 0, "blue_score": 0, "events": []}
+    if os.path.exists(game_management_file):
         try:
-            with open(GAME_END_FILE, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                return render_template("game-end.html", data=data)
-        except Exception as e:
-            print(f"Erreur lors du chargement de game-end.json: {e}")
+            with open(game_management_file, "r", encoding="utf-8") as f:
+                game_data = json.load(f)
+        except:
+            pass
 
-    # Données par défaut si le fichier n'existe pas
-    default_data = {
-        "final_score": {"red_team": 0, "blue_team": 0, "winner": "blue"},
+    # Charger game_setup.json pour les infos du jeu
+    game_setup = {}
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+        except:
+            pass
+
+    # Charger les infos des équipes
+    red_team_name = "Équipe rouge"
+    red_avatar = "1"
+    red_players = []
+    if os.path.exists(RED_TEAM_FILE):
+        try:
+            with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
+                red_data = json.load(f)
+                red_team_name = red_data.get("team_name", "Équipe rouge")
+                red_avatar = red_data.get("avatar", "1")
+                for i in range(1, 11):
+                    p = red_data.get(f"joueur_{i}")
+                    if p:
+                        red_players.append(p)
+        except:
+            pass
+
+    blue_team_name = "Équipe bleue"
+    blue_avatar = "2"
+    blue_players = []
+    if os.path.exists(BLUE_TEAM_FILE):
+        try:
+            with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
+                blue_data = json.load(f)
+                blue_team_name = blue_data.get("team_name", "Équipe bleue")
+                blue_avatar = blue_data.get("avatar", "2")
+                for i in range(1, 11):
+                    p = blue_data.get(f"joueur_{i}")
+                    if p:
+                        blue_players.append(p)
+        except:
+            pass
+
+    # Calculer les scores finaux
+    red_score = game_data.get("red_score", 0)
+    blue_score = game_data.get("blue_score", 0)
+    winner = "red" if red_score > blue_score else "blue" if blue_score > red_score else "tie"
+
+    # Analyser les events pour extraire les statistiques
+    events = game_data.get("events", [])
+
+    # Stats par joueur
+    player_stats = {}
+    questions_list = []
+    penalties_list = []
+    jokers_red = []
+    jokers_blue = []
+
+    for event in events:
+        team = event.get("team", "")
+        player = event.get("player", "Joueur")
+        action = event.get("action", "")
+        result = event.get("result", "")
+        result_class = event.get("result_class", "")
+
+        # Initialiser les stats du joueur si nécessaire
+        if player and team in ["red", "blue"]:
+            key = f"{team}_{player}"
+            if key not in player_stats:
+                player_stats[key] = {
+                    "team": team,
+                    "player": player,
+                    "points_scored": 0,
+                    "duels_won": 0,
+                    "duels_total": 0,
+                    "jokers_used": 0
+                }
+
+            # Comptabiliser les questions (duels)
+            if "Question" in action and result_class in ["correct", "incorrect"]:
+                player_stats[key]["duels_total"] += 1
+
+                if result_class == "correct":
+                    try:
+                        pts = int(result.replace("+", "").replace(" pts", "").strip())
+                        player_stats[key]["points_scored"] += pts
+                        player_stats[key]["duels_won"] += 1
+                    except:
+                        player_stats[key]["duels_won"] += 1
+
+                # Ajouter à la liste des questions
+                questions_list.append({
+                    "theme": action.replace("Question ", "").replace("Bonus", "Bonus"),
+                    "question": action,
+                    "answer": "Correcte",
+                    "team": team,
+                    "player": player,
+                    "points": result.replace("+", "").replace(" pts", "").strip()
+                })
+
+            # Comptabiliser les jokers
+            if result_class == "joker":
+                player_stats[key]["jokers_used"] += 1
+                joker_data = {
+                    "icon": "🃏",
+                    "player": player,
+                    "joker": action
+                }
+                if team == "red":
+                    jokers_red.append(joker_data)
+                else:
+                    jokers_blue.append(joker_data)
+
+            # Comptabiliser les pénalités
+            if result_class == "penalty":
+                penalties_list.append({
+                    "team": team,
+                    "player": player,
+                    "reason": action,
+                    "icon": "⚠️"
+                })
+
+    # Trouver le MVP de chaque équipe (celui avec le plus de points)
+    red_mvp = {"player": red_players[0] if red_players else "Joueur", "avatar": red_avatar, "stats": {"points_scored": 0, "duels_won": 0, "duels_total": 0, "jokers_used": 0}}
+    blue_mvp = {"player": blue_players[0] if blue_players else "Joueur", "avatar": blue_avatar, "stats": {"points_scored": 0, "duels_won": 0, "duels_total": 0, "jokers_used": 0}}
+
+    for key, stats in player_stats.items():
+        if stats["team"] == "red" and stats["points_scored"] > red_mvp["stats"]["points_scored"]:
+            red_mvp = {
+                "player": stats["player"],
+                "avatar": red_avatar,
+                "stats": {
+                    "points_scored": stats["points_scored"],
+                    "duels_won": stats["duels_won"],
+                    "duels_total": stats["duels_total"],
+                    "jokers_used": stats["jokers_used"]
+                }
+            }
+        elif stats["team"] == "blue" and stats["points_scored"] > blue_mvp["stats"]["points_scored"]:
+            blue_mvp = {
+                "player": stats["player"],
+                "avatar": blue_avatar,
+                "stats": {
+                    "points_scored": stats["points_scored"],
+                    "duels_won": stats["duels_won"],
+                    "duels_total": stats["duels_total"],
+                    "jokers_used": stats["jokers_used"]
+                }
+            }
+
+    # Construire les données finales
+    data = {
+        "final_score": {
+            "red_team": red_score,
+            "blue_team": blue_score,
+            "winner": winner
+        },
         "teams": {
-            "red": {"name": "Équipe rouge", "avatar": "1", "players": []},
-            "blue": {"name": "Équipe bleue", "avatar": "2", "players": []},
+            "red": {"name": red_team_name, "avatar": red_avatar, "players": red_players},
+            "blue": {"name": blue_team_name, "avatar": blue_avatar, "players": blue_players},
         },
         "mvp": {
-            "red": {
-                "player": "Joueur",
-                "avatar": "1",
-                "stats": {"points_scored": 0, "duels_won": 0, "jokers_used": 0},
-            },
-            "blue": {
-                "player": "Joueur",
-                "avatar": "2",
-                "stats": {"points_scored": 0, "duels_won": 0, "jokers_used": 0},
-            },
+            "red": red_mvp,
+            "blue": blue_mvp,
         },
-        "duels": [],
-        "questions": [],
-        "penalties": [],
-        "jokers": {"red": [], "blue": []},
+        "duels": [],  # On pourrait construire ça à partir des events si nécessaire
+        "questions": questions_list,
+        "penalties": penalties_list,
+        "jokers": {"red": jokers_red, "blue": jokers_blue},
         "game_info": {
-            "mode": "sport-collectif",
-            "sport": "basketball",
-            "level": "Cycle 4",
+            "mode": game_setup.get("mode", "sport-collectif"),
+            "sport": game_setup.get("sport", "basketball"),
+            "level": game_setup.get("level", "Cycle 4"),
             "duration": "00:00",
-            "themes": [],
+            "themes": game_setup.get("themes", []),
         },
     }
 
-    return render_template("game-end.html", data=default_data)
+    return render_template("game-end.html", data=data)
 
 
 @app.route("/lancement")
@@ -446,7 +600,6 @@ def lancement():
     avatar_id = "1"
     team_name = "Équipe rouge"
     player_name = "Joueur"
-    players = []
 
     if team == "red":
         if os.path.exists(RED_TEAM_FILE):
@@ -455,7 +608,6 @@ def lancement():
                     team_data = json.load(f)
                     avatar_id = team_data.get("avatar", "1")
                     team_name = team_data.get("team_name", "Équipe rouge")
-                    players = team_data.get("players", [])
             except:
                 pass
     else:
@@ -465,36 +617,51 @@ def lancement():
                     team_data = json.load(f)
                     avatar_id = team_data.get("avatar", "2")
                     team_name = team_data.get("team_name", "Équipe bleue")
-                    players = team_data.get("players", [])
             except:
                 pass
 
-    # Get current player (based on parcours number)
-    parcours_index = int(parcours_num) - 1
-    if players and parcours_index < len(players):
-        player_name = (
-            players[parcours_index].get("name", players[parcours_index])
-            if isinstance(players[parcours_index], dict)
-            else players[parcours_index]
-        )
-    elif players:
-        player_name = (
-            players[0].get("name", players[0])
-            if isinstance(players[0], dict)
-            else players[0]
-        )
-
-    # Get total etapes from game setup
-    total_etapes = 8
+    # Get current player from game_setup
     if os.path.exists(GAME_SETUP_FILE):
         try:
             with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
                 game_setup = json.load(f)
-                total_etapes = game_setup.get("passages", 8)
+                players = game_setup.get(f"{team}_players", [])
+                player_index = game_setup.get(f"{team}_current_player_index", 0)
+                if players and player_index < len(players):
+                    player_name = players[player_index]
+                elif players:
+                    player_name = players[0]
         except:
             pass
 
+    # Get game setup data for duration mode display
+    duration_mode = "passages"
+    total_etapes = 8
     current_etape = int(parcours_num)
+    team_score = 0
+    target_score = 10
+    game_time_minutes = 32
+
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                duration_mode = game_setup.get("durationMode", "passages")
+                total_etapes = game_setup.get("passagesCount", 8)
+                target_score = game_setup.get("reponsesCount", 10)
+                game_time_minutes = game_setup.get("gameTime", 32)
+        except:
+            pass
+
+    # Get team score from game-management.json
+    game_management_file = os.path.join(DATA_DIR, "game-management.json")
+    if os.path.exists(game_management_file):
+        try:
+            with open(game_management_file, "r", encoding="utf-8") as f:
+                game_data = json.load(f)
+                team_score = game_data.get(f"{team}_score", 0)
+        except:
+            pass
 
     return render_template(
         "lancement.html",
@@ -508,6 +675,10 @@ def lancement():
         is_penalty=is_penalty,
         joker_player=joker_player,
         joker_name=joker_name,
+        duration_mode=duration_mode,
+        team_score=team_score,
+        target_score=target_score,
+        game_time_minutes=game_time_minutes,
     )
 
 
@@ -516,8 +687,36 @@ def prison():
     """Page prison affichant le timer de pénalité"""
     # Get parameters
     team = request.args.get("team", "red")
-    player_name = request.args.get("player", "Joueur")
-    reason = request.args.get("reason", "mauvaise réponse")
+    player_name = request.args.get("player", None)
+    joker_used_by = request.args.get("joker_used_by", None)
+    joker_team = request.args.get("joker_team", None)
+    reason = None  # Sera construit à partir des infos du joker
+
+    # Si pas de nom de joueur fourni, récupérer le joueur actuel depuis game_setup
+    if not player_name:
+        if os.path.exists(GAME_SETUP_FILE):
+            try:
+                with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                    game_setup = json.load(f)
+                    players = game_setup.get(f"{team}_players", [])
+                    player_index = game_setup.get(f"{team}_current_player_index", 0)
+                    if players and player_index < len(players):
+                        player_name = players[player_index]
+                    elif players:
+                        player_name = players[0]
+            except:
+                pass
+        if not player_name:
+            player_name = "Joueur"
+
+    # Construire le message de raison (toujours basé sur le joker)
+    if joker_used_by and joker_team:
+        team_label = "l'équipe rouge" if joker_team == "red" else "l'équipe bleue"
+        reason = f"{joker_used_by} de {team_label} a utilisé le Joker Prison"
+    else:
+        # Fallback si les infos du joker ne sont pas disponibles
+        opponent_team = "l'équipe bleue" if team == "red" else "l'équipe rouge"
+        reason = f"un joueur de {opponent_team} a utilisé le Joker Prison"
 
     # Load team data
     avatar_id = "1"
@@ -581,6 +780,7 @@ def prison():
         players=players,
         players_on_terrain=players_on_terrain,
         total_players=total_players,
+        joker_used_by=joker_used_by,
     )
 
 
@@ -604,8 +804,21 @@ def bracelet():
         except:
             pass
 
+    # Load game mode and current passage
+    mode = "sport-collectif"
+    current_passage = 1
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                mode = game_setup.get("mode", "sport-collectif")
+                current_passage = game_setup.get("current_passage", 1)
+        except:
+            pass
+
     return render_template(
-        "bracelet.html", team=team, red_score=red_score, blue_score=blue_score
+        "bracelet.html", team=team, red_score=red_score, blue_score=blue_score,
+        mode=mode, current_passage=current_passage
     )
 
 
@@ -777,12 +990,18 @@ def game_knowledge():
     # Load game setup for level and themes
     level_name = ""
     selected_themes = []
+    game_mode = "sport-collectif"
+    duration_mode = "passages"
+    game_time_minutes = 32
     if os.path.exists(GAME_SETUP_FILE):
         try:
             with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
                 game_setup = json.load(f)
                 level_name = game_setup.get("level", "")
                 selected_themes = game_setup.get("themes", [])
+                game_mode = game_setup.get("mode", "sport-collectif")
+                duration_mode = game_setup.get("durationMode", "passages")
+                game_time_minutes = game_setup.get("gameTime", 32)
         except:
             level_name = ""
             selected_themes = []
@@ -920,6 +1139,10 @@ def game_knowledge():
         is_bonus=is_bonus,
         team=team,
         duel_points=duel_points,
+        game_mode=game_mode,
+        duration_mode=duration_mode,
+        game_time_minutes=game_time_minutes,
+        question=question,
     )
 
 
@@ -1300,6 +1523,42 @@ def get_game_setup():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/get-current-player")
+def get_current_player():
+    """Récupère le joueur actuel pour une équipe donnée"""
+    try:
+        team = request.args.get("team", "red")
+
+        if not os.path.exists(GAME_SETUP_FILE):
+            return jsonify({"error": "Game setup not found"}), 404
+
+        with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+            game_setup = json.load(f)
+
+        players = game_setup.get(f"{team}_players", [])
+        player_index = game_setup.get(f"{team}_current_player_index", 0)
+        current_round = game_setup.get("current_round", 1)
+        total_rounds = game_setup.get("total_rounds", 1)
+
+        if players and player_index < len(players):
+            current_player = players[player_index]
+        elif players:
+            current_player = players[0]
+        else:
+            current_player = f"Joueur {team.capitalize()}"
+
+        return jsonify({
+            "success": True,
+            "player": current_player,
+            "player_index": player_index,
+            "current_round": current_round,
+            "total_rounds": total_rounds,
+            "all_players": players
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 @app.route("/get-red-team")
 def get_red_team():
     """Récupère les données de l'équipe rouge"""
@@ -1463,37 +1722,66 @@ def init_game():
         with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
             game_setup = json.load(f)
 
+        # Charger les joueurs des deux équipes
+        red_players = []
+        blue_players = []
+
+        if os.path.exists(RED_TEAM_FILE):
+            with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
+                red_data = json.load(f)
+                # Récupérer les joueurs (format joueur_1, joueur_2, etc.)
+                for i in range(1, 11):  # Support jusqu'à 10 joueurs
+                    player = red_data.get(f"joueur_{i}")
+                    if player:
+                        red_players.append(player)
+
+        if os.path.exists(BLUE_TEAM_FILE):
+            with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
+                blue_data = json.load(f)
+                for i in range(1, 11):
+                    player = blue_data.get(f"joueur_{i}")
+                    if player:
+                        blue_players.append(player)
+
+        # Si pas de joueurs définis, mettre des valeurs par défaut
+        if not red_players:
+            red_players = ["Joueur Rouge 1", "Joueur Rouge 2"]
+        if not blue_players:
+            blue_players = ["Joueur Bleu 1", "Joueur Bleu 2"]
+
+        # Calculer le nombre de tours = max des joueurs entre les deux équipes
+        total_rounds = max(len(red_players), len(blue_players))
+
         # Ajouter les champs de tracking
         game_setup["current_team"] = "red"
         game_setup["red_jokers_used"] = []
         game_setup["blue_jokers_used"] = []
         game_setup["double_points_active"] = None
         game_setup["prison_pending"] = None
-        game_setup["red_questions_this_round"] = 0
-        game_setup["blue_questions_this_round"] = 0
-        game_setup["questions_per_team"] = 2  # Nombre de questions par équipe avant de changer
+        game_setup["passage_pending"] = None  # Pour mode relais-biathlon (joker Passage en plus)
+        game_setup["red_players"] = red_players
+        game_setup["blue_players"] = blue_players
+        game_setup["red_current_player_index"] = 0
+        game_setup["blue_current_player_index"] = 0
+        game_setup["current_round"] = 1
+        game_setup["total_rounds"] = total_rounds
+        game_setup["current_passage"] = 1  # Pour mode relais-biathlon
 
         # Sauvegarder game_setup
         with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
             json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
-        # Charger les noms des équipes
+        # Charger les noms des équipes (déjà chargés plus haut)
         red_team_name = "Rouge"
         blue_team_name = "Bleue"
         if os.path.exists(RED_TEAM_FILE):
-            try:
-                with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
-                    red_data = json.load(f)
-                    red_team_name = red_data.get("team_name", "Rouge")
-            except:
-                pass
+            with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
+                red_data = json.load(f)
+                red_team_name = red_data.get("team_name", "Rouge")
         if os.path.exists(BLUE_TEAM_FILE):
-            try:
-                with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
-                    blue_data = json.load(f)
-                    blue_team_name = blue_data.get("team_name", "Bleue")
-            except:
-                pass
+            with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
+                blue_data = json.load(f)
+                blue_team_name = blue_data.get("team_name", "Bleue")
 
         # Créer game-management.json avec l'event de début
         game_management_file = os.path.join(DATA_DIR, "game-management.json")
@@ -1530,12 +1818,35 @@ def save_question_result():
         base_points = data.get("points", 3)
         joker_used = data.get("joker_used")
         question_theme = data.get("question_theme", "Question")
-        player_name = data.get("player_name", "Joueur")
+        player_name = data.get("player_name")  # Peut être None
         current_time = data.get("current_time", "00:00")
+        is_bonus = data.get("is_bonus", False)  # Mode bonus
+        time_up = data.get("time_up", False)  # Temps écoulé (mode relais-biathlon time)
 
         # Charger game_setup pour vérifier double_points
         with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
             game_setup = json.load(f)
+
+        # Toujours récupérer le joueur actuel depuis game_setup (ignorer la valeur par défaut "Joueur")
+        players = game_setup.get(f"{team}_players", [])
+        player_index = game_setup.get(f"{team}_current_player_index", 0)
+        if players and player_index < len(players):
+            player_name = players[player_index]
+        elif players:
+            player_name = players[0]
+        else:
+            player_name = player_name or "Joueur"
+
+        # En mode bonus, utiliser les bonus_points (priorité sur le mode de jeu)
+        if is_bonus:
+            base_points = game_setup.get("bonus_points", 3)
+        else:
+            # En mode relais-biathlon (hors bonus), 1 point par bonne réponse
+            game_mode = game_setup.get("mode", "sport-collectif")
+            if game_mode == "relais-biathlon":
+                base_points = 1
+
+        game_mode = game_setup.get("mode", "sport-collectif")
 
         # Calculer les points (x2 si double_points actif pour cette équipe)
         points = base_points if correct else 0
@@ -1552,14 +1863,27 @@ def save_question_result():
             if joker_used not in game_setup[jokers_used_key]:
                 game_setup[jokers_used_key].append(joker_used)
 
-            # Si joker prison, marquer l'adversaire pour prison
+            # Si joker prison, marquer l'adversaire pour prison avec les infos du joueur qui l'a utilisé
             if joker_used == "double-prison":
                 opponent = "blue" if team == "red" else "red"
-                game_setup["prison_pending"] = opponent
+                game_setup["prison_pending"] = {
+                    "team": opponent,
+                    "joker_used_by": player_name,
+                    "joker_team": team
+                }
 
             # Si joker double-point, activer pour cette équipe
             if joker_used == "double-point":
                 game_setup["double_points_active"] = team
+
+            # Si joker double-passage (mode relais-biathlon), marquer l'adversaire pour passage supplémentaire
+            if joker_used == "double-passage":
+                opponent = "blue" if team == "red" else "red"
+                game_setup["passage_pending"] = {
+                    "team": opponent,
+                    "joker_used_by": player_name,
+                    "joker_team": team
+                }
 
         # Sauvegarder game_setup
         with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
@@ -1579,6 +1903,7 @@ def save_question_result():
             joker_names = {
                 "double-prison": "Joker Prison",
                 "double-point": "Joker Double Points",
+                "double-passage": "Joker Passage en plus",
                 "theme": "Joker Thème",
                 "switch": "Joker Switch",
                 "indice": "Joker Indice",
@@ -1597,11 +1922,12 @@ def save_question_result():
         # Ajouter l'event pour la question
         result_text = f"+{points} pts" if correct else "0 pts"
         result_class = "correct" if correct else "incorrect"
+        action_text = "Question Bonus" if is_bonus else f"Question {question_theme.capitalize()}"
         event = {
             "time": current_time,
             "team": team,
             "player": player_name,
-            "action": f"Question {question_theme.capitalize()}",
+            "action": action_text,
             "result": result_text,
             "result_class": result_class
         }
@@ -1611,37 +1937,131 @@ def save_question_result():
         with open(game_management_file, "w", encoding="utf-8") as f:
             json.dump(game_data, f, ensure_ascii=False, indent=2)
 
-        # Incrémenter le compteur de questions pour cette équipe
-        questions_key = f"{team}_questions_this_round"
-        game_setup[questions_key] = game_setup.get(questions_key, 0) + 1
+        # Mode bonus: logique simplifiée (red → blue → game-management)
+        if is_bonus:
+            if team == "red":
+                # Après red, c'est au tour de blue
+                next_destination = "/bracelet?team=blue&bonus=true"
+            else:
+                # Après blue, round bonus terminé - reset et retour à game-management
+                game_setup["bonus_round_active"] = False
+                game_setup["bonus_points"] = None
+                next_destination = "/game-management?from_bonus=true"
 
-        # Sauvegarder game_setup avec le compteur mis à jour
-        with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
-            json.dump(game_setup, f, ensure_ascii=False, indent=2)
-
-        # Déterminer la prochaine destination (alternance red/blue)
-        questions_per_team = game_setup.get("questions_per_team", 2)
-        red_questions = game_setup.get("red_questions_this_round", 0)
-        blue_questions = game_setup.get("blue_questions_this_round", 0)
-
-        # Vérifier si les deux équipes ont fini leurs questions
-        if red_questions >= questions_per_team and blue_questions >= questions_per_team:
-            # Round complet, retour à game-management
-            game_setup["red_questions_this_round"] = 0
-            game_setup["blue_questions_this_round"] = 0
+            # Sauvegarder game_setup
             with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
                 json.dump(game_setup, f, ensure_ascii=False, indent=2)
-            next_destination = "/game-management"
-        else:
-            # Alterner: après red → blue, après blue → red
-            next_team = "blue" if team == "red" else "red"
+
+            return jsonify({
+                "success": True,
+                "next_destination": next_destination,
+                "red_score": game_data.get("red_score", 0),
+                "blue_score": game_data.get("blue_score", 0),
+                "is_bonus": True
+            })
+
+        # Mode relais-biathlon: logique spécifique
+        if game_mode == "relais-biathlon":
+            current_passage = game_setup.get("current_passage", 1)
+            red_score = game_data.get("red_score", 0)
+            blue_score = game_data.get("blue_score", 0)
+            duration_mode = game_setup.get("durationMode", "passages")
+
+            # Vérifier les conditions de fin (après que blue ait joué)
+            game_ended = False
+            if team == "blue":
+                if duration_mode == "passages":
+                    # Nombre de passages atteint
+                    passages_count = game_setup.get("passagesCount", 10)
+                    if current_passage >= passages_count:
+                        game_ended = True
+
+                elif duration_mode == "reponses":
+                    # Un des scores atteint la limite de points
+                    reponses_count = game_setup.get("reponsesCount", 10)
+                    if red_score >= reponses_count or blue_score >= reponses_count:
+                        game_ended = True
+
+                elif duration_mode == "time":
+                    # Le frontend envoie time_up=true quand le temps est écoulé
+                    if time_up:
+                        game_ended = True
+
+            if game_ended:
+                next_destination = "/game-management"
+            elif team == "red":
+                # Après red, c'est au tour de blue
+                next_destination = "/bracelet?team=blue"
+            else:
+                # Après blue, passage suivant avec red
+                game_setup["current_passage"] = current_passage + 1
+
+                # Passer au joueur suivant pour chaque équipe (avec cycling)
+                red_players = game_setup.get("red_players", [])
+                blue_players = game_setup.get("blue_players", [])
+                red_index = game_setup.get("red_current_player_index", 0)
+                blue_index = game_setup.get("blue_current_player_index", 0)
+
+                game_setup["red_current_player_index"] = (red_index + 1) % len(red_players) if red_players else 0
+                game_setup["blue_current_player_index"] = (blue_index + 1) % len(blue_players) if blue_players else 0
+
+                next_destination = "/bracelet?team=red"
+
+            # Sauvegarder game_setup
+            with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+                json.dump(game_setup, f, ensure_ascii=False, indent=2)
+
+            return jsonify({
+                "success": True,
+                "next_destination": next_destination,
+                "red_score": red_score,
+                "blue_score": blue_score,
+                "current_passage": game_setup.get("current_passage", 1),
+                "game_ended": game_ended
+            })
+
+        # Mode sport-collectif: récupérer les infos de tour et joueurs
+        current_round = game_setup.get("current_round", 1)
+        total_rounds = game_setup.get("total_rounds", 1)
+        red_players = game_setup.get("red_players", [])
+        blue_players = game_setup.get("blue_players", [])
+
+        # Déterminer la prochaine destination (alternance red/blue)
+        if team == "red":
+            # Après red, c'est au tour de blue
+            next_team = "blue"
             next_destination = f"/bracelet?team={next_team}"
+        else:
+            # Après blue, le round est terminé
+            # Passer au joueur suivant pour chaque équipe (avec cycling)
+            red_index = game_setup.get("red_current_player_index", 0)
+            blue_index = game_setup.get("blue_current_player_index", 0)
+
+            # Incrémenter les index (avec modulo pour cycler)
+            game_setup["red_current_player_index"] = (red_index + 1) % len(red_players) if red_players else 0
+            game_setup["blue_current_player_index"] = (blue_index + 1) % len(blue_players) if blue_players else 0
+            game_setup["current_round"] = current_round + 1
+
+            # Vérifier si tous les rounds sont terminés
+            if current_round >= total_rounds:
+                # Match terminé, retour à game-management
+                next_destination = "/game-management"
+            else:
+                # Round suivant, équipe rouge commence
+                next_team = "red"
+                next_destination = f"/bracelet?team={next_team}"
+
+        # Sauvegarder game_setup avec les index mis à jour
+        with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+            json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
         return jsonify({
             "success": True,
             "next_destination": next_destination,
             "red_score": game_data.get("red_score", 0),
-            "blue_score": game_data.get("blue_score", 0)
+            "blue_score": game_data.get("blue_score", 0),
+            "current_round": game_setup.get("current_round", 1),
+            "total_rounds": total_rounds
         })
 
     except Exception as e:
@@ -1660,7 +2080,17 @@ def check_prison():
         with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
             game_setup = json.load(f)
 
-        prison_pending = game_setup.get("prison_pending") == team
+        prison_data = game_setup.get("prison_pending")
+
+        # Gérer le nouveau format (dict) et l'ancien format (string)
+        if isinstance(prison_data, dict):
+            prison_pending = prison_data.get("team") == team
+            joker_used_by = prison_data.get("joker_used_by") if prison_pending else None
+            joker_team = prison_data.get("joker_team") if prison_pending else None
+        else:
+            prison_pending = prison_data == team
+            joker_used_by = None
+            joker_team = None
 
         # Clear prison_pending if it was for this team
         if prison_pending:
@@ -1668,9 +2098,52 @@ def check_prison():
             with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
                 json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
-        return jsonify({"prison_pending": prison_pending})
+        return jsonify({
+            "prison_pending": prison_pending,
+            "joker_used_by": joker_used_by,
+            "joker_team": joker_team
+        })
     except Exception as e:
         return jsonify({"prison_pending": False, "error": str(e)})
+
+
+@app.route("/check-passage")
+def check_passage():
+    """Vérifie si une équipe doit effectuer un passage supplémentaire (mode relais-biathlon)"""
+    try:
+        team = request.args.get("team", "")
+
+        if not os.path.exists(GAME_SETUP_FILE):
+            return jsonify({"passage_pending": False})
+
+        with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+            game_setup = json.load(f)
+
+        passage_data = game_setup.get("passage_pending")
+
+        # Gérer le format dict
+        if isinstance(passage_data, dict):
+            passage_pending = passage_data.get("team") == team
+            joker_used_by = passage_data.get("joker_used_by") if passage_pending else None
+            joker_team = passage_data.get("joker_team") if passage_pending else None
+        else:
+            passage_pending = passage_data == team
+            joker_used_by = None
+            joker_team = None
+
+        # Clear passage_pending if it was for this team
+        if passage_pending:
+            game_setup["passage_pending"] = None
+            with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+                json.dump(game_setup, f, ensure_ascii=False, indent=2)
+
+        return jsonify({
+            "passage_pending": passage_pending,
+            "joker_used_by": joker_used_by,
+            "joker_team": joker_team
+        })
+    except Exception as e:
+        return jsonify({"passage_pending": False, "error": str(e)})
 
 
 @app.route("/remove-joker", methods=["POST"])

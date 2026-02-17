@@ -220,11 +220,23 @@
 
             // Update Passages or Temporalité
             if (gameSetup.mode === 'relais-biathlon') {
-                // Display temporalité for mode 2
-                const passagesCount = gameSetup.passagesCount || 0;
-                let penaltyText;
+                // Display temporalité for mode 2 based on durationMode
+                const durationMode = gameSetup.durationMode || 'passages';
+                let durationText;
 
-                if (gameSetup.penalties && gameSetup.penalties.length === 2) {
+                if (durationMode === 'passages') {
+                    const passagesCount = gameSetup.passagesCount || 0;
+                    durationText = `${passagesCount} PASSAGES`;
+                } else if (durationMode === 'time') {
+                    const gameTime = gameSetup.gameTime || 32;
+                    durationText = `${gameTime} MINUTES`;
+                } else if (durationMode === 'reponses') {
+                    const reponsesCount = gameSetup.reponsesCount || 10;
+                    durationText = `${reponsesCount} POINTS`;
+                }
+
+                let penaltyText;
+                if (gameSetup.penalties && gameSetup.penalties.length > 1) {
                     penaltyText = 'ALÉATOIRE';
                 } else if (gameSetup.penalties && gameSetup.penalties.length === 1) {
                     penaltyText = gameSetup.penalties[0].toUpperCase();
@@ -232,7 +244,7 @@
                     penaltyText = 'AUCUNE';
                 }
 
-                const temporaliteText = `${passagesCount} PASSAGES - ${penaltyText}`;
+                const temporaliteText = `${durationText} - ${penaltyText}`;
                 document.getElementById('temporaliteValue').textContent = temporaliteText;
             } else {
                 // Display passages for mode 1
