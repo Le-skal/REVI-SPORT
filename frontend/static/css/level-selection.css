@@ -5,9 +5,14 @@
     gap: 0;
     padding: 16px;
     overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
     display: flex;
     flex-direction: column;
+    /* Support scroll tactile (swipe comme sur téléphone) */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
 }
 
 /* Header */

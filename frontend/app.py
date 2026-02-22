@@ -1041,17 +1041,41 @@ def game_knowledge():
     # If no valid question found, get a random knowledge question from selected themes and level
     if not question:
         all_questions = load_all_questions()
-        # Filter by gameType=knowledge, matching themes and level (strict)
+
+        # Load used questions from game_setup
+        used_questions = []
+        if os.path.exists(GAME_SETUP_FILE):
+            try:
+                with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                    gs = json.load(f)
+                    used_questions = gs.get("used_questions", [])
+            except:
+                pass
+
+        # Filter by gameType=knowledge, matching themes and level, exclude used questions
         knowledge_questions = [
             q
             for q in all_questions
             if q.get("gameType") == "knowledge"
             and q.get("theme") in selected_themes
             and q.get("level") == level_name
+            and q.get("id") not in used_questions
         ]
 
         if knowledge_questions:
             question = random.choice(knowledge_questions)
+
+            # Mark question as used
+            used_questions.append(question.get("id"))
+            if os.path.exists(GAME_SETUP_FILE):
+                try:
+                    with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                        gs = json.load(f)
+                    gs["used_questions"] = used_questions
+                    with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+                        json.dump(gs, f, ensure_ascii=False, indent=2)
+                except:
+                    pass
         else:
             return (
                 f"No knowledge questions available for themes {selected_themes} and level {level_name}",
@@ -1766,6 +1790,7 @@ def init_game():
         game_setup["current_round"] = 1
         game_setup["total_rounds"] = total_rounds
         game_setup["current_passage"] = 1  # Pour mode relais-biathlon
+        game_setup["used_questions"] = []  # Liste des IDs de questions déjà posées
 
         # Sauvegarder game_setup
         with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
@@ -2223,6 +2248,7 @@ def get_random_question():
     """
     Load a random question based on game setup configuration.
     Filters by: themes, level, and gameType.
+    Excludes questions already used in this game session.
     Returns the question data along with gameType for routing.
     """
     try:
@@ -2238,6 +2264,7 @@ def get_random_question():
 
         selected_themes = game_setup.get("themes", [])
         selected_level = game_setup.get("level", "")
+        used_questions = game_setup.get("used_questions", [])
 
         if not selected_themes:
             return jsonify({"success": False, "error": "No themes selected"}), 400
@@ -2248,13 +2275,14 @@ def get_random_question():
         if not all_questions:
             return jsonify({"success": False, "error": "No questions available"}), 404
 
-        # Filter questions by theme, level, AND gameType (strict - no fallback)
+        # Filter questions by theme, level, gameType AND exclude already used questions
         filtered_questions = [
             q
             for q in all_questions
             if q.get("theme") in selected_themes
             and q.get("level") == selected_level
             and q.get("gameType") == requested_game_type
+            and q.get("id") not in used_questions
         ]
 
         if not filtered_questions:
@@ -2271,6 +2299,12 @@ def get_random_question():
         # Select random question
         question = random.choice(filtered_questions)
         game_type = question.get("gameType", requested_game_type)
+
+        # Mark question as used
+        used_questions.append(question.get("id"))
+        game_setup["used_questions"] = used_questions
+        with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+            json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
         # Return question data with gameType for routing
         return jsonify(
@@ -2380,6 +2414,7 @@ def apply_theme_joker():
             game_setup = json.load(f)
 
         selected_level = game_setup.get("level", "")
+        used_questions = game_setup.get("used_questions", [])
         print(f"DEBUG - Selected level: {selected_level}")
 
         # Load all questions
@@ -2394,13 +2429,14 @@ def apply_theme_joker():
         print(f"  level == '{selected_level}'")
         print(f"  gameType == '{current_game_type}'")
 
-        # Filter by: selected theme, same level, same gameType
+        # Filter by: selected theme, same level, same gameType, exclude used questions
         filtered_questions = [
             q
             for q in all_questions
             if q.get("theme") == selected_theme
             and q.get("level") == selected_level
             and q.get("gameType") == current_game_type
+            and q.get("id") not in used_questions
         ]
 
         print(f"\nFiltering results:")
@@ -2439,6 +2475,12 @@ def apply_theme_joker():
         print(f"  GameType: '{question.get('gameType')}'")
         print(f"  Question text: {question.get('question', '')[:80]}...")
         print("=" * 70 + "\n")
+
+        # Mark question as used
+        used_questions.append(question.get("id"))
+        game_setup["used_questions"] = used_questions
+        with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+            json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
         return jsonify(
             {
@@ -2487,20 +2529,21 @@ def apply_switch_joker():
             game_setup = json.load(f)
 
         selected_level = game_setup.get("level", "")
+        used_questions = game_setup.get("used_questions", [])
         print(f"Selected level: '{selected_level}'")
 
         # Load all questions
         all_questions = load_all_questions()
         print(f"Total questions loaded: {len(all_questions)}")
 
-        # Filter by: SAME theme, same level, same gameType, but DIFFERENT id
+        # Filter by: SAME theme, same level, same gameType, exclude used questions
         filtered_questions = [
             q
             for q in all_questions
             if q.get("theme") == current_theme
             and q.get("level") == selected_level
             and q.get("gameType") == game_type
-            and q.get("id") != current_question_id
+            and q.get("id") not in used_questions
         ]
 
         print(f"\nFiltering results:")
@@ -2513,7 +2556,7 @@ def apply_switch_joker():
         print(
             f"  Questions with same gameType: {len([q for q in all_questions if q.get('gameType') == game_type])}"
         )
-        print(f"  Excluding current question ID: {current_question_id}")
+        print(f"  Excluding used questions: {len(used_questions)} already used")
         print(f"  Final filtered questions: {len(filtered_questions)}")
 
         if not filtered_questions:
@@ -2534,6 +2577,12 @@ def apply_switch_joker():
         print(f"  Theme: '{question.get('theme')}'")
         print(f"  Question: {question.get('question', '')[:80]}...")
         print("=" * 70 + "\n")
+
+        # Mark question as used
+        used_questions.append(question.get("id"))
+        game_setup["used_questions"] = used_questions
+        with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+            json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
         return jsonify(
             {
