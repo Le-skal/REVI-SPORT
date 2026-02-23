@@ -151,7 +151,7 @@
             "correctAnswer": 0,
             "theme": "geographie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 11,
@@ -325,7 +325,7 @@
             "correctAnswer": 0,
             "theme": "geographie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 22,
@@ -340,7 +340,7 @@
             "correctAnswer": 0,
             "theme": "geographie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 23,
@@ -355,7 +355,7 @@
             "correctAnswer": 0,
             "theme": "geographie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 24,

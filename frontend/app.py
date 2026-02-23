@@ -1053,20 +1053,21 @@ def game_knowledge():
                 pass
 
         # Filter by gameType=knowledge, matching themes and level, exclude used questions
+        # Use composite key (theme_id) to avoid conflicts between themes with same question IDs
         knowledge_questions = [
             q
             for q in all_questions
             if q.get("gameType") == "knowledge"
             and q.get("theme") in selected_themes
             and q.get("level") == level_name
-            and q.get("id") not in used_questions
+            and f"{q.get('theme')}_{q.get('id')}" not in used_questions
         ]
 
         if knowledge_questions:
             question = random.choice(knowledge_questions)
 
-            # Mark question as used
-            used_questions.append(question.get("id"))
+            # Mark question as used (composite key to handle same IDs across themes)
+            used_questions.append(f"{question.get('theme')}_{question.get('id')}")
             if os.path.exists(GAME_SETUP_FILE):
                 try:
                     with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
@@ -2276,13 +2277,14 @@ def get_random_question():
             return jsonify({"success": False, "error": "No questions available"}), 404
 
         # Filter questions by theme, level, gameType AND exclude already used questions
+        # Use composite key (theme_id) to avoid conflicts between themes with same question IDs
         filtered_questions = [
             q
             for q in all_questions
             if q.get("theme") in selected_themes
             and q.get("level") == selected_level
             and q.get("gameType") == requested_game_type
-            and q.get("id") not in used_questions
+            and f"{q.get('theme')}_{q.get('id')}" not in used_questions
         ]
 
         if not filtered_questions:
@@ -2300,8 +2302,8 @@ def get_random_question():
         question = random.choice(filtered_questions)
         game_type = question.get("gameType", requested_game_type)
 
-        # Mark question as used
-        used_questions.append(question.get("id"))
+        # Mark question as used (composite key to handle same IDs across themes)
+        used_questions.append(f"{question.get('theme')}_{question.get('id')}")
         game_setup["used_questions"] = used_questions
         with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
             json.dump(game_setup, f, ensure_ascii=False, indent=2)
@@ -2430,13 +2432,14 @@ def apply_theme_joker():
         print(f"  gameType == '{current_game_type}'")
 
         # Filter by: selected theme, same level, same gameType, exclude used questions
+        # Use composite key (theme_id) to avoid conflicts between themes with same question IDs
         filtered_questions = [
             q
             for q in all_questions
             if q.get("theme") == selected_theme
             and q.get("level") == selected_level
             and q.get("gameType") == current_game_type
-            and q.get("id") not in used_questions
+            and f"{q.get('theme')}_{q.get('id')}" not in used_questions
         ]
 
         print(f"\nFiltering results:")
@@ -2476,8 +2479,8 @@ def apply_theme_joker():
         print(f"  Question text: {question.get('question', '')[:80]}...")
         print("=" * 70 + "\n")
 
-        # Mark question as used
-        used_questions.append(question.get("id"))
+        # Mark question as used (composite key to handle same IDs across themes)
+        used_questions.append(f"{question.get('theme')}_{question.get('id')}")
         game_setup["used_questions"] = used_questions
         with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
             json.dump(game_setup, f, ensure_ascii=False, indent=2)
@@ -2537,13 +2540,14 @@ def apply_switch_joker():
         print(f"Total questions loaded: {len(all_questions)}")
 
         # Filter by: SAME theme, same level, same gameType, exclude used questions
+        # Use composite key (theme_id) to avoid conflicts between themes with same question IDs
         filtered_questions = [
             q
             for q in all_questions
             if q.get("theme") == current_theme
             and q.get("level") == selected_level
             and q.get("gameType") == game_type
-            and q.get("id") not in used_questions
+            and f"{q.get('theme')}_{q.get('id')}" not in used_questions
         ]
 
         print(f"\nFiltering results:")
@@ -2578,8 +2582,8 @@ def apply_switch_joker():
         print(f"  Question: {question.get('question', '')[:80]}...")
         print("=" * 70 + "\n")
 
-        # Mark question as used
-        used_questions.append(question.get("id"))
+        # Mark question as used (composite key to handle same IDs across themes)
+        used_questions.append(f"{question.get('theme')}_{question.get('id')}")
         game_setup["used_questions"] = used_questions
         with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
             json.dump(game_setup, f, ensure_ascii=False, indent=2)

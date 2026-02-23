@@ -1,0 +1,57 @@
+{
+  "mode": "sport-collectif",
+  "sport": "basketball",
+  "themes": [
+    "histoire",
+    "geographie"
+  ],
+  "jokers": [
+    "theme",
+    "team",
+    "double-point",
+    "double-prison",
+    "switch",
+    "indice"
+  ],
+  "level": "Cycle 4 niveau 3 : 3ème",
+  "minPassages": 1,
+  "maxPassages": 4,
+  "penalty": 3,
+  "gameTime": 32,
+  "timeoutCount": 5,
+  "prisonTime": 30,
+  "answerTime": 30,
+  "sportPoints": 3,
+  "duelPoints": 3,
+  "current_team": "red",
+  "red_jokers_used": [],
+  "blue_jokers_used": [],
+  "double_points_active": null,
+  "prison_pending": null,
+  "passage_pending": null,
+  "red_players": [
+    "GH",
+    "BV"
+  ],
+  "blue_players": [
+    "GH",
+    "BV"
+  ],
+  "red_current_player_index": 0,
+  "blue_current_player_index": 0,
+  "current_round": 3,
+  "total_rounds": 2,
+  "current_passage": 1,
+  "used_questions": [
+    "histoire_30",
+    "histoire_14",
+    "histoire_38",
+    "histoire_15",
+    "geographie_2",
+    "histoire_18"
+  ],
+  "bonus_points": null,
+  "bonus_round_active": false,
+  "bonus_red_answered": false,
+  "bonus_blue_answered": false
+}

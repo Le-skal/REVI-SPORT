@@ -1,0 +1,62 @@
+{
+  "red_score": 4,
+  "blue_score": 3,
+  "events": [
+    {
+      "time": "00:00",
+      "team": "both",
+      "player": "Équipe Rouge vs Équipe Bleue",
+      "action": "Début du match",
+      "result": "⚽",
+      "result_class": "neutral"
+    },
+    {
+      "time": "00:14",
+      "team": "red",
+      "player": "GH",
+      "action": "Question Histoire",
+      "result": "0 pts",
+      "result_class": "incorrect"
+    },
+    {
+      "time": "06:33",
+      "team": "blue",
+      "player": "GH",
+      "action": "Question Histoire",
+      "result": "0 pts",
+      "result_class": "incorrect"
+    },
+    {
+      "time": "06:41",
+      "team": "red",
+      "player": "BV",
+      "action": "Question Histoire",
+      "result": "0 pts",
+      "result_class": "incorrect"
+    },
+    {
+      "time": "06:54",
+      "team": "blue",
+      "player": "BV",
+      "action": "Question Histoire",
+      "result": "+3 pts",
+      "result_class": "correct"
+    },
+    {
+      "time": "07:30",
+      "team": "red",
+      "player": "GH",
+      "action": "Question Bonus",
+      "result": "+4 pts",
+      "result_class": "correct"
+    },
+    {
+      "time": "07:45",
+      "team": "blue",
+      "player": "GH",
+      "action": "Question Bonus",
+      "result": "0 pts",
+      "result_class": "incorrect"
+    }
+  ]
+}

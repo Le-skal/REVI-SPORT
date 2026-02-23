@@ -175,7 +175,7 @@
             ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 12,
@@ -193,7 +193,7 @@
             ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 13,
@@ -229,7 +229,7 @@
             ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 15,
@@ -289,7 +289,7 @@
             "correctAnswer": 0,
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "link"
+            "gameType": "autre"
         },
         {
             "id": 19,
@@ -319,7 +319,7 @@
             "correctAnswer": 0,
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "text-input"
+            "gameType": "autre"
         },
         {
             "id": 21,
@@ -415,7 +415,7 @@
             "correctAnswer": 0,
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 27,

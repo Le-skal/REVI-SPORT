@@ -380,6 +380,104 @@
             hideKeypad();
         }
 
+        // ===== DRAG TO SCROLL (for touchscreens detected as mouse) =====
+        (function() {
+            const scrollContainer = document.querySelector('.configuration-timings-screen');
+            let isDown = false;
+            let startY;
+            let scrollTop;
+            let velocity = 0;
+            let lastY;
+            let lastTime;
+            let animationId;
+
+            scrollContainer.addEventListener('mousedown', (e) => {
+                // Don't interfere with buttons, inputs, etc.
+                if (e.target.closest('button, input, .keypad-overlay')) return;
+
+                isDown = true;
+                scrollContainer.style.cursor = 'grabbing';
+                startY = e.pageY - scrollContainer.offsetTop;
+                scrollTop = scrollContainer.scrollTop;
+                lastY = e.pageY;
+                lastTime = Date.now();
+                velocity = 0;
+
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+            });
+
+            scrollContainer.addEventListener('mouseleave', () => {
+                if (isDown) {
+                    isDown = false;
+                    scrollContainer.style.cursor = '';
+                    startMomentumScroll();
+                }
+            });
+
+            scrollContainer.addEventListener('mouseup', () => {
+                if (isDown) {
+                    isDown = false;
+                    scrollContainer.style.cursor = '';
+                    startMomentumScroll();
+                }
+            });
+
+            scrollContainer.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+
+                const y = e.pageY - scrollContainer.offsetTop;
+                const walk = (y - startY) * 1.5;
+                scrollContainer.scrollTop = scrollTop - walk;
+
+                const now = Date.now();
+                const dt = now - lastTime;
+                if (dt > 0) {
+                    velocity = (e.pageY - lastY) / dt;
+                }
+                lastY = e.pageY;
+                lastTime = now;
+            });
+
+            function startMomentumScroll() {
+                const friction = 0.95;
+                const minVelocity = 0.1;
+
+                function momentumLoop() {
+                    if (Math.abs(velocity) < minVelocity) {
+                        return;
+                    }
+                    scrollContainer.scrollTop -= velocity * 15;
+                    velocity *= friction;
+                    animationId = requestAnimationFrame(momentumLoop);
+                }
+
+                if (Math.abs(velocity) > minVelocity) {
+                    momentumLoop();
+                }
+            }
+
+            // Touch events for better compatibility
+            let touchStartY;
+            let touchScrollTop;
+
+            scrollContainer.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].pageY;
+                touchScrollTop = scrollContainer.scrollTop;
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+            }, { passive: true });
+
+            scrollContainer.addEventListener('touchmove', (e) => {
+                const touchY = e.touches[0].pageY;
+                const walk = touchStartY - touchY;
+                scrollContainer.scrollTop = touchScrollTop + walk;
+            }, { passive: true });
+        })();
+
     </script>
 
     <!-- Keypad Overlay -->

@@ -1,5 +1,27 @@
 /* ===== STYLE PAGE LEVEL SELECTION ===== */
 
+/* Disable text/image selection for drag scrolling */
+.level-selection-screen,
+.level-selection-screen * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
+/* Allow selection in input fields */
+.level-selection-screen input {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
 .level-selection-screen {
     align-items: flex-start;
     gap: 0;

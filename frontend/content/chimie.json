@@ -246,7 +246,7 @@
             "correctAnswer": 1,
             "theme": "chimie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 17,
@@ -264,7 +264,7 @@
             ],
             "theme": "chimie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 18,
@@ -354,7 +354,7 @@
             "correctAnswer": 3,
             "theme": "chimie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "link"
+            "gameType": "autre"
         },
         {
             "id": 24,

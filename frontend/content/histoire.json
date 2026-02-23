@@ -337,7 +337,7 @@
             "correctAnswer": 1,
             "theme": "histoire",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 23,
@@ -352,7 +352,7 @@
             "correctAnswer": 2,
             "theme": "histoire",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "text-input"
+            "gameType": "autre"
         },
         {
             "id": 24,

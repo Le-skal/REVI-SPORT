@@ -28,7 +28,7 @@
             "correctAnswer": 0,
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "text-input"
+            "gameType": "autre"
         },
         {
             "id": 3,
@@ -58,7 +58,7 @@
             "correctAnswer": 0,
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "link"
+            "gameType": "autre"
         },
         {
             "id": 5,
@@ -73,7 +73,7 @@
             "correctAnswer": 0,
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "text-input"
+            "gameType": "autre"
         },
         {
             "id": 6,
@@ -118,7 +118,7 @@
             "correctAnswer": 1,
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "link"
+            "gameType": "autre"
         },
         {
             "id": 9,
@@ -133,7 +133,7 @@
             "correctAnswer": 3,
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "link"
+            "gameType": "autre"
         },
         {
             "id": 10,
@@ -208,7 +208,7 @@
             "correctAnswer": 1,
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "link"
+            "gameType": "autre"
         },
         {
             "id": 15,
@@ -223,7 +223,7 @@
             "correctAnswer": 2,
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "link"
+            "gameType": "autre"
         },
         {
             "id": 16,
@@ -268,7 +268,7 @@
             "correctAnswer": 1,
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "order"
+            "gameType": "autre"
         },
         {
             "id": 19,
@@ -346,7 +346,7 @@
             "correctAnswer": 2,
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "text-input"
+            "gameType": "autre"
         },
         {
             "id": 24,
@@ -454,7 +454,7 @@
             "correctAnswer": 0,
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "text-input"
+            "gameType": "autre"
         },
         {
             "id": 31,
