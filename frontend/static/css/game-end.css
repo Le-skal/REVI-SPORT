@@ -75,7 +75,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    padding: 20px 12px;
+    padding: 0px 12px;
     gap: 20px;
 }
 
@@ -135,8 +135,8 @@
 
 .trophy,
 .cross {
-    width: 100% !important;
-    height: 100px !important;
+    width: 65% !important;
+    height: 65px !important;
     object-fit: contain;
 }
 
@@ -156,8 +156,8 @@
 
 .court-avatar {
     position: absolute;
-    width: 75px !important;
-    height: 75px !important;
+    width: 50px !important;
+    height: 50px !important;
     border-radius: 50%;
     object-fit: cover;
     z-index: 5;
@@ -243,7 +243,7 @@
     font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 27px;
     text-align: center;
     color: #FFFFFF;
@@ -280,7 +280,7 @@
 .mvp-card {
     background: #2C2C3A;
     border-radius: 12px;
-    padding: 16px;
+    padding: 16px 2px;
 }
 
 .mvp-title {
@@ -587,4 +587,338 @@
     font-weight: 600;
     color: #ffffff;
     white-space: nowrap;
+}
+
+/* ===== END BUTTONS CONTAINER ===== */
+.end-buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 92%;
+    margin: 16px auto 0;
+}
+
+.end-buttons-container .close-match-btn {
+    width: 100%;
+    margin: 0;
+}
+
+/* ===== BOUTON BONUS ===== */
+.bonus-match-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background: #C99F17;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 28px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.bonus-match-btn:hover {
+    background: #B08E14;
+    transform: scale(1.02);
+}
+
+.bonus-match-btn .btn-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.bonus-match-btn .btn-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #111117;
+    white-space: nowrap;
+}
+
+/* ===== BONUS POPUP ===== */
+.bonus-popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.bonus-popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    gap: 20px;
+    background: #FFFFFF;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 30px 30px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 25px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+}
+
+.bonus-popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #6B7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+}
+
+.bonus-popup-close:hover {
+    background: #F3F4F6;
+    color: #111117;
+}
+
+.bonus-popup-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #C99F17;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+}
+
+.bonus-popup-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    color: #374151;
+    margin: 0;
+    text-align: center;
+}
+
+.bonus-popup-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #6B7280;
+    margin: 0;
+    text-align: center;
+}
+
+.bonus-popup-buttons {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+}
+
+.bonus-popup-btn {
+    flex: 1;
+    padding: 14px 24px;
+    border: 2px solid;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.bonus-popup-btn:hover {
+    transform: scale(1.03);
+}
+
+.bonus-no-btn {
+    background: #FFFFFF;
+    color: #374151;
+    border-color: #D1D5DB;
+}
+
+.bonus-no-btn:hover {
+    background: #F9FAFB;
+    border-color: #9CA3AF;
+}
+
+.bonus-yes-btn {
+    background: #C99F17;
+    color: #111117;
+    border-color: #C99F17;
+}
+
+.bonus-yes-btn:hover {
+    background: #B08E14;
+    border-color: #B08E14;
+}
+
+/* ===== KEYPAD OVERLAY ===== */
+.keypad-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.keypad-container {
+    background: #2C2C3A;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 90%;
+}
+
+.keypad-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.keypad-header h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.keypad-close {
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.keypad-close:hover {
+    transform: scale(1.1);
+    color: #C99F17;
+}
+
+.keypad-subtitle {
+    text-align: center;
+    color: #C99F17;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    margin: 0 0 16px 0;
+}
+
+.keypad-display {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.keypad-display input {
+    width: 100%;
+    height: 60px;
+    background: #1E1E2A;
+    border: 2px solid #3A3A4A;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    text-align: center;
+    padding: 0 16px;
+}
+
+.keypad-display input:focus {
+    outline: none;
+    border-color: #C99F17;
+}
+
+.keypad-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.keypad-btn {
+    height: 60px;
+    background: #3A3A4A;
+    border: none;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.keypad-btn:hover {
+    background: #4A4A5A;
+    transform: scale(1.05);
+}
+
+.keypad-btn:active {
+    transform: scale(0.95);
+}
+
+.keypad-btn.keypad-clear {
+    background: #E74C3C;
+    color: #FFFFFF;
+}
+
+.keypad-btn.keypad-clear:hover {
+    background: #C0392B;
+}
+
+.keypad-btn.keypad-backspace {
+    background: #F39C12;
+    color: #FFFFFF;
+}
+
+.keypad-btn.keypad-backspace:hover {
+    background: #E67E22;
+}
+
+.keypad-ok {
+    width: 100%;
+    height: 60px;
+    background: #27AE60;
+    border: none;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.keypad-ok:hover {
+    background: #229954;
+    transform: scale(1.02);
+}
+
+.keypad-ok:active {
+    transform: scale(0.98);
 }

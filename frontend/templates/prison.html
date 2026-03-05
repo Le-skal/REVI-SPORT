@@ -36,12 +36,18 @@
                 <span class="player-icon">👤</span>
                 <span id="playersCount">{{ players_on_terrain }}/{{ total_players }}</span> sur le terrain
             </div>
-            <div class="card court-card basketball-court">
-                <img src="{{ url_for('static', filename='img/basketball/court.png') }}" alt="Terrain">
-                <!-- Prison player icon -->
+            <div class="card court-card {% if mode == 'relais-biathlon' %}relais-court{% elif sport == 'basketball' %}basketball-court{% else %}field-court{% endif %}">
+                {% if mode == 'relais-biathlon' %}
+                <img src="{{ url_for('static', filename='img/basketball/relais-biathlon.png') }}" alt="Terrain relais-biathlon">
+                {% elif sport == 'basketball' %}
+                <img src="{{ url_for('static', filename='img/basketball/court.png') }}" alt="Terrain de basket">
+                <!-- Prison player icon (basketball only) -->
                 <div class="prison-player-icon" id="prisonPlayerIcon">
                     <img src="{{ url_for('static', filename='img/common/walking.png') }}" alt="En prison">
                 </div>
+                {% else %}
+                <img src="{{ url_for('static', filename='img/basketball/field.png') }}" alt="Terrain de {{ sport }}">
+                {% endif %}
             </div>
         </div>
 

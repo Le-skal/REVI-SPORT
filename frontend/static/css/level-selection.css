@@ -856,6 +856,13 @@
     opacity: 0.6;
 }
 
+.relais-section .duration-choice:not(.selected) label,
+.relais-section .duration-choice:not(.selected) .timing-input,
+.relais-section .duration-choice:not(.selected) .unit {
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
 .relais-section .duration-choice.selected {
     filter: none;
     opacity: 1;

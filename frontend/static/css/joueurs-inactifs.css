@@ -127,8 +127,8 @@
 
 .joueurs-inactifs-screen .court-avatar {
     position: absolute;
-    width: 72px !important;
-    height: 72px !important;
+    width: 60px !important;
+    height: 60px !important;
     border-radius: 50%;
     object-fit: cover;
     z-index: 5;

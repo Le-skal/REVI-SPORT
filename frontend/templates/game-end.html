@@ -317,10 +317,59 @@
             </div>
         </div>
 
-        <button class="close-match-btn" onclick="window.location.href='/home?end=true'">
-            <span class="flag-icon">🏁</span>
-            <span class="btn-text">Clôturer le match</span>
-        </button>
+        <div class="end-buttons-container">
+            <button class="bonus-match-btn" onclick="showBonusPopup()">
+                <span class="btn-icon">⭐</span>
+                <span class="btn-text">Question Bonus</span>
+            </button>
+            <button class="close-match-btn" onclick="window.location.href='/home?end=true'">
+                <span class="flag-icon">🏁</span>
+                <span class="btn-text">Clôturer le match</span>
+            </button>
+        </div>
+
+        <!-- Bonus Question Popup -->
+        <div id="bonusPopup" class="bonus-popup" style="display: none;">
+            <div class="bonus-popup-content">
+                <button class="bonus-popup-close" onclick="closeBonusPopup()">✕</button>
+                <div class="bonus-popup-icon">⭐</div>
+                <h2 class="bonus-popup-title">Question Bonus ?</h2>
+                <p class="bonus-popup-subtitle">Lancer une question de départage</p>
+                <div class="bonus-popup-buttons">
+                    <button class="bonus-popup-btn bonus-no-btn" onclick="closeBonusPopup()">Non</button>
+                    <button class="bonus-popup-btn bonus-yes-btn" onclick="showBonusKeypad()">Oui</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bonus Points Keypad -->
+        <div id="bonusKeypad" class="keypad-overlay" style="display: none;">
+            <div class="keypad-container">
+                <div class="keypad-header">
+                    <h3>Points de la question bonus</h3>
+                    <button class="keypad-close" onclick="hideBonusKeypad()">✕</button>
+                </div>
+                <p class="keypad-subtitle">Choisissez le nombre de points pour la question de départage</p>
+                <div class="keypad-display">
+                    <input type="text" id="bonusKeypadDisplay" readonly>
+                </div>
+                <div class="keypad-buttons">
+                    <button class="keypad-btn" onclick="bonusKeypadPress('1')">1</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('2')">2</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('3')">3</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('4')">4</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('5')">5</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('6')">6</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('7')">7</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('8')">8</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('9')">9</button>
+                    <button class="keypad-btn keypad-clear" onclick="bonusKeypadClear()">C</button>
+                    <button class="keypad-btn" onclick="bonusKeypadPress('0')">0</button>
+                    <button class="keypad-btn keypad-backspace" onclick="bonusKeypadBackspace()">⌫</button>
+                </div>
+                <button class="keypad-ok" onclick="bonusKeypadOk()">Lancer Question</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -332,6 +381,82 @@
                 const tabId = btn.getAttribute('data-tab');
                 document.getElementById('tab-' + tabId).classList.add('active');
             });
+        });
+
+        // ===== BONUS POPUP FUNCTIONS =====
+        function showBonusPopup() {
+            document.getElementById('bonusPopup').style.display = 'flex';
+        }
+
+        function closeBonusPopup() {
+            document.getElementById('bonusPopup').style.display = 'none';
+        }
+
+        function showBonusKeypad() {
+            closeBonusPopup();
+            document.getElementById('bonusKeypad').style.display = 'flex';
+            document.getElementById('bonusKeypadDisplay').value = '';
+        }
+
+        function hideBonusKeypad() {
+            document.getElementById('bonusKeypad').style.display = 'none';
+        }
+
+        function bonusKeypadPress(digit) {
+            const display = document.getElementById('bonusKeypadDisplay');
+            if (display.value.length < 2) {
+                display.value += digit;
+            }
+        }
+
+        function bonusKeypadBackspace() {
+            const display = document.getElementById('bonusKeypadDisplay');
+            display.value = display.value.slice(0, -1);
+        }
+
+        function bonusKeypadClear() {
+            document.getElementById('bonusKeypadDisplay').value = '';
+        }
+
+        function bonusKeypadOk() {
+            const points = document.getElementById('bonusKeypadDisplay').value;
+            if (points && parseInt(points) > 0) {
+                // Save bonus points and start bonus round
+                fetch('/save-game-setup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        bonus_points: parseInt(points),
+                        bonus_round_active: true,
+                        bonus_red_answered: false,
+                        bonus_blue_answered: false
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        hideBonusKeypad();
+                        // Start with red team
+                        window.location.href = '/bracelet?team=red&bonus=true';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving bonus setup:', error);
+                });
+            }
+        }
+
+        // Close popups on overlay click
+        document.getElementById('bonusPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeBonusPopup();
+            }
+        });
+
+        document.getElementById('bonusKeypad').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideBonusKeypad();
+            }
         });
     </script>
 </body>

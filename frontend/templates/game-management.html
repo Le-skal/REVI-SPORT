@@ -39,8 +39,9 @@
 
         <!-- Timer and Controls -->
         <div class="timer-section">
-            <button class="control-btn prolonger-btn" aria-label="Prolonger">
-                <img src="{{ url_for('static', filename='img/game-management/prolonger.png') }}" alt="Prolonger">
+            <button class="control-btn prolonger-btn" aria-label="Changer la limite">
+                <span class="prolonger-emoji">⏱️</span>
+                <span class="prolonger-text">Limite</span>
             </button>
 
             <div class="timer-display">
@@ -54,23 +55,35 @@
             </button>
         </div>
 
-        <!-- Court/Field -->
-        <div
-            class="card court-card {% if mode == 'relais-biathlon' %}relais-court{% elif sport == 'basketball' %}basketball-court{% else %}field-court{% endif %}">
-            {% if mode == 'relais-biathlon' %}
-            <img src="{{ url_for('static', filename='img/basketball/relais-biathlon.png') }}"
-                alt="Terrain relais-biathlon">
-            {% elif sport == 'basketball' %}
-            <img src="{{ url_for('static', filename='img/basketball/court.png') }}" alt="Terrain de basket">
-            {% else %}
-            <img src="{{ url_for('static', filename='img/basketball/field.png') }}" alt="Terrain de {{ sport }}">
+        <!-- Court/Field with Goal Buttons -->
+        <div class="court-wrapper">
+            {% if mode != 'relais-biathlon' %}
+            <!-- Bouton but équipe rouge (gauche) -->
+            <button class="goal-btn red-goal-btn" onclick="openGoalPopup('red')"></button>
             {% endif %}
-            <img class="court-avatar red-avatar"
-                src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar_id ~ '.png') }}"
-                alt="Avatar équipe rouge">
-            <img class="court-avatar blue-avatar"
-                src="{{ url_for('static', filename='img/avatars/avatar' ~ blue_avatar_id ~ '.png') }}"
-                alt="Avatar équipe bleue">
+
+            <div
+                class="card court-card {% if mode == 'relais-biathlon' %}relais-court{% elif sport == 'basketball' %}basketball-court{% else %}field-court{% endif %}">
+                {% if mode == 'relais-biathlon' %}
+                <img src="{{ url_for('static', filename='img/basketball/relais-biathlon.png') }}"
+                    alt="Terrain relais-biathlon">
+                {% elif sport == 'basketball' %}
+                <img src="{{ url_for('static', filename='img/basketball/court.png') }}" alt="Terrain de basket">
+                {% else %}
+                <img src="{{ url_for('static', filename='img/basketball/field.png') }}" alt="Terrain de {{ sport }}">
+                {% endif %}
+                <img class="court-avatar red-avatar"
+                    src="{{ url_for('static', filename='img/avatars/avatar' ~ red_avatar_id ~ '.png') }}"
+                    alt="Avatar équipe rouge">
+                <img class="court-avatar blue-avatar"
+                    src="{{ url_for('static', filename='img/avatars/avatar' ~ blue_avatar_id ~ '.png') }}"
+                    alt="Avatar équipe bleue">
+            </div>
+
+            {% if mode != 'relais-biathlon' %}
+            <!-- Bouton but équipe bleue (droite) -->
+            <button class="goal-btn blue-goal-btn" onclick="openGoalPopup('blue')"></button>
+            {% endif %}
         </div>
 
         <!-- Tabs Section -->
@@ -196,6 +209,75 @@
                     <button class="keypad-btn keypad-backspace" onclick="bonusKeypadBackspace()">⌫</button>
                 </div>
                 <button class="keypad-ok" onclick="bonusKeypadOk()">Lancer Question</button>
+            </div>
+        </div>
+
+        <!-- Pause Menu Popup -->
+        <div id="pauseMenuPopup" class="goal-popup" style="display: none;">
+            <div class="goal-popup-content pause-menu-content">
+                <button class="goal-popup-close" onclick="closePauseMenu()">✕</button>
+                <h2 class="goal-popup-title" style="color: #374151;">Options</h2>
+                <div class="pause-menu-buttons">
+                    <button class="pause-menu-btn pause-btn" onclick="togglePause()">
+                        <span class="pause-menu-icon" id="pauseMenuIcon">⏸️</span>
+                        <span class="pause-menu-text" id="pauseMenuText">Pause</span>
+                    </button>
+                    <button class="pause-menu-btn reduce-btn" onclick="showReduceKeypad()">
+                        <span class="pause-menu-icon">⏪</span>
+                        <span class="pause-menu-text">Réduire le temps</span>
+                    </button>
+                    <button class="pause-menu-btn stop-btn" onclick="stopMatch()">
+                        <span class="pause-menu-icon">🛑</span>
+                        <span class="pause-menu-text">Arrêter la partie</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reduce Time Keypad -->
+        <div id="reduceKeypad" class="keypad-overlay" style="display: none;">
+            <div class="keypad-container">
+                <div class="keypad-header">
+                    <h3>Réduire (minutes)</h3>
+                    <button class="keypad-close" onclick="hideReduceKeypad()">✕</button>
+                </div>
+                <div class="quick-options">
+                    <button class="quick-option-btn" onclick="quickReduce(1)">-1 min</button>
+                    <button class="quick-option-btn" onclick="quickReduce(5)">-5 min</button>
+                    <button class="quick-option-btn" onclick="quickReduce(10)">-10 min</button>
+                    <button class="quick-option-btn" onclick="quickReduce(15)">-15 min</button>
+                </div>
+                <div class="keypad-display">
+                    <input type="text" id="reduceKeypadDisplay" readonly>
+                </div>
+                <div class="keypad-buttons">
+                    <button class="keypad-btn" onclick="reduceKeypadPress('1')">1</button>
+                    <button class="keypad-btn" onclick="reduceKeypadPress('2')">2</button>
+                    <button class="keypad-btn" onclick="reduceKeypadPress('3')">3</button>
+                    <button class="keypad-btn" onclick="reduceKeypadPress('4')">4</button>
+                    <button class="keypad-btn" onclick="reduceKeypadPress('5')">5</button>
+                    <button class="keypad-btn" onclick="reduceKeypadPress('6')">6</button>
+                    <button class="keypad-btn" onclick="reduceKeypadPress('7')">7</button>
+                    <button class="keypad-btn" onclick="reduceKeypadPress('8')">8</button>
+                    <button class="keypad-btn" onclick="reduceKeypadPress('9')">9</button>
+                    <button class="keypad-btn keypad-clear" onclick="reduceKeypadClear()">C</button>
+                    <button class="keypad-btn" onclick="reduceKeypadPress('0')">0</button>
+                    <button class="keypad-btn keypad-backspace" onclick="reduceKeypadBackspace()">⌫</button>
+                </div>
+                <button class="keypad-ok" onclick="reduceKeypadOk()">Réduire</button>
+            </div>
+        </div>
+
+        <!-- Goal Popup - Sélection du joueur -->
+        <div id="goalPopup" class="goal-popup" style="display: none;">
+            <div class="goal-popup-content">
+                <button class="goal-popup-close" onclick="closeGoalPopup()">✕</button>
+                <div class="goal-popup-icon" id="goalPopupIcon"></div>
+                <h2 class="goal-popup-title" id="goalPopupTitle">But pour l'équipe</h2>
+                <p class="goal-popup-subtitle" id="goalPopupSubtitle">Sélectionnez le joueur</p>
+                <div class="players-grid" id="playersGrid">
+                    <!-- Players will be loaded here -->
+                </div>
             </div>
         </div>
     </div>
@@ -346,57 +428,35 @@
         }
 
         function onTimerEnd() {
-            // Timer reached the target - you can add a sound or visual effect here
-            console.log('Timer ended!');
+            // Timer reached the target - end the game
+            console.log('Timer ended! Redirecting to game-end...');
+            window.location.href = '/game-end';
         }
 
         // Control buttons
         const tempsSupportBtn = document.querySelector('.temps-support-btn');
-        console.log('Temps support button:', tempsSupportBtn);
         if (tempsSupportBtn) {
             tempsSupportBtn.addEventListener('click', function () {
-                console.log('Temps support clicked, showing keypad');
-                showKeypad();
+                // Bracelets vibration - ne fait rien pour le moment
+                console.log('Temps support clicked - bracelets vibration (not implemented)');
             });
-        } else {
-            console.log('Temps support button not found');
         }
 
         const prolongerBtn = document.querySelector('.prolonger-btn');
-        console.log('Prolonger button:', prolongerBtn);
         if (prolongerBtn) {
             prolongerBtn.addEventListener('click', function () {
-                console.log('Prolonger clicked, showing bonus keypad');
-                showBonusKeypad();
+                // Prolonger = ajouter du temps au jeu
+                showKeypad();
             });
-        } else {
-            console.log('Prolonger button not found');
         }
 
-        // Pause/Play button toggle
+        // Pause button - ouvre le menu d'options
         const pausePlayBtn = document.getElementById('pausePlayBtn');
-        const pausePlayEmoji = pausePlayBtn.querySelector('.pause-play-emoji');
-        const pausePlayText = pausePlayBtn.querySelector('.pause-play-text');
         let isPaused = false;
         let pausedElapsedTime = 0;
 
         pausePlayBtn.addEventListener('click', function () {
-            if (isPaused) {
-                // Resume: recalculate startTimestamp based on paused elapsed time
-                startTimestamp = Date.now() - (pausedElapsedTime * 1000);
-                saveTimerState();
-                startTimer();
-                pausePlayEmoji.textContent = '⏸️';
-                pausePlayText.textContent = 'Pause';
-                isPaused = false;
-            } else {
-                // Pause: save current elapsed time
-                stopTimer();
-                pausedElapsedTime = (currentMinutes * 60) + currentSeconds;
-                pausePlayEmoji.textContent = '▶️';
-                pausePlayText.textContent = 'Play';
-                isPaused = true;
-            }
+            showPauseMenu();
         });
 
         // Keypad functions
@@ -450,6 +510,111 @@
             }
             hideKeypad();
         }
+
+        // ===== PAUSE MENU FUNCTIONS =====
+        function showPauseMenu() {
+            // Update pause button text based on current state
+            const pauseMenuIcon = document.getElementById('pauseMenuIcon');
+            const pauseMenuText = document.getElementById('pauseMenuText');
+            if (isPaused) {
+                pauseMenuIcon.textContent = '▶️';
+                pauseMenuText.textContent = 'Reprendre';
+            } else {
+                pauseMenuIcon.textContent = '⏸️';
+                pauseMenuText.textContent = 'Pause';
+            }
+            document.getElementById('pauseMenuPopup').style.display = 'flex';
+        }
+
+        function closePauseMenu() {
+            document.getElementById('pauseMenuPopup').style.display = 'none';
+        }
+
+        function togglePause() {
+            const pausePlayEmoji = document.querySelector('.pause-play-emoji');
+            const pausePlayText = document.querySelector('.pause-play-text');
+
+            if (isPaused) {
+                // Resume
+                startTimestamp = Date.now() - (pausedElapsedTime * 1000);
+                saveTimerState();
+                startTimer();
+                pausePlayEmoji.textContent = '⏸️';
+                pausePlayText.textContent = 'Pause';
+                isPaused = false;
+            } else {
+                // Pause
+                stopTimer();
+                pausedElapsedTime = (currentMinutes * 60) + currentSeconds;
+                pausePlayEmoji.textContent = '▶️';
+                pausePlayText.textContent = 'Play';
+                isPaused = true;
+            }
+            closePauseMenu();
+        }
+
+        function stopMatch() {
+            closePauseMenu();
+            window.location.href = '/game-end';
+        }
+
+        // ===== REDUCE TIME KEYPAD =====
+        function showReduceKeypad() {
+            closePauseMenu();
+            document.getElementById('reduceKeypad').style.display = 'flex';
+            document.getElementById('reduceKeypadDisplay').value = '';
+        }
+
+        function hideReduceKeypad() {
+            document.getElementById('reduceKeypad').style.display = 'none';
+        }
+
+        function reduceKeypadPress(digit) {
+            const display = document.getElementById('reduceKeypadDisplay');
+            if (display.value.length < 2) {
+                display.value += digit;
+            }
+        }
+
+        function reduceKeypadBackspace() {
+            const display = document.getElementById('reduceKeypadDisplay');
+            display.value = display.value.slice(0, -1);
+        }
+
+        function reduceKeypadClear() {
+            document.getElementById('reduceKeypadDisplay').value = '';
+        }
+
+        function reduceKeypadOk() {
+            const display = document.getElementById('reduceKeypadDisplay');
+            const value = parseInt(display.value);
+            if (value && value > 0) {
+                targetMinutes = Math.max(currentMinutes + 1, targetMinutes - value);
+                updateTargetDisplay();
+                saveTimerState();
+            }
+            hideReduceKeypad();
+        }
+
+        function quickReduce(minutes) {
+            targetMinutes = Math.max(currentMinutes + 1, targetMinutes - minutes);
+            updateTargetDisplay();
+            saveTimerState();
+            hideReduceKeypad();
+        }
+
+        // Close pause menu on overlay click
+        document.getElementById('pauseMenuPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePauseMenu();
+            }
+        });
+
+        document.getElementById('reduceKeypad').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideReduceKeypad();
+            }
+        });
 
         // Bonus Question Keypad Functions
         function showBonusKeypad() {
@@ -523,6 +688,217 @@
         updateTimerDisplay();
         updateTargetDisplay();
         startTimer();
+
+        // ===== DRAG TO SCROLL for events table =====
+        (function() {
+            const scrollContainer = document.querySelector('.table-body');
+            if (!scrollContainer) return;
+
+            let isDown = false;
+            let startY;
+            let scrollTop;
+            let velocity = 0;
+            let lastY;
+            let lastTime;
+            let animationId;
+
+            scrollContainer.addEventListener('mousedown', (e) => {
+                isDown = true;
+                scrollContainer.style.cursor = 'grabbing';
+                startY = e.pageY - scrollContainer.offsetTop;
+                scrollTop = scrollContainer.scrollTop;
+                lastY = e.pageY;
+                lastTime = Date.now();
+                velocity = 0;
+
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+            });
+
+            scrollContainer.addEventListener('mouseleave', () => {
+                if (isDown) {
+                    isDown = false;
+                    scrollContainer.style.cursor = '';
+                    startMomentumScroll();
+                }
+            });
+
+            scrollContainer.addEventListener('mouseup', () => {
+                if (isDown) {
+                    isDown = false;
+                    scrollContainer.style.cursor = '';
+                    startMomentumScroll();
+                }
+            });
+
+            scrollContainer.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+
+                const y = e.pageY - scrollContainer.offsetTop;
+                const walk = (y - startY) * 1.5;
+                scrollContainer.scrollTop = scrollTop - walk;
+
+                const now = Date.now();
+                const dt = now - lastTime;
+                if (dt > 0) {
+                    velocity = (e.pageY - lastY) / dt;
+                }
+                lastY = e.pageY;
+                lastTime = now;
+            });
+
+            function startMomentumScroll() {
+                const friction = 0.95;
+                const minVelocity = 0.1;
+
+                function momentumLoop() {
+                    if (Math.abs(velocity) < minVelocity) {
+                        return;
+                    }
+                    scrollContainer.scrollTop -= velocity * 15;
+                    velocity *= friction;
+                    animationId = requestAnimationFrame(momentumLoop);
+                }
+
+                if (Math.abs(velocity) > minVelocity) {
+                    momentumLoop();
+                }
+            }
+
+            // Touch events for mobile
+            let touchStartY;
+            let touchScrollTop;
+
+            scrollContainer.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].pageY;
+                touchScrollTop = scrollContainer.scrollTop;
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+            }, { passive: true });
+
+            scrollContainer.addEventListener('touchmove', (e) => {
+                const touchY = e.touches[0].pageY;
+                const walk = touchStartY - touchY;
+                scrollContainer.scrollTop = touchScrollTop + walk;
+            }, { passive: true });
+        })();
+
+        // ===== GOAL POPUP FUNCTIONS =====
+        let currentGoalTeam = null;
+        let redPlayers = [];
+        let bluePlayers = [];
+
+        // Load players on page load
+        async function loadPlayers() {
+            try {
+                const [redResponse, blueResponse] = await Promise.all([
+                    fetch('/get-red-team'),
+                    fetch('/get-blue-team')
+                ]);
+
+                if (redResponse.ok) {
+                    const redData = await redResponse.json();
+                    redPlayers = redData.players || [];
+                }
+                if (blueResponse.ok) {
+                    const blueData = await blueResponse.json();
+                    bluePlayers = blueData.players || [];
+                }
+            } catch (error) {
+                console.error('Error loading players:', error);
+            }
+        }
+
+        function openGoalPopup(team) {
+            currentGoalTeam = team;
+            const popup = document.getElementById('goalPopup');
+            const title = document.getElementById('goalPopupTitle');
+            const icon = document.getElementById('goalPopupIcon');
+            const grid = document.getElementById('playersGrid');
+
+            const players = team === 'red' ? redPlayers : bluePlayers;
+            const teamName = team === 'red' ? 'Rouge' : 'Bleue';
+            const teamColor = team === 'red' ? '#BA4A4A' : '#4A80BA';
+
+            // Sport-specific scoring term
+            const sport = '{{ sport }}';
+            const scoringTerms = {
+                'basketball': 'Panier',
+                'rugby': 'Essai',
+                'ultimate': 'Point',
+                'handball': 'But',
+                'football': 'But',
+                'hockey': 'But'
+            };
+            const scoringTerm = scoringTerms[sport] || 'Point';
+
+            title.textContent = `${scoringTerm} pour l'équipe ${teamName}`;
+            title.style.color = teamColor;
+            icon.style.background = teamColor;
+
+            // Generate player buttons
+            grid.innerHTML = players.map(player => `
+                <button class="player-btn ${team}-player" onclick="registerGoal('${player}')">
+                    ${player}
+                </button>
+            `).join('');
+
+            popup.style.display = 'flex';
+        }
+
+        function closeGoalPopup() {
+            document.getElementById('goalPopup').style.display = 'none';
+            currentGoalTeam = null;
+        }
+
+        async function registerGoal(playerName) {
+            // Get current time from localStorage (like the timer)
+            let currentTime = "00:00";
+            const saved = localStorage.getItem('gameTimer');
+            if (saved) {
+                const state = JSON.parse(saved);
+                if (state.startTimestamp) {
+                    const elapsed = Math.floor((Date.now() - state.startTimestamp) / 1000);
+                    const mins = Math.floor(elapsed / 60);
+                    const secs = elapsed % 60;
+                    currentTime = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                }
+            }
+
+            try {
+                // Save the goal event
+                const response = await fetch('/save-goal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        team: currentGoalTeam,
+                        player_name: playerName,
+                        current_time: currentTime
+                    })
+                });
+
+                if (response.ok) {
+                    // Reload page to show updated score and event
+                    closeGoalPopup();
+                    window.location.reload();
+                }
+            } catch (error) {
+                console.error('Error registering goal:', error);
+            }
+        }
+
+        // Close popup on overlay click
+        document.getElementById('goalPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeGoalPopup();
+            }
+        });
+
+        // Load players when page loads
+        loadPlayers();
     </script>
 </body>
 

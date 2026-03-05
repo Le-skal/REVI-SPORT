@@ -135,11 +135,19 @@
                             alt="Double point">
                     </button>
                     {% endif %}
+                    {% if game_mode == 'relais-biathlon' %}
+                    <button class="joker-selection-btn" data-joker="double-penalite"
+                        onclick="selectBeforeJoker('double-penalite')" id="jokerDoublePenalite">
+                        <img src="{{ url_for('static', filename='img/action-buttons/double-penalite.png') }}"
+                            alt="Double pénalité">
+                    </button>
+                    {% else %}
                     <button class="joker-selection-btn" data-joker="double-prison"
                         onclick="selectBeforeJoker('double-prison')" id="jokerDoublePrison">
                         <img src="{{ url_for('static', filename='img/action-buttons/prison.png') }}"
                             alt="Double prison">
                     </button>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -200,7 +208,7 @@
 
             // Before-question jokers depend on game mode
             const beforeJokers = gameMode === 'relais-biathlon'
-                ? ['theme', 'team', 'double-passage', 'double-prison']
+                ? ['theme', 'team', 'double-passage', 'double-penalite']
                 : ['theme', 'team', 'double-point', 'double-prison'];
             let hasAvailableBeforeJoker = false;
 

@@ -1,6 +1,6 @@
 {
   "mode": "sport-collectif",
-  "sport": "basketball",
+  "sport": "handball",
   "themes": [
     "histoire",
     "geographie"
@@ -21,20 +21,30 @@
   "timeoutCount": 5,
   "prisonTime": 30,
   "answerTime": 30,
-  "sportPoints": 3,
-  "duelPoints": 3,
+  "sportPoints": 1,
+  "duelPoints": 2,
   "current_team": "red",
-  "red_jokers_used": [],
-  "blue_jokers_used": [],
-  "double_points_active": null,
-  "prison_pending": null,
+  "red_jokers_used": [
+    "double-point",
+    "double-prison"
+  ],
+  "blue_jokers_used": [
+    "double-point",
+    "double-prison"
+  ],
+  "double_points_active": "blue",
+  "prison_pending": {
+    "team": "red",
+    "joker_used_by": "BV",
+    "joker_team": "blue"
+  },
   "passage_pending": null,
   "red_players": [
-    "GH",
-    "BV"
+    "HB",
+    "KN"
   ],
   "blue_players": [
-    "GH",
+    "NJ",
     "BV"
   ],
   "red_current_player_index": 0,
@@ -43,15 +53,9 @@
   "total_rounds": 2,
   "current_passage": 1,
   "used_questions": [
-    "histoire_30",
-    "histoire_14",
-    "histoire_38",
-    "histoire_15",
-    "geographie_2",
-    "histoire_18"
-  ],
-  "bonus_points": null,
-  "bonus_round_active": false,
-  "bonus_red_answered": false,
-  "bonus_blue_answered": false
+    "histoire_21",
+    "geographie_9",
+    "geographie_6",
+    "histoire_12"
+  ]
 }

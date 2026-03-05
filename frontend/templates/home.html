@@ -15,6 +15,16 @@
             <img src="{{ url_for('static', filename='img/loading/logo.png') }}" alt="Révi'Sport logo">
         </div>
         <div class="progress-bar" id="progressBar"></div>
+
+        <!-- Boutons fin de match -->
+        <div class="end-buttons" id="endButtons" style="display: none;">
+            <button class="end-btn restart-btn" onclick="restartMatch()">
+                <span class="btn-text">Relancer la partie</span>
+            </button>
+            <button class="end-btn new-btn" onclick="newMatch()">
+                <span class="btn-text">Nouvelle partie</span>
+            </button>
+        </div>
     </div>
 
     <script>
@@ -22,13 +32,24 @@
         const isEnd = urlParams.get('end') === 'true';
 
         if (isEnd) {
-            // Mode fin de match: cacher la barre et rester sur la page
+            // Mode fin de match: cacher la barre et afficher les boutons
             document.getElementById('progressBar').style.display = 'none';
+            document.getElementById('endButtons').style.display = 'flex';
         } else {
             // Mode normal: rediriger après 2 secondes
             setTimeout(() => {
                 window.location.href = "/mode";
             }, 2000);
+        }
+
+        function restartMatch() {
+            // Relancer avec les mêmes configs -> recapitulatif
+            window.location.href = '/recapitulatif';
+        }
+
+        function newMatch() {
+            // Nouvelle partie -> reset tout
+            window.location.href = '/';
         }
     </script>
 </body>

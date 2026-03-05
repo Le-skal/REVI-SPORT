@@ -50,9 +50,9 @@ body {
   justify-content: center;
 }
 
-/* Conteneur écran 768x1024 (Portrait - Vertical) */
+/* Conteneur écran 600x1024 (Portrait - Vertical) */
 .screen-container {
-  width: 768px;
+  width: 600px;
   height: 1024px;
   background-color: #111117;
   border: 3px solid #f0c40000;
@@ -60,11 +60,18 @@ body {
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  /* cursor: none; */
 }
+
+/* Hide cursor on all elements */
+/* .screen-container,
+.screen-container * {
+  cursor: none !important;
+} */
 
 /* Texte dimension en haut */
 .screen-container::before {
-  content: "768 x 1024";
+  content: "600 x 1024";
   position: absolute;
   top: 5px;
   left: 50%;

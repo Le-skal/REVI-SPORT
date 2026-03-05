@@ -581,6 +581,22 @@ def lancement():
     joker_player = request.args.get("joker_player", "")
     joker_name = request.args.get("joker_name", "Joker C - Passage supplémentaire")
 
+    # Check if this is a physical penalty (double-penalite joker)
+    is_physical_penalty = request.args.get("physical_penalty", "false").lower() == "true"
+    penalty_exercise = request.args.get("penalty_exercise", "")
+    penalty_reps = request.args.get("penalty_reps", "")
+
+    # Map exercise name to display title
+    penalty_titles = {
+        "gainage": "Position de gainage",
+        "squat": "Squat",
+        "parcours": "Parcours de pénalité",
+        "genoux": "Montée de genoux",
+        "jumpingjacks": "Jumping Jacks",
+        "pompes": "Pompes"
+    }
+    penalty_title = penalty_titles.get(penalty_exercise, penalty_exercise)
+
     # Parcours text
     parcours_texts = {
         "1": "Premier parcours",
@@ -679,6 +695,10 @@ def lancement():
         team_score=team_score,
         target_score=target_score,
         game_time_minutes=game_time_minutes,
+        is_physical_penalty=is_physical_penalty,
+        penalty_exercise=penalty_exercise,
+        penalty_title=penalty_title,
+        penalty_reps=penalty_reps,
     )
 
 
@@ -755,12 +775,14 @@ def prison():
     # Load prison time from game setup
     prison_time = 30
     sport = "basketball"
+    mode = "sport-collectif"
     if os.path.exists(GAME_SETUP_FILE):
         try:
             with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
                 game_setup = json.load(f)
                 prison_time = game_setup.get("prisonTime", 30)
                 sport = game_setup.get("sport", "basketball")
+                mode = game_setup.get("mode", "sport-collectif")
         except:
             pass
 
@@ -777,6 +799,7 @@ def prison():
         reason=reason,
         prison_time=prison_time,
         sport=sport,
+        mode=mode,
         players=players,
         players_on_terrain=players_on_terrain,
         total_players=total_players,
@@ -1591,11 +1614,18 @@ def get_red_team():
         if os.path.exists(RED_TEAM_FILE):
             with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
                 red_team = json.load(f)
+                # Build players array from joueur_1, joueur_2, etc.
+                players = []
+                for i in range(1, 11):
+                    player = red_team.get(f"joueur_{i}")
+                    if player:
+                        players.append(player)
+                red_team["players"] = players
                 return jsonify(red_team)
         else:
-            return jsonify({}), 404
+            return jsonify({"players": []}), 404
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str(e), "players": []}), 500
 
 
 @app.route("/get-blue-team")
@@ -1605,11 +1635,18 @@ def get_blue_team():
         if os.path.exists(BLUE_TEAM_FILE):
             with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
                 blue_team = json.load(f)
+                # Build players array from joueur_1, joueur_2, etc.
+                players = []
+                for i in range(1, 11):
+                    player = blue_team.get(f"joueur_{i}")
+                    if player:
+                        players.append(player)
+                blue_team["players"] = players
                 return jsonify(blue_team)
         else:
-            return jsonify({}), 404
+            return jsonify({"players": []}), 404
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str(e), "players": []}), 500
 
 
 @app.route("/save-red-avatar", methods=["POST"])
@@ -1811,6 +1848,8 @@ def init_game():
 
         # Créer game-management.json avec l'event de début
         game_management_file = os.path.join(DATA_DIR, "game-management.json")
+        game_mode = game_setup.get("mode", "sport-collectif")
+        start_result = "🏃 Parcours en cours" if game_mode == "relais-biathlon" else "🎯 Match en cours"
         game_management_data = {
             "red_score": 0,
             "blue_score": 0,
@@ -1820,7 +1859,7 @@ def init_game():
                     "team": "both",
                     "player": f"{red_team_name} vs {blue_team_name}",
                     "action": "Début du match",
-                    "result": "⚽",
+                    "result": start_result,
                     "result_class": "neutral"
                 }
             ]
@@ -1830,6 +1869,71 @@ def init_game():
             json.dump(game_management_data, f, ensure_ascii=False, indent=2)
 
         return jsonify({"success": True, "message": "Game initialized"})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/save-goal", methods=["POST"])
+def save_goal():
+    """Sauvegarde un but/panier/essai marqué par un joueur"""
+    try:
+        data = request.get_json()
+        team = data.get("team", "red")
+        player_name = data.get("player_name", "Joueur")
+        current_time = data.get("current_time", "00:00")
+
+        # Charger game_setup pour obtenir le sport et sportPoints
+        sport = "basketball"
+        sport_points = 1
+        if os.path.exists(GAME_SETUP_FILE):
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                sport = game_setup.get("sport", "basketball")
+                sport_points = game_setup.get("sportPoints", 1)
+
+        # Action selon le sport
+        sport_actions = {
+            "basketball": "Panier",
+            "rugby": "Essai",
+            "ultimate": "Point",
+            "handball": "But",
+            "football": "But",
+            "hockey": "But"
+        }
+        action = sport_actions.get(sport, "Point")
+
+        # Charger et mettre à jour game-management.json
+        game_management_file = os.path.join(DATA_DIR, "game-management.json")
+        if os.path.exists(game_management_file):
+            with open(game_management_file, "r", encoding="utf-8") as f:
+                game_data = json.load(f)
+        else:
+            game_data = {"red_score": 0, "blue_score": 0, "events": []}
+
+        # Mettre à jour le score
+        score_key = f"{team}_score"
+        game_data[score_key] = game_data.get(score_key, 0) + sport_points
+
+        # Ajouter l'event
+        event = {
+            "time": current_time,
+            "team": team,
+            "player": player_name,
+            "action": action,
+            "result": f"+{sport_points} pts",
+            "result_class": "correct"
+        }
+        game_data["events"].append(event)
+
+        # Sauvegarder
+        with open(game_management_file, "w", encoding="utf-8") as f:
+            json.dump(game_data, f, ensure_ascii=False, indent=2)
+
+        return jsonify({
+            "success": True,
+            "red_score": game_data.get("red_score", 0),
+            "blue_score": game_data.get("blue_score", 0)
+        })
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
@@ -1874,12 +1978,12 @@ def save_question_result():
 
         game_mode = game_setup.get("mode", "sport-collectif")
 
-        # Calculer les points (x2 si double_points actif pour cette équipe)
+        # Calculer les points
         points = base_points if correct else 0
-        if correct and game_setup.get("double_points_active") == team:
+
+        # Appliquer le joker double-point immédiatement si utilisé pour cette question
+        if correct and joker_used == "double-point":
             points = points * 2
-            # Désactiver après utilisation
-            game_setup["double_points_active"] = None
 
         # Si joker utilisé, l'ajouter à la liste des jokers utilisés par l'équipe
         if joker_used:
@@ -1898,14 +2002,19 @@ def save_question_result():
                     "joker_team": team
                 }
 
-            # Si joker double-point, activer pour cette équipe
-            if joker_used == "double-point":
-                game_setup["double_points_active"] = team
-
             # Si joker double-passage (mode relais-biathlon), marquer l'adversaire pour passage supplémentaire
             if joker_used == "double-passage":
                 opponent = "blue" if team == "red" else "red"
                 game_setup["passage_pending"] = {
+                    "team": opponent,
+                    "joker_used_by": player_name,
+                    "joker_team": team
+                }
+
+            # Si joker double-penalite (mode relais-biathlon), marquer l'adversaire pour pénalité physique
+            if joker_used == "double-penalite":
+                opponent = "blue" if team == "red" else "red"
+                game_setup["penalite_pending"] = {
                     "team": opponent,
                     "joker_used_by": player_name,
                     "joker_team": team
@@ -1930,6 +2039,7 @@ def save_question_result():
                 "double-prison": "Joker Prison",
                 "double-point": "Joker Double Points",
                 "double-passage": "Joker Passage en plus",
+                "double-penalite": "Joker Double Pénalité",
                 "theme": "Joker Thème",
                 "switch": "Joker Switch",
                 "indice": "Joker Indice",
@@ -1963,16 +2073,23 @@ def save_question_result():
         with open(game_management_file, "w", encoding="utf-8") as f:
             json.dump(game_data, f, ensure_ascii=False, indent=2)
 
-        # Mode bonus: logique simplifiée (red → blue → game-management)
+        # Mode bonus: premier qui répond correctement gagne
+        # Rouge passe en premier, si correct → fin, sinon bleu passe
         if is_bonus:
             if team == "red":
-                # Après red, c'est au tour de blue
-                next_destination = "/bracelet?team=blue&bonus=true"
+                if correct:
+                    # Rouge a répondu correctement → Rouge gagne, fin du bonus
+                    game_setup["bonus_round_active"] = False
+                    game_setup["bonus_points"] = None
+                    next_destination = "/game-end"
+                else:
+                    # Rouge a répondu incorrectement → Bleu passe
+                    next_destination = "/bracelet?team=blue&bonus=true"
             else:
-                # Après blue, round bonus terminé - reset et retour à game-management
+                # Après blue (correct ou non), round bonus terminé
                 game_setup["bonus_round_active"] = False
                 game_setup["bonus_points"] = None
-                next_destination = "/game-management?from_bonus=true"
+                next_destination = "/game-end"
 
             # Sauvegarder game_setup
             with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
@@ -2170,6 +2287,69 @@ def check_passage():
         })
     except Exception as e:
         return jsonify({"passage_pending": False, "error": str(e)})
+
+
+@app.route("/check-penalite")
+def check_penalite():
+    """Vérifie si une équipe doit effectuer une pénalité physique (mode relais-biathlon)"""
+    try:
+        team = request.args.get("team", "")
+
+        if not os.path.exists(GAME_SETUP_FILE):
+            return jsonify({"penalite_pending": False})
+
+        with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+            game_setup = json.load(f)
+
+        penalite_data = game_setup.get("penalite_pending")
+
+        # Gérer le format dict
+        if isinstance(penalite_data, dict):
+            penalite_pending = penalite_data.get("team") == team
+            joker_used_by = penalite_data.get("joker_used_by") if penalite_pending else None
+            joker_team = penalite_data.get("joker_team") if penalite_pending else None
+        else:
+            penalite_pending = penalite_data == team
+            joker_used_by = None
+            joker_team = None
+
+        # Get penalty exercise info if pending
+        penalty_exercise = None
+        penalty_reps = None
+        if penalite_pending:
+            # Get configured penalties and parcours type
+            penalties = game_setup.get("penalties", [])
+            parcours = game_setup.get("parcours", "motricite")
+
+            if penalties:
+                # Choose random penalty from configured ones
+                penalty_exercise = random.choice(penalties)
+
+                # Define reps/duration based on parcours type
+                penalty_info = {
+                    "gainage": {"motricite": "Durée de 10 s", "urbain": "Durée de 20 s"},
+                    "squat": {"motricite": "Durée de 10 s", "urbain": "Durée de 20 s"},
+                    "parcours": {"motricite": "Temps du parcours", "urbain": "Temps du parcours"},
+                    "genoux": {"motricite": "Durée de 10 s", "urbain": "Durée de 20 s"},
+                    "jumpingjacks": {"motricite": "15 répétitions", "urbain": "30 répétitions"},
+                    "pompes": {"motricite": "5 répétitions", "urbain": "10 répétitions"}
+                }
+                penalty_reps = penalty_info.get(penalty_exercise, {}).get(parcours, "")
+
+            # Clear penalite_pending
+            game_setup["penalite_pending"] = None
+            with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
+                json.dump(game_setup, f, ensure_ascii=False, indent=2)
+
+        return jsonify({
+            "penalite_pending": penalite_pending,
+            "joker_used_by": joker_used_by,
+            "joker_team": joker_team,
+            "penalty_exercise": penalty_exercise,
+            "penalty_reps": penalty_reps
+        })
+    except Exception as e:
+        return jsonify({"penalite_pending": False, "error": str(e)})
 
 
 @app.route("/remove-joker", methods=["POST"])

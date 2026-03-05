@@ -68,8 +68,8 @@
 
 .court-avatar {
   position: absolute;
-  width: 75px !important;
-  height: 75px !important;
+  width: 50px !important;
+  height: 50px !important;
   border-radius: 50%;
   object-fit: cover;
   z-index: 5;

@@ -75,7 +75,37 @@
 
         // Function to go to lancement (mode relais-biathlon)
         function goToLancement() {
-            // Check for passage_pending (joker Passage en plus)
+            // First check for penalite_pending (joker Double Pénalité)
+            fetch('/check-penalite?team=' + team)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.penalite_pending) {
+                        // Go directly to physical penalty page
+                        let penaliteUrl = `/lancement?team=${team}&parcours=${currentPassage}&physical_penalty=true`;
+                        if (data.joker_used_by) {
+                            penaliteUrl += `&joker_player=${encodeURIComponent(data.joker_used_by)}`;
+                        }
+                        penaliteUrl += `&joker_name=${encodeURIComponent('Joker Double Pénalité')}`;
+                        if (data.penalty_exercise) {
+                            penaliteUrl += `&penalty_exercise=${encodeURIComponent(data.penalty_exercise)}`;
+                        }
+                        if (data.penalty_reps) {
+                            penaliteUrl += `&penalty_reps=${encodeURIComponent(data.penalty_reps)}`;
+                        }
+                        window.location.href = penaliteUrl;
+                    } else {
+                        // Check for passage_pending (joker Passage en plus)
+                        checkPassagePending();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking penalite:', error);
+                    checkPassagePending();
+                });
+        }
+
+        // Check for passage pending (joker Passage en plus)
+        function checkPassagePending() {
             fetch('/check-passage?team=' + team)
                 .then(response => response.json())
                 .then(data => {

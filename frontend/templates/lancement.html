@@ -6,12 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/lancement.css') }}">
-    <title>{% if is_penalty %}Pénalité{% else %}Lancement{% endif %} - Révi'Sport</title>
+    <title>{% if is_physical_penalty %}Pénalité Physique{% elif is_penalty %}Pénalité{% else %}Lancement{% endif %} - Révi'Sport</title>
 </head>
 
 <body>
     <div class="screen-container lancement-screen">
-        {% if is_penalty %}
+        {% if is_physical_penalty %}
+        <!-- PHYSICAL PENALTY MODE (double-penalite joker) -->
+        <h1 class="parcours-title penalty-title {{ team }}-penalty">Pénalité physique pour l'équipe {{ 'bleue' if team == 'blue' else 'rouge' }} !</h1>
+
+        <!-- Penalty Info Section -->
+        <div class="penalty-info-section">
+            <img src="{{ url_for('static', filename='img/avatars/avatar' ~ avatar_id ~ '.png') }}"
+                alt="Avatar équipe" class="penalty-avatar">
+            <div class="penalty-player-card">
+                <h2 class="penalty-player-name">Joueur {{ player_name }}</h2>
+                <img src="{{ url_for('static', filename='img/configuration-relais/' ~ penalty_exercise ~ '.png') }}"
+                    alt="{{ penalty_exercise }}" class="joker-card-img">
+            </div>
+        </div>
+
+        <!-- Joker Info Text -->
+        <p class="joker-info-text">{{ joker_player }} a utilisé le {{ joker_name }}.</p>
+
+        <!-- Court -->
+        <div class="card court-card relais-court">
+            <img src="{{ url_for('static', filename='img/basketball/relais-biathlon.png') }}" alt="Terrain relais-biathlon">
+        </div>
+
+        <!-- Physical Penalty Action Section -->
+        <div class="penalty-action-section">
+            <img src="{{ url_for('static', filename='img/joueurs-inactifs/triangle.gif') }}" alt="Pénalité" class="triangle-gif">
+            <h2 class="penalty-action-title">{{ penalty_title }}</h2>
+            <p class="penalty-reps">{{ penalty_reps }}</p>
+            <button class="launch-btn penalty-btn" onclick="goToQuestion()">
+                Continuer
+            </button>
+        </div>
+
+        {% elif is_penalty %}
         <!-- PENALTY MODE -->
         <h1 class="parcours-title penalty-title {{ team }}-penalty">Pénalité pour l'équipe {{ 'bleue' if team == 'blue' else 'rouge' }} !</h1>
 
@@ -38,6 +71,7 @@
         <div class="penalty-action-section">
             <img src="{{ url_for('static', filename='img/joueurs-inactifs/triangle.gif') }}" alt="2ème tour" class="triangle-gif">
             <h2 class="penalty-action-title">Effectuez un parcours supplémentaire.</h2>
+            <p class="penalty-subtitle">Veuillez retourner au point de départ</p>
             <button class="launch-btn penalty-btn" onclick="launchQuestion()">
                 Lancer la question
             </button>
@@ -55,11 +89,10 @@
             <h2 class="team-player-text">{{ team_name }} - {{ player_name }}</h2>
         </div>
 
-        <!-- Félicitations Section -->
+        <!-- Progression Section -->
         <div class="felicitations-section">
-            <h2 class="felicitations-text">Félicitations, {{ player_name }}</h2>
             {% if duration_mode == 'passages' %}
-            <p class="etape-text">Étape {{ current_etape }}/{{ total_etapes }} terminée !</p>
+            <p class="etape-text">Étape {{ current_etape }}/{{ total_etapes }}</p>
             {% elif duration_mode == 'reponses' %}
             <p class="etape-text">Score : {{ team_score }}/{{ target_score }} points</p>
             {% elif duration_mode == 'time' %}
@@ -108,7 +141,39 @@
         function launchQuestion() {
             const team = '{{ team }}';
 
-            // First check if this team needs to go to prison
+            // First check if this team needs to do a physical penalty (double-penalite joker)
+            fetch('/check-penalite?team=' + team)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.penalite_pending) {
+                        // Go to physical penalty page
+                        let penaliteUrl = `/lancement?team=${team}&physical_penalty=true`;
+                        if (data.joker_used_by) {
+                            penaliteUrl += `&joker_player=${encodeURIComponent(data.joker_used_by)}`;
+                            penaliteUrl += `&joker_name=Joker Double Pénalité`;
+                        }
+                        if (data.penalty_exercise) {
+                            penaliteUrl += `&penalty_exercise=${encodeURIComponent(data.penalty_exercise)}`;
+                        }
+                        if (data.penalty_reps) {
+                            penaliteUrl += `&penalty_reps=${encodeURIComponent(data.penalty_reps)}`;
+                        }
+                        window.location.href = penaliteUrl;
+                    } else {
+                        // Check for prison
+                        checkPrison();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking penalite:', error);
+                    checkPrison();
+                });
+        }
+
+        function checkPrison() {
+            const team = '{{ team }}';
+
+            // Check if this team needs to go to prison
             fetch('/check-prison?team=' + team)
                 .then(response => response.json())
                 .then(data => {

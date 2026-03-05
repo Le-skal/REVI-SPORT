@@ -35,6 +35,9 @@
 .team-avatar {
     width: 60px;
     height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    flex-shrink: 0;
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid;
@@ -139,7 +142,7 @@
 
 .timer-display span#game-timer {
     font-family: 'Poppins', sans-serif;
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 700;
     color: #ffffff;
     letter-spacing: 2px;
@@ -178,8 +181,8 @@
 
 .court-avatar {
     position: absolute;
-    width: 72px !important;
-    height: 72px !important;
+    width: 50px !important;
+    height: 50px !important;
     border-radius: 50%;
     object-fit: cover;
     z-index: 5;
@@ -227,12 +230,16 @@
 .tabs-section {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 20px;
     width: 100%;
     padding: 10px 0;
 }
 
 .tab-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -241,9 +248,10 @@
 }
 
 .tab-btn img {
-    height: 60px;
+    height: 53px;
     width: auto;
     object-fit: contain;
+    display: block;
 }
 
 .tab-btn.active {
@@ -257,6 +265,9 @@
 
 /* Temps support button (action button, not a tab) */
 .temps-support-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -265,9 +276,10 @@
 }
 
 .temps-support-btn img {
-    height: 60px;
+    height: 53px;
     width: auto;
     object-fit: contain;
+    display: block;
 }
 
 .temps-support-btn:hover {
@@ -286,6 +298,20 @@
 
 .events-section.hidden {
     display: none;
+}
+
+/* Disable text/image selection for drag scrolling */
+.events-table,
+.events-table * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
 }
 
 .events-table {
@@ -314,7 +340,7 @@
     padding: 10px 12px;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 130%;
     color: #FFFFFF;
     border-top: 1px solid #5B5B5B;
@@ -330,6 +356,15 @@
     flex: 1;
     overflow-y: auto;
     max-height: 250px;
+    /* Support scroll tactile (swipe comme sur téléphone) */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+    cursor: grab;
+}
+
+.table-body:active {
+    cursor: grabbing;
 }
 
 .table-row {
@@ -347,7 +382,7 @@
     padding: 10px 12px;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
-    font-size: 15px;
+    font-size: 12px;
     line-height: 130%;
     color: #FFFFFF;
     border-top: 1px solid #5B5B5B;
@@ -682,6 +717,17 @@
 }
 
 /* ===== PAUSE/PLAY BUTTON ===== */
+.prolonger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 210px;
+    height: 45px;
+    background: #2C2C3A;
+    border-radius: 8px;
+}
+
 .pause-play-btn {
     display: flex;
     align-items: center;
@@ -706,4 +752,286 @@
     line-height: 30px;
     text-align: center;
     color: #FFFFFF;
+}
+
+.prolonger-emoji {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.prolonger-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+/* ===== COURT WRAPPER WITH GOAL BUTTONS ===== */
+.court-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.goal-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+}
+
+.goal-btn:hover {
+    transform: scale(1.1);
+}
+
+.goal-btn:active {
+    transform: scale(0.95);
+}
+
+.goal-icon {
+    font-size: 24px;
+}
+
+.red-goal-btn {
+    background: rgb(186, 74, 74);
+    box-shadow: 0 4px 12px rgba(186, 74, 74, 0.4);
+}
+
+.blue-goal-btn {
+    background: rgb(74, 128, 186);
+    box-shadow: 0 4px 12px rgba(74, 128, 186, 0.4);
+}
+
+/* ===== GOAL POPUP ===== */
+.goal-popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.goal-popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    gap: 20px;
+    background: #FFFFFF;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 30px 30px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 25px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+}
+
+.goal-popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #6B7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+}
+
+.goal-popup-close:hover {
+    background: #F3F4F6;
+    color: #111117;
+}
+
+.goal-popup-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+}
+
+.goal-popup-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    margin: 0;
+    text-align: center;
+}
+
+.goal-popup-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #6B7280;
+    margin: 0;
+}
+
+.players-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px;
+}
+
+.player-btn {
+    padding: 14px 16px;
+    border: 2px solid;
+    border-radius: 12px;
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.player-btn:hover {
+    transform: scale(1.03);
+}
+
+.player-btn:active {
+    transform: scale(0.97);
+}
+
+.player-btn.red-player {
+    border-color: rgb(186, 74, 74);
+    color: rgb(186, 74, 74);
+}
+
+.player-btn.red-player:hover {
+    background: rgba(186, 74, 74, 0.1);
+}
+
+.player-btn.blue-player {
+    border-color: rgb(74, 128, 186);
+    color: rgb(74, 128, 186);
+}
+
+.player-btn.blue-player:hover {
+    background: rgba(74, 128, 186, 0.1);
+}
+
+/* ===== PAUSE MENU ===== */
+.pause-menu-content {
+    gap: 24px;
+    background: #2C2C3A;
+    border: none;
+}
+
+.pause-menu-content .goal-popup-title {
+    color: #ffffff !important;
+}
+
+.pause-menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.pause-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 18px 24px;
+    border: 2px solid;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    background: transparent;
+}
+
+.pause-menu-btn:hover {
+    transform: scale(1.02);
+}
+
+.pause-menu-btn:active {
+    transform: scale(0.98);
+}
+
+.pause-menu-icon {
+    font-size: 28px;
+    width: 40px;
+    text-align: center;
+}
+
+.pause-menu-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.pause-btn {
+    border-color: #4A80BA;
+}
+
+.pause-btn:hover {
+    background: rgba(74, 128, 186, 0.15);
+}
+
+.pause-btn .pause-menu-text {
+    color: #4A80BA;
+}
+
+.reduce-btn {
+    border-color: #C99F17;
+}
+
+.reduce-btn:hover {
+    background: rgba(201, 159, 23, 0.15);
+}
+
+.reduce-btn .pause-menu-text {
+    color: #C99F17;
+}
+
+.stop-btn {
+    border-color: #BA4A4A;
+}
+
+.stop-btn:hover {
+    background: rgba(186, 74, 74, 0.15);
+}
+
+.stop-btn .pause-menu-text {
+    color: #BA4A4A;
+}
+
+.pause-menu-content .goal-popup-close {
+    color: #ffffff;
+}
+
+.pause-menu-content .goal-popup-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #C99F17;
 }
