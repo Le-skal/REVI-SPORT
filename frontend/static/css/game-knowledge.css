@@ -706,7 +706,7 @@
     border-color: #E0E0E0 !important;
 }
 
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
     .joker-popup-content {
         padding: 30px;
         gap: 24px;
@@ -738,4 +738,4 @@
     .joker-selection-btn span {
         font-size: 14px;
     }
-}
+} */

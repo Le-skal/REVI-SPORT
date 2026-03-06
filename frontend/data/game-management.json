@@ -1,0 +1,14 @@
+{
+  "red_score": 0,
+  "blue_score": 0,
+  "events": [
+    {
+      "time": "00:00",
+      "team": "both",
+      "player": "Équipe Rouge vs Équipe Bleue",
+      "action": "Début du match",
+      "result": "🎯 Match en cours",
+      "result_class": "neutral"
+    }
+  ]
+}

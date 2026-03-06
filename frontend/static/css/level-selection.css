@@ -214,7 +214,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
     .level-card {
         height: 160px;
     }
@@ -227,7 +227,7 @@
     .level-title {
         font-size: 18px;
     }
-}
+} */
 
 /* Custom Scrollbar */
 .level-selection-screen::-webkit-scrollbar {
