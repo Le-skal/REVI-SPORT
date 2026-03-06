@@ -1,61 +1,8 @@
 {
   "mode": "sport-collectif",
-  "sport": "handball",
+  "sport": "rugby",
   "themes": [
-    "histoire",
-    "geographie"
-  ],
-  "jokers": [
-    "theme",
-    "team",
-    "double-point",
-    "double-prison",
-    "switch",
-    "indice"
-  ],
-  "level": "Cycle 4 niveau 3 : 3ème",
-  "minPassages": 1,
-  "maxPassages": 4,
-  "penalty": 3,
-  "gameTime": 32,
-  "timeoutCount": 5,
-  "prisonTime": 30,
-  "answerTime": 30,
-  "sportPoints": 1,
-  "duelPoints": 2,
-  "current_team": "red",
-  "red_jokers_used": [
-    "double-point",
-    "double-prison"
-  ],
-  "blue_jokers_used": [
-    "double-point",
-    "double-prison"
-  ],
-  "double_points_active": "blue",
-  "prison_pending": {
-    "team": "red",
-    "joker_used_by": "BV",
-    "joker_team": "blue"
-  },
-  "passage_pending": null,
-  "red_players": [
-    "HB",
-    "KN"
-  ],
-  "blue_players": [
-    "NJ",
-    "BV"
-  ],
-  "red_current_player_index": 0,
-  "blue_current_player_index": 0,
-  "current_round": 3,
-  "total_rounds": 2,
-  "current_passage": 1,
-  "used_questions": [
-    "histoire_21",
-    "geographie_9",
-    "geographie_6",
-    "histoire_12"
+    "geographie",
+    "histoire"
   ]
 }

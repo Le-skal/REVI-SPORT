@@ -227,7 +227,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
     .themes-grid {
         grid-template-columns: 1fr;
     }
@@ -235,4 +235,4 @@
     .theme-card {
         min-height: 120px;
     }
-}
+} */
