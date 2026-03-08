@@ -355,7 +355,7 @@
 .table-body {
     flex: 1;
     overflow-y: auto;
-    max-height: 250px;
+    max-height: 325px;
     /* Support scroll tactile (swipe comme sur téléphone) */
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
@@ -433,6 +433,10 @@
 
 .col-resultat.points {
     color: #f0c400;
+}
+
+.col-resultat.penalty {
+    color: #ff0000;
 }
 
 /* ===== INACTIVE PLAYERS SECTION ===== */

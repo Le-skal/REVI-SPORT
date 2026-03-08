@@ -60,14 +60,16 @@ body {
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  cursor: none;
+  /* cursor: none; */
 }
 
 /* Hide cursor on all elements */
-.screen-container,
-.screen-container * {
+/* .screen-container,
+.screen-container *,
+.keyboard-container,
+.keyboard-container * {
   cursor: none !important;
-}
+} */
 
 /* Texte dimension en haut */
 .screen-container::before {

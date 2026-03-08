@@ -109,7 +109,28 @@
         const timerInterval = setInterval(updateTimer, 1000);
         updateTimer();
 
+        // Check if this is a wrong answer prison (go to actual_next_destination)
+        const wrongAnswer = {{ wrong_answer | tojson }};
+        const actualNextDestination = {{ actual_next_destination | tojson }};
+
+        // Route mapping for gameTypes
+        const gameTypeToRoute = {
+            'knowledge': '/game-knowledge',
+            'fillBlanks': '/game-fillBlanks',
+            'link': '/game-link',
+            'gameLink': '/game-link',
+            'order': '/game-orderPhrase',
+            'text-input': '/game-math',
+            'autre': '/game-knowledge'
+        };
+
         function goToQuestion() {
+            // Si c'est une prison pour mauvaise réponse, aller à la destination réelle
+            if (wrongAnswer && actualNextDestination) {
+                window.location.href = actualNextDestination;
+                return;
+            }
+
             const team = '{{ team }}';
             // Fetch game mode
             fetch('/get-game-setup')
@@ -125,7 +146,9 @@
                             if (data.success) {
                                 const questionId = data.question.id;
                                 const questionTheme = data.question.theme;
-                                window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}${modeParam}`;
+                                const gameType = data.gameType;
+                                const route = gameTypeToRoute[gameType] || '/game-knowledge';
+                                window.location.href = `${route}?questionId=${questionId}&theme=${questionTheme}&team=${team}${modeParam}`;
                             } else {
                                 window.location.href = `/game-knowledge?team=${team}${modeParam}`;
                             }
@@ -142,7 +165,9 @@
                             if (data.success) {
                                 const questionId = data.question.id;
                                 const questionTheme = data.question.theme;
-                                window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}`;
+                                const gameType = data.gameType;
+                                const route = gameTypeToRoute[gameType] || '/game-knowledge';
+                                window.location.href = `${route}?questionId=${questionId}&theme=${questionTheme}&team=${team}`;
                             } else {
                                 window.location.href = `/game-knowledge?team=${team}`;
                             }

@@ -19,16 +19,26 @@
             "id": 2,
             "image": "svt.png",
             "question": "Portion de la molécule d'ADN contenant une information qui détermine un caractère héréditaire. Qui suis-je ?",
-            "options": [
-                "chromosome",
-                "gène",
-                "allèle",
-                "nucléotide"
+            "template": "☐☐☐☐",
+            "items": [
+                "G",
+                "È",
+                "N",
+                "E",
+                "A",
+                "O",
+                "R",
+                "T"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "G",
+                "È",
+                "N",
+                "E"
+            ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 3,
@@ -98,22 +108,41 @@
         },
         {
             "id": 7,
-            "image": "svt.png",
+            "image": "arbre-evolutif.png",
             "question": "En observant cet arbre évolutif, quelle espèce actuelle a le lien de parenté le plus étroit avec l'espèce humaine ?",
-            "options": [
-                "le gorille",
-                "le chimpanzé",
-                "l'orang-outan",
-                "le gibbon"
+            "template": "LE  \n☐☐☐☐☐☐☐☐☐",
+            "items": [
+                "C",
+                "H",
+                "I",
+                "M",
+                "P",
+                "A",
+                "N",
+                "Z",
+                "É",
+                "O",
+                "R",
+                "L",
+                "G"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "C",
+                "H",
+                "I",
+                "M",
+                "P",
+                "A",
+                "N",
+                "Z",
+                "É"
+            ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 8,
-            "image": "svt.png",
             "question": "Dans un milieu donné, certains allèles plus avantageux vont s'affirmer et favoriser la survie de l'espèce et la capacité à se reproduire. Leur fréquence va alors augmenter au sein de la population. Comment appelle-t-on ce mécanisme ?",
             "options": [
                 "la survie animale",
@@ -148,7 +177,7 @@
             "options": [
                 "en moyenne, le taux d'extinction des espèces est 500 fois inférieur grâce à la présence de l'Homme",
                 "le maintien de la biodiversité est menacée par l'agriculture intensive",
-                "les activités humaines, notamment la combustion des énergies fossiles, engendre un refroidissement des svtératures au niveau des pôles",
+                "les activités humaines, notamment la combustion des énergies fossiles, engendre un refroidissement climatique",
                 "le développement durable est une solution pour préserver et protéger l'environnement"
             ],
             "correctAnswer": [
@@ -161,39 +190,39 @@
         },
         {
             "id": 11,
-            "image": "svt.png",
-            "question": "Classe ces activités : lesquelles ont un impact positif sur la biodiversité ?",
-            "options": [
+            "question": "Classe ces activités selon leur impact sur la biodiversité :",
+            "template": "Impact positif :\n☐\n☐\n\nImpact négatif :\n☐\n☐",
+            "items": [
                 "agriculture raisonnée",
                 "création de parcs naturels",
                 "introduction d'espèces invasives",
                 "agriculture intensive"
             ],
             "correctAnswer": [
-                0,
-                1
+                ["agriculture raisonnée", "création de parcs naturels"],
+                ["introduction d'espèces invasives", "agriculture intensive"]
             ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 12,
-            "image": "svt.png",
-            "question": "Classe ces activités : lesquelles ont un impact positif sur la biodiversité ?",
-            "options": [
+            "question": "Classe ces activités selon leur impact sur la biodiversité :",
+            "template": "Impact positif :\n☐\n☐\n\nImpact négatif :\n☐\n☐",
+            "items": [
                 "quotas de pêche",
                 "choix des énergies renouvelables",
                 "déforestation",
                 "combustion des énergies fossiles"
             ],
             "correctAnswer": [
-                0,
-                1
+                ["quotas de pêche", "choix des énergies renouvelables"],
+                ["déforestation", "combustion des énergies fossiles"]
             ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 13,
@@ -215,21 +244,21 @@
         },
         {
             "id": 14,
-            "image": "svt.png",
-            "question": "Classe ces mesures d'hygiène : lesquelles sont de l'antisepsie ?",
-            "options": [
+            "question": "Classe ces mesures d'hygiène dans la bonne catégorie :",
+            "template": "Asepsie :\n☐\n☐\n\nAntisepsie :\n☐\n☐",
+            "items": [
                 "se laver les mains au savon",
-                "stériliser des instruments chirurgicaux avant une opération",
-                "nettoyer une plaie ouverte avec de l'alcool à 70°C",
-                "utiliser un bain de bouche en cas de gingivite (infection des gencives)"
+                "stériliser les instruments chirurgicaux",
+                "nettoyer une plaie avec de l'alcool à 70°C",
+                "utiliser un bain de bouche en cas de gingivite"
             ],
             "correctAnswer": [
-                2,
-                3
+                ["se laver les mains au savon", "stériliser les instruments chirurgicaux"],
+                ["nettoyer une plaie avec de l'alcool à 70°C", "utiliser un bain de bouche en cas de gingivite"]
             ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 15,
@@ -250,16 +279,39 @@
             "id": 16,
             "image": "svt.png",
             "question": "Quelle réaction immunitaire est immédiate, non spécifique, et suffit souvent à stopper les infections en digérant les micro-organismes pathogènes ?",
-            "options": [
-                "la phagocytose",
-                "la réaction allergique",
-                "la réaction inflammatoire",
-                "la réponse immunitaire adaptative"
+            "template": "LA  \n☐☐☐☐☐☐☐☐☐☐☐",
+            "items": [
+                "P",
+                "H",
+                "A",
+                "G",
+                "O",
+                "C",
+                "Y",
+                "T",
+                "O",
+                "S",
+                "E",
+                "I",
+                "N",
+                "R"
             ],
-            "correctAnswer": 0,
+            "correctAnswer": [
+                "P",
+                "H",
+                "A",
+                "G",
+                "O",
+                "C",
+                "Y",
+                "T",
+                "O",
+                "S",
+                "E"
+            ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 17,
@@ -361,31 +413,81 @@
             "id": 23,
             "image": "svt.png",
             "question": "La vaccination a pour effet de déclencher la production de globules blancs dits mémoires. Lesquels ?",
-            "options": [
-                "lymphocytes mémoires",
-                "phagocytes mémoires",
-                "macrophages mémoires",
-                "neutrophiles mémoires"
+            "template": "☐☐☐☐☐☐\n☐☐☐☐☐  \nmémoires",
+            "items": [
+                "L",
+                "Y",
+                "M",
+                "P",
+                "H",
+                "O",
+                "C",
+                "Y",
+                "T",
+                "E",
+                "S",
+                "A",
+                "N",
+                "R"
             ],
-            "correctAnswer": 0,
+            "correctAnswer": [
+                "L",
+                "Y",
+                "M",
+                "P",
+                "H",
+                "O",
+                "C",
+                "Y",
+                "T",
+                "E",
+                "S"
+            ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 24,
             "image": "svt.png",
             "question": "Quel naturaliste anglais du XIXème siècle décrit la sélection naturelle comme un mécanisme de l'évolution ?",
-            "options": [
-                "Alfred Wallace",
-                "Charles Darwin",
-                "Jean-Baptiste Lamarck",
-                "Gregor Mendel"
+            "template": "☐☐☐☐☐☐☐  \n☐☐☐☐☐☐",
+            "items": [
+                "C",
+                "H",
+                "A",
+                "R",
+                "L",
+                "E",
+                "S",
+                "D",
+                "A",
+                "R",
+                "W",
+                "I",
+                "N",
+                "O",
+                "T",
+                "B"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "C",
+                "H",
+                "A",
+                "R",
+                "L",
+                "E",
+                "S",
+                "D",
+                "A",
+                "R",
+                "W",
+                "I",
+                "N"
+            ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 25,
@@ -405,17 +507,25 @@
         {
             "id": 26,
             "image": "svt.png",
-            "question": "Classe du plus petit au plus grand",
-            "options": [
-                "noyau cellulaire, cellule, bactérie, puce, fourmi",
-                "cellule, noyau cellulaire, bactérie, puce, fourmi",
-                "bactérie, noyau cellulaire, cellule, fourmi, puce",
-                "noyau cellulaire, bactérie, cellule, puce, fourmi"
+            "question": "Classe du plus petit au plus grand :",
+            "template": "1. ☐\n2. ☐\n3. ☐\n4. ☐\n5. ☐",
+            "items": [
+                "noyau cellulaire",
+                "cellule",
+                "bactérie",
+                "puce",
+                "fourmi"
             ],
-            "correctAnswer": 0,
+            "correctAnswer": [
+                "bactérie",
+                "noyau cellulaire",
+                "cellule",
+                "puce",
+                "fourmi"
+            ],
             "theme": "svt",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 27,

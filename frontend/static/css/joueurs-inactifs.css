@@ -255,6 +255,29 @@
     border-radius: 16px;
 }
 
+/* Penalty Details */
+.penalty-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.penalty-team {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.penalty-team.red {
+    color: #BA4A4A;
+}
+
+.penalty-team.blue {
+    color: #4A80BA;
+}
+
 .activate-btn {
     background: #FFFFFF;
     border: none;
@@ -275,4 +298,35 @@
 
 .activate-btn:active {
     transform: scale(0.95);
+}
+
+/* No Inactive Players Card */
+.no-inactive-card {
+    background: #373748;
+    border-radius: 16px;
+    padding: 24px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.no-inactive-card .card-title {
+    font-family: 'Komika Axis', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #4CAF50;
+    margin: 0;
+    text-align: center;
+}
+
+.no-inactive-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.no-inactive-card .card-title.penalty-applied {
+    color: #FFA726;
 }

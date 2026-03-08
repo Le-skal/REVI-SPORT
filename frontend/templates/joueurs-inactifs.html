@@ -58,6 +58,14 @@
 
         <!-- Bottom Section -->
         <div class="bottom-section">
+            {% if penalty_already_applied %}
+            <!-- Pénalité déjà appliquée -->
+            <div class="no-inactive-card">
+                <h3 class="card-title penalty-applied">Pénalité déjà appliquée !</h3>
+                <p class="no-inactive-text">Les pénalités ont déjà été comptabilisées.</p>
+                <button class="activate-btn" onclick="goBack()">Retour</button>
+            </div>
+            {% elif inactive_players|length > 0 %}
             <!-- Liste des joueurs -->
             <div class="players-list-card">
                 <h3 class="card-title">Liste des joueurs</h3>
@@ -70,9 +78,25 @@
 
             <!-- Pénalité -->
             <div class="penalty-card">
-                <h3 class="card-title">-{{ penalty_points }} points de pénalité</h3>
+                <h3 class="card-title">Pénalité: -{{ penalty_per_player }} pts par joueur</h3>
+                <div class="penalty-details">
+                    {% if red_inactive_count > 0 %}
+                    <p class="penalty-team red">Rouge: -{{ red_penalty }} pts ({{ red_inactive_count }} x {{ penalty_per_player }})</p>
+                    {% endif %}
+                    {% if blue_inactive_count > 0 %}
+                    <p class="penalty-team blue">Bleue: -{{ blue_penalty }} pts ({{ blue_inactive_count }} x {{ penalty_per_player }})</p>
+                    {% endif %}
+                </div>
                 <button class="activate-btn" onclick="activatePenalty()">Activer la pénalité</button>
             </div>
+            {% else %}
+            <!-- Aucun joueur inactif -->
+            <div class="no-inactive-card">
+                <h3 class="card-title">Tous les joueurs sont passés !</h3>
+                <p class="no-inactive-text">Aucune pénalité à appliquer.</p>
+                <button class="activate-btn" onclick="goBack()">Retour</button>
+            </div>
+            {% endif %}
         </div>
     </div>
 
@@ -108,9 +132,9 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    penalty_points: {{ penalty_points }},
-                inactive_players: inactivePlayers,
-                current_time: currentTime
+                    penalty_per_player: {{ penalty_per_player | default(3) }},
+                    inactive_players: inactivePlayers,
+                    current_time: currentTime
                 })
             }).then(response => response.json())
             .then(data => {

@@ -176,32 +176,45 @@
         {
             "id": 12,
             "image": "chimie.png",
-            "question": "Pour cette équation de réaction, ajoute des coefficients afin d'assurer la conservation des éléments : CH4 + O2 -> CO2 + H2O",
-            "options": [
-                "1CH4 + 2O2 -> 1CO2 + 2H2O",
-                "2CH4 + 2O2 -> 2CO2 + 2H2O",
-                "1CH4 + 1O2 -> 1CO2 + 1H2O",
-                "2CH4 + 3O2 -> 2CO2 + 4H2O"
+            "question": "Place les coefficients pour équilibrer l'équation",
+            "template": "☐CH4 + ☐O2 -> ☐CO2 + ☐H2O",
+            "items": [
+                "1",
+                "2",
+                "1",
+                "2"
             ],
-            "correctAnswer": 0,
+            "correctAnswer": [
+                "1",
+                "2",
+                "1",
+                "2"
+            ],
             "theme": "chimie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 13,
             "image": "chimie.png",
-            "question": "Pour cette équation de réaction, ajoute des coefficients afin d'assurer la conservation des éléments : Fe + O2 -> Fe3O4",
-            "options": [
-                "1Fe + 1O2 -> 1Fe3O4",
-                "2Fe + 2O2 -> 1Fe3O4",
-                "3Fe + 2O2 -> 1Fe3O4",
-                "4Fe + 3O2 -> 1Fe3O4"
+            "question": "Pour cette équation de réaction, ajoute des coefficients afin d'assurer la conservation des éléments :",
+            "template": "☐Fe + ☐O2 -> ☐Fe3O4",
+            "items": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6"
             ],
-            "correctAnswer": 2,
+            "correctAnswer": [
+                "3",
+                "2",
+                "1"
+            ],
             "theme": "chimie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 14,
@@ -251,32 +264,56 @@
         {
             "id": 17,
             "image": "chimie.png",
-            "question": "Classe ces actions : quelles sont des actions de contact ?",
-            "options": [
-                "action de la raquette sur la balle",
-                "action du vent sur une voile",
-                "attraction de la Terre sur un corps",
-                "action d'un aimant sur une bille de fer"
+            "question": "Relie les actions qui appartiennent à la même catégorie (contact ou à distance)",
+            "leftItems": [
+                {
+                    "id": "1",
+                    "image": "action-raquette.png",
+                    "label": "Action de la raquette sur la balle"
+                },
+                {
+                    "id": "2",
+                    "image": "action-terre.png",
+                    "label": "Attraction de la Terre sur un corps"
+                }
             ],
-            "correctAnswer": [
-                0,
-                1
+            "rightItems": [
+                {
+                    "id": "A",
+                    "image": "action-vent.png",
+                    "label": "Action du vent sur une voile"
+                },
+                {
+                    "id": "B",
+                    "image": "action-aimant.png",
+                    "label": "Action d'un aimant sur une bille"
+                }
+            ],
+            "correctPairs": [
+                {
+                    "left": "1",
+                    "right": "A"
+                },
+                {
+                    "left": "2",
+                    "right": "B"
+                }
             ],
             "theme": "chimie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "gameLink"
         },
         {
             "id": 18,
-            "image": "chimie.png",
-            "question": "P278. En observant cette chronophotographie, que peut-on en déduire sur le mouvement de la voiture ?",
+            "image": "chronophotographie .png",
+            "question": "En observant cette chronophotographie, que peut-on en déduire sur le mouvement de la voiture ?",
             "options": [
                 "il est accéléré",
                 "il est uniforme",
                 "il est ralenti",
                 "il s'arrête"
             ],
-            "correctAnswer": 0,
+            "correctAnswer": 2,
             "theme": "chimie",
             "level": "Cycle 4 niveau 3 : 3ème",
             "gameType": "knowledge"
@@ -344,17 +381,25 @@
         {
             "id": 23,
             "image": "chimie.png",
-            "question": "Relie la grandeur électrique avec l'unité qu'il convient : énergie",
-            "options": [
+            "question": "Relie chaque grandeur électrique avec l'unité qui convient :",
+            "template": "Intensité : ☐  |  Tension : ☐\nPuissance : ☐  |  Énergie : ☐",
+            "items": [
+                "ampère",
+                "volt",
+                "watt",
+                "joule",
+                "ohm",
+                "hertz"
+            ],
+            "correctAnswer": [
                 "ampère",
                 "volt",
                 "watt",
                 "joule"
             ],
-            "correctAnswer": 3,
             "theme": "chimie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 24,
@@ -368,6 +413,7 @@
             ],
             "correctAnswer": [
                 0,
+                1,
                 2
             ],
             "theme": "chimie",
@@ -392,17 +438,35 @@
         {
             "id": 26,
             "image": "chimie.png",
-            "question": "Comment nomme-t-on les espèces chimiques formées lors d'une transformation chimique ?",
-            "options": [
-                "les réactifs",
-                "les produits",
-                "les catalyseurs",
-                "les solvants"
+            "question": "Comment nomme-t-on les espèces chimiques formées lors d'une transformation chimique ?\n\nExemple : acide chlorhydrique + fer (Réactifs) → dihydrogène + chlorure de fer II (???)",
+            "template": "☐☐☐☐☐☐☐☐",
+            "items": [
+                "O",
+                "D",
+                "U",
+                "I",
+                "T",
+                "S",
+                "A",
+                "E",
+                "N",
+                "C",
+                "P",
+                "R"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "P",
+                "R",
+                "O",
+                "D",
+                "U",
+                "I",
+                "T",
+                "S"
+            ],
             "theme": "chimie",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 27,

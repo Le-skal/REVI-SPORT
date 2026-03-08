@@ -89,21 +89,85 @@
             <img src="{{ url_for('static', filename='img/common/valider.png') }}" alt="Valider">
         </button>
 
-        <!-- Action Buttons -->
+        <!-- Action Buttons (During Question) - Hidden in bonus mode -->
+        {% if not is_bonus %}
         <div class="action-buttons">
-            <button class="action-btn theme-btn" onclick="handleAction('theme')">
-                <img src="{{ url_for('static', filename='img/action-buttons/theme.png') }}" alt="Choix du thème">
+            <button class="action-btn switch-btn" onclick="handleDuringAction('switch')" id="switchBtn">
+                <img src="{{ url_for('static', filename='img/action-buttons/switch.png') }}" alt="Switch"
+                    class="action-icon">
+                <span class="action-label">Switch</span>
             </button>
-            <button class="action-btn team-btn" onclick="handleAction('team')">
-                <img src="{{ url_for('static', filename='img/action-buttons/team.png') }}" alt="Esprit d'équipe">
-            </button>
-            <button class="action-btn double-point-btn" onclick="handleAction('double-point')">
-                <img src="{{ url_for('static', filename='img/action-buttons/double-point.png') }}" alt="Double point">
-            </button>
-            <button class="action-btn prison-btn" onclick="handleAction('prison')">
-                <img src="{{ url_for('static', filename='img/action-buttons/prison.png') }}" alt="Double prison">
+            <button class="action-btn indice-btn" onclick="handleDuringAction('indice')" id="indiceBtn">
+                <img src="{{ url_for('static', filename='img/action-buttons/indice.png') }}" alt="Indice"
+                    class="action-icon">
+                <span class="action-label">Indice</span>
             </button>
         </div>
+        {% endif %}
+
+        {% if not is_bonus %}
+        <!-- Joker Popup (Before Question) -->
+        <div id="jokerPopup" class="joker-popup" style="display: none;">
+            <div class="joker-popup-content">
+                <button class="joker-popup-close" onclick="closeJokerPopup()">✕</button>
+                <img src="{{ url_for('static', filename='img/action-buttons/joker.png') }}" alt="Joker"
+                    class="joker-icon">
+                <h2 class="joker-title">Voulez-vous utiliser un Joker ?</h2>
+                <div class="joker-popup-buttons">
+                    <button class="joker-popup-btn joker-no-btn" onclick="closeJokerPopup()">Non</button>
+                    <button class="joker-popup-btn joker-yes-btn" onclick="showJokerSelection()">Oui</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Joker Selection Popup -->
+        <div id="jokerSelectionPopup" class="joker-popup" style="display: none;">
+            <div class="joker-popup-content">
+                <button class="joker-popup-close" onclick="hideJokerSelection()">✕</button>
+                <img src="{{ url_for('static', filename='img/action-buttons/joker.png') }}" alt="Joker"
+                    class="joker-icon">
+                <h2 class="joker-title">Choisissez votre joker</h2>
+                <div class="joker-selection-grid">
+                    <button class="joker-selection-btn" data-joker="theme" onclick="selectBeforeJoker('theme')"
+                        id="jokerTheme">
+                        <img src="{{ url_for('static', filename='img/action-buttons/theme.png') }}"
+                            alt="Choix du thème">
+                    </button>
+                    <button class="joker-selection-btn" data-joker="team" onclick="selectBeforeJoker('team')"
+                        id="jokerTeam">
+                        <img src="{{ url_for('static', filename='img/action-buttons/team.png') }}"
+                            alt="Esprit d'équipe">
+                    </button>
+                    {% if game_mode == 'relais-biathlon' %}
+                    <button class="joker-selection-btn" data-joker="double-passage"
+                        onclick="selectBeforeJoker('double-passage')" id="jokerDoublePassage">
+                        <img src="{{ url_for('static', filename='img/action-buttons/double-passage.png') }}"
+                            alt="Passage en plus">
+                    </button>
+                    {% else %}
+                    <button class="joker-selection-btn" data-joker="double-point"
+                        onclick="selectBeforeJoker('double-point')" id="jokerDoublePoint">
+                        <img src="{{ url_for('static', filename='img/action-buttons/double-point.png') }}"
+                            alt="Double point">
+                    </button>
+                    {% endif %}
+                    {% if game_mode == 'relais-biathlon' %}
+                    <button class="joker-selection-btn" data-joker="double-penalite"
+                        onclick="selectBeforeJoker('double-penalite')" id="jokerDoublePenalite">
+                        <img src="{{ url_for('static', filename='img/action-buttons/double-penalite.png') }}"
+                            alt="Double pénalité">
+                    </button>
+                    {% else %}
+                    <button class="joker-selection-btn" data-joker="double-prison"
+                        onclick="selectBeforeJoker('double-prison')" id="jokerDoublePrison">
+                        <img src="{{ url_for('static', filename='img/action-buttons/prison.png') }}"
+                            alt="Double prison">
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
     <script>
@@ -112,8 +176,8 @@
         const correctPairs = JSON.parse(correctPairsData);
         let selectedAnswers = [];
         let answered = false;
-        const leftItems = document.querySelectorAll('.left-item');
-        const rightItems = document.querySelectorAll('.right-item');
+        const leftItemElements = document.querySelectorAll('.left-item');
+        const rightItemElements = document.querySelectorAll('.right-item');
         const linkCanvas = document.getElementById('linkCanvas');
         const questionOverlay = document.querySelector('.question-overlay');
         const overlayImg = document.querySelector('.overlay-img');
@@ -123,6 +187,19 @@
         let drawnLines = {};
         let draggedLeftItem = null;
         let tempLine = null;
+
+        // Joker variables
+        const urlParamsInit = new URLSearchParams(window.location.search);
+        let jokerUsedThisQuestion = urlParamsInit.get('jokerUsed') ? true : false;
+        const availableJokers = {{ jokers | tojson | safe }};
+        const currentTheme = {{ question_theme | tojson | safe }};
+        const currentGameType = 'gameLink';
+        const skipJokerPopup = {{ skip_joker_popup | tojson | safe }};
+        const isBonus = {{ is_bonus | tojson | safe }};
+        const currentTeam = {{ team | tojson | safe }};
+        const gameMode = {{ game_mode | default('duel') | tojson | safe }};
+        let jokerUsedForResult = urlParamsInit.get('jokerUsed') || null;
+        let timerInterval = null;
 
         // Prevent image copy-paste
         document.querySelectorAll('.item-image').forEach(img => {
@@ -144,7 +221,7 @@
         window.addEventListener('resize', resizeCanvas);
 
         // Draw line between two items
-        function drawLine(leftId, rightId, color = '#C99F17') {
+        function drawLine(leftId, rightId, color = '#C99F17', locked = false) {
             const leftItem = document.querySelector(`[data-item-id="${leftId}"].left-item`);
             const rightItem = document.querySelector(`[data-item-id="${rightId}"].right-item`);
 
@@ -168,33 +245,51 @@
             line.setAttribute('x2', x2);
             line.setAttribute('y2', y2);
             line.setAttribute('stroke', color);
-            line.setAttribute('stroke-width', '3');
+            line.setAttribute('stroke-width', locked ? '4' : '3');
             line.setAttribute('class', 'connection-line');
             line.setAttribute('data-left-id', leftId);
             line.setAttribute('data-right-id', rightId);
-            line.style.pointerEvents = 'auto';
-            line.style.cursor = 'pointer';
+            if (locked) {
+                line.setAttribute('data-locked', 'true');
+            }
+            line.style.pointerEvents = locked ? 'none' : 'auto';
+            line.style.cursor = locked ? 'default' : 'pointer';
 
             linkCanvas.appendChild(line);
 
             drawnLines[`${leftId}-${rightId}`] = line;
 
-            // Click to delete line
-            line.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (!answered) {
-                    removeLine(leftId, rightId);
-                }
-            });
+            // Click to delete line (only if not locked)
+            if (!locked) {
+                line.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (!answered) {
+                        removeLine(leftId, rightId);
+                    }
+                });
+            }
         }
 
         function removeLine(leftId, rightId) {
             const lineKey = `${leftId}-${rightId}`;
-            if (drawnLines[lineKey]) {
+            if (drawnLines[lineKey] && !drawnLines[lineKey].getAttribute('data-locked')) {
                 drawnLines[lineKey].remove();
                 delete drawnLines[lineKey];
                 selectedAnswers = selectedAnswers.filter(pair => !(pair.left === leftId && pair.right === rightId));
             }
+        }
+
+        function removeAllLines() {
+            Object.keys(drawnLines).forEach(key => {
+                if (!drawnLines[key].getAttribute('data-locked')) {
+                    drawnLines[key].remove();
+                    delete drawnLines[key];
+                }
+            });
+            selectedAnswers = selectedAnswers.filter(pair => {
+                const line = drawnLines[`${pair.left}-${pair.right}`];
+                return line && line.getAttribute('data-locked');
+            });
         }
 
         function getLeftItemConnections(leftId) {
@@ -206,14 +301,14 @@
         }
 
         // Left Item Click - Select for connection
-        leftItems.forEach(item => {
+        leftItemElements.forEach(item => {
             item.addEventListener('click', () => {
-                if (answered) return;
+                if (answered || item.classList.contains('locked')) return;
                 if (selectedLeftItem === item) {
                     item.classList.remove('selected');
                     selectedLeftItem = null;
                 } else {
-                    leftItems.forEach(i => i.classList.remove('selected'));
+                    leftItemElements.forEach(i => i.classList.remove('selected'));
                     item.classList.add('selected');
                     selectedLeftItem = item;
                 }
@@ -221,9 +316,9 @@
         });
 
         // Right Item Click - Create connection (only if left item selected)
-        rightItems.forEach(item => {
+        rightItemElements.forEach(item => {
             item.addEventListener('click', () => {
-                if (answered || !selectedLeftItem) return;
+                if (answered || !selectedLeftItem || item.classList.contains('locked')) return;
 
                 const leftId = selectedLeftItem.dataset.itemId;
                 const rightId = item.dataset.itemId;
@@ -248,17 +343,17 @@
 
                 checkCompletion();
 
-                leftItems.forEach(i => i.classList.remove('selected'));
-                rightItems.forEach(i => i.classList.remove('selected'));
+                leftItemElements.forEach(i => i.classList.remove('selected'));
+                rightItemElements.forEach(i => i.classList.remove('selected'));
                 selectedLeftItem = null;
                 selectedRightItem = null;
             });
         });
 
         // Drag and drop for creating links
-        leftItems.forEach(item => {
+        leftItemElements.forEach(item => {
             item.addEventListener('mousedown', (e) => {
-                if (answered) return;
+                if (answered || item.classList.contains('locked')) return;
                 draggedLeftItem = item;
                 const leftDot = item.querySelector('.left-dot');
                 const leftRect = leftDot.getBoundingClientRect();
@@ -299,7 +394,7 @@
 
             // Check if released over a right item
             const rightItem = e.target.closest('.right-item');
-            if (rightItem && !answered) {
+            if (rightItem && !answered && !rightItem.classList.contains('locked')) {
                 const leftId = draggedLeftItem.dataset.itemId;
                 const rightId = rightItem.dataset.itemId;
                 const lineKey = `${leftId}-${rightId}`;
@@ -324,12 +419,14 @@
         });
 
         function checkCompletion() {
-            const totalLeftItems = leftItems.length;
+            const totalLeftItems = leftItemElements.length;
             const connectedLeftItems = new Set(selectedAnswers.map(pair => pair.left)).size;
 
             if (connectedLeftItems === totalLeftItems) {
                 confirmBtn.style.display = 'flex';
                 confirmBtn.classList.add('show-animation');
+            } else {
+                confirmBtn.style.display = 'none';
             }
         }
 
@@ -346,8 +443,8 @@
             }
 
             // Disable all items
-            leftItems.forEach(item => item.classList.add('disabled'));
-            rightItems.forEach(item => item.classList.add('disabled'));
+            leftItemElements.forEach(item => item.classList.add('disabled'));
+            rightItemElements.forEach(item => item.classList.add('disabled'));
 
             clearInterval(timerInterval);
         }
@@ -445,7 +542,7 @@
         }
 
         // Timer countdown with SVG circle animation
-        const answerTime = {{ answer_time | default (30) }};
+        const answerTime = {{ answer_time | default(30) }};
         let timeLeft = answerTime;
         const totalTime = answerTime;
         const numberElement = document.querySelector('.countdown-number');
@@ -459,31 +556,301 @@
 
         numberElement.textContent = timeLeft;
 
-        const timerInterval = setInterval(() => {
-            timeLeft--;
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
 
-            if (timeLeft < 0) {
-                clearInterval(timerInterval);
-                showTimeout();
+                if (timeLeft < 0) {
+                    clearInterval(timerInterval);
+                    showTimeout();
+                    return;
+                }
+
+                numberElement.textContent = timeLeft;
+
+                const progress = timeLeft / totalTime;
+                const offset = circumference - (progress * circumference);
+
+                circleElement.style.strokeDashoffset = offset;
+            }, 1000);
+        }
+
+        // ===== JOKER FUNCTIONS =====
+
+        function initializeJokers() {
+            if (isBonus) {
+                startTimer();
                 return;
             }
 
-            numberElement.textContent = timeLeft;
+            const beforeJokers = gameMode === 'relais-biathlon'
+                ? ['theme', 'team', 'double-passage', 'double-penalite']
+                : ['theme', 'team', 'double-point', 'double-prison'];
+            let hasAvailableBeforeJoker = false;
 
-            const progress = timeLeft / totalTime;
-            const offset = circumference - (progress * circumference);
+            beforeJokers.forEach(joker => {
+                const btn = document.getElementById('joker' + joker.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(''));
+                if (btn) {
+                    if (!availableJokers.includes(joker)) {
+                        btn.disabled = true;
+                        btn.classList.add('joker-disabled');
+                    } else {
+                        hasAvailableBeforeJoker = true;
+                    }
+                }
+            });
 
-            circleElement.style.strokeDashoffset = offset;
-        }, 1000);
+            if (hasAvailableBeforeJoker && !skipJokerPopup) {
+                document.getElementById('jokerPopup').style.display = 'flex';
+            } else {
+                startTimer();
+            }
+
+            // Check during-question jokers
+            const switchBtn = document.getElementById('switchBtn');
+            const indiceBtn = document.getElementById('indiceBtn');
+            if (switchBtn && !availableJokers.includes('switch')) {
+                switchBtn.disabled = true;
+                switchBtn.classList.add('joker-disabled');
+            }
+            if (indiceBtn && !availableJokers.includes('indice')) {
+                indiceBtn.disabled = true;
+                indiceBtn.classList.add('joker-disabled');
+            }
+        }
+
+        function showJokerSelection() {
+            document.getElementById('jokerPopup').style.display = 'none';
+            document.getElementById('jokerSelectionPopup').style.display = 'flex';
+        }
+
+        function hideJokerSelection() {
+            document.getElementById('jokerSelectionPopup').style.display = 'none';
+            if (!jokerUsedThisQuestion) {
+                startTimer();
+            }
+        }
+
+        function closeJokerPopup() {
+            document.getElementById('jokerPopup').style.display = 'none';
+            startTimer();
+        }
+
+        function selectBeforeJoker(jokerType) {
+            if (!availableJokers.includes(jokerType) || jokerUsedThisQuestion) {
+                return;
+            }
+
+            document.getElementById('jokerSelectionPopup').style.display = 'none';
+
+            if (jokerType !== 'theme') {
+                jokerUsedThisQuestion = true;
+                jokerUsedForResult = jokerType;
+                removeJokerFromSetup(jokerType);
+                startTimer();
+            }
+
+            applyJokerEffect(jokerType);
+        }
+
+        function handleDuringAction(jokerType) {
+            if (!availableJokers.includes(jokerType) || jokerUsedThisQuestion) {
+                return;
+            }
+
+            jokerUsedThisQuestion = true;
+            jokerUsedForResult = jokerType;
+
+            document.getElementById(jokerType + 'Btn').disabled = true;
+            document.getElementById(jokerType + 'Btn').classList.add('joker-disabled');
+
+            removeJokerFromSetup(jokerType);
+            applyJokerEffect(jokerType);
+        }
+
+        function removeJokerFromSetup(jokerType) {
+            fetch('/remove-joker', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ joker: jokerType, team: currentTeam })
+            }).then(response => response.json())
+              .then(data => console.log('Joker marked as used:', data))
+              .catch(error => console.error('Error marking joker as used:', error));
+        }
+
+        function applyJokerEffect(jokerType) {
+            if (jokerType === 'theme') {
+                // Theme joker: First get available themes
+                fetch('/get-available-themes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        currentTheme: currentTheme
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.themes.length > 0) {
+                        showThemeSelection(data.themes);
+                    } else {
+                        alert('Aucun autre thème disponible');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error getting themes:', error);
+                    alert('Erreur lors du chargement des thèmes');
+                });
+            } else if (jokerType === 'switch') {
+                // Switch to another question (any gameType from same theme)
+                removeJokerFromSetup('switch');
+                fetch('/apply-switch-joker', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        currentTheme: currentTheme,
+                        currentQuestionId: {{ question_id }},
+                        gameType: currentGameType
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Redirect to correct page based on gameType
+                        const gameType = data.gameType || 'knowledge';
+                        let pageName = 'game-knowledge';
+                        if (gameType === 'fillBlanks') pageName = 'game-fillBlanks';
+                        else if (gameType === 'gameLink') pageName = 'game-link';
+                        window.location.href = `/${pageName}?questionId=${data.questionId}&theme=${data.theme}&team=${currentTeam}&skipJokerPopup=true&jokerUsed=switch`;
+                    } else {
+                        alert('Erreur: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error applying switch joker:', error);
+                    alert('Erreur lors du changement de question');
+                });
+            } else if (jokerType === 'indice') {
+                // Reset all connections and place 50% of correct pairs (round down: 9 -> 4, 2 -> 1)
+                const totalPairs = correctPairs.length;
+                const countToPlace = Math.floor(totalPairs / 2);
+
+                console.log('Indice joker - Total pairs:', totalPairs, 'Placing:', countToPlace);
+
+                // Remove all existing lines
+                removeAllLines();
+
+                if (countToPlace > 0) {
+                    // Shuffle and pick random pairs to place
+                    const shuffledPairs = [...correctPairs].sort(() => Math.random() - 0.5);
+                    const pairsToPlace = shuffledPairs.slice(0, countToPlace);
+
+                    pairsToPlace.forEach((pair, i) => {
+                        setTimeout(() => {
+                            // Draw the line as locked (green, non-removable)
+                            drawLine(pair.left, pair.right, '#5DBA68', true);
+                            selectedAnswers.push({ left: pair.left, right: pair.right, locked: true });
+
+                            // Mark items as locked
+                            const leftItem = document.querySelector(`[data-item-id="${pair.left}"].left-item`);
+                            const rightItem = document.querySelector(`[data-item-id="${pair.right}"].right-item`);
+                            if (leftItem) leftItem.classList.add('locked', 'correct');
+                            if (rightItem) rightItem.classList.add('locked', 'correct');
+                        }, i * 200);
+                    });
+
+                    // Check completion after all lines are placed
+                    setTimeout(() => {
+                        checkCompletion();
+                    }, countToPlace * 200 + 100);
+                }
+            } else {
+                console.log('Applied joker:', jokerType);
+            }
+        }
+
+        function showThemeSelection(availableThemes) {
+            const allThemes = ['chimie', 'francais', 'geographie', 'histoire', 'math', 'svt'];
+            const themeNames = {
+                'chimie': 'Chimie',
+                'francais': 'Français',
+                'geographie': 'Géographie',
+                'histoire': 'Histoire',
+                'math': 'Mathématiques',
+                'svt': 'SVT'
+            };
+
+            const grid = document.querySelector('#jokerSelectionPopup .joker-selection-grid');
+            grid.innerHTML = '';
+
+            allThemes.forEach(theme => {
+                const button = document.createElement('button');
+                button.className = `joker-selection-btn theme-selection-btn theme-${theme}`;
+                button.textContent = themeNames[theme] || theme;
+                button.dataset.theme = theme;
+
+                if (theme === currentTheme) {
+                    button.disabled = true;
+                    button.classList.add('joker-disabled');
+                    button.style.cursor = 'not-allowed';
+                } else {
+                    button.addEventListener('click', () => {
+                        selectNewTheme(theme);
+                    });
+                }
+
+                grid.appendChild(button);
+            });
+
+            const popup = document.getElementById('jokerSelectionPopup');
+            const content = popup.querySelector('.joker-popup-content');
+            content.querySelector('.joker-title').textContent = 'Choisissez un nouveau thème';
+            popup.style.display = 'flex';
+        }
+
+        function selectNewTheme(selectedTheme) {
+            document.getElementById('jokerSelectionPopup').style.display = 'none';
+            jokerUsedThisQuestion = true;
+
+            removeJokerFromSetup('theme');
+
+            fetch('/apply-theme-joker', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    selectedTheme: selectedTheme,
+                    currentGameType: currentGameType
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Redirect to correct page based on gameType
+                    const gameType = data.gameType || 'knowledge';
+                    let pageName = 'game-knowledge';
+                    if (gameType === 'fillBlanks') pageName = 'game-fillBlanks';
+                    else if (gameType === 'gameLink') pageName = 'game-link';
+                    window.location.href = `/${pageName}?questionId=${data.questionId}&theme=${data.theme}&team=${currentTeam}&skipJokerPopup=true&jokerUsed=theme`;
+                } else {
+                    alert('Erreur: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error applying theme joker:', error);
+                alert('Erreur lors du changement de thème');
+            });
+        }
+
+        // Initialize on page load
+        initializeJokers();
 
         // Confirmation button click handler
         confirmBtn.addEventListener('click', function () {
             handleAnswer();
         });
-
-        function handleAction(action) {
-            console.log('Action:', action);
-        }
     </script>
 </body>
 

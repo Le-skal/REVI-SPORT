@@ -263,7 +263,6 @@
         },
         {
             "id": 18,
-            "image": "geographie.png",
             "question": "La France est la 7ème puissance économique majeure. Parmi ces propositions, 3 pays sont devant la France. Lesquels ?",
             "options": [
                 "États-Unis",
@@ -330,7 +329,7 @@
         {
             "id": 22,
             "image": "geographie.png",
-            "question": "Place sur la carte : où se situe le désert du Sahara ?",
+            "question": "Où se situe le désert du Sahara ?",
             "options": [
                 "en Afrique du Nord",
                 "en Afrique centrale",

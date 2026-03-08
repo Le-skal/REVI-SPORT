@@ -170,17 +170,23 @@
         {
             "id": 11,
             "image": "math.png",
-            "question": "Classe ces valeurs de la plus petite à la plus grande",
-            "options": [
-                "6×10⁷, 150×10⁶, 8×10⁸, 150×10⁷",
-                "150×10⁶, 6×10⁷, 150×10⁷, 8×10⁸",
-                "8×10⁸, 150×10⁷, 6×10⁷, 150×10⁶",
-                "150×10⁶, 150×10⁷, 6×10⁷, 8×10⁸"
+            "question": "Classe ces valeurs de la plus petite à la plus grande :",
+            "template": "1. ☐\n2. ☐\n3. ☐\n4. ☐",
+            "items": [
+                "6×10⁷",
+                "150×10⁶",
+                "8×10⁸",
+                "150×10⁷"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "6×10⁷",
+                "150×10⁶",
+                "8×10⁸",
+                "150×10⁷"
+            ],
             "theme": "math",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 12,

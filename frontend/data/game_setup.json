@@ -1,48 +1,59 @@
 {
-  "mode": "sport-collectif",
-  "sport": "rugby",
+  "mode": "relais-biathlon",
+  "parcours": "urbain",
   "themes": [
-    "geographie",
-    "histoire"
+    "svt"
   ],
   "jokers": [
     "theme",
     "team",
-    "double-point",
-    "double-prison",
+    "double-passage",
+    "double-penalite",
     "switch",
     "indice"
   ],
   "level": "Cycle 4 niveau 3 : 3ème",
-  "minPassages": 1,
-  "maxPassages": 4,
-  "penalty": 3,
-  "gameTime": 32,
-  "timeoutCount": 5,
-  "prisonTime": 30,
-  "answerTime": 30,
-  "sportPoints": 5,
-  "duelPoints": 3,
+  "durationMode": "passages",
+  "reponsesCount": 5,
+  "penalties": [
+    "gainage",
+    "squat",
+    "parcours",
+    "genoux",
+    "jumpingjacks",
+    "pompes"
+  ],
+  "penaltyDuration": 20,
+  "passagesCount": 2,
   "current_team": "red",
-  "red_jokers_used": [],
-  "blue_jokers_used": [],
+  "red_jokers_used": [
+    "double-passage",
+    "indice"
+  ],
+  "blue_jokers_used": [
+    "double-penalite"
+  ],
   "double_points_active": null,
   "prison_pending": null,
   "passage_pending": null,
   "red_players": [
-    "D",
-    "J"
+    "JH",
+    "KI"
   ],
   "blue_players": [
-    "FG",
-    "LK"
+    "JN",
+    "RG"
   ],
-  "red_current_player_index": 0,
-  "blue_current_player_index": 0,
+  "red_current_player_index": 1,
+  "blue_current_player_index": 1,
   "current_round": 1,
   "total_rounds": 2,
-  "current_passage": 1,
+  "current_passage": 2,
   "used_questions": [
-    "histoire_4"
-  ]
+    "svt_27",
+    "svt_4",
+    "svt_24",
+    "svt_12"
+  ],
+  "penalite_pending": null
 }

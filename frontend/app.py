@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+from urllib.parse import quote
 import json
 import os
 import glob
@@ -434,7 +435,9 @@ def game_end():
     # Calculer les scores finaux
     red_score = game_data.get("red_score", 0)
     blue_score = game_data.get("blue_score", 0)
-    winner = "red" if red_score > blue_score else "blue" if blue_score > red_score else "tie"
+    winner = (
+        "red" if red_score > blue_score else "blue" if blue_score > red_score else "tie"
+    )
 
     # Analyser les events pour extraire les statistiques
     events = game_data.get("events", [])
@@ -463,7 +466,7 @@ def game_end():
                     "points_scored": 0,
                     "duels_won": 0,
                     "duels_total": 0,
-                    "jokers_used": 0
+                    "jokers_used": 0,
                 }
 
             # Comptabiliser les questions (duels)
@@ -479,23 +482,23 @@ def game_end():
                         player_stats[key]["duels_won"] += 1
 
                 # Ajouter à la liste des questions
-                questions_list.append({
-                    "theme": action.replace("Question ", "").replace("Bonus", "Bonus"),
-                    "question": action,
-                    "answer": "Correcte",
-                    "team": team,
-                    "player": player,
-                    "points": result.replace("+", "").replace(" pts", "").strip()
-                })
+                questions_list.append(
+                    {
+                        "theme": action.replace("Question ", "").replace(
+                            "Bonus", "Bonus"
+                        ),
+                        "question": action,
+                        "answer": "Correcte",
+                        "team": team,
+                        "player": player,
+                        "points": result.replace("+", "").replace(" pts", "").strip(),
+                    }
+                )
 
             # Comptabiliser les jokers
             if result_class == "joker":
                 player_stats[key]["jokers_used"] += 1
-                joker_data = {
-                    "icon": "🃏",
-                    "player": player,
-                    "joker": action
-                }
+                joker_data = {"icon": "🃏", "player": player, "joker": action}
                 if team == "red":
                     jokers_red.append(joker_data)
                 else:
@@ -503,19 +506,37 @@ def game_end():
 
             # Comptabiliser les pénalités
             if result_class == "penalty":
-                penalties_list.append({
-                    "team": team,
-                    "player": player,
-                    "reason": action,
-                    "icon": "⚠️"
-                })
+                penalties_list.append(
+                    {"team": team, "player": player, "reason": action, "icon": "⚠️"}
+                )
 
     # Trouver le MVP de chaque équipe (celui avec le plus de points)
-    red_mvp = {"player": red_players[0] if red_players else "Joueur", "avatar": red_avatar, "stats": {"points_scored": 0, "duels_won": 0, "duels_total": 0, "jokers_used": 0}}
-    blue_mvp = {"player": blue_players[0] if blue_players else "Joueur", "avatar": blue_avatar, "stats": {"points_scored": 0, "duels_won": 0, "duels_total": 0, "jokers_used": 0}}
+    red_mvp = {
+        "player": red_players[0] if red_players else "Joueur",
+        "avatar": red_avatar,
+        "stats": {
+            "points_scored": 0,
+            "duels_won": 0,
+            "duels_total": 0,
+            "jokers_used": 0,
+        },
+    }
+    blue_mvp = {
+        "player": blue_players[0] if blue_players else "Joueur",
+        "avatar": blue_avatar,
+        "stats": {
+            "points_scored": 0,
+            "duels_won": 0,
+            "duels_total": 0,
+            "jokers_used": 0,
+        },
+    }
 
     for key, stats in player_stats.items():
-        if stats["team"] == "red" and stats["points_scored"] > red_mvp["stats"]["points_scored"]:
+        if (
+            stats["team"] == "red"
+            and stats["points_scored"] > red_mvp["stats"]["points_scored"]
+        ):
             red_mvp = {
                 "player": stats["player"],
                 "avatar": red_avatar,
@@ -523,10 +544,13 @@ def game_end():
                     "points_scored": stats["points_scored"],
                     "duels_won": stats["duels_won"],
                     "duels_total": stats["duels_total"],
-                    "jokers_used": stats["jokers_used"]
-                }
+                    "jokers_used": stats["jokers_used"],
+                },
             }
-        elif stats["team"] == "blue" and stats["points_scored"] > blue_mvp["stats"]["points_scored"]:
+        elif (
+            stats["team"] == "blue"
+            and stats["points_scored"] > blue_mvp["stats"]["points_scored"]
+        ):
             blue_mvp = {
                 "player": stats["player"],
                 "avatar": blue_avatar,
@@ -534,26 +558,74 @@ def game_end():
                     "points_scored": stats["points_scored"],
                     "duels_won": stats["duels_won"],
                     "duels_total": stats["duels_total"],
-                    "jokers_used": stats["jokers_used"]
-                }
+                    "jokers_used": stats["jokers_used"],
+                },
             }
+
+    # Construire les rounds/duels à partir des events de questions
+    duels_list = []
+    question_events = [
+        e for e in events
+        if "Question" in e.get("action", "") and e.get("result_class") in ["correct", "incorrect"]
+    ]
+
+    # Grouper par paires (rouge puis bleu)
+    red_event = None
+    for event in question_events:
+        if event.get("team") == "red":
+            red_event = event
+        elif event.get("team") == "blue" and red_event:
+            # On a une paire rouge/bleu
+            red_correct = red_event.get("result_class") == "correct"
+            blue_correct = event.get("result_class") == "correct"
+
+            if red_correct and blue_correct:
+                result = "tie"
+                result_text = "Égalité"
+            elif not red_correct and not blue_correct:
+                result = "tie"
+                result_text = "Égalité"
+            elif red_correct:
+                result = "red"
+                result_text = f"Victoire {red_event.get('player', 'Rouge')}"
+            else:
+                result = "blue"
+                result_text = f"Victoire {event.get('player', 'Bleu')}"
+
+            duels_list.append({
+                "red_player": red_event.get("player", "Joueur"),
+                "blue_player": event.get("player", "Joueur"),
+                "red_correct": red_correct,
+                "blue_correct": blue_correct,
+                "winner": result,
+                "result_text": result_text,
+            })
+            red_event = None
 
     # Construire les données finales
     data = {
         "final_score": {
             "red_team": red_score,
             "blue_team": blue_score,
-            "winner": winner
+            "winner": winner,
         },
         "teams": {
-            "red": {"name": red_team_name, "avatar": red_avatar, "players": red_players},
-            "blue": {"name": blue_team_name, "avatar": blue_avatar, "players": blue_players},
+            "red": {
+                "name": red_team_name,
+                "avatar": red_avatar,
+                "players": red_players,
+            },
+            "blue": {
+                "name": blue_team_name,
+                "avatar": blue_avatar,
+                "players": blue_players,
+            },
         },
         "mvp": {
             "red": red_mvp,
             "blue": blue_mvp,
         },
-        "duels": [],  # On pourrait construire ça à partir des events si nécessaire
+        "duels": duels_list,
         "questions": questions_list,
         "penalties": penalties_list,
         "jokers": {"red": jokers_red, "blue": jokers_blue},
@@ -581,10 +653,41 @@ def lancement():
     joker_player = request.args.get("joker_player", "")
     joker_name = request.args.get("joker_name", "Joker C - Passage supplémentaire")
 
-    # Check if this is a physical penalty (double-penalite joker)
-    is_physical_penalty = request.args.get("physical_penalty", "false").lower() == "true"
+    # Check if this is a physical penalty (double-penalite joker OR wrong answer)
+    is_physical_penalty = (
+        request.args.get("physical_penalty", "false").lower() == "true"
+    )
     penalty_exercise = request.args.get("penalty_exercise", "")
     penalty_reps = request.args.get("penalty_reps", "")
+
+    # Check if this physical penalty is due to wrong answer
+    is_wrong_answer = (
+        request.args.get("wrong_answer", "false").lower() == "true"
+    )
+    actual_next_destination = None
+
+    # Si c'est une pénalité physique pour mauvaise réponse, récupérer la destination
+    if is_physical_penalty and is_wrong_answer and os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                wrong_answer_penalty_data = game_setup.get("wrong_answer_penalty", {})
+                if wrong_answer_penalty_data:
+                    actual_next_destination = wrong_answer_penalty_data.get(
+                        "actual_next_destination", f"/bracelet?team={team}"
+                    )
+                    # Nettoyer le flag après lecture
+                    game_setup.pop("wrong_answer_penalty", None)
+                    with open(GAME_SETUP_FILE, "w", encoding="utf-8") as fw:
+                        json.dump(game_setup, fw, ensure_ascii=False, indent=2)
+        except:
+            pass
+
+    # Legacy: Check if this is old-style wrong answer penalty with timer
+    is_wrong_answer_penalty = (
+        request.args.get("wrong_answer_penalty", "false").lower() == "true"
+    )
+    penalty_duration = 20
 
     # Map exercise name to display title
     penalty_titles = {
@@ -593,7 +696,7 @@ def lancement():
         "parcours": "Parcours de pénalité",
         "genoux": "Montée de genoux",
         "jumpingjacks": "Jumping Jacks",
-        "pompes": "Pompes"
+        "pompes": "Pompes",
     }
     penalty_title = penalty_titles.get(penalty_exercise, penalty_exercise)
 
@@ -699,6 +802,10 @@ def lancement():
         penalty_exercise=penalty_exercise,
         penalty_title=penalty_title,
         penalty_reps=penalty_reps,
+        is_wrong_answer_penalty=is_wrong_answer_penalty,
+        is_wrong_answer=is_wrong_answer,
+        penalty_duration=penalty_duration,
+        actual_next_destination=actual_next_destination,
     )
 
 
@@ -710,7 +817,28 @@ def prison():
     player_name = request.args.get("player", None)
     joker_used_by = request.args.get("joker_used_by", None)
     joker_team = request.args.get("joker_team", None)
+    wrong_answer = request.args.get("wrong_answer", "false") == "true"
     reason = None  # Sera construit à partir des infos du joker
+    actual_next_destination = None  # Destination après la prison (pour wrong_answer)
+
+    # Si c'est une prison pour mauvaise réponse, récupérer les infos
+    if wrong_answer and os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                wrong_answer_prison = game_setup.get("wrong_answer_prison", {})
+                if wrong_answer_prison:
+                    player_name = wrong_answer_prison.get("player", "Joueur")
+                    actual_next_destination = wrong_answer_prison.get(
+                        "actual_next_destination", "/bracelet?team=red"
+                    )
+                    reason = "il/elle a mal répondu à la question"
+                    # Nettoyer le flag après lecture
+                    game_setup.pop("wrong_answer_prison", None)
+                    with open(GAME_SETUP_FILE, "w", encoding="utf-8") as fw:
+                        json.dump(game_setup, fw, ensure_ascii=False, indent=2)
+        except:
+            pass
 
     # Si pas de nom de joueur fourni, récupérer le joueur actuel depuis game_setup
     if not player_name:
@@ -729,14 +857,15 @@ def prison():
         if not player_name:
             player_name = "Joueur"
 
-    # Construire le message de raison (toujours basé sur le joker)
-    if joker_used_by and joker_team:
-        team_label = "l'équipe rouge" if joker_team == "red" else "l'équipe bleue"
-        reason = f"{joker_used_by} de {team_label} a utilisé le Joker Prison"
-    else:
-        # Fallback si les infos du joker ne sont pas disponibles
-        opponent_team = "l'équipe bleue" if team == "red" else "l'équipe rouge"
-        reason = f"un joueur de {opponent_team} a utilisé le Joker Prison"
+    # Construire le message de raison si pas déjà défini (cas joker)
+    if not reason:
+        if joker_used_by and joker_team:
+            team_label = "l'équipe rouge" if joker_team == "red" else "l'équipe bleue"
+            reason = f"{joker_used_by} de {team_label} a utilisé le Joker Prison"
+        else:
+            # Fallback si les infos du joker ne sont pas disponibles
+            opponent_team = "l'équipe bleue" if team == "red" else "l'équipe rouge"
+            reason = f"un joueur de {opponent_team} a utilisé le Joker Prison"
 
     # Load team data
     avatar_id = "1"
@@ -804,6 +933,8 @@ def prison():
         players_on_terrain=players_on_terrain,
         total_players=total_players,
         joker_used_by=joker_used_by,
+        wrong_answer=wrong_answer,
+        actual_next_destination=actual_next_destination,
     )
 
 
@@ -840,8 +971,12 @@ def bracelet():
             pass
 
     return render_template(
-        "bracelet.html", team=team, red_score=red_score, blue_score=blue_score,
-        mode=mode, current_passage=current_passage
+        "bracelet.html",
+        team=team,
+        red_score=red_score,
+        blue_score=blue_score,
+        mode=mode,
+        current_passage=current_passage,
     )
 
 
@@ -867,40 +1002,64 @@ def joueurs_inactifs():
         except:
             pass
 
-    # Load sport and penalty from game setup
+    # Load sport, players and penalty from game setup
     sport = "basketball"
-    penalty_points = 3
+    red_players = []
+    blue_players = []
+    penalty_per_player = 3  # Default value
     if os.path.exists(GAME_SETUP_FILE):
         try:
             with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
                 game_setup = json.load(f)
                 sport = game_setup.get("sport", "basketball")
-                penalty_points = game_setup.get("penalty", 3)
+                red_players = game_setup.get("red_players", [])
+                blue_players = game_setup.get("blue_players", [])
+                penalty_per_player = game_setup.get("penalty", 3)
         except:
             pass
 
-    # Load inactive players data
-    inactive_file = os.path.join(DATA_DIR, "joueurs-inactifs.json")
-    inactive_players = []
+    # Load game-management events to find players who have answered questions
+    game_mgmt_file = os.path.join(DATA_DIR, "game-management.json")
+    players_who_answered = {"red": set(), "blue": set()}
+    penalty_already_applied = False
 
-    if os.path.exists(inactive_file):
+    if os.path.exists(game_mgmt_file):
         try:
-            with open(inactive_file, "r", encoding="utf-8") as f:
-                inactive_data = json.load(f)
-                # Get inactive players with team info
-                red_inactive = inactive_data.get("red_team", {}).get(
-                    "inactive_players", []
-                )
-                blue_inactive = inactive_data.get("blue_team", {}).get(
-                    "inactive_players", []
-                )
-                # Create list with player name and team
-                for player in red_inactive:
-                    inactive_players.append({"name": player, "team": "red"})
-                for player in blue_inactive:
-                    inactive_players.append({"name": player, "team": "blue"})
+            with open(game_mgmt_file, "r", encoding="utf-8") as f:
+                game_data = json.load(f)
+                penalty_already_applied = game_data.get("penalty_applied", False)
+                events = game_data.get("events", [])
+                for event in events:
+                    team = event.get("team")
+                    player = event.get("player")
+                    action = event.get("action", "")
+                    # Check if this is a question event (not joker, not match start, not penalty)
+                    if team in ["red", "blue"] and "Question" in action:
+                        players_who_answered[team].add(player)
         except:
             pass
+
+    # If penalty already applied, show empty list
+    inactive_players = []
+    red_inactive_count = 0
+    blue_inactive_count = 0
+
+    if not penalty_already_applied:
+        # Find inactive players (those who haven't answered any question)
+        for player in red_players:
+            if player not in players_who_answered["red"]:
+                inactive_players.append({"name": player, "team": "red"})
+                red_inactive_count += 1
+
+        for player in blue_players:
+            if player not in players_who_answered["blue"]:
+                inactive_players.append({"name": player, "team": "blue"})
+                blue_inactive_count += 1
+
+    # Calculate penalty per team
+    red_penalty = red_inactive_count * penalty_per_player
+    blue_penalty = blue_inactive_count * penalty_per_player
+    total_penalty_display = red_penalty + blue_penalty  # For display purposes
 
     return render_template(
         "joueurs-inactifs.html",
@@ -908,7 +1067,12 @@ def joueurs_inactifs():
         blue_avatar_id=blue_avatar_id,
         sport=sport,
         inactive_players=inactive_players,
-        penalty_points=penalty_points,
+        penalty_per_player=penalty_per_player,
+        red_penalty=red_penalty,
+        blue_penalty=blue_penalty,
+        red_inactive_count=red_inactive_count,
+        blue_inactive_count=blue_inactive_count,
+        penalty_already_applied=penalty_already_applied,
     )
 
 
@@ -916,7 +1080,7 @@ def joueurs_inactifs():
 def activate_penalty():
     try:
         data = request.get_json()
-        penalty_points = data.get("penalty_points", 0)
+        penalty_per_player = data.get("penalty_per_player", 3)
         inactive_players = data.get("inactive_players", [])
         current_time = data.get("current_time", "00 : 00")
 
@@ -928,18 +1092,21 @@ def activate_penalty():
             with open(game_mgmt_file, "r", encoding="utf-8") as f:
                 game_data = json.load(f)
 
-        # Check which teams have inactive players
-        has_red_inactive = any(p.get("team") == "red" for p in inactive_players)
-        has_blue_inactive = any(p.get("team") == "blue" for p in inactive_players)
+        # Count inactive players per team
+        red_inactive_count = sum(1 for p in inactive_players if p.get("team") == "red")
+        blue_inactive_count = sum(1 for p in inactive_players if p.get("team") == "blue")
 
-        # Subtract penalty only from teams with inactive players
-        if has_red_inactive:
+        # Subtract 3 points per inactive player per team
+        red_penalty = red_inactive_count * penalty_per_player
+        blue_penalty = blue_inactive_count * penalty_per_player
+
+        if red_inactive_count > 0:
             game_data["red_score"] = max(
-                0, game_data.get("red_score", 0) - penalty_points
+                0, game_data.get("red_score", 0) - red_penalty
             )
-        if has_blue_inactive:
+        if blue_inactive_count > 0:
             game_data["blue_score"] = max(
-                0, game_data.get("blue_score", 0) - penalty_points
+                0, game_data.get("blue_score", 0) - blue_penalty
             )
 
         # Add one penalty event per inactive player
@@ -949,7 +1116,7 @@ def activate_penalty():
                 "team": player.get("team", "all"),
                 "player": player.get("name", "Inconnu"),
                 "action": "Pénalité joueur inactif",
-                "result": f"-{penalty_points} pts",
+                "result": f"-{penalty_per_player} pts",
                 "result_class": "penalty",
             }
             game_data["events"].append(penalty_event)
@@ -1114,19 +1281,17 @@ def game_knowledge():
     correct_answer_data = question.get("correctAnswer", 0)
 
     # Handle correctAnswer being either int or list
-    # For knowledge questions, it should be an int (index)
-    # For link/order questions, it might be a list
+    # Convert to list for uniform handling
     if isinstance(correct_answer_data, list):
-        # If it's a list, take the first element or default to 0
-        correct_answer_index = correct_answer_data[0] if correct_answer_data else 0
+        correct_answer_indices = correct_answer_data
     else:
-        correct_answer_index = correct_answer_data
+        correct_answer_indices = [correct_answer_data]
 
-    correct_answer = (
-        all_options[correct_answer_index]
-        if correct_answer_index < len(all_options)
-        else all_options[0]
-    )
+    # Get the correct answer texts
+    correct_answers = [
+        all_options[idx] for idx in correct_answer_indices
+        if idx < len(all_options)
+    ]
 
     # Use all options (no level-based filtering for now)
     final_options = all_options.copy()
@@ -1134,8 +1299,10 @@ def game_knowledge():
     # Always shuffle the options to randomize order
     random.shuffle(final_options)
 
-    # Find the index of correct answer in the shuffled list
-    correct_answer_index = final_options.index(correct_answer)
+    # Find the indices of all correct answers in the shuffled list
+    correct_answer_indices_shuffled = [
+        final_options.index(answer) for answer in correct_answers
+    ]
 
     # Get team parameter
     team = request.args.get("team", "red")
@@ -1177,7 +1344,7 @@ def game_knowledge():
         question_image=question.get("image"),
         question_text=question.get("question"),
         options=final_options,
-        correctAnswer=correct_answer_index,
+        correctAnswer=correct_answer_indices_shuffled,
         level=level_name,
         answer_time=get_answer_time(),
         jokers=jokers,
@@ -1283,12 +1450,18 @@ def game_counting():
 @app.route("/game-link")
 def game_link():
     """Page de jeu de connexion (relier les éléments)"""
-    # Get question index from query parameter (default: 0 for first question)
-    question_index = request.args.get("question", 0, type=int)
+    # Get question parameters
+    question_id = request.args.get("questionId", type=int)
+    question_theme = request.args.get("theme", "")
+    team = request.args.get("team", "red")
+    skip_joker_popup = request.args.get("skipJokerPopup", "false") == "true"
+    is_bonus = request.args.get("bonus", "false") == "true"
 
-    # Load red and blue team data
-    red_avatar = None
-    blue_avatar = None
+    # Load team data and scores
+    red_avatar = "1"
+    blue_avatar = "1"
+    red_score = 0
+    blue_score = 0
 
     if os.path.exists(RED_TEAM_FILE):
         try:
@@ -1296,7 +1469,7 @@ def game_link():
                 red_data = json.load(f)
                 red_avatar = red_data.get("avatar", "1")
         except:
-            red_avatar = "1"
+            pass
 
     if os.path.exists(BLUE_TEAM_FILE):
         try:
@@ -1304,35 +1477,78 @@ def game_link():
                 blue_data = json.load(f)
                 blue_avatar = blue_data.get("avatar", "1")
         except:
-            blue_avatar = "1"
+            pass
 
-    # Load question data
-    with open(QUESTIONS_LINK_FILE, "r", encoding="utf-8") as f:
-        questions_data = json.load(f)
-        # Use the question_index parameter, fallback to 0
-        if question_index < len(questions_data["questions"]):
-            question = questions_data["questions"][question_index]
-        else:
-            question = questions_data["questions"][0]
+    # Load scores from game_setup
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                red_score = game_setup.get("red_score", 0)
+                blue_score = game_setup.get("blue_score", 0)
+        except:
+            pass
 
-    # Shuffle left and right items separately
-    left_items = question.get("left_items", []).copy()
-    right_items = question.get("right_items", []).copy()
+    # Load question from theme file
+    question = None
+    if question_id and question_theme:
+        theme_file = os.path.join(CONTENT_DIR, f"{question_theme}.json")
+        if os.path.exists(theme_file):
+            try:
+                with open(theme_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    questions = data.get("questions", [])
+                    for q in questions:
+                        if q.get("id") == question_id and q.get("gameType") == "gameLink":
+                            question = q
+                            break
+            except:
+                pass
 
+    if not question:
+        return "Question non trouvée", 404
+
+    # Get left and right items (support both camelCase and snake_case)
+    left_items = question.get("leftItems", question.get("left_items", [])).copy()
+    right_items = question.get("rightItems", question.get("right_items", [])).copy()
+    correct_pairs = question.get("correctPairs", question.get("correct_pairs", []))
+
+    # Shuffle items
     random.shuffle(left_items)
     random.shuffle(right_items)
+
+    # Load jokers for current team and game mode
+    jokers = []
+    game_mode = "sport-collectif"
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                game_mode = game_setup.get("mode", "sport-collectif")
+                all_jokers = ["theme", "team", "double-point", "double-prison", "switch", "indice"]
+                used_jokers = game_setup.get(f"{team}_jokers_used", [])
+                jokers = [j for j in all_jokers if j not in used_jokers]
+        except:
+            pass
 
     return render_template(
         "game-link.html",
         red_avatar=red_avatar,
         blue_avatar=blue_avatar,
-        red_score=0,
-        blue_score=0,
-        question_text=question.get("question_text"),
+        red_score=red_score,
+        blue_score=blue_score,
+        question_text=question.get("question", ""),
+        question_id=question_id,
+        question_theme=question_theme,
         left_items=left_items,
         right_items=right_items,
-        correct_pairs=question.get("correct_pairs", []),
+        correct_pairs=correct_pairs,
         answer_time=get_answer_time(),
+        jokers=jokers,
+        team=team,
+        skip_joker_popup=skip_joker_popup,
+        is_bonus=is_bonus,
+        game_mode=game_mode,
     )
 
 
@@ -1458,6 +1674,122 @@ def game_orderPhrase():
         shuffled_items=shuffled_items,
         correct_order=new_correct_order,
         answer_time=get_answer_time(),
+    )
+
+
+@app.route("/game-fillBlanks")
+def game_fillBlanks():
+    """Page de jeu de remplissage de trous (équations chimiques, etc.)"""
+    # Get question ID and theme from query parameters
+    question_id = request.args.get("questionId", type=int)
+    question_theme = request.args.get("theme", type=str)
+    skip_joker_popup = request.args.get("skipJokerPopup", "false").lower() == "true"
+    is_bonus = request.args.get("bonus", "false").lower() == "true"
+    team = request.args.get("team", "red")
+
+    # Load red and blue team data
+    red_avatar = "1"
+    blue_avatar = "1"
+
+    if os.path.exists(RED_TEAM_FILE):
+        try:
+            with open(RED_TEAM_FILE, "r", encoding="utf-8") as f:
+                red_data = json.load(f)
+                red_avatar = red_data.get("avatar", "1")
+        except:
+            pass
+
+    if os.path.exists(BLUE_TEAM_FILE):
+        try:
+            with open(BLUE_TEAM_FILE, "r", encoding="utf-8") as f:
+                blue_data = json.load(f)
+                blue_avatar = blue_data.get("avatar", "1")
+        except:
+            pass
+
+    # Load game setup for game mode
+    game_mode = "sport-collectif"
+    jokers = []
+    duel_points = 3
+    duration_mode = "questions"
+    game_time_minutes = 32
+    if os.path.exists(GAME_SETUP_FILE):
+        try:
+            with open(GAME_SETUP_FILE, "r", encoding="utf-8") as f:
+                game_setup = json.load(f)
+                game_mode = game_setup.get("mode", "sport-collectif")
+                all_jokers = game_setup.get("jokers", [])
+                team_jokers_used = game_setup.get(f"{team}_jokers_used", [])
+                jokers = [j for j in all_jokers if j not in team_jokers_used]
+                duel_points = game_setup.get("duel_points", 3)
+                duration_mode = game_setup.get("duration_mode", "questions")
+                game_time_minutes = game_setup.get("game_time", 32)
+        except:
+            pass
+
+    # Load question from theme file
+    question = None
+    if question_theme and question_id:
+        theme_file = os.path.join(CONTENT_DIR, f"{question_theme}.json")
+        if os.path.exists(theme_file):
+            try:
+                with open(theme_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    questions = data.get("questions", [])
+                    for q in questions:
+                        if q.get("id") == question_id and q.get("gameType") == "fillBlanks":
+                            question = q
+                            break
+            except:
+                pass
+
+    if not question:
+        return "Question non trouvée", 404
+
+    # Get template and items
+    template = question.get("template", "")
+    items = question.get("items", [])
+    correct_answer = question.get("correctAnswer", [])
+
+    # Shuffle the items
+    shuffled_items = items.copy()
+    random.shuffle(shuffled_items)
+
+    # Load scores from game-management.json
+    game_management_file = os.path.join(DATA_DIR, "game-management.json")
+    red_score = 0
+    blue_score = 0
+    if os.path.exists(game_management_file):
+        try:
+            with open(game_management_file, "r", encoding="utf-8") as f:
+                game_data = json.load(f)
+                red_score = game_data.get("red_score", 0)
+                blue_score = game_data.get("blue_score", 0)
+        except:
+            pass
+
+    return render_template(
+        "game-fillBlanks.html",
+        red_avatar=red_avatar,
+        blue_avatar=blue_avatar,
+        red_score=red_score,
+        blue_score=blue_score,
+        question_image=question.get("image"),
+        question_text=question.get("question"),
+        template=template,
+        shuffled_items=shuffled_items,
+        correct_answer=correct_answer,
+        answer_time=get_answer_time(),
+        jokers=jokers,
+        skip_joker_popup=skip_joker_popup,
+        is_bonus=is_bonus,
+        team=team,
+        game_mode=game_mode,
+        question_theme=question_theme,
+        question_id=question_id,
+        duel_points=duel_points,
+        duration_mode=duration_mode,
+        game_time_minutes=game_time_minutes,
     )
 
 
@@ -1595,14 +1927,16 @@ def get_current_player():
         else:
             current_player = f"Joueur {team.capitalize()}"
 
-        return jsonify({
-            "success": True,
-            "player": current_player,
-            "player_index": player_index,
-            "current_round": current_round,
-            "total_rounds": total_rounds,
-            "all_players": players
-        })
+        return jsonify(
+            {
+                "success": True,
+                "player": current_player,
+                "player_index": player_index,
+                "current_round": current_round,
+                "total_rounds": total_rounds,
+                "all_players": players,
+            }
+        )
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
@@ -1811,8 +2145,8 @@ def init_game():
         if not blue_players:
             blue_players = ["Joueur Bleu 1", "Joueur Bleu 2"]
 
-        # Calculer le nombre de tours = max des joueurs entre les deux équipes
-        total_rounds = max(len(red_players), len(blue_players))
+        # Calculer le nombre de tours = min des joueurs entre les deux équipes
+        total_rounds = min(len(red_players), len(blue_players))
 
         # Ajouter les champs de tracking
         game_setup["current_team"] = "red"
@@ -1820,7 +2154,9 @@ def init_game():
         game_setup["blue_jokers_used"] = []
         game_setup["double_points_active"] = None
         game_setup["prison_pending"] = None
-        game_setup["passage_pending"] = None  # Pour mode relais-biathlon (joker Passage en plus)
+        game_setup["passage_pending"] = (
+            None  # Pour mode relais-biathlon (joker Passage en plus)
+        )
         game_setup["red_players"] = red_players
         game_setup["blue_players"] = blue_players
         game_setup["red_current_player_index"] = 0
@@ -1849,7 +2185,11 @@ def init_game():
         # Créer game-management.json avec l'event de début
         game_management_file = os.path.join(DATA_DIR, "game-management.json")
         game_mode = game_setup.get("mode", "sport-collectif")
-        start_result = "🏃 Parcours en cours" if game_mode == "relais-biathlon" else "🎯 Match en cours"
+        start_result = (
+            "🏃 Parcours en cours"
+            if game_mode == "relais-biathlon"
+            else "🎯 Match en cours"
+        )
         game_management_data = {
             "red_score": 0,
             "blue_score": 0,
@@ -1860,9 +2200,9 @@ def init_game():
                     "player": f"{red_team_name} vs {blue_team_name}",
                     "action": "Début du match",
                     "result": start_result,
-                    "result_class": "neutral"
+                    "result_class": "neutral",
                 }
-            ]
+            ],
         }
 
         with open(game_management_file, "w", encoding="utf-8") as f:
@@ -1898,7 +2238,7 @@ def save_goal():
             "ultimate": "Point",
             "handball": "But",
             "football": "But",
-            "hockey": "But"
+            "hockey": "But",
         }
         action = sport_actions.get(sport, "Point")
 
@@ -1921,7 +2261,7 @@ def save_goal():
             "player": player_name,
             "action": action,
             "result": f"+{sport_points} pts",
-            "result_class": "correct"
+            "result_class": "points",
         }
         game_data["events"].append(event)
 
@@ -1929,11 +2269,13 @@ def save_goal():
         with open(game_management_file, "w", encoding="utf-8") as f:
             json.dump(game_data, f, ensure_ascii=False, indent=2)
 
-        return jsonify({
-            "success": True,
-            "red_score": game_data.get("red_score", 0),
-            "blue_score": game_data.get("blue_score", 0)
-        })
+        return jsonify(
+            {
+                "success": True,
+                "red_score": game_data.get("red_score", 0),
+                "blue_score": game_data.get("blue_score", 0),
+            }
+        )
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
@@ -1999,7 +2341,7 @@ def save_question_result():
                 game_setup["prison_pending"] = {
                     "team": opponent,
                     "joker_used_by": player_name,
-                    "joker_team": team
+                    "joker_team": team,
                 }
 
             # Si joker double-passage (mode relais-biathlon), marquer l'adversaire pour passage supplémentaire
@@ -2008,7 +2350,7 @@ def save_question_result():
                 game_setup["passage_pending"] = {
                     "team": opponent,
                     "joker_used_by": player_name,
-                    "joker_team": team
+                    "joker_team": team,
                 }
 
             # Si joker double-penalite (mode relais-biathlon), marquer l'adversaire pour pénalité physique
@@ -2017,7 +2359,7 @@ def save_question_result():
                 game_setup["penalite_pending"] = {
                     "team": opponent,
                     "joker_used_by": player_name,
-                    "joker_team": team
+                    "joker_team": team,
                 }
 
         # Sauvegarder game_setup
@@ -2043,7 +2385,7 @@ def save_question_result():
                 "theme": "Joker Thème",
                 "switch": "Joker Switch",
                 "indice": "Joker Indice",
-                "team": "Joker Team"
+                "team": "Joker Team",
             }
             joker_event = {
                 "time": current_time,
@@ -2051,21 +2393,23 @@ def save_question_result():
                 "player": player_name,
                 "action": joker_names.get(joker_used, f"Joker {joker_used}"),
                 "result": "🃏",
-                "result_class": "joker"
+                "result_class": "joker",
             }
             game_data["events"].append(joker_event)
 
         # Ajouter l'event pour la question
         result_text = f"+{points} pts" if correct else "0 pts"
         result_class = "correct" if correct else "incorrect"
-        action_text = "Question Bonus" if is_bonus else f"Question {question_theme.capitalize()}"
+        action_text = (
+            "Question Bonus" if is_bonus else f"Question {question_theme.capitalize()}"
+        )
         event = {
             "time": current_time,
             "team": team,
             "player": player_name,
             "action": action_text,
             "result": result_text,
-            "result_class": result_class
+            "result_class": result_class,
         }
         game_data["events"].append(event)
 
@@ -2095,13 +2439,15 @@ def save_question_result():
             with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
                 json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
-            return jsonify({
-                "success": True,
-                "next_destination": next_destination,
-                "red_score": game_data.get("red_score", 0),
-                "blue_score": game_data.get("blue_score", 0),
-                "is_bonus": True
-            })
+            return jsonify(
+                {
+                    "success": True,
+                    "next_destination": next_destination,
+                    "red_score": game_data.get("red_score", 0),
+                    "blue_score": game_data.get("blue_score", 0),
+                    "is_bonus": True,
+                }
+            )
 
         # Mode relais-biathlon: logique spécifique
         if game_mode == "relais-biathlon":
@@ -2131,10 +2477,10 @@ def save_question_result():
                         game_ended = True
 
             if game_ended:
-                next_destination = "/game-management"
+                actual_next_destination = "/game-management"
             elif team == "red":
                 # Après red, c'est au tour de blue
-                next_destination = "/bracelet?team=blue"
+                actual_next_destination = "/bracelet?team=blue"
             else:
                 # Après blue, passage suivant avec red
                 game_setup["current_passage"] = current_passage + 1
@@ -2145,23 +2491,100 @@ def save_question_result():
                 red_index = game_setup.get("red_current_player_index", 0)
                 blue_index = game_setup.get("blue_current_player_index", 0)
 
-                game_setup["red_current_player_index"] = (red_index + 1) % len(red_players) if red_players else 0
-                game_setup["blue_current_player_index"] = (blue_index + 1) % len(blue_players) if blue_players else 0
+                game_setup["red_current_player_index"] = (
+                    (red_index + 1) % len(red_players) if red_players else 0
+                )
+                game_setup["blue_current_player_index"] = (
+                    (blue_index + 1) % len(blue_players) if blue_players else 0
+                )
 
-                next_destination = "/bracelet?team=red"
+                actual_next_destination = "/bracelet?team=red"
+
+            # Si mauvaise réponse, aller d'abord à la pénalité physique
+            if not correct:
+                penalties = game_setup.get("penalties", ["gainage"])
+                parcours = game_setup.get("parcours", "motricite")
+                random_penalty = random.choice(penalties) if penalties else "gainage"
+
+                # Define reps/duration based on parcours type (same as check-penalite)
+                penalty_info = {
+                    "gainage": {
+                        "motricite": "Durée de 10 s",
+                        "urbain": "Durée de 20 s",
+                    },
+                    "squat": {
+                        "motricite": "Durée de 10 s",
+                        "urbain": "Durée de 20 s",
+                    },
+                    "parcours": {
+                        "motricite": "Temps du parcours",
+                        "urbain": "Temps du parcours",
+                    },
+                    "genoux": {
+                        "motricite": "Durée de 10 s",
+                        "urbain": "Durée de 20 s",
+                    },
+                    "jumpingjacks": {
+                        "motricite": "15 répétitions",
+                        "urbain": "30 répétitions",
+                    },
+                    "pompes": {
+                        "motricite": "5 répétitions",
+                        "urbain": "10 répétitions",
+                    },
+                }
+                penalty_reps = penalty_info.get(random_penalty, {}).get(parcours, "")
+
+                # Fallback si pas de reps trouvé
+                if not penalty_reps:
+                    penalty_reps = "10 répétitions" if parcours == "urbain" else "5 répétitions"
+
+                # Ajouter un event de pénalité pour mauvaise réponse
+                penalty_event = {
+                    "time": current_time,
+                    "team": team,
+                    "player": player_name,
+                    "action": "Mauvaise réponse",
+                    "result": "Pénalité",
+                    "result_class": "penalty",
+                }
+                game_data["events"].append(penalty_event)
+
+                # Re-sauvegarder game-management.json avec l'event de pénalité
+                with open(game_management_file, "w", encoding="utf-8") as f:
+                    json.dump(game_data, f, ensure_ascii=False, indent=2)
+
+                # Sauvegarder la vraie destination pour après la pénalité
+                game_setup["wrong_answer_penalty"] = {
+                    "team": team,
+                    "player": player_name,
+                    "actual_next_destination": actual_next_destination,
+                }
+
+                # Utiliser le même format que physical_penalty
+                next_destination = (
+                    f"/lancement?team={team}&physical_penalty=true"
+                    f"&penalty_exercise={quote(random_penalty)}"
+                    f"&penalty_reps={quote(penalty_reps)}"
+                    f"&wrong_answer=true"
+                )
+            else:
+                next_destination = actual_next_destination
 
             # Sauvegarder game_setup
             with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
                 json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
-            return jsonify({
-                "success": True,
-                "next_destination": next_destination,
-                "red_score": red_score,
-                "blue_score": blue_score,
-                "current_passage": game_setup.get("current_passage", 1),
-                "game_ended": game_ended
-            })
+            return jsonify(
+                {
+                    "success": True,
+                    "next_destination": next_destination,
+                    "red_score": red_score,
+                    "blue_score": blue_score,
+                    "current_passage": game_setup.get("current_passage", 1),
+                    "game_ended": game_ended,
+                }
+            )
 
         # Mode sport-collectif: récupérer les infos de tour et joueurs
         current_round = game_setup.get("current_round", 1)
@@ -2173,7 +2596,7 @@ def save_question_result():
         if team == "red":
             # Après red, c'est au tour de blue
             next_team = "blue"
-            next_destination = f"/bracelet?team={next_team}"
+            actual_next_destination = f"/bracelet?team={next_team}"
         else:
             # Après blue, le round est terminé
             # Passer au joueur suivant pour chaque équipe (avec cycling)
@@ -2181,31 +2604,66 @@ def save_question_result():
             blue_index = game_setup.get("blue_current_player_index", 0)
 
             # Incrémenter les index (avec modulo pour cycler)
-            game_setup["red_current_player_index"] = (red_index + 1) % len(red_players) if red_players else 0
-            game_setup["blue_current_player_index"] = (blue_index + 1) % len(blue_players) if blue_players else 0
+            game_setup["red_current_player_index"] = (
+                (red_index + 1) % len(red_players) if red_players else 0
+            )
+            game_setup["blue_current_player_index"] = (
+                (blue_index + 1) % len(blue_players) if blue_players else 0
+            )
             game_setup["current_round"] = current_round + 1
 
             # Vérifier si tous les rounds sont terminés
             if current_round >= total_rounds:
                 # Match terminé, retour à game-management
-                next_destination = "/game-management"
+                actual_next_destination = "/game-management"
             else:
                 # Round suivant, équipe rouge commence
                 next_team = "red"
-                next_destination = f"/bracelet?team={next_team}"
+                actual_next_destination = f"/bracelet?team={next_team}"
+
+        # Si mauvaise réponse, aller d'abord en prison
+        if not correct:
+            prison_time = game_setup.get("penalty", 3)  # Durée de prison = penalty
+            game_setup["wrong_answer_prison"] = {
+                "team": team,
+                "player": player_name,
+                "prison_time": prison_time,
+                "actual_next_destination": actual_next_destination,
+            }
+
+            # Ajouter un event de pénalité pour mauvaise réponse
+            penalty_event = {
+                "time": current_time,
+                "team": team,
+                "player": player_name,
+                "action": "Mauvaise réponse",
+                "result": "Prison",
+                "result_class": "penalty",
+            }
+            game_data["events"].append(penalty_event)
+
+            # Re-sauvegarder game-management.json avec l'event de pénalité
+            with open(game_management_file, "w", encoding="utf-8") as f:
+                json.dump(game_data, f, ensure_ascii=False, indent=2)
+
+            next_destination = f"/prison?team={team}&wrong_answer=true"
+        else:
+            next_destination = actual_next_destination
 
         # Sauvegarder game_setup avec les index mis à jour
         with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
             json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
-        return jsonify({
-            "success": True,
-            "next_destination": next_destination,
-            "red_score": game_data.get("red_score", 0),
-            "blue_score": game_data.get("blue_score", 0),
-            "current_round": game_setup.get("current_round", 1),
-            "total_rounds": total_rounds
-        })
+        return jsonify(
+            {
+                "success": True,
+                "next_destination": next_destination,
+                "red_score": game_data.get("red_score", 0),
+                "blue_score": game_data.get("blue_score", 0),
+                "current_round": game_setup.get("current_round", 1),
+                "total_rounds": total_rounds,
+            }
+        )
 
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
@@ -2241,11 +2699,13 @@ def check_prison():
             with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
                 json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
-        return jsonify({
-            "prison_pending": prison_pending,
-            "joker_used_by": joker_used_by,
-            "joker_team": joker_team
-        })
+        return jsonify(
+            {
+                "prison_pending": prison_pending,
+                "joker_used_by": joker_used_by,
+                "joker_team": joker_team,
+            }
+        )
     except Exception as e:
         return jsonify({"prison_pending": False, "error": str(e)})
 
@@ -2267,7 +2727,9 @@ def check_passage():
         # Gérer le format dict
         if isinstance(passage_data, dict):
             passage_pending = passage_data.get("team") == team
-            joker_used_by = passage_data.get("joker_used_by") if passage_pending else None
+            joker_used_by = (
+                passage_data.get("joker_used_by") if passage_pending else None
+            )
             joker_team = passage_data.get("joker_team") if passage_pending else None
         else:
             passage_pending = passage_data == team
@@ -2280,11 +2742,13 @@ def check_passage():
             with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
                 json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
-        return jsonify({
-            "passage_pending": passage_pending,
-            "joker_used_by": joker_used_by,
-            "joker_team": joker_team
-        })
+        return jsonify(
+            {
+                "passage_pending": passage_pending,
+                "joker_used_by": joker_used_by,
+                "joker_team": joker_team,
+            }
+        )
     except Exception as e:
         return jsonify({"passage_pending": False, "error": str(e)})
 
@@ -2306,7 +2770,9 @@ def check_penalite():
         # Gérer le format dict
         if isinstance(penalite_data, dict):
             penalite_pending = penalite_data.get("team") == team
-            joker_used_by = penalite_data.get("joker_used_by") if penalite_pending else None
+            joker_used_by = (
+                penalite_data.get("joker_used_by") if penalite_pending else None
+            )
             joker_team = penalite_data.get("joker_team") if penalite_pending else None
         else:
             penalite_pending = penalite_data == team
@@ -2327,12 +2793,24 @@ def check_penalite():
 
                 # Define reps/duration based on parcours type
                 penalty_info = {
-                    "gainage": {"motricite": "Durée de 10 s", "urbain": "Durée de 20 s"},
+                    "gainage": {
+                        "motricite": "Durée de 10 s",
+                        "urbain": "Durée de 20 s",
+                    },
                     "squat": {"motricite": "Durée de 10 s", "urbain": "Durée de 20 s"},
-                    "parcours": {"motricite": "Temps du parcours", "urbain": "Temps du parcours"},
+                    "parcours": {
+                        "motricite": "Temps du parcours",
+                        "urbain": "Temps du parcours",
+                    },
                     "genoux": {"motricite": "Durée de 10 s", "urbain": "Durée de 20 s"},
-                    "jumpingjacks": {"motricite": "15 répétitions", "urbain": "30 répétitions"},
-                    "pompes": {"motricite": "5 répétitions", "urbain": "10 répétitions"}
+                    "jumpingjacks": {
+                        "motricite": "15 répétitions",
+                        "urbain": "30 répétitions",
+                    },
+                    "pompes": {
+                        "motricite": "5 répétitions",
+                        "urbain": "10 répétitions",
+                    },
                 }
                 penalty_reps = penalty_info.get(penalty_exercise, {}).get(parcours, "")
 
@@ -2341,13 +2819,15 @@ def check_penalite():
             with open(GAME_SETUP_FILE, "w", encoding="utf-8") as f:
                 json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
-        return jsonify({
-            "penalite_pending": penalite_pending,
-            "joker_used_by": joker_used_by,
-            "joker_team": joker_team,
-            "penalty_exercise": penalty_exercise,
-            "penalty_reps": penalty_reps
-        })
+        return jsonify(
+            {
+                "penalite_pending": penalite_pending,
+                "joker_used_by": joker_used_by,
+                "joker_team": joker_team,
+                "penalty_exercise": penalty_exercise,
+                "penalty_reps": penalty_reps,
+            }
+        )
     except Exception as e:
         return jsonify({"penalite_pending": False, "error": str(e)})
 
@@ -2386,10 +2866,18 @@ def remove_joker():
                 json.dump(game_setup, f, ensure_ascii=False, indent=2)
 
             return jsonify(
-                {"success": True, "message": f"Joker {joker_to_remove} marked as used by {team}"}
+                {
+                    "success": True,
+                    "message": f"Joker {joker_to_remove} marked as used by {team}",
+                }
             )
         else:
-            return jsonify({"success": True, "message": f"Joker {joker_to_remove} already used by {team}"})
+            return jsonify(
+                {
+                    "success": True,
+                    "message": f"Joker {joker_to_remove} already used by {team}",
+                }
+            )
 
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
@@ -2428,14 +2916,11 @@ def load_all_questions():
 def get_random_question():
     """
     Load a random question based on game setup configuration.
-    Filters by: themes, level, and gameType.
+    Filters by: themes and level only (any gameType).
     Excludes questions already used in this game session.
     Returns the question data along with gameType for routing.
     """
     try:
-        # Get optional gameType parameter (defaults to "knowledge")
-        requested_game_type = request.args.get("gameType", "knowledge")
-
         # Load game setup
         if not os.path.exists(GAME_SETUP_FILE):
             return jsonify({"success": False, "error": "Game setup not found"}), 404
@@ -2456,14 +2941,13 @@ def get_random_question():
         if not all_questions:
             return jsonify({"success": False, "error": "No questions available"}), 404
 
-        # Filter questions by theme, level, gameType AND exclude already used questions
+        # Filter questions by theme and level only (any gameType)
         # Use composite key (theme_id) to avoid conflicts between themes with same question IDs
         filtered_questions = [
             q
             for q in all_questions
             if q.get("theme") in selected_themes
             and q.get("level") == selected_level
-            and q.get("gameType") == requested_game_type
             and f"{q.get('theme')}_{q.get('id')}" not in used_questions
         ]
 
@@ -2472,7 +2956,7 @@ def get_random_question():
                 jsonify(
                     {
                         "success": False,
-                        "error": f"No {requested_game_type} questions found for themes {selected_themes} and level {selected_level}",
+                        "error": f"No questions found for themes {selected_themes} and level {selected_level}",
                     }
                 ),
                 404,
@@ -2480,7 +2964,7 @@ def get_random_question():
 
         # Select random question
         question = random.choice(filtered_questions)
-        game_type = question.get("gameType", requested_game_type)
+        game_type = question.get("gameType", "knowledge")
 
         # Mark question as used (composite key to handle same IDs across themes)
         used_questions.append(f"{question.get('theme')}_{question.get('id')}")
@@ -2611,14 +3095,13 @@ def apply_theme_joker():
         print(f"  level == '{selected_level}'")
         print(f"  gameType == '{current_game_type}'")
 
-        # Filter by: selected theme, same level, same gameType, exclude used questions
+        # Filter by: selected theme, same level, ANY gameType, exclude used questions
         # Use composite key (theme_id) to avoid conflicts between themes with same question IDs
         filtered_questions = [
             q
             for q in all_questions
             if q.get("theme") == selected_theme
             and q.get("level") == selected_level
-            and q.get("gameType") == current_game_type
             and f"{q.get('theme')}_{q.get('id')}" not in used_questions
         ]
 
@@ -2628,9 +3111,6 @@ def apply_theme_joker():
         )
         print(
             f"  Questions with level=='{selected_level}': {len([q for q in all_questions if q.get('level') == selected_level])}"
-        )
-        print(
-            f"  Questions with gameType=='{current_game_type}': {len([q for q in all_questions if q.get('gameType') == current_game_type])}"
         )
         print(f"  Final filtered questions: {len(filtered_questions)}")
         if filtered_questions:
@@ -2671,6 +3151,7 @@ def apply_theme_joker():
                 "question": question,
                 "questionId": question.get("id"),
                 "theme": question.get("theme"),
+                "gameType": question.get("gameType", "knowledge"),
             }
         )
 
@@ -2719,14 +3200,13 @@ def apply_switch_joker():
         all_questions = load_all_questions()
         print(f"Total questions loaded: {len(all_questions)}")
 
-        # Filter by: SAME theme, same level, same gameType, exclude used questions
+        # Filter by: SAME theme, same level, ANY gameType, exclude used questions
         # Use composite key (theme_id) to avoid conflicts between themes with same question IDs
         filtered_questions = [
             q
             for q in all_questions
             if q.get("theme") == current_theme
             and q.get("level") == selected_level
-            and q.get("gameType") == game_type
             and f"{q.get('theme')}_{q.get('id')}" not in used_questions
         ]
 
@@ -2736,9 +3216,6 @@ def apply_switch_joker():
         )
         print(
             f"  Questions with same level: {len([q for q in all_questions if q.get('level') == selected_level])}"
-        )
-        print(
-            f"  Questions with same gameType: {len([q for q in all_questions if q.get('gameType') == game_type])}"
         )
         print(f"  Excluding used questions: {len(used_questions)} already used")
         print(f"  Final filtered questions: {len(filtered_questions)}")
@@ -2774,6 +3251,7 @@ def apply_switch_joker():
                 "question": question,
                 "questionId": question.get("id"),
                 "theme": question.get("theme"),
+                "gameType": question.get("gameType", "knowledge"),
             }
         )
 

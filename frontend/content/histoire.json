@@ -337,22 +337,33 @@
             "correctAnswer": 1,
             "theme": "histoire",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "knowledge"
         },
         {
             "id": 23,
-            "image": "histoire.png",
-            "question": "Complète la frise : quel président était en fonction de 1995 à 2007 ?",
-            "options": [
-                "Giscard d'Estaing",
-                "Mitterrand",
-                "Chirac",
-                "Sarkozy"
+            "question": "Complète la frise en plaçant chronologiquement les différents présidents de la République :",
+            "template": "1974-1981 : ☐\n1981-1988 : ☐\n1988-1995 : ☐\n1995-2002 : ☐\n2002-2007 : ☐\n2007-2012 : ☐",
+            "items": [
+                "GISCARD",
+                "MITTERRAND",
+                "MITTERRAND",
+                "CHIRAC",
+                "CHIRAC",
+                "SARKOZY",
+                "DE GAULLE",
+                "POMPIDOU"
             ],
-            "correctAnswer": 2,
+            "correctAnswer": [
+                "GISCARD",
+                "MITTERRAND",
+                "MITTERRAND",
+                "CHIRAC",
+                "CHIRAC",
+                "SARKOZY"
+            ],
             "theme": "histoire",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 24,
@@ -386,18 +397,40 @@
         },
         {
             "id": 26,
-            "image": "histoire.png",
+            "image": "francois-mitterrand.png",
             "question": "Je suis élu président de la République de 1981 à 1995. Qui suis-je ?",
-            "options": [
-                "Valéry Giscard d'Estaing",
-                "François Mitterrand",
-                "Jacques Chirac",
-                "Georges Pompidou"
+            "template": "FRANÇOIS  \n☐☐☐☐☐☐☐☐☐☐",
+            "items": [
+                "M",
+                "I",
+                "T",
+                "T",
+                "E",
+                "R",
+                "R",
+                "A",
+                "N",
+                "D",
+                "O",
+                "S",
+                "L",
+                "C"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "M",
+                "I",
+                "T",
+                "T",
+                "E",
+                "R",
+                "R",
+                "A",
+                "N",
+                "D"
+            ],
             "theme": "histoire",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 27,

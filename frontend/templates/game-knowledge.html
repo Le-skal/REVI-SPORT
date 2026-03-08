@@ -50,8 +50,10 @@
 
         <!-- Question Card -->
         <div class="question-card">
+            {% if question_image %}
             <img class="question-image" src="{{ url_for('static', filename='img/questions/' ~ question_image) }}"
                 alt="Question">
+            {% endif %}
             <div class="question-overlay">
                 <img src="" alt="Result" class="overlay-img">
             </div>
@@ -61,7 +63,7 @@
         <!-- Options -->
         <div class="options-container">
             {% for option in options %}
-            <div class="option-btn" data-option="{{ loop.index }}" data-correct="{{ correctAnswer + 1 }}">
+            <div class="option-btn" data-option="{{ loop.index }}">
                 <span class="option-text">{{ option }}</span>
                 <div class="option-radio"></div>
             </div>
@@ -155,7 +157,7 @@
     </div>
 
     <script>
-        let selectedOption = null;
+        let selectedOptions = [];
         let answered = false;
         // Check if joker was already used (passed via URL from redirect)
         const urlParamsInit = new URLSearchParams(window.location.search);
@@ -351,7 +353,7 @@
                         alert('Erreur lors du chargement des thèmes');
                     });
             } else if (jokerType === 'switch') {
-                // Switch joker: Change to another question from same theme instantly
+                // Switch joker: Change to another question from same theme (any gameType)
                 console.log('Applying switch joker - getting new question from same theme');
 
                 // Remove the joker immediately
@@ -366,30 +368,41 @@
                     body: JSON.stringify({
                         currentTheme: currentTheme,
                         currentQuestionId: {{ question.id if question else 0 }},
-                    gameType: currentGameType
+                        gameType: currentGameType
                     })
-        })
-                    .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Switch joker: New question ID:', data.questionId, 'Theme:', data.theme);
-                    // Reload page with new question, skip joker popup, keep team, pass joker used
-                    window.location.href = `/game-knowledge?questionId=${data.questionId}&theme=${data.theme}&team=${currentTeam}&skipJokerPopup=true&jokerUsed=switch`;
-                } else {
-                    alert('Erreur: ' + data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error applying switch joker:', error);
-                alert('Erreur lors du changement de question');
-            });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Switch joker: New question ID:', data.questionId, 'Theme:', data.theme, 'GameType:', data.gameType);
+                        // Redirect to correct page based on gameType
+                        const gameTypeToRoute = {
+                            'knowledge': '/game-knowledge',
+                            'fillBlanks': '/game-fillBlanks',
+                            'link': '/game-link',
+                            'gameLink': '/game-link',
+                            'order': '/game-orderPhrase',
+                            'text-input': '/game-math',
+                            'autre': '/game-knowledge'
+                        };
+                        const route = gameTypeToRoute[data.gameType] || '/game-knowledge';
+                        window.location.href = `${route}?questionId=${data.questionId}&theme=${data.theme}&team=${currentTeam}&skipJokerPopup=true&jokerUsed=switch`;
+                    } else {
+                        alert('Erreur: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error applying switch joker:', error);
+                    alert('Erreur lors du changement de question');
+                });
             } else if (jokerType === 'indice') {
             // Indice joker: Remove one incorrect answer
             console.log('Applying indice joker - removing one incorrect answer');
 
-            // Get the correct answer
-            const correctAnswer = {{ question.correctAnswer if question else 0 }};
-        console.log('Correct answer index:', correctAnswer);
+            // Get the correct answers (convert to array if single number)
+            const correctAnswerData = {{ correctAnswer | tojson }};
+            const correctIndices = Array.isArray(correctAnswerData) ? correctAnswerData : [correctAnswerData];
+        console.log('Correct answer indices:', correctIndices);
 
         // Get all option buttons
         const optionButtons = document.querySelectorAll('.option-btn');
@@ -398,7 +411,7 @@
         // Find incorrect options that are still visible
         const incorrectOptions = [];
         optionButtons.forEach((btn, index) => {
-            if (index !== correctAnswer && btn.style.display !== 'none' && !btn.disabled) {
+            if (!correctIndices.includes(index) && btn.style.display !== 'none' && !btn.disabled) {
                 incorrectOptions.push({ button: btn, index: index });
             }
         });
@@ -517,9 +530,20 @@
                     if (data.success) {
                         console.log('New question theme:', data.theme);
                         console.log('New question ID:', data.questionId);
+                        console.log('New question gameType:', data.gameType);
                         console.log('Full question object:', data.question);
-                        // Reload page with new question AND theme, skip joker popup, keep team, pass joker used
-                        window.location.href = `/game-knowledge?questionId=${data.questionId}&theme=${data.theme}&team=${currentTeam}&skipJokerPopup=true&jokerUsed=theme`;
+                        // Route based on gameType
+                        const gameTypeToRoute = {
+                            'knowledge': '/game-knowledge',
+                            'fillBlanks': '/game-fillBlanks',
+                            'link': '/game-link',
+                            'gameLink': '/game-link',
+                            'order': '/game-orderPhrase',
+                            'text-input': '/game-math',
+                            'autre': '/game-knowledge'
+                        };
+                        const route = gameTypeToRoute[data.gameType] || '/game-knowledge';
+                        window.location.href = `${route}?questionId=${data.questionId}&theme=${data.theme}&team=${currentTeam}&skipJokerPopup=true&jokerUsed=theme`;
                     } else {
                         console.error('Server error:', data.error);
                         alert('Erreur: ' + data.error);
@@ -552,38 +576,58 @@
 
 
 
-        // Option selection
+        // Option selection (multiple selection allowed)
         optionBtns.forEach((btn, index) => {
             btn.addEventListener('click', function () {
                 if (!answered) {
-                    // Remove selected class from all buttons
-                    optionBtns.forEach(b => b.classList.remove('selected'));
-                    // Add selected class to clicked button
-                    this.classList.add('selected');
-                    selectedOption = index;
-                    // Show confirmation button
-                    confirmBtn.style.display = 'flex';
-                    confirmBtn.classList.add('show-animation');
+                    // Toggle selection
+                    const optionIndex = selectedOptions.indexOf(index);
+                    if (optionIndex > -1) {
+                        // Already selected, remove it
+                        selectedOptions.splice(optionIndex, 1);
+                        this.classList.remove('selected');
+                    } else {
+                        // Not selected, add it
+                        selectedOptions.push(index);
+                        this.classList.add('selected');
+                    }
+                    // Show confirmation button if at least one option selected
+                    if (selectedOptions.length > 0) {
+                        confirmBtn.style.display = 'flex';
+                        confirmBtn.classList.add('show-animation');
+                    } else {
+                        confirmBtn.style.display = 'none';
+                    }
                 }
             });
         });
 
         confirmBtn.addEventListener('click', function () {
-            if (selectedOption !== null) {
-                handleAnswer(selectedOption, correctAnswer);
+            if (selectedOptions.length > 0) {
+                handleAnswer(selectedOptions, correctAnswer);
             }
         });
 
-        function handleAnswer(selectedIndex, correctAnswerIndex) {
+        function handleAnswer(selectedIndices, correctAnswerData) {
             answered = true;
-            const isCorrect = selectedIndex === correctAnswerIndex;
+
+            // Convert correctAnswer to array if it's a single number
+            const correctIndices = Array.isArray(correctAnswerData) ? correctAnswerData : [correctAnswerData];
+
+            // Sort both arrays for comparison
+            const sortedSelected = [...selectedIndices].sort((a, b) => a - b);
+            const sortedCorrect = [...correctIndices].sort((a, b) => a - b);
+
+            // Check if arrays are exactly equal
+            const isCorrect = sortedSelected.length === sortedCorrect.length &&
+                sortedSelected.every((val, idx) => val === sortedCorrect[idx]);
 
             if (isCorrect) {
-                // Correct answer
-                showCorrect(selectedIndex);
+                // All correct answers selected
+                showCorrect(selectedIndices, correctIndices);
             } else {
-                // Wrong answer
-                showIncorrect(selectedIndex, correctAnswerIndex);
+                // Wrong answer(s)
+                showIncorrect(selectedIndices, correctIndices);
             }
 
             // Remove selected class from all buttons
@@ -671,16 +715,18 @@
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
-        function showCorrect(selectedIndex) {
-            optionBtns[selectedIndex].classList.add('correct');
-            // Show check icon with white text
-            const radio = optionBtns[selectedIndex].querySelector('.option-radio');
-            radio.innerHTML = '✓';
-            radio.style.color = '#FFFFFF';
-            radio.style.fontSize = '14px';
-            radio.style.fontWeight = 'bold';
-            radio.style.background = '#5DBA68';
-            radio.style.border = 'none';
+        function showCorrect(selectedIndices, correctIndices) {
+            // Mark all correct answers with green check
+            correctIndices.forEach(index => {
+                optionBtns[index].classList.add('correct');
+                const radio = optionBtns[index].querySelector('.option-radio');
+                radio.innerHTML = '✓';
+                radio.style.color = '#FFFFFF';
+                radio.style.fontSize = '14px';
+                radio.style.fontWeight = 'bold';
+                radio.style.background = '#5DBA68';
+                radio.style.border = 'none';
+            });
 
             // Show correct image overlay
             questionOverlay.classList.add('correct');
@@ -688,26 +734,32 @@
             questionOverlay.classList.add('show');
         }
 
-        function showIncorrect(selectedIndex, correctAnswerIndex) {
-            // Wrong selected answer - show X with white text
-            optionBtns[selectedIndex].classList.add('incorrect');
-            const wrongRadio = optionBtns[selectedIndex].querySelector('.option-radio');
-            wrongRadio.innerHTML = '✕';
-            wrongRadio.style.color = '#FFFFFF';
-            wrongRadio.style.fontSize = '14px';
-            wrongRadio.style.fontWeight = 'bold';
-            wrongRadio.style.background = '#C04E43';
-            wrongRadio.style.border = 'none';
+        function showIncorrect(selectedIndices, correctIndices) {
+            // Mark wrongly selected answers with red X
+            selectedIndices.forEach(index => {
+                if (!correctIndices.includes(index)) {
+                    optionBtns[index].classList.add('incorrect');
+                    const wrongRadio = optionBtns[index].querySelector('.option-radio');
+                    wrongRadio.innerHTML = '✕';
+                    wrongRadio.style.color = '#FFFFFF';
+                    wrongRadio.style.fontSize = '14px';
+                    wrongRadio.style.fontWeight = 'bold';
+                    wrongRadio.style.background = '#C04E43';
+                    wrongRadio.style.border = 'none';
+                }
+            });
 
-            // Correct answer - show check with white text
-            optionBtns[correctAnswerIndex].classList.add('correct');
-            const correctRadio = optionBtns[correctAnswerIndex].querySelector('.option-radio');
-            correctRadio.innerHTML = '✓';
-            correctRadio.style.color = '#FFFFFF';
-            correctRadio.style.fontSize = '14px';
-            correctRadio.style.fontWeight = 'bold';
-            correctRadio.style.background = '#5DBA68';
-            correctRadio.style.border = 'none';
+            // Mark all correct answers with green check
+            correctIndices.forEach(index => {
+                optionBtns[index].classList.add('correct');
+                const correctRadio = optionBtns[index].querySelector('.option-radio');
+                correctRadio.innerHTML = '✓';
+                correctRadio.style.color = '#FFFFFF';
+                correctRadio.style.fontSize = '14px';
+                correctRadio.style.fontWeight = 'bold';
+                correctRadio.style.background = '#5DBA68';
+                correctRadio.style.border = 'none';
+            });
 
             // Show incorrect image overlay
             questionOverlay.classList.add('incorrect');
@@ -716,18 +768,19 @@
         }
 
         function showTimeout() {
-            // Timeout: show correct answer with check
-            optionBtns.forEach((btn, index) => {
-                if (index === correctAnswer) {
-                    btn.classList.add('correct');
-                    const radio = btn.querySelector('.option-radio');
-                    radio.innerHTML = '✓';
-                    radio.style.color = '#FFFFFF';
-                    radio.style.fontSize = '14px';
-                    radio.style.fontWeight = 'bold';
-                    radio.style.background = '#5DBA68';
-                    radio.style.border = 'none';
-                }
+            // Convert correctAnswer to array if it's a single number
+            const correctIndices = Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer];
+
+            // Timeout: show all correct answers with check
+            correctIndices.forEach(index => {
+                optionBtns[index].classList.add('correct');
+                const radio = optionBtns[index].querySelector('.option-radio');
+                radio.innerHTML = '✓';
+                radio.style.color = '#FFFFFF';
+                radio.style.fontSize = '14px';
+                radio.style.fontWeight = 'bold';
+                radio.style.background = '#5DBA68';
+                radio.style.border = 'none';
             });
 
             // Show timeout image overlay - bigger

@@ -30,6 +30,17 @@
         const urlParams = new URLSearchParams(window.location.search);
         const isBonus = urlParams.get('bonus') === 'true';
 
+        // Route mapping for gameTypes
+        const gameTypeToRoute = {
+            'knowledge': '/game-knowledge',
+            'fillBlanks': '/game-fillBlanks',
+            'link': '/game-link',
+            'gameLink': '/game-link',
+            'order': '/game-orderPhrase',
+            'text-input': '/game-math',
+            'autre': '/game-knowledge'
+        };
+
         // Function to go to question (mode sport-collectif)
         function goToQuestion() {
             fetch('/get-random-question')
@@ -38,8 +49,10 @@
                     if (data.success) {
                         const questionId = data.question.id;
                         const questionTheme = data.question.theme;
+                        const gameType = data.gameType;
+                        const route = gameTypeToRoute[gameType] || '/game-knowledge';
                         const bonusParam = isBonus ? '&bonus=true' : '';
-                        window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}${bonusParam}`;
+                        window.location.href = `${route}?questionId=${questionId}&theme=${questionTheme}&team=${team}${bonusParam}`;
                     } else {
                         console.error('Error loading question:', data.error);
                         const bonusParam = isBonus ? '&bonus=true' : '';
@@ -61,7 +74,9 @@
                     if (data.success) {
                         const questionId = data.question.id;
                         const questionTheme = data.question.theme;
-                        window.location.href = `/game-knowledge?questionId=${questionId}&theme=${questionTheme}&team=${team}&bonus=true&mode=relais-biathlon`;
+                        const gameType = data.gameType;
+                        const route = gameTypeToRoute[gameType] || '/game-knowledge';
+                        window.location.href = `${route}?questionId=${questionId}&theme=${questionTheme}&team=${team}&bonus=true&mode=relais-biathlon`;
                     } else {
                         console.error('Error loading question:', data.error);
                         window.location.href = `/game-knowledge?team=${team}&bonus=true&mode=relais-biathlon`;

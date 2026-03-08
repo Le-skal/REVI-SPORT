@@ -267,3 +267,57 @@
     text-align: center;
     margin: 0;
 }
+
+/* ===== WRONG ANSWER PENALTY TIMER ===== */
+
+.penalty-timer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.penalty-timer-circle {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.penalty-timer-circle svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.penalty-timer-circle .timer-bg {
+    fill: none;
+    stroke: #3D3D4D;
+    stroke-width: 8;
+}
+
+.penalty-timer-circle .timer-progress {
+    fill: none;
+    stroke: #E57373;
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s linear;
+}
+
+.penalty-timer-circle .timer-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.penalty-timer-circle.finished .timer-progress {
+    stroke: #4CAF50;
+}
+
+.penalty-timer-circle.finished .timer-value {
+    color: #4CAF50;
+}

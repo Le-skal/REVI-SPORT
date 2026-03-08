@@ -168,26 +168,28 @@
                                 <th>🔴 Joueur Rouge</th>
                                 <th>🔵 Joueur Bleu</th>
                                 <th>🏆 Résultat</th>
-                                <th>🚨 Pénalité</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for duel in data.duels %}
                             <tr>
-                                <td>{{ duel.red_player }}</td>
-                                <td>{{ duel.blue_player }}</td>
                                 <td>
-                                    {% if duel.winner == 'red' %}
-                                    <span class="result-win">✅ {{ duel.red_player }} (+{{ duel.points }})</span>
-                                    {% else %}
-                                    <span class="result-win">✅ {{ duel.blue_player }} (+{{ duel.points }})</span>
-                                    {% endif %}
+                                    <span class="{% if duel.red_correct %}result-correct{% else %}result-incorrect{% endif %}">
+                                        {{ duel.red_player }} {% if duel.red_correct %}✅{% else %}❌{% endif %}
+                                    </span>
                                 </td>
                                 <td>
-                                    {% if duel.winner == 'red' %}
-                                    <span class="result-lose">❌ {{ duel.blue_player }} (prison)</span>
+                                    <span class="{% if duel.blue_correct %}result-correct{% else %}result-incorrect{% endif %}">
+                                        {{ duel.blue_player }} {% if duel.blue_correct %}✅{% else %}❌{% endif %}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if duel.winner == 'tie' %}
+                                    <span class="result-tie">🤝 Égalité</span>
+                                    {% elif duel.winner == 'red' %}
+                                    <span class="result-win red">🏆 {{ duel.red_player }}</span>
                                     {% else %}
-                                    <span class="result-lose">❌ {{ duel.red_player }} (prison)</span>
+                                    <span class="result-win blue">🏆 {{ duel.blue_player }}</span>
                                     {% endif %}
                                 </td>
                             </tr>

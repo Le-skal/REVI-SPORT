@@ -18,47 +18,82 @@
         {
             "id": 2,
             "image": "francais.png",
-            "question": "Complète par le bon « air » : un courant d'..., l'... d'un carré, une ... géologique, il ... de ville en ville",
-            "options": [
-                "air, aire, ère, erre",
-                "aire, air, erre, ère",
-                "ère, erre, air, aire",
-                "erre, ère, aire, air"
+            "question": "Complète par le bon « air » :",
+            "template": "Un courant d' ☐\nL' ☐ d'un carré\nUne ☐ géologique\nIl ☐ de ville en ville",
+            "items": [
+                "air",
+                "aire",
+                "ère",
+                "erre"
             ],
-            "correctAnswer": 0,
+            "correctAnswer": [
+                "air",
+                "aire",
+                "ère",
+                "erre"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 3,
             "image": "francais.png",
             "question": "Quelle figure de style, inverse de l'hyperbole, consiste à atténuer une idée, une notion dont l'expression directe aurait quelque chose de déplaisant ?",
-            "options": [
-                "métaphore",
-                "euphémisme",
-                "litote",
-                "personnification"
+            "template": "☐☐☐☐☐☐☐☐☐☐",
+            "items": [
+                "E",
+                "U",
+                "P",
+                "H",
+                "É",
+                "M",
+                "I",
+                "S",
+                "M",
+                "E",
+                "A",
+                "O",
+                "R",
+                "T"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "E",
+                "U",
+                "P",
+                "H",
+                "É",
+                "M",
+                "I",
+                "S",
+                "M",
+                "E"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 4,
-            "image": "francais.png",
-            "question": "Relie chaque mot à sa classe grammaticale : puisque",
-            "options": [
+            "question": "Relie chaque mot à sa classe grammaticale :",
+            "template": "puisque → ☐\ndonc → ☐\naujourd'hui → ☐\npar → ☐\nils → ☐",
+            "items": [
                 "conjonction de subordination",
                 "conjonction de coordination",
                 "adverbe",
-                "préposition"
+                "préposition",
+                "pronom"
             ],
-            "correctAnswer": 0,
+            "correctAnswer": [
+                "conjonction de subordination",
+                "conjonction de coordination",
+                "adverbe",
+                "préposition",
+                "pronom"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 5,
@@ -79,16 +114,31 @@
             "id": 6,
             "image": "francais.png",
             "question": "Je constitue les premières phrases d'une œuvre, et je suis censé susciter la curiosité du lecteur. Qui suis-je ?",
-            "options": [
-                "l'incipit",
-                "l'épilogue",
-                "le prologue",
-                "la conclusion"
+            "template": "☐☐☐☐☐☐☐",
+            "items": [
+                "I",
+                "N",
+                "C",
+                "I",
+                "P",
+                "I",
+                "T",
+                "A",
+                "E",
+                "R"
             ],
-            "correctAnswer": 0,
+            "correctAnswer": [
+                "I",
+                "N",
+                "C",
+                "I",
+                "P",
+                "I",
+                "T"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 7,
@@ -107,48 +157,63 @@
         },
         {
             "id": 8,
-            "image": "francais.png",
-            "question": "Relie cette phrase à la bonne subordonnée : « Quand il sera 22h, tu iras te coucher »",
-            "options": [
-                "subordonnée conjonctive complétive",
-                "subordonnée conjonctive circonstancielle de francaiss",
-                "subordonnée conjonctive circonstancielle de cause",
-                "subordonnée interrogative indirecte"
+            "question": "Relie chaque phrase à la bonne subordonnée qu'elle contient :",
+            "template": "Je sais qu'il va bien → ☐\nQuand il sera 22h, tu iras te coucher → ☐\nOn ne l'entend pas parce qu'il parle doucement → ☐\nJe me demande pourquoi il a fait cela → ☐",
+            "items": [
+                "complétive",
+                "circonstancielle de temps",
+                "circonstancielle de cause",
+                "interrogative indirecte"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "complétive",
+                "circonstancielle de temps",
+                "circonstancielle de cause",
+                "interrogative indirecte"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 9,
-            "image": "francais.png",
-            "question": "Relie la valeur du présent : « À cet instant, les chevaliers pénètrent dans la cour du château fort »",
-            "options": [
+            "question": "Relie la valeur du présent à chacune des phrases suivantes :",
+            "template": "Je t'appelle pour prendre de tes nouvelles → \n☐\nLe dauphin et la baleine sont deux mammifères marins → \n☐\nLe mercredi, je vais à l'entraînement → \n☐\nÀ cet instant, les chevaliers pénètrent dans le château → \n☐",
+            "items": [
                 "présent d'actualité",
                 "présent de vérité générale",
                 "présent d'habitude",
                 "présent de narration"
             ],
-            "correctAnswer": 3,
+            "correctAnswer": [
+                "présent d'actualité",
+                "présent de vérité générale",
+                "présent d'habitude",
+                "présent de narration"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 10,
-            "image": "francais.png",
-            "question": "Mets cette phrase au passé du subjonctif : « Il faut que tu TERMINER tes devoirs avant que je RENTRER »",
-            "options": [
-                "aies terminé, sois rentré(e)",
-                "as terminé, es rentré(e)",
-                "avais terminé, étais rentré(e)",
-                "aurais terminé, serais rentré(e)"
+            "question": "Mets cette phrase au passé du subjonctif :",
+            "template": "Il faut que tu ☐ tes devoirs avant que je ☐",
+            "items": [
+                "aies terminé",
+                "sois rentré(e)",
+                "ai terminé",
+                "suis rentré",
+                "avais terminé",
+                "étais rentré"
             ],
-            "correctAnswer": 0,
+            "correctAnswer": [
+                "aies terminé",
+                "sois rentré(e)"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 11,
@@ -167,37 +232,72 @@
         },
         {
             "id": 12,
-            "image": "francais.png",
             "question": "Comment appelle-t-on le type de discours rapporté avec un verbe de parole (dire, demander, affirmer…) mais sans tirets ni guillemets ?",
-            "options": [
-                "discours direct",
-                "discours indirect",
-                "discours indirect libre",
-                "discours narrativisé"
+            "template": " UN DISCOURS  \n☐☐☐☐☐☐☐☐",
+            "items": [
+                "I",
+                "N",
+                "D",
+                "I",
+                "R",
+                "E",
+                "C",
+                "T",
+                "A",
+                "O",
+                "L",
+                "S"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "I",
+                "N",
+                "D",
+                "I",
+                "R",
+                "E",
+                "C",
+                "T"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
-            "id": 13,
             "image": "francais.png",
+            "id": 13,
             "question": "Quel genre de texte est destiné à être représenté sur une scène ?",
-            "options": [
-                "texte narratif",
-                "texte théâtral",
-                "texte poétique",
-                "texte argumentatif"
+            "template": "UN TEXTE  \n☐☐☐☐☐☐☐☐",
+            "items": [
+                "T",
+                "H",
+                "É",
+                "Â",
+                "T",
+                "R",
+                "A",
+                "L",
+                "I",
+                "O",
+                "N",
+                "S"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "T",
+                "H",
+                "É",
+                "Â",
+                "T",
+                "R",
+                "A",
+                "L"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 14,
-            "image": "francais.png",
+            "image": "phedre.png",
             "question": "Relie ce texte à son genre littéraire : une pièce de théâtre",
             "options": [
                 "genre narratif",
@@ -205,7 +305,7 @@
                 "genre poétique",
                 "genre argumentatif"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": 0,
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
             "gameType": "autre"
@@ -229,61 +329,112 @@
             "id": 16,
             "image": "francais.png",
             "question": "Comment appelle-t-on une strophe de 4 vers ?",
-            "options": [
-                "tercet",
-                "quatrain",
-                "quintil",
-                "sizain"
+            "template": "☐☐☐☐☐☐☐☐",
+            "items": [
+                "Q",
+                "U",
+                "A",
+                "T",
+                "R",
+                "A",
+                "I",
+                "N",
+                "E",
+                "O",
+                "S",
+                "L"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "Q",
+                "U",
+                "A",
+                "T",
+                "R",
+                "A",
+                "I",
+                "N"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 17,
             "image": "francais.png",
-            "question": "Associe cette réplique à l'incise qui convient : « Prépare-toi »",
-            "options": [
+            "question": "Associe chaque réplique à l'incise qui convient :",
+            "template": "« Prépare-toi » → ☐\n« C'est à cause de la pluie » → ☐\n« Et si vous alliez au cinéma » → ☐\n« Il a dû avoir un empêchement » → ☐",
+            "items": [
                 "ordonna-t-il",
                 "expliqua-t-il",
                 "suggéra-t-il",
                 "supposa-t-il"
             ],
-            "correctAnswer": 0,
+            "correctAnswer": [
+                "ordonna-t-il",
+                "expliqua-t-il",
+                "suggéra-t-il",
+                "supposa-t-il"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 18,
-            "image": "francais.png",
-            "question": "Replace ces connecteurs logiques dans l'ordre chronologique d'une argumentation : Ensuite",
-            "options": [
-                "1ère position",
-                "2ème position",
-                "3ème position",
-                "4ème position"
+            "question": "Replace ces connecteurs logiques dans l'ordre chronologique d'une argumentation :",
+            "template": "1. ☐\n2. ☐\n3. ☐\n4. ☐",
+            "items": [
+                "Tout d'abord",
+                "Ensuite",
+                "Cependant",
+                "Enfin"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "Tout d'abord",
+                "Ensuite",
+                "Cependant",
+                "Enfin"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "autre"
+            "gameType": "fillBlanks"
         },
         {
             "id": 19,
-            "image": "francais.png",
+            "image": "caricature.png",
             "question": "Comment appelle-t-on un portrait qui exagère les traits physiques ou moraux d'un personnage ?",
-            "options": [
-                "portrait réaliste",
-                "caricature",
-                "portrait moral",
-                "portrait psychologique"
+            "template": "☐☐☐☐\n☐☐☐☐☐☐",
+            "items": [
+                "C",
+                "A",
+                "R",
+                "I",
+                "C",
+                "A",
+                "T",
+                "U",
+                "R",
+                "E",
+                "O",
+                "N",
+                "S",
+                "L"
             ],
-            "correctAnswer": 1,
+            "correctAnswer": [
+                "C",
+                "A",
+                "R",
+                "I",
+                "C",
+                "A",
+                "T",
+                "U",
+                "R",
+                "E"
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
-            "gameType": "knowledge"
+            "gameType": "fillBlanks"
         },
         {
             "id": 20,
@@ -328,7 +479,10 @@
                 "sont 2 homonymes",
                 "appartiennent au même champ sémantique"
             ],
-            "correctAnswer": 2,
+            "correctAnswer": [
+                0,
+                1
+            ],
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
             "gameType": "knowledge"
@@ -486,7 +640,6 @@
             ],
             "correctAnswer": [
                 0,
-                1,
                 3
             ],
             "theme": "francais",
@@ -834,6 +987,2993 @@
             "theme": "francais",
             "level": "Cycle 4 niveau 3 : 3ème",
             "gameType": "knowledge"
+        },
+        {
+            "id": 55,
+            "image": "francais.png",
+            "question": "Quelle phrase comprend une proposition subordonnée circonstancielle de cause ou de conséquence ?",
+            "options": [
+                "Parce qu'il fait chaud, je n'arrête pas de boire de l'eau",
+                "Il fait si chaud, si bien que tout le monde veut aller à la piscine",
+                "Je suis rentré tôt car il n'y avait pas de bouchons sur la route",
+                "Je suis rentré tôt, j'ai pu aller faire les courses"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 56,
+            "question": "Reconstitue les couples de synonymes :",
+            "template": "honnête → ☐\ncourageux → ☐\ntenter → ☐\nperdre → ☐\ncrainte → ☐\ncraindre → ☐\nperte → ☐",
+            "items": [
+                "sincère",
+                "téméraire",
+                "essayer",
+                "échouer",
+                "peur",
+                "avoir peur",
+                "revers"
+            ],
+            "correctAnswer": [
+                "sincère",
+                "téméraire",
+                "essayer",
+                "échouer",
+                "peur",
+                "avoir peur",
+                "revers"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 57,
+            "question": "Complète par ni, n'y, quel ou qu'elle :",
+            "template": "Il ☐ a ☐ mer, ☐ montagne\n☐ film a-t-elle regardé ?\nJe crois ☐ a regardé Avatar.",
+            "items": [
+                "n'y",
+                "ni",
+                "ni",
+                "Quel",
+                "qu'elle",
+                "quelle",
+                "ny"
+            ],
+            "correctAnswer": [
+                "n'y",
+                "ni",
+                "ni",
+                "Quel",
+                "qu'elle"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 58,
+            "question": "Relie les déterminants à la fonction qui convient :",
+            "template": "ce → ☐\nson → ☐\ntrois → ☐\nles → ☐\ndu → ☐",
+            "items": [
+                "déterminant démonstratif",
+                "déterminant possessif",
+                "déterminant numéral",
+                "article défini",
+                "article partitif"
+            ],
+            "correctAnswer": [
+                "déterminant démonstratif",
+                "déterminant possessif",
+                "déterminant numéral",
+                "article défini",
+                "article partitif"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 59,
+            "question": "Dans chaque phrase, quelle est la fonction de l'adjectif « fantastique » ?",
+            "template": "Ce but est fantastique → ☐\nC'est un but fantastique → ☐\nCe but, fantastique, nous a fait vibrer → ☐",
+            "items": [
+                "attribut du sujet",
+                "épithète du nom",
+                "apposé au nom"
+            ],
+            "correctAnswer": [
+                "attribut du sujet",
+                "épithète du nom",
+                "apposé au nom"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 60,
+            "question": "Mets au pluriel les noms suivants :",
+            "template": "pneu → ☐\njeu → ☐\nvitrail → ☐\nrail → ☐",
+            "items": [
+                "pneus",
+                "jeux",
+                "vitraux",
+                "rails",
+                "pneuxs",
+                "vitrails"
+            ],
+            "correctAnswer": [
+                "pneus",
+                "jeux",
+                "vitraux",
+                "rails"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 61,
+            "question": "Mets au pluriel les noms suivants :",
+            "template": "sou → ☐\nchou → ☐\nvégétal → ☐\nchacal → ☐",
+            "items": [
+                "sous",
+                "choux",
+                "végétaux",
+                "chacals",
+                "chacaux",
+                "végétals"
+            ],
+            "correctAnswer": [
+                "sous",
+                "choux",
+                "végétaux",
+                "chacals"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 62,
+            "image": "francais.png",
+            "question": "Parmi ces verbes, lesquels admettent à la fois un COD et un COI ?",
+            "options": [
+                "lire",
+                "annoncer",
+                "voir",
+                "sauter"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 63,
+            "image": "francais.png",
+            "question": "Parmi ces verbes, lesquels admettent à la fois un COD et un COI ?",
+            "options": [
+                "dénoncer",
+                "acheter",
+                "vivre",
+                "regarder"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 64,
+            "question": "Donne le sens des compléments circonstanciels soulignés :",
+            "template": "Il est parti à Paris → ☐\nIl lui a fait ce cadeau par amour → ☐\nTu cours trop vite → ☐\nIl joue avec sa main droite → ☐\nJe passerai demain matin → ☐",
+            "items": [
+                "CC de lieu",
+                "CC de cause",
+                "CC de manière",
+                "CC de moyen",
+                "CC de temps"
+            ],
+            "correctAnswer": [
+                "CC de lieu",
+                "CC de cause",
+                "CC de manière",
+                "CC de moyen",
+                "CC de temps"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 65,
+            "question": "Indique si la seconde proposition est juxtaposée, coordonnée ou subordonnée :",
+            "template": "Je pense que tu vas jouer → ☐\nTu vas jouer et tu vas marquer → ☐\nPenses-tu qu'il va marquer un but ? → ☐\nEntraînes-toi, tu marqueras ! → ☐",
+            "items": [
+                "subordonnée",
+                "coordonnée",
+                "juxtaposée"
+            ],
+            "correctAnswer": [
+                "subordonnée",
+                "coordonnée",
+                "subordonnée",
+                "juxtaposée"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 66,
+            "question": "Indique si la proposition subordonnée est relative, interrogative indirecte ou conjonctive :",
+            "template": "C'est le livre que je préfère → ☐\nJe ne sais pas ce qu'il veut → ☐\nIl veut que vous partiez → ☐\nIl veut le jeu que je viens d'acheter → ☐",
+            "items": [
+                "relative",
+                "interrogative indirecte",
+                "conjonctive",
+                "relative"
+            ],
+            "correctAnswer": [
+                "relative",
+                "interrogative indirecte",
+                "conjonctive",
+                "relative"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 67,
+            "question": "Mets les verbes à la 1ère personne du singulier du présent de l'indicatif :",
+            "template": "jeter → ☐\nappeler → ☐",
+            "items": [
+                "je jette",
+                "j'appelle",
+                "je jete",
+                "j'appele"
+            ],
+            "correctAnswer": [
+                "je jette",
+                "j'appelle"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 68,
+            "question": "Mets les verbes à la 1ère personne du singulier du présent de l'indicatif :",
+            "template": "appuyer → ☐\ngeler → ☐",
+            "items": [
+                "j'appuie",
+                "je gèle",
+                "j'appuye",
+                "je gele"
+            ],
+            "correctAnswer": [
+                "j'appuie",
+                "je gèle"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 69,
+            "question": "Mets au présent du subjonctif les verbes suivants :",
+            "template": "avoir : que tu ☐\nêtre : qu'il ☐",
+            "items": [
+                "aies",
+                "soit",
+                "aie",
+                "sois",
+                "ait"
+            ],
+            "correctAnswer": [
+                "aies",
+                "soit"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 70,
+            "question": "Mets au présent du subjonctif les verbes suivants :",
+            "template": "aller : que j'☐\npayer : qu'ils ☐",
+            "items": [
+                "aille",
+                "payent",
+                "alle",
+                "paient",
+                "aillent"
+            ],
+            "correctAnswer": [
+                "aille",
+                "payent"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 71,
+            "question": "Relie chaque forme au temps composé correspondant :",
+            "template": "J'ai vu → ☐\nJ'aurai vu → ☐\nJ'avais vu → ☐\nJ'eus vu → ☐",
+            "items": [
+                "passé composé",
+                "futur antérieur",
+                "plus-que-parfait",
+                "passé antérieur"
+            ],
+            "correctAnswer": [
+                "passé composé",
+                "futur antérieur",
+                "plus-que-parfait",
+                "passé antérieur"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 72,
+            "question": "Identifie le procédé stylistique de chaque phrase :",
+            "template": "Tu es rouge comme une pivoine → ☐\nLe soleil noir de la tristesse → ☐\nCe trajet est d'une durée infinie → ☐\nIl est souvent dans la lune → ☐",
+            "items": [
+                "comparaison",
+                "oxymore",
+                "hyperbole",
+                "métaphore"
+            ],
+            "correctAnswer": [
+                "comparaison",
+                "oxymore",
+                "hyperbole",
+                "métaphore"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 73,
+            "question": "Indique si la phrase est déclarative, interrogative ou impérative :",
+            "template": "Viens stp ! → ☐\nQuelle heure est-il ? → ☐\nLe match n'a pas démarré → ☐\nEst-il hors-jeu ? → ☐\nIl vient d'égaliser → ☐\nPrends ton courage à deux mains → ☐",
+            "items": [
+                "impérative",
+                "interrogative",
+                "déclarative"
+            ],
+            "correctAnswer": [
+                "impérative",
+                "interrogative",
+                "déclarative",
+                "interrogative",
+                "déclarative",
+                "impérative"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 74,
+            "question": "Classe ces mots : péjoratif ou mélioratif ?",
+            "template": "horrible → ☐\nrepoussant → ☐\nlaideur → ☐\nbanal → ☐\ninfecte → ☐",
+            "items": [
+                "péjoratif",
+                "mélioratif"
+            ],
+            "correctAnswer": [
+                "péjoratif",
+                "péjoratif",
+                "péjoratif",
+                "péjoratif",
+                "péjoratif"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 75,
+            "question": "Classe ces mots : péjoratif ou mélioratif ?",
+            "template": "chef-d'œuvre → ☐\nidéal → ☐\nmagnifique → ☐\ngrandeur → ☐\nfabuleux → ☐",
+            "items": [
+                "péjoratif",
+                "mélioratif"
+            ],
+            "correctAnswer": [
+                "mélioratif",
+                "mélioratif",
+                "mélioratif",
+                "mélioratif",
+                "mélioratif"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 76,
+            "question": "Replace les étapes du schéma narratif dans le bon ordre :",
+            "template": "1. ☐\n2. ☐\n3. ☐\n4. ☐\n5. ☐",
+            "items": [
+                "situation initiale",
+                "élément perturbateur",
+                "péripéties",
+                "élément de résolution",
+                "situation finale"
+            ],
+            "correctAnswer": [
+                "situation initiale",
+                "élément perturbateur",
+                "péripéties",
+                "élément de résolution",
+                "situation finale"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 77,
+            "question": "Sélectionne tous les verbes qui expriment un mouvement :",
+            "options": [
+                "pivoter",
+                "lancer",
+                "ramper",
+                "écouter",
+                "sentir",
+                "attendre"
+            ],
+            "correctAnswer": [
+                0,
+                1,
+                2
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 78,
+            "question": "Sélectionne tous les verbes qui expriment un mouvement :",
+            "options": [
+                "bouger",
+                "mouvoir",
+                "bondir",
+                "demeurer",
+                "observer",
+                "sembler"
+            ],
+            "correctAnswer": [
+                0,
+                1,
+                2
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 79,
+            "question": "Relie chaque phrase à la façon dont le dialogue est rapporté :",
+            "template": "Il s'étonna : « que fais-tu » → ☐\nIl lui demanda ce qu'elle faisait → ☐\nIl s'étonna. Que faisait-elle ? → ☐\nElle lui raconta ce qu'elle faisait → ☐",
+            "items": [
+                "discours direct",
+                "discours indirect",
+                "discours indirect libre",
+                "discours narrativisé"
+            ],
+            "correctAnswer": [
+                "discours direct",
+                "discours indirect",
+                "discours indirect libre",
+                "discours narrativisé"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 80,
+            "image": "calligramme.png",
+            "question": "Comment appelle-t-on un poème présenté sous forme de dessin ?",
+            "options": [
+                "un calligramme",
+                "le sonnet",
+                "le rondeau",
+                "le poetum"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 81,
+            "image": "francais.png",
+            "question": "Quelle phrase est correctement orthographiée ?",
+            "options": [
+                "Dis-leur de mettre leurs chaussures et leur maillot",
+                "Dis-leurs de mettre leurs chaussure et leur maillot",
+                "Dis-leurs de mettre leurs chaussures et leur maillot",
+                "Dis-leur de mettre leurs chaussures et leurs maillot"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 82,
+            "image": "francais.png",
+            "question": "Quelle phrase est correcte ?",
+            "options": [
+                "Il faut qu'il vient demain",
+                "Il faut qu'il viendra demain",
+                "Il faut qu'il vienne demain",
+                "Il faut qu'il viennent demain"
+            ],
+            "correctAnswer": 2,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 83,
+            "image": "francais.png",
+            "question": "Quelle phrase n'est pas correcte ?",
+            "options": [
+                "Il est près de la maison",
+                "Il est prêt à partir",
+                "Il est près à décoller",
+                "Le prêt à porter change de mode"
+            ],
+            "correctAnswer": 2,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 84,
+            "image": "francais.png",
+            "question": "Quelle phrase n'est pas correcte ?",
+            "options": [
+                "Le lendemain, se jouaient les quarts de finale",
+                "Le lendemain, se déroulait la finale",
+                "Le lendemain, allaient se jouer la demi-finale",
+                "Le lendemain, allaient se jouer les finales"
+            ],
+            "correctAnswer": 2,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 85,
+            "image": "francais.png",
+            "question": "Quelle phrase ne comporte pas une conjonction de coordination ?",
+            "options": [
+                "Tu peux aller où tu veux",
+                "Tu peux y aller, mais ne traînes pas",
+                "Tu peux y aller et tu peux y rester",
+                "Tu peux y aller car tu es prêt"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 86,
+            "image": "francais.png",
+            "question": "Dans quelle phrase le mot « que » est une conjonction de subordination ?",
+            "options": [
+                "Je pense que tu devrais mieux réfléchir",
+                "Le maillot que tu portes est froissé",
+                "Le but que tu as marqué est magnifique",
+                "Voici le ballon que j'ai trouvé"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 87,
+            "image": "francais.png",
+            "question": "Quelle phrase n'est pas à la forme impersonnelle ?",
+            "options": [
+                "Il pleut très fort",
+                "Il se produit des phénomènes étranges",
+                "Il manque une pièce au puzzle",
+                "Il manque à ses parents"
+            ],
+            "correctAnswer": 3,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 88,
+            "image": "francais.png",
+            "question": "« Mais » est-il ?",
+            "options": [
+                "une conjonction de coordination",
+                "un pronom relatif",
+                "une conjonction de subordination",
+                "une préposition"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 89,
+            "image": "francais.png",
+            "question": "Quelle phrase contient un complément d'agent ?",
+            "options": [
+                "J'ai été formé par un bon coach",
+                "Ce joueur est apprécié de tous",
+                "Il le fait par habitude",
+                "Il est passé par la sortie de secours"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 90,
+            "image": "francais.png",
+            "question": "Beau et laid sont-ils ?",
+            "options": [
+                "des homonymes",
+                "des synonymes",
+                "des antonymes",
+                "des Benzema Karim"
+            ],
+            "correctAnswer": 2,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 91,
+            "image": "francais.png",
+            "question": "Quel mot n'est pas une préposition ?",
+            "options": [
+                "dans",
+                "par",
+                "avec",
+                "car"
+            ],
+            "correctAnswer": 3,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 92,
+            "image": "francais.png",
+            "question": "Dans la phrase « J'ai vu ton ami, il te passe le bonjour », quelle est la fonction du mot « te » ?",
+            "options": [
+                "COD du verbe passer",
+                "COI du verbe passer",
+                "sujet du verbe passer",
+                "attribut du sujet « il »"
+            ],
+            "correctAnswer": 1,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 93,
+            "image": "francais.png",
+            "question": "Quelle phrase est correctement orthographiée ?",
+            "options": [
+                "Je t'ai redonné les cartes que tu m'as prêté",
+                "Je t'ai redonné les cartes que tu m'as prêtée",
+                "Je t'ai redonné les cartes que tu m'as prêtées",
+                "Je t'ai redonné les cartes que tu m'as prêtés"
+            ],
+            "correctAnswer": 2,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 94,
+            "image": "francais.png",
+            "question": "Dans la phrase « Comme il fait chaud, je vais aller me baigner », « Comme il fait chaud » est un ?",
+            "options": [
+                "CC de cause",
+                "CC de temps",
+                "CC de but",
+                "CC de lieu"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 95,
+            "image": "francais.png",
+            "question": "La phrase « Il pleut et je m'ennuie » est ?",
+            "options": [
+                "composée de 2 propositions indépendantes coordonnées",
+                "composée d'1 proposition principale et d'1 subordonnée",
+                "une phrase simple",
+                "une phrase complexe"
+            ],
+            "correctAnswer": [
+                0,
+                3
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 96,
+            "image": "francais.png",
+            "question": "Quelle phrase comprend un présent de vérité générale ?",
+            "options": [
+                "Je passe te voir ce soir",
+                "La Terre tourne autour du Soleil",
+                "Je viens de perdre mon téléphone",
+                "Il pleut des cordes"
+            ],
+            "correctAnswer": 1,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 97,
+            "image": "francais.png",
+            "question": "Quelles formes sont au présent du conditionnel ?",
+            "options": [
+                "Je crierai",
+                "Je crierais",
+                "Il viendrait",
+                "Il viendra"
+            ],
+            "correctAnswer": [
+                1,
+                2
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 98,
+            "image": "francais.png",
+            "question": "Quelles formes sont à l'imparfait de l'indicatif ?",
+            "options": [
+                "Je voudrais",
+                "Je voulais",
+                "Vous oubliez",
+                "Vous oubliiez"
+            ],
+            "correctAnswer": [
+                1,
+                3
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 99,
+            "image": "francais.png",
+            "question": "Quelle est la phrase correctement orthographiée à l'impératif ?",
+            "options": [
+                "Ferme la porte et mets tes chaussons",
+                "Ferme la porte et met tes chaussons",
+                "Fermes la porte et mets tes chaussons",
+                "Fermes la porte et met tes chaussons"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 100,
+            "image": "francais.png",
+            "question": "À la forme passive, la phrase « Karim obtiendra le ballon d'or » devient ?",
+            "options": [
+                "Le ballon d'or est obtenu par Karim",
+                "Le ballon d'or sera obtenu par Karim",
+                "Le ballon d'or aura été obtenu par Karim",
+                "Le ballon d'or était obtenu par Karim"
+            ],
+            "correctAnswer": 1,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 101,
+            "image": "francais.png",
+            "question": "Quel verbe est au plus-que-parfait de l'indicatif ?",
+            "options": [
+                "J'étais venu",
+                "Nous avons entendu",
+                "Il aura attendu",
+                "Il eut proposé"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 102,
+            "image": "francais.png",
+            "question": "Une strophe de 4 vers est-elle ?",
+            "options": [
+                "un quatrain",
+                "un quadrisyllabe",
+                "un octosyllabe",
+                "un alexandrin"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 103,
+            "image": "francais.png",
+            "question": "Un portrait, dans une œuvre littéraire, est-il un texte ?",
+            "options": [
+                "explicatif",
+                "narratif",
+                "argumentatif",
+                "descriptif"
+            ],
+            "correctAnswer": 3,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 104,
+            "image": "francais.png",
+            "question": "Quelle phrase est correctement écrite ?",
+            "options": [
+                "Il sait jouer de la guitare",
+                "Il s'est joué de la guitare",
+                "Il c'est jouer de la guitare",
+                "Il sait joué de la guitare"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 105,
+            "image": "francais.png",
+            "question": "La phrase « le chat dort » est-elle ?",
+            "options": [
+                "une phrase minimale",
+                "une phrase enrichie",
+                "une phrase verbale",
+                "une phrase non verbale"
+            ],
+            "correctAnswer": [
+                0,
+                2
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 106,
+            "image": "francais.png",
+            "question": "Quel est l'intrus ?",
+            "options": [
+                "tendresse",
+                "affection",
+                "rancœur",
+                "attachement"
+            ],
+            "correctAnswer": 2,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 107,
+            "image": "francais.png",
+            "question": "Dans une autobiographie ?",
+            "options": [
+                "le récit est au présent",
+                "le récit parle de voiture",
+                "le narrateur est l'auteur",
+                "le récit est à la première personne"
+            ],
+            "correctAnswer": [
+                2,
+                3
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 108,
+            "image": "francais.png",
+            "question": "Dans un récit, en quoi consiste l'ellipse ?",
+            "options": [
+                "revenir sur un épisode passé",
+                "passer certains épisodes jugés peu intéressants",
+                "évoquer un épisode qui va se produire",
+                "décrire précisément un des personnages"
+            ],
+            "correctAnswer": 1,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 109,
+            "image": "francais.png",
+            "question": "La phrase « Il lui demanda ce qu'elle faisait » est-elle ?",
+            "options": [
+                "du discours direct",
+                "du discours indirect",
+                "du discours direct libre",
+                "du discours indirect libre"
+            ],
+            "correctAnswer": 1,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 110,
+            "image": "francais.png",
+            "question": "Quel auteur est connu pour avoir écrit « Les Misérables » ?",
+            "options": [
+                "Émile Zola",
+                "Victor Hugo",
+                "Honoré de Balzac",
+                "Gustave Flaubert"
+            ],
+            "correctAnswer": 1,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 111,
+            "image": "francais.png",
+            "question": "Qu'est-ce qu'un sonnet ?",
+            "options": [
+                "une forme de vers",
+                "une forme de poème (14 vers)",
+                "une forme de roman",
+                "une petite sonnette"
+            ],
+            "correctAnswer": 1,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 112,
+            "image": "francais.png",
+            "question": "Quel poète français est célèbre pour son recueil « Les Fleurs du Mal » ?",
+            "options": [
+                "Arthur Rimbaud",
+                "Charles Baudelaire",
+                "Paul Verlaine",
+                "Stéphane Mallarmé"
+            ],
+            "correctAnswer": 1,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 113,
+            "image": "francais.png",
+            "question": "Quelle figure de style consiste à exagérer une idée pour produire un effet comique ou dramatique ?",
+            "options": [
+                "l'euphémisme",
+                "la comparaison",
+                "le pléonasme",
+                "l'hyperbole"
+            ],
+            "correctAnswer": 3,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 114,
+            "image": "francais.png",
+            "question": "Qu'est-ce qu'une métaphore ?",
+            "options": [
+                "une comparaison sans outil de comparaison",
+                "une opposition de deux termes",
+                "une exagération d'une expression",
+                "une atténuation d'une expression"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 2 : 4ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 115,
+            "question": "Relie chaque pronom à sa catégorie :",
+            "template": "vous → ☐\nle mien → ☐\ncelle → ☐\nqui → ☐",
+            "items": [
+                "personnel",
+                "possessif",
+                "démonstratif",
+                "relatif"
+            ],
+            "correctAnswer": [
+                "personnel",
+                "possessif",
+                "démonstratif",
+                "relatif"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 116,
+            "question": "Relie les noms aux adjectifs qui les qualifient :",
+            "template": "l'anneau → ☐\nla nuit → ☐\ndes yeux → ☐\ndes idées → ☐",
+            "items": [
+                "magique",
+                "obscure",
+                "bleus",
+                "farfelues"
+            ],
+            "correctAnswer": [
+                "magique",
+                "obscure",
+                "bleus",
+                "farfelues"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 117,
+            "question": "Remplace le complément du nom par l'adjectif épithète correspondant :\n\nUne idée de génie → Une idée...",
+            "template": "☐☐☐☐☐☐☐",
+            "items": [
+                "G",
+                "É",
+                "N",
+                "I",
+                "A",
+                "L",
+                "E",
+                "O",
+                "S",
+                "R"
+            ],
+            "correctAnswer": [
+                "G",
+                "É",
+                "N",
+                "I",
+                "A",
+                "L",
+                "E"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 118,
+            "question": "Remplace le complément du nom par l'adjectif épithète correspondant :\n\nUne relation d'amitié → Une relation...",
+            "template": "☐☐☐☐☐☐☐",
+            "items": [
+                "A",
+                "M",
+                "I",
+                "C",
+                "A",
+                "L",
+                "E",
+                "O",
+                "S",
+                "R"
+            ],
+            "correctAnswer": [
+                "A",
+                "M",
+                "I",
+                "C",
+                "A",
+                "L",
+                "E"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 119,
+            "question": "Remplace le complément du nom par l'adjectif épithète correspondant :\n\nUne émission de sport → Une émission...",
+            "template": "☐☐☐☐☐☐☐☐",
+            "items": [
+                "S",
+                "P",
+                "O",
+                "R",
+                "T",
+                "I",
+                "V",
+                "E",
+                "A",
+                "L"
+            ],
+            "correctAnswer": [
+                "S",
+                "P",
+                "O",
+                "R",
+                "T",
+                "I",
+                "V",
+                "E"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 120,
+            "question": "Précise pour chaque interrogation si elle est totale ou partielle :",
+            "template": "Comment vas-tu ? → ☐\nAimes-tu le sport ? → ☐\nQuelle équipe supportes-tu ? → ☐\nAs-tu bien dormi ? → ☐",
+            "items": [
+                "partielle",
+                "totale"
+            ],
+            "correctAnswer": [
+                "partielle",
+                "totale",
+                "partielle",
+                "totale"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 121,
+            "image": "francais.png",
+            "question": "Qui a écrit « Le Médecin malgré lui » ?",
+            "options": [
+                "Molière",
+                "Alexandre Dumas",
+                "Beaumarchais",
+                "Marivaux"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 122,
+            "question": "Complète ces phrases par la bonne conjonction de coordination :",
+            "template": "« Randal a marqué un but, ☐ son équipe a tout de même perdu le match »\n« Dayot marque rarement un but, ☐ il est défenseur »",
+            "items": [
+                "mais",
+                "car",
+                "donc",
+                "or",
+                "et"
+            ],
+            "correctAnswer": [
+                "mais",
+                "car"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 123,
+            "image": "francais.png",
+            "question": "Transforme la phrase « Tous les supporters ont regardé le match » à la voix passive :",
+            "options": [
+                "Le match a été regardé par tous les supporters",
+                "Ils ont regardé le match",
+                "Le match, les supporters l'ont regardé",
+                "Tous les supporters l'ont regardé"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 124,
+            "question": "Relie chaque phrase à sa figure de style :",
+            "template": "Cette bougie brille comme une étoile → ☐\nJe suis souvent dans la lune → ☐\nLe vent caresse ma peau → ☐",
+            "items": [
+                "comparaison",
+                "métaphore",
+                "personnification"
+            ],
+            "correctAnswer": [
+                "comparaison",
+                "métaphore",
+                "personnification"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 125,
+            "question": "Écris cette phrase au subjonctif :\n\n« Les élèves vont en cours de français »",
+            "template": "Il faut que les élèves ☐ en cours de français",
+            "items": [
+                "aillent",
+                "vont",
+                "allent",
+                "iront",
+                "iraient"
+            ],
+            "correctAnswer": [
+                "aillent"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 126,
+            "question": "Ajoute un préfixe pour former un adjectif de sens contraire de « légal » :",
+            "template": "☐☐☐☐☐☐☐",
+            "items": [
+                "I",
+                "L",
+                "L",
+                "É",
+                "G",
+                "A",
+                "L",
+                "D",
+                "E",
+                "S"
+            ],
+            "correctAnswer": [
+                "I",
+                "L",
+                "L",
+                "É",
+                "G",
+                "A",
+                "L"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 127,
+            "question": "Ajoute un préfixe pour former un adjectif de sens contraire de « enchanté » :",
+            "template": "☐☐☐☐☐☐☐☐☐☐☐",
+            "items": [
+                "D",
+                "É",
+                "S",
+                "E",
+                "N",
+                "C",
+                "H",
+                "A",
+                "N",
+                "T",
+                "É",
+                "I",
+                "L"
+            ],
+            "correctAnswer": [
+                "D",
+                "É",
+                "S",
+                "E",
+                "N",
+                "C",
+                "H",
+                "A",
+                "N",
+                "T",
+                "É"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 128,
+            "image": "francais.png",
+            "question": "Transforme la forme verbale à la personne du pluriel correspondante : « Elle aima » → « Elles… »",
+            "options": [
+                "aimèrent",
+                "aimaient",
+                "aimères",
+                "aimés"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 129,
+            "image": "francais.png",
+            "question": "Transforme cette phrase à la voix active : « Le but a été marqué par Olivier »",
+            "options": [
+                "Olivier a marqué le but",
+                "Olivier marque le but",
+                "Le but est marqué par Olivier",
+                "Olivier le marquait"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 130,
+            "question": "Précise pour chaque expression si elle est utilisée au sens propre ou au sens figuré :",
+            "template": "Il a eu un trou de mémoire → ☐\nElle a versé des torrents de larmes → ☐\nTon pull est couleur rose bonbon → ☐\nIl y a des éclairs dans le ciel → ☐",
+            "items": [
+                "figuré",
+                "propre"
+            ],
+            "correctAnswer": [
+                "figuré",
+                "figuré",
+                "figuré",
+                "propre"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 131,
+            "question": "Relie chaque auteur au héros qu'il a créé :",
+            "template": "Chrétien de Troyes → ☐\nJules Verne → ☐\nDaniel Defoe → ☐\nHomère → ☐",
+            "items": [
+                "Lancelot",
+                "Philéas Fogg",
+                "Robinson Crusoé",
+                "Achille"
+            ],
+            "correctAnswer": [
+                "Lancelot",
+                "Philéas Fogg",
+                "Robinson Crusoé",
+                "Achille"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 132,
+            "question": "Remets dans l'ordre les étapes du schéma narratif :",
+            "template": "1. ☐\n2. ☐\n3. ☐\n4. ☐\n5. ☐",
+            "items": [
+                "situation initiale",
+                "élément perturbateur",
+                "péripéties",
+                "résolution",
+                "situation finale"
+            ],
+            "correctAnswer": [
+                "situation initiale",
+                "élément perturbateur",
+                "péripéties",
+                "résolution",
+                "situation finale"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 133,
+            "question": "Relie chaque titre de roman au lieu principal dans lequel se déroule l'action :",
+            "template": "Les Misérables → ☐\nVingt mille lieues sous les mers → ☐\nL'Appel de la forêt → ☐\nRobinson Crusoé → ☐",
+            "items": [
+                "Paris",
+                "sous l'océan",
+                "au Canada",
+                "une île"
+            ],
+            "correctAnswer": [
+                "Paris",
+                "sous l'océan",
+                "au Canada",
+                "une île"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 134,
+            "question": "Relie chaque terme de théâtre à sa définition :",
+            "template": "Réplique prononcée seul en scène, entendue que par le public → ☐\nÉchange de répliques très courtes → ☐\nPhrase prononcée par un comédien → ☐\nLongue réplique prononcée par un comédien → ☐",
+            "items": [
+                "aparté",
+                "stichomythie",
+                "réplique",
+                "tirade"
+            ],
+            "correctAnswer": [
+                "aparté",
+                "stichomythie",
+                "réplique",
+                "tirade"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 135,
+            "image": "francais.png",
+            "question": "Comment nomme-t-on ce type de vers : « Je le vis, je rougis, je pâlis à sa vue » (Phèdre, Racine) ?",
+            "options": [
+                "alexandrin",
+                "quatrain",
+                "décasyllabe",
+                "vers libre"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 136,
+            "question": "Célèbre pour ses pièces de théâtre, sous quel nom Jean-Baptiste Poquelin était-il plus connu ?",
+            "template": "☐☐☐☐☐☐☐",
+            "items": [
+                "M",
+                "O",
+                "L",
+                "I",
+                "È",
+                "R",
+                "E",
+                "A",
+                "S",
+                "T"
+            ],
+            "correctAnswer": [
+                "M",
+                "O",
+                "L",
+                "I",
+                "È",
+                "R",
+                "E"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 137,
+            "image": "francais.png",
+            "question": "Précise la nature du groupe souligné dans la phrase : « Ils jouent au football avec un ballon »",
+            "options": [
+                "CC de moyen",
+                "CC de lieu",
+                "CC de temps",
+                "CC de but"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 138,
+            "image": "francais.png",
+            "question": "Précise la nature de la proposition subordonnée dans la phrase : « Je me demande pourquoi il ne m'a pas rappelé »",
+            "options": [
+                "proposition subordonnée interrogative indirecte",
+                "proposition subordonnée relative",
+                "proposition subordonnée conjonctive",
+                "proposition subordonnée impérative"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 139,
+            "image": "francais.png",
+            "question": "Complète la phrase avec le bon pronom indéfini : « À chaque remontrance de l'entraîneur, ….. n'ose répondre »",
+            "options": [
+                "aucun",
+                "chacun",
+                "rien",
+                "on"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 140,
+            "image": "francais.png",
+            "question": "« Il est en retard car il y avait un embouteillage sur le chemin ». Cette phrase comprend :",
+            "options": [
+                "2 indépendantes coordonnées",
+                "2 indépendantes juxtaposées",
+                "1 principale et 1 subordonnée relative",
+                "1 principale et 1 subordonnée conjonctive"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 141,
+            "image": "francais.png",
+            "question": "« Le meilleur grimpeur du Tour porte un maillot à pois rouge » Quelle est la fonction de « à pois rouge » ?",
+            "options": [
+                "complément du nom",
+                "groupe nominal",
+                "COI",
+                "COD"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 142,
+            "image": "francais.png",
+            "question": "Quel mode emploie-t-on après « j'aimerais que….. » ?",
+            "options": [
+                "subjonctif",
+                "impératif",
+                "indicatif",
+                "imparfait"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 143,
+            "image": "francais.png",
+            "question": "Complète la phrase avec la bonne orthographe : « Elle vous a …… vos billets »",
+            "options": [
+                "acheté",
+                "acheter",
+                "achetés",
+                "achetée"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 144,
+            "image": "francais.png",
+            "question": "Au présent, à la 2ème personne du singulier, lequel de ces verbes ne se termine pas par un « s » ?",
+            "options": [
+                "vouloir",
+                "aimer",
+                "vaincre",
+                "gagner"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 145,
+            "image": "francais.png",
+            "question": "Dans quel mot le suffixe -ard n'a pas de valeur péjorative ?",
+            "options": [
+                "montagnard",
+                "nullard",
+                "ringard",
+                "vantard"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 146,
+            "image": "francais.png",
+            "question": "Dans une pièce de théâtre, comment appelle-t-on les indications scéniques ?",
+            "options": [
+                "les didascalies",
+                "les dialogues",
+                "les répliques",
+                "les apartés"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 147,
+            "image": "francais.png",
+            "question": "Dans une poésie, si les rimes sont sous la forme ABBA, on dit qu'elles sont :",
+            "options": [
+                "embrassées",
+                "plates",
+                "croisées",
+                "enchaînées"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 148,
+            "image": "francais.png",
+            "question": "Quelle phrase ne comporte pas de CC de comparaison ?",
+            "options": [
+                "Comme il faisait beau, je suis sorti",
+                "Contrairement à toi, j'ai marqué 1 but",
+                "Il joue au tennis comme son frère",
+                "Tel un aigle, il s'est envolé"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 149,
+            "image": "francais.png",
+            "question": "Quelle phrase comporte un pronom relatif ?",
+            "options": [
+                "Voici la veste que nous allons lui offrir",
+                "J'espère que tu vas bien",
+                "Je confirme que tu as raison",
+                "Il faut que tu partes"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 150,
+            "image": "francais.png",
+            "question": "Quel temps est utilisé dans la phrase « Vous courrez pour gagner » ?",
+            "options": [
+                "futur",
+                "présent",
+                "imparfait",
+                "conditionnel"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 151,
+            "image": "francais.png",
+            "question": "Quel verbe n'est pas au passé simple ?",
+            "options": [
+                "il dansait",
+                "il alla",
+                "il vécut",
+                "il joua"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 152,
+            "image": "francais.png",
+            "question": "Quelle phrase ne comporte pas de complément circonstanciel de manière ?",
+            "options": [
+                "Il joue comme son frère",
+                "Il court rapidement",
+                "Il réfléchit lentement",
+                "Il lui a répondu avec brio"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 153,
+            "image": "francais.png",
+            "question": "Dans la liste, quelle forme n'est pas un participe passé ?",
+            "options": [
+                "crut",
+                "cru",
+                "crue",
+                "crues"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 154,
+            "image": "francais.png",
+            "question": "Quelle phrase est à la voix passive ?",
+            "options": [
+                "Je suis défendu",
+                "Je suis déçu",
+                "Je suis triste",
+                "J'ai bu"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 155,
+            "image": "francais.png",
+            "question": "Trouve l'intrus dans la liste (un des verbes n'est pas du 3ème groupe) :",
+            "options": [
+                "se munir",
+                "dormir",
+                "venir",
+                "partir"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 156,
+            "image": "francais.png",
+            "question": "Trouve l'intrus dans la liste (un des verbes n'est pas au futur) :",
+            "options": [
+                "tu choisirais",
+                "elle choisira",
+                "nous choisirons",
+                "vous choisirez"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 157,
+            "image": "francais.png",
+            "question": "Dans cette liste, trouve le mot qui n'a pas le même radical :",
+            "options": [
+                "fétiche",
+                "fête",
+                "festif",
+                "festin"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 158,
+            "question": "Dans la phrase « Kylian, dont la confiance n'est pas ébranlée, vient de marquer un but », retrouve :",
+            "template": "La proposition relative → ☐\nLe pronom relatif → ☐\nSon antécédent → ☐\nLe COD du verbe marquer → ☐",
+            "items": [
+                "dont la confiance n'est pas ébranlée",
+                "dont",
+                "Kylian",
+                "un but"
+            ],
+            "correctAnswer": [
+                "dont la confiance n'est pas ébranlée",
+                "dont",
+                "Kylian",
+                "un but"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 159,
+            "image": "francais.png",
+            "question": "Quel signe de ponctuation indique un changement d'interlocuteur lors d'un dialogue ?",
+            "options": [
+                "les tirets (-)",
+                "les deux points (:)",
+                "les guillemets (« »)",
+                "les virgules (,)"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 160,
+            "image": "francais.png",
+            "question": "À quel temps est conjugué le verbe souligné « Quand ils eurent terminé, ils partirent » ?",
+            "options": [
+                "passé antérieur",
+                "imparfait",
+                "passé simple",
+                "plus-que-parfait"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 161,
+            "image": "francais.png",
+            "question": "À quel temps est conjugué le verbe souligné « Il me demandait de lui prêter le livre que j'avais acheté » ?",
+            "options": [
+                "plus-que-parfait",
+                "passé simple",
+                "passé antérieur",
+                "passé composé"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 162,
+            "image": "francais.png",
+            "question": "Trouve l'intrus dans la liste (pense au sens des verbes) :",
+            "options": [
+                "crier",
+                "chuchoter",
+                "murmurer",
+                "marmonner"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 163,
+            "image": "francais.png",
+            "question": "Comment appelle-t-on une réplique assez longue d'un personnage au théâtre ?",
+            "options": [
+                "une tirade",
+                "un dialogue",
+                "une didascalie",
+                "un aparté"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 164,
+            "image": "francais.png",
+            "question": "Conjugue le verbe « aller » au passé simple à la première personne du singulier :",
+            "options": [
+                "j'allai",
+                "j'allais",
+                "je suis allé",
+                "j'aller"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 165,
+            "question": "Relie chaque terme à sa définition :",
+            "template": "Mot qui a le même sens qu'un autre mot → ☐\nMot qui a le sens opposé à un autre mot → ☐\nMot qui a la même prononciation qu'un autre mot → ☐\nMot générique utilisé à la place d'un autre mot (ex « truc ») → ☐",
+            "items": [
+                "synonyme",
+                "antonyme",
+                "homonyme",
+                "pantonyme"
+            ],
+            "correctAnswer": [
+                "synonyme",
+                "antonyme",
+                "homonyme",
+                "pantonyme"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 166,
+            "question": "Complète par « sa » ou « ça » :",
+            "template": "Le jus de fruit est ☐ boisson préférée.\n☐ se voit !",
+            "items": [
+                "sa",
+                "Ça",
+                "ça",
+                "Sa"
+            ],
+            "correctAnswer": [
+                "sa",
+                "Ça"
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 167,
+            "image": "francais.png",
+            "question": "Quelles phrases comportent un complément d'objet indirect ?",
+            "options": [
+                "Je parle à mon frère",
+                "Je donne un cadeau à ma cousine",
+                "Je lis un livre",
+                "Je promène le chien de mon oncle"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 168,
+            "image": "francais.png",
+            "question": "Qu'est-ce qu'un champ lexical ?",
+            "options": [
+                "Un ensemble de mots lié par un même thème",
+                "Un ensemble de mots qui riment ensemble",
+                "Un groupe de mots appartenant à la même famille de mots",
+                "Un groupe de mots de même nature"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 169,
+            "image": "francais.png",
+            "question": "Que signifie le terme « nouvelle » en littérature ?",
+            "options": [
+                "Un court récit de fiction souvent centré sur un seul évènement ou personnage",
+                "Un type d'article de presse",
+                "Une pièce de théâtre en un acte",
+                "La sortie d'un nouveau roman"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 4 niveau 1 : 5ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 170,
+            "question": "Quelle partie du corps est le point faible d'Achille dans l'Iliade ?",
+            "template": "☐☐☐☐☐",
+            "items": [
+                "T",
+                "A",
+                "L",
+                "O",
+                "N",
+                "P",
+                "I",
+                "E",
+                "D"
+            ],
+            "correctAnswer": [
+                "T",
+                "A",
+                "L",
+                "O",
+                "N"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 171,
+            "question": "Mets à l'imparfait la phrase : « Sûr de leur force, Kylian et ses coéquipiers croient en la victoire. »",
+            "template": "Sûr de leur force, Kylian et ses coéquipiers ☐ en la victoire.",
+            "items": [
+                "croyaient",
+                "croient",
+                "croyent",
+                "croiaient"
+            ],
+            "correctAnswer": [
+                "croyaient"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 172,
+            "question": "Quel est le préfixe dans le mot « hyperactif » ?",
+            "template": "☐☐☐☐☐",
+            "items": [
+                "H",
+                "Y",
+                "P",
+                "E",
+                "R",
+                "A",
+                "C",
+                "T",
+                "I",
+                "F"
+            ],
+            "correctAnswer": [
+                "H",
+                "Y",
+                "P",
+                "E",
+                "R"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 173,
+            "question": "Remets les lettres dans l'ordre pour former le féminin de « dieu »",
+            "template": "☐☐☐☐☐☐",
+            "items": [
+                "D",
+                "É",
+                "E",
+                "S",
+                "S",
+                "E",
+                "I",
+                "U"
+            ],
+            "correctAnswer": [
+                "D",
+                "É",
+                "E",
+                "S",
+                "S",
+                "E"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 174,
+            "image": "francais.png",
+            "question": "Mets au passé simple le verbe dans la phrase : « Théo et Lucas vont chez leur grand-mère pendant les vacances. »",
+            "options": [
+                "allèrent",
+                "allaient",
+                "étaient allés",
+                "allères"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 175,
+            "question": "Change l'ordre des lettres du mot « loupe » et forme le nom d'un animal :",
+            "template": "☐☐☐☐☐",
+            "items": [
+                "P",
+                "O",
+                "U",
+                "L",
+                "E",
+                "A",
+                "S"
+            ],
+            "correctAnswer": [
+                "P",
+                "O",
+                "U",
+                "L",
+                "E"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 176,
+            "question": "Relie chaque mot à son niveau de langage :",
+            "template": "maison → ☐\nbaraque → ☐\ndemeure → ☐",
+            "items": [
+                "courant",
+                "familier",
+                "soutenu"
+            ],
+            "correctAnswer": [
+                "courant",
+                "familier",
+                "soutenu"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 177,
+            "image": "francais.png",
+            "question": "Quel mode utilise-t-on pour donner un ordre ?",
+            "options": [
+                "impératif",
+                "indicatif",
+                "subjonctif",
+                "infinitif"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 178,
+            "question": "Remets les lettres dans le bon ordre pour former un synonyme de voiture, en langage soutenu :",
+            "template": "☐☐☐☐☐☐☐☐☐☐",
+            "items": [
+                "A",
+                "U",
+                "T",
+                "O",
+                "M",
+                "O",
+                "B",
+                "I",
+                "L",
+                "E",
+                "R",
+                "S"
+            ],
+            "correctAnswer": [
+                "A",
+                "U",
+                "T",
+                "O",
+                "M",
+                "O",
+                "B",
+                "I",
+                "L",
+                "E"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 179,
+            "image": "francais.png",
+            "question": "Mon vrai nom est J-B Poquelin et je suis l'auteur de nombreuses pièces de théâtre. Qui suis-je ?",
+            "options": [
+                "Molière",
+                "Louis XVI",
+                "le Comte de Montmirail",
+                "Beaumarchais"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 180,
+            "question": "Corrige la phrase : « Il va au dentiste »",
+            "template": "Il va ☐ dentiste",
+            "items": [
+                "chez le",
+                "au",
+                "à le",
+                "vers le"
+            ],
+            "correctAnswer": [
+                "chez le"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 181,
+            "question": "Corrige la phrase : « Ils vont au parc pour jouer des jeux »",
+            "template": "Ils vont au parc pour jouer ☐ jeux",
+            "items": [
+                "aux",
+                "des",
+                "les",
+                "de"
+            ],
+            "correctAnswer": [
+                "aux"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 182,
+            "image": "francais.png",
+            "question": "Dans quelle fable Jean de la Fontaine a-t-il écrit : « Rien ne sert de courir, il faut partir à point » ?",
+            "options": [
+                "Le Lièvre et la Tortue",
+                "Le Corbeau et le Renard",
+                "La Grenouille et le Bœuf",
+                "La Cigale et la Fourmi"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 183,
+            "image": "francais.png",
+            "question": "À quel recueil de contes appartiennent les contes d'Aladdin et d'Ali Baba ?",
+            "options": [
+                "Les Mille et Une Nuits",
+                "Les 1001 jours",
+                "Les 1001 vies",
+                "Les 1001 nouvelles"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 184,
+            "question": "Complète le titre du roman d'Alexandre Dumas :",
+            "template": "Les 3 ☐☐☐☐☐☐☐☐☐☐☐☐☐",
+            "items": [
+                "M",
+                "O",
+                "U",
+                "S",
+                "Q",
+                "U",
+                "E",
+                "T",
+                "A",
+                "I",
+                "R",
+                "E",
+                "S",
+                "D",
+                "L"
+            ],
+            "correctAnswer": [
+                "M",
+                "O",
+                "U",
+                "S",
+                "Q",
+                "U",
+                "E",
+                "T",
+                "A",
+                "I",
+                "R",
+                "E",
+                "S"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 185,
+            "question": "Corrige la phrase : « Marco et Tiago jouent avec le ballon à Giovanni »",
+            "template": "Marco et Tiago jouent avec le ballon ☐ Giovanni",
+            "items": [
+                "de",
+                "à",
+                "pour",
+                "avec"
+            ],
+            "correctAnswer": [
+                "de"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 186,
+            "question": "Précise pour chaque mot s'il est féminin ou masculin :",
+            "template": "entracte → ☐\nagrume → ☐\nomoplate → ☐\norque → ☐",
+            "items": [
+                "masculin",
+                "féminin"
+            ],
+            "correctAnswer": [
+                "masculin",
+                "masculin",
+                "féminin",
+                "féminin"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 187,
+            "image": "francais.png",
+            "question": "Quel est le mot le plus long de la langue française dans le dictionnaire usuel ?",
+            "options": [
+                "anticonstitutionnellement",
+                "quatre-cent-quatre-vingt-quatorze",
+                "contraventionnalisation",
+                "longissimussssss"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 188,
+            "question": "Relie chaque héros à son genre littéraire :",
+            "template": "Sangoku → ☐\nAstérix → ☐\nUlysse → ☐\nLe renard → ☐\nSherlock Holmes → ☐\nD'Artagnan → ☐",
+            "items": [
+                "manga",
+                "BD",
+                "épopée",
+                "poésie",
+                "roman policier",
+                "roman littéraire"
+            ],
+            "correctAnswer": [
+                "manga",
+                "BD",
+                "épopée",
+                "poésie",
+                "roman policier",
+                "roman littéraire"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 189,
+            "image": "francais.png",
+            "question": "Quelle est la classe grammaticale du 1er mot dans la phrase : « Parfois j'aimerais manger plus de légumes. » ?",
+            "options": [
+                "adverbe",
+                "pronom relatif",
+                "article défini",
+                "adjectif"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 190,
+            "image": "francais.png",
+            "question": "Qui a écrit l'Odyssée ?",
+            "options": [
+                "Homère",
+                "Marge",
+                "Bart",
+                "Lisa"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 191,
+            "image": "francais.png",
+            "question": "Quelqu'un qui a un cœur de pierre est-il plutôt :",
+            "options": [
+                "insensible",
+                "généreux",
+                "en très bonne santé",
+                "courageux"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 192,
+            "question": "Trouve l'intrus :",
+            "options": [
+                "je passai",
+                "je m'habillais",
+                "je jouais",
+                "je dribblais",
+                "je marquais"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 193,
+            "image": "francais.png",
+            "question": "Quel est le bon pronom relatif dans la phrase : « Le tournoi …. tu parles s'appelle Roland Garros. » ?",
+            "options": [
+                "dont",
+                "que",
+                "lequel",
+                "à qui"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 194,
+            "image": "francais.png",
+            "question": "Quel est le temps utilisé dans la phrase : « Mike avait arrêté toutes les frappes adverses » ?",
+            "options": [
+                "plus-que-parfait",
+                "passé simple",
+                "passé composé",
+                "imparfait"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 195,
+            "question": "Trouve l'intrus qui n'est pas le synonyme des autres mots :",
+            "options": [
+                "contempler",
+                "bouger",
+                "remuer",
+                "gigoter",
+                "s'agiter"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 196,
+            "question": "Trouve le mot de base dans la famille de mots :",
+            "options": [
+                "jeu",
+                "jouer",
+                "déjouer",
+                "joueur",
+                "enjeu"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 197,
+            "image": "francais.png",
+            "question": "Conjugue le verbe gagner au futur antérieur : « Tu …… »",
+            "options": [
+                "auras gagné",
+                "gagnerais",
+                "gagneras",
+                "as gagné"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 198,
+            "question": "Dans chaque phrase, le mot « glacial » est-il utilisé au sens propre ou au sens figuré ?",
+            "template": "Il fait un froid glacial, le terrain est gelé → ☐\nZlatan ne parle pas avec ses partenaires, son attitude est glaciale → ☐",
+            "items": [
+                "propre",
+                "figuré"
+            ],
+            "correctAnswer": [
+                "propre",
+                "figuré"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 199,
+            "image": "francais.png",
+            "question": "Quelle est la fonction du groupe « de fiction » dans la phrase : « J'aime les films de fiction » ?",
+            "options": [
+                "complément du nom",
+                "CC de temps",
+                "adjectif épithète",
+                "attribut du sujet"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 200,
+            "image": "francais.png",
+            "question": "Quel genre littéraire débute souvent par la formule « Il était une fois » ?",
+            "options": [
+                "le conte",
+                "la poésie",
+                "le roman",
+                "la lettre"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 201,
+            "image": "francais.png",
+            "question": "Comment appelle-t-on un auteur de fables ?",
+            "options": [
+                "un fabuliste",
+                "un fablier",
+                "un fablard",
+                "un fabliau"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 202,
+            "image": "francais.png",
+            "question": "Comment appelle-t-on une proposition qui forme à elle seule une phrase ?",
+            "options": [
+                "indépendante",
+                "isolée",
+                "unique",
+                "personnelle"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 203,
+            "image": "francais.png",
+            "question": "Quel est l'auteur du roman « L'Appel de la forêt » ?",
+            "options": [
+                "Jack London",
+                "Jack Liverpool",
+                "Jack Birmingham",
+                "Jack Grealish"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 204,
+            "image": "francais.png",
+            "question": "Quel récit d'Homère raconte la guerre de Troie ?",
+            "options": [
+                "l'Iliade",
+                "l'Odyssée",
+                "le choc des Titans",
+                "les aventures de Télémaque"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 205,
+            "image": "francais.png",
+            "question": "Quels peuvent être les différents sens du verbe « tirer » ?",
+            "options": [
+                "Amener vers soi en exerçant une force",
+                "Imprimer des feuilles",
+                "Envoyer un projectile",
+                "Manger des crudités"
+            ],
+            "correctAnswer": [
+                0,
+                1,
+                2
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 206,
+            "image": "francais.png",
+            "question": "Qu'est-ce qu'un nid de poule ?",
+            "options": [
+                "Un trou sur la route",
+                "Un panneau publicitaire",
+                "Une boisson sucrée",
+                "Une plante"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 207,
+            "question": "Complète par « si », « s'y » ou « s'il » :\n\n« Il habite près de l'école. …… le temps le permet et …… en a envie, il peut …… rendre à pied »",
+            "template": "☐ le temps le permet et ☐ en a envie, il peut ☐ rendre à pied",
+            "items": [
+                "Si",
+                "s'il",
+                "s'y",
+                "si",
+                "sy"
+            ],
+            "correctAnswer": [
+                "Si",
+                "s'il",
+                "s'y"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 208,
+            "question": "Complète par « bleu » ou « bleus » :\n\n« Les schtroumpfs sont ….., plus précisément ils sont …. turquoise »",
+            "template": "Les schtroumpfs sont ☐, plus précisément ils sont ☐ turquoise",
+            "items": [
+                "bleus",
+                "bleu"
+            ],
+            "correctAnswer": [
+                "bleus",
+                "bleu"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 209,
+            "image": "francais.png",
+            "question": "Comment appelle-t-on le récit de la vie de quelqu'un ?",
+            "options": [
+                "une biographie",
+                "un descriptif",
+                "une histoire",
+                "une narration"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 210,
+            "image": "francais.png",
+            "question": "Quel verbe est toujours utilisé au futur proche ?",
+            "options": [
+                "aller",
+                "avoir",
+                "être",
+                "voir"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 211,
+            "image": "francais.png",
+            "question": "Quel antonyme de « richesse » commence par un P ?",
+            "options": [
+                "pauvreté",
+                "prospérité",
+                "patrimoine",
+                "payer"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 212,
+            "image": "francais.png",
+            "question": "Quelle est la classe grammaticale de « qui, que, quoi, dont, où » ?",
+            "options": [
+                "pronom relatif",
+                "conjonction de coordination",
+                "conjonction de subordination",
+                "adjectif épithète"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 213,
+            "image": "francais.png",
+            "question": "Quelle est la classe grammaticale de « mais, ou, et, donc, or, ni, car » ?",
+            "options": [
+                "conjonction de coordination",
+                "conjonction de subordination",
+                "pronom relatif",
+                "adjectif"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 214,
+            "question": "Précise pour chaque phrase si la partie soulignée est une proposition subordonnée conjonctive ou relative :",
+            "template": "Je me sens bien quand je fais du sport → ☐\nJ'aime le livre que tu m'as prêté → ☐",
+            "items": [
+                "conjonctive",
+                "relative"
+            ],
+            "correctAnswer": [
+                "conjonctive",
+                "relative"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
+        },
+        {
+            "id": 215,
+            "image": "francais.png",
+            "question": "À quel temps est le verbe dans la phrase : « Le professeur s'assit » ?",
+            "options": [
+                "passé simple",
+                "imparfait",
+                "présent",
+                "plus-que-parfait"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 216,
+            "image": "francais.png",
+            "question": "Quelle phrase utilise un adverbe de manière ?",
+            "options": [
+                "Il court rapidement",
+                "Il court avec rapidité",
+                "Il court maintenant",
+                "Il court avec son frère"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 217,
+            "image": "francais.png",
+            "question": "Quelle phrase est au passé composé ?",
+            "options": [
+                "Le chat a mangé la souris",
+                "Le chat mangeait la souris",
+                "Le chat avait mangé la souris",
+                "Le chat allait manger la souris"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 218,
+            "image": "francais.png",
+            "question": "Quel complément reçoit directement l'action du verbe dans une phrase ?",
+            "options": [
+                "le complément d'objet direct (COD)",
+                "le complément du nom",
+                "le complément d'objet indirect (COI)",
+                "le complément alimentaire"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 219,
+            "image": "francais.png",
+            "question": "Quel verbe est conjugué à la 3ème personne du singulier ?",
+            "options": [
+                "il marche",
+                "on marche",
+                "je marche",
+                "ils marchent"
+            ],
+            "correctAnswer": [
+                0,
+                1
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 220,
+            "image": "francais.png",
+            "question": "Quelles phrases sont interrogatives ?",
+            "options": [
+                "Est-ce que tu viens à la fête ?",
+                "Viens-tu à la fête ?",
+                "Tu viens à la fête ?",
+                "Viens à la fête !"
+            ],
+            "correctAnswer": [
+                0,
+                1,
+                2
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 221,
+            "image": "francais.png",
+            "question": "Quel est le synonyme de « effrayant » ?",
+            "options": [
+                "terrifiant",
+                "marrant",
+                "étonnant",
+                "ennuyeux"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 222,
+            "image": "francais.png",
+            "question": "Quelle est la figure de style utilisée dans « Il est fort comme un lion » ?",
+            "options": [
+                "une comparaison",
+                "une métaphore",
+                "une hyperbole",
+                "une allitération"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 223,
+            "image": "francais.png",
+            "question": "Quel est le temps verbal utilisé dans la phrase « Nous irons à la plage demain » ?",
+            "options": [
+                "futur simple",
+                "présent",
+                "imparfait",
+                "passé composé"
+            ],
+            "correctAnswer": 0,
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "knowledge"
+        },
+        {
+            "id": 224,
+            "question": "Relie chaque titre à son genre littéraire :",
+            "template": "Le Lièvre et la Tortue → ☐\nArsène Lupin → ☐\nHarry Potter → ☐\nHansel et Gretel → ☐",
+            "items": [
+                "poésie",
+                "roman policier",
+                "science-fiction",
+                "conte"
+            ],
+            "correctAnswer": [
+                "poésie",
+                "roman policier",
+                "science-fiction",
+                "conte"
+            ],
+            "theme": "francais",
+            "level": "Cycle 3 niveau 3 : 6ème",
+            "gameType": "fillBlanks"
         }
     ]
 }

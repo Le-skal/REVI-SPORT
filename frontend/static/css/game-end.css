@@ -369,8 +369,29 @@
     font-weight: 500;
 }
 
+.result-win.red {
+    color: #E57373;
+}
+
+.result-win.blue {
+    color: #6B9BD2;
+}
+
 .result-lose {
     color: #f44336;
+    font-weight: 500;
+}
+
+.result-correct {
+    color: #4caf50;
+}
+
+.result-incorrect {
+    color: #f44336;
+}
+
+.result-tie {
+    color: #C99F17;
     font-weight: 500;
 }
 
